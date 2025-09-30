@@ -1,24 +1,32 @@
-# Laravel specific
+# Laravel Specific
 /vendor
 /node_modules
+
+# Storage (runtime & cache)
+# abaikan framework & logs, tapi biarkan app/public tetap bisa dipakai
 /public/storage
-/public/build
-/public/hot
 /storage/*.key
 /storage/*.log
-/storage/framework/cache/data
-/storage/framework/sessions
-/storage/framework/views
-/.phpunit.cache
-/.phpunit.result.cache
+/storage/framework/*
+!/storage/framework/.gitignore
+
+# Public build (Vite / Mix)
+public/build
+public/hot
+public/mix-manifest.json
+public/js
+public/css
+
+# PHPUnit
+.phpunit.cache
+.phpunit.result.cache
+
+# Homestead
 Homestead.json
 Homestead.yaml
-auth.json
 
-# Laravel Mix / Vite
-/public/mix-manifest.json
-/public/js
-/public/css
+# Composer Auth
+auth.json
 
 # Logs & debug
 npm-debug.log
@@ -26,9 +34,9 @@ yarn-error.log
 pnpm-debug.log
 
 # IDE / Editors
-/.idea
-/.vscode
-/.fleet
+.idea
+.vscode
+.fleet
 
 # Optional backups
 .env
