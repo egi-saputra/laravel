@@ -48,16 +48,14 @@ Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallba
 Route::get('/logo-sekolah', function () {
     $profil = \App\Models\ProfilSekolah::first();
 
-    // Pastikan ada slash di depan file_path
     $filePath = $profil && $profil->file_path
         ? storage_path('app/public/' . ltrim($profil->file_path, '/'))
-        : public_path('images/default-logo.png');
+        : storage_path('app/public/logo_sekolah/default-logo.png'); // <- ubah path sini
 
     if (!File::exists($filePath)) {
         abort(404, 'Logo not found');
     }
 
-    // Cache headers
     $lastModified = File::lastModified($filePath);
     $etag = md5_file($filePath);
 
@@ -65,7 +63,7 @@ Route::get('/logo-sekolah', function () {
         'Cache-Control' => 'public, max-age=2592000, immutable',
     ]);
 
-    $response->setLastModified(Carbon::createFromTimestamp($lastModified));
+    $response->setLastModified(\Carbon\Carbon::createFromTimestamp($lastModified));
     $response->setEtag($etag);
 
     if ($response->isNotModified(request())) {
