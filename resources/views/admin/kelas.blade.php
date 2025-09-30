@@ -1,0 +1,88 @@
+<x-app-backtop-layout>
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            {{ __($pageTitle ?? '') }}
+        </h2>
+    </x-slot>
+
+    <div class="flex flex-col min-h-screen md:flex-row">
+        <aside class="sticky z-10 w-full top-16 md:static md:w-auto md:ml-6 md:mt-6 md:h-screen md:top-0">
+            <!-- Sidebar -->
+            <x-sidebar />
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
+            <!-- Form Tambah Kelas + Upload Excel -->
+            <div class="p-4 bg-white rounded shadow">
+                <h1 class="mb-4 text-lg font-bold">Tambah Kelas</h1>
+
+                <!-- Form Input Manual -->
+                <form action="{{ route('admin.kelas.store') }}" method="POST" class="space-y-3">
+                    @csrf
+                    <!-- Kode Kelas -->
+                    <div>
+                        <label class="block font-medium">Kode Kelas</label>
+                        <input type="text" name="kode" class="w-full px-3 py-2 border rounded" required>
+                    </div>
+
+                    <!-- Nama Kelas -->
+                    <div>
+                        <label class="block font-medium">Nama Kelas</label>
+                        <input type="text" name="kelas" class="w-full px-3 py-2 border rounded" required>
+                    </div>
+
+                    <!-- Wali Kelas -->
+                    <div>
+                        <label class="block font-medium">Wali Kelas</label>
+                        <select name="walas_id" class="w-full px-3 py-2 border rounded" required>
+                            <option value="">-- Pilih Wali Kelas --</option>
+                            @foreach($guru as $g)
+                                <option value="{{ $g->id }}">
+                                    {{ optional($g->user)->name ?? $g->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <button type="submit"
+                            class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                </form>
+
+                <!-- Tombol Upload & Export -->
+                <div class="flex flex-wrap items-center justify-end gap-3">
+                    <!-- Form Import -->
+                    <form action="{{ route('admin.kelas.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2">
+                        @csrf
+                        <input type="file" name="file" required accept=".xls,.xlsx,.csv"
+                        class="px-3 py-2 text-sm border rounded cursor-pointer focus:outline-none focus:ring focus:border-blue-300">
+                        <button type="submit"
+                                class="px-4 py-2 text-white bg-green-700 rounded hover:bg-green-800">
+                            <i class="bi bi-file-earmark-excel me-1"></i> Import Excel
+                        </button>
+                    </form>
+
+                    <!-- Download Template -->
+                    <a href="{{ route('admin.kelas.template') }}"
+                    class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800">
+                        <i class="bi bi-download me-1"></i> Download Template
+                    </a>
+                </div>
+            </div>
+
+            {{-- Tabel Daftar Kelas --}}
+            <div class="p-4 bg-white rounded shadow">
+                @if(auth()->user()->role === 'admin')
+                    <x-admin.data-kelas :kelas="$kelas" :guru="$guru" />
+                    @else
+                    <x-public.list-kelas :kelas="$kelas"/>
+                @endif
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <x-footer :profil="$profil" />
+</x-app-layout>

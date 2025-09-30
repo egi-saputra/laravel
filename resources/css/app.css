@@ -1,0 +1,79 @@
+@import "@fontsource/poppins/300.css";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/poppins/700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.search-container {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .search-container {
+            max-width: 300px;
+        }
+    }
+
+    .search-input {
+        transition: all 0.3s ease;
+        border: 1px solid #dee2e6;
+        background-color: #fff;
+    }
+
+    .search-input:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+        background-color: #fefefe;
+    }
+
+    .search-input::placeholder {
+        color: #adb5bd;
+        font-style: italic;
+    }
+
+    .form-group {
+    position: relative;
+    }
+
+    .form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    }
+
+    .form-group label {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    background: transparent;
+    transition: 0.2s ease all;
+    pointer-events: none; /* supaya klik tetap fokus ke input */
+    }
+
+    /* Saat fokus atau ada isi → label naik ke border */
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label {
+    top: 0;
+    transform: translateY(-50%);
+    font-size: 0.85rem;
+    color: #063970;
+    background: #fff;   /* biar seperti motong garis */
+    padding: 0 .25rem;
+    }
+
+    nav[role="navigation"] .active span {
+        background-color: #2563eb !important; /* biru tailwind-600 */
+        color: #fff !important;
+        font-weight: 600;
+        border-radius: 0.5rem; /* biar lebih bulat */
+        padding: 0.5rem 0.75rem;
+    }
+
