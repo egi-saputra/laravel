@@ -5,14 +5,14 @@
         </h2>
     </x-slot>
 
-    <div class="flex flex-col min-h-screen sm:flex-row">
+    <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="z-10 mx-4 mt-4 top-16 sm:top-0 sm:ml-6 sm:mt-6 sm:h-screen sm:mx-0 sm:w-auto">
+        <aside class="z-10 mx-4 mt-4 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
             <x-sidebar />
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto sm:p-6">
+        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
             {{-- ===== Statistik User ===== --}}
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @php
@@ -44,7 +44,7 @@
             </div>
 
             {{-- ===== Filter & Hapus Visitor ===== --}}
-            <div class="flex justify-between mx-2 mb-4 sm:mx-0 md:items-center">
+            <div class="flex justify-between mx-2 mb-4 md:mx-0 md:items-center">
                 {{-- Filter Role --}}
                 <div>
                     <label for="roleFilter" class="mr-2 text-sm font-medium text-gray-700">Filter Role:</label>
@@ -62,7 +62,7 @@
                 <form id="truncateVisitorForm" action="{{ route('visitor.truncate') }}" method="POST">
                     @csrf
                     <button type="button" id="truncateVisitorBtn"
-                        class="px-3 py-1 text-white transition bg-red-600 rounded-lg sm:py-2 hover:bg-red-700">
+                        class="px-3 py-1 text-white transition bg-red-600 rounded-lg md:py-2 hover:bg-red-700">
                         Hapus Data Pengunjung
                     </button>
                 </form>
