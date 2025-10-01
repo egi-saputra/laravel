@@ -8,9 +8,9 @@
         <table class="w-full border border-collapse" id="strukturalTable">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="px-4 py-2 text-center border">No</th>
-                    <th class="px-4 py-2 border">Jabatan</th>
-                    <th class="px-4 py-2 border">Nama Lengkap</th>
+                    <th class="px-4 py-2 text-center border whitespace-nowrap">No</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Jabatan</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Nama Lengkap</th>
                     <th class="px-4 py-2 text-center border"></th>
                 </tr>
             </thead>
@@ -18,8 +18,8 @@
                 @forelse($struktural ?? [] as $s)
                     <tr>
                         <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2 border">{{ $s->jabatan }}</td>
-                        <td class="px-4 py-2 border">{{ $s->guru->user->name ?? '-' }}</td>
+                        <td class="px-4 py-2 border whitespace-nowrap">{{ $s->jabatan }}</td>
+                        <td class="px-4 py-2 border whitespace-nowrap">{{ $s->guru->user->name ?? '-' }}</td>
                         <td class="px-4 py-2 text-center border">
                             <div x-data="{ open: false, showModal: false }" class="relative inline-block">
                                 <!-- Tombol ⋮ -->

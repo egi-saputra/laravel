@@ -4,6 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -101,6 +104,13 @@
                     top: 0,
                     behavior: "smooth"
                 });
+            });
+
+            window.addEventListener("pageshow", function(event) {
+                if (event.persisted || window.performance.getEntriesByType("navigation")[0].type === "back_forward") {
+                    // reload halaman saat user klik back
+                    window.location.href = "/login"; // redirect ke login
+                }
             });
         </script>
 

@@ -1,10 +1,17 @@
 <div class="p-4 bg-white rounded shadow">
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="mb-4 text-lg font-bold">Jadwal Tugas Piket Guru</h2>
-        {{-- Tombol Hapus Semua --}}
-        <button id="hapusSemua" type="button" class="px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
-            <i class="bi bi-trash me-1"></i> Hapus Semua
-        </button>
+    <div class="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
+        <!-- Judul -->
+        <h2 class="w-full mb-2 text-lg font-bold sm:w-auto sm:mb-0">Jadwal Tugas Piket Guru</h2>
+
+        <!-- Tombol Hapus -->
+        <div class="flex justify-end sm:justify-start">
+            <button id="hapusSemua" type="button"
+                    class="px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
+                <i class="bi bi-trash me-1"></i> Hapus Semua
+            </button>
+        </div>
+
+        <!-- Form Hapus -->
         <form id="formHapusSemua" action="{{ route('admin.jadwal.destroyAll') }}" method="POST" class="hidden">
             @csrf
             @method('DELETE')
@@ -15,19 +22,19 @@
         <table class="w-full border border-collapse" id="jadwalTable">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="w-16 px-4 py-2 text-center border">No</th>
-                    <th class="px-4 py-2 text-center border">Hari</th>
-                    <th class="px-4 py-2 border">Petugas Piket</th>
+                    <th class="w-16 px-4 py-2 text-center border whitespace-nowrap">No</th>
+                    <th class="px-4 py-2 text-center border whitespace-nowrap">Hari</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Petugas Piket</th>
                     <th class="px-4 py-2 text-center border"></th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($jadwalPiket ?? [] as $j)
                 <tr>
-                    <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
-                    <td class="px-4 py-2 text-center border">{{ $j->hari }}</td>
-                    <td class="px-4 py-2 border">{{ $j->guru->user->name ?? '-' }}</td>
-                    <td class="px-4 py-2 text-center border">
+                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
+                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $j->hari }}</td>
+                    <td class="px-4 py-2 border whitespace-nowrap">{{ $j->guru->user->name ?? '-' }}</td>
+                    <td class="px-4 py-2 text-center border ">
                         <div x-data="{ open: false, showModal: false }" class="relative inline-block">
                             <!-- Tombol ⋮ -->
                             <button @click="open = !open" class="px-2 py-1 rounded hover:bg-gray-200">

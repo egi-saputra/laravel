@@ -1,7 +1,3 @@
-{{-- Cara penggunaan
-<x-user-form :action="route('admin.users.store')" title="Tambah User Baru" button="Simpan Data" />
---}}
-
 <div class="p-6 mb-6 bg-white border rounded-lg shadow">
     <h3 class="mb-6 text-xl font-bold text-gray-700">{{ $title ?? 'Tambah Pengguna Baru' }}</h3>
 
@@ -62,21 +58,22 @@
     <hr class="my-6">
 
     {{-- Form Import & Tombol Template --}}
-    <div class="flex flex-wrap items-center justify-end gap-3">
+    <div class="flex flex-col items-end gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         {{-- Import User --}}
-        <form action="{{ route('admin.users.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2">
+        <form action="{{ route('admin.users.import') }}" method="POST" enctype="multipart/form-data"
+            class="flex flex-col w-full gap-2 sm:flex-row sm:w-auto sm:items-center">
             @csrf
             <input type="file" name="file" required accept=".xls,.xlsx,.csv"
-                   class="p-2 text-sm border rounded-lg focus:ring focus:ring-green-200">
+                class="w-full p-2 text-sm border rounded-lg focus:ring focus:ring-green-200 sm:w-auto">
             <button type="submit"
-                    class="px-4 py-2 font-semibold text-white bg-green-700 rounded shadow hover:bg-green-800">
+                    class="w-full px-4 py-2 font-semibold text-white bg-green-700 rounded shadow sm:w-auto hover:bg-green-800">
                 <i class="bi bi-file-earmark-excel me-1"></i> Import Excel
             </button>
         </form>
 
         {{-- Export Template --}}
         <a href="{{ route('admin.users.export') }}"
-           class="px-4 py-2 font-semibold text-white rounded shadow bg-slate-700 hover:bg-slate-800">
+        class="w-full px-4 py-2 font-semibold text-center text-white rounded shadow bg-slate-700 hover:bg-slate-800 sm:w-auto sm:ml-2">
             <i class="bi bi-download me-1"></i> Download Template
         </a>
     </div>

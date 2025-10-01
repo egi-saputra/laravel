@@ -68,6 +68,6 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\RoleMiddleware::class,
         'guru.presensi.hari' => \App\Http\Middleware\GuruPiketHariMiddleware::class,
         'walas' => \App\Http\Middleware\WalasMiddleware::class,
-        // 'cache.headers' => \App\Http\Middleware\CacheHeaders::class,
+        'no.cache' => \App\Http\Middleware\NoCacheMiddleware::class,
     ];
 }

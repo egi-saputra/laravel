@@ -3,23 +3,18 @@
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Left Panel -->
         <div class="flex flex-col justify-center items-center w-full md:w-1/2 text-center bg-[#063970] p-8">
-            <img src="{{ Storage::url('logo_login/login.png') }}" alt="Logo" class="w-1/2 mb-4">
-
-            {{-- Jika ingin pakai video: --}}
-            {{-- <video class="bottom-0 w-full mb-4 rounded" autoplay muted loop playsinline>
-                <source src="{{ Storage::url('logo_login/login_vid.mp4') }}" type="video/mp4">
-                Browser Anda tidak mendukung video tag.
-            </video> --}}
+            <img src="{{ Storage::url('logo_login/login.png') }}" alt="Logo" class="w-3/4 mt-0 mb-4 md:w-1/2">
 
             <h3 class="mb-3 text-xl font-semibold text-white md:text-2xl">
                 SIMSTAL | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}
             </h3>
-            <p class="px-4 text-sm text-center text-white md:text-base">Dalam menghadapi era digital 4.0, SIMSTAL hadir sebagai solusi terpadu untuk mendukung transformasi manajemen sekolah berbasis teknologi. Melalui platform ini, pengelolaan data, informasi, dan dokumen menjadi lebih modern, cepat, aman, dan efisien.
+            {{-- <p class="hidden px-4 text-sm text-center text-white md:block md:text-base">Dalam menghadapi era digital 4.0, SIMSTAL hadir sebagai solusi terpadu untuk mendukung transformasi manajemen sekolah berbasis teknologi. Melalui platform ini, pengelolaan data, informasi, dan dokumen menjadi lebih modern, cepat, aman, dan efisien.
+            </p> --}}
+            <p class="hidden px-4 text-sm text-center text-white md:block md:text-base">Dalam menghadapi era digital 4.0, SIMSTAL hadir sebagai solusi terpadu untuk mendukung transformasi manajemen sekolah berbasis teknologi digital.
             </p>
 
-            {{-- <p class="px-4 text-sm text-white md:text-base">
-                Dengan aplikasi arsip digital yang kami kembangkan, sekolah dapat menyimpan, mengelola, dan mengakses surat maupun dokumen penting secara online, kapan saja dan di mana saja. Inovasi ini dirancang untuk meningkatkan transparansi, efektivitas kerja, serta mendukung terciptanya tata kelola sekolah modern yang terintegrasi dengan kebutuhan masa depan.
-            </p> --}}
+            <p class="block px-4 mb-4 text-sm text-center text-white md:hidden md:text-base">Sistem Informasi Dan Manajamen Sekolah Berbasis Digital (SIMSTAL). Merupakan solusi terpadu untuk mendukung transformasi dalam menghadapi perkembangan era digital 4.0.
+            </p>
         </div>
 
         <!-- Right Panel -->

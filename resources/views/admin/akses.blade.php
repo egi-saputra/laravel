@@ -12,13 +12,13 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
+        <main class="flex-1 p-4 space-y-6 md:p-6">
 
-            <div class="p-6 bg-white rounded shadow">
+            <div class="p-6 overflow-x-auto bg-white rounded shadow md:overflow-x-visible">
                 <h1 class="inline-block mb-8 text-xl font-bold border-b-2 border-slate-600">Kelola Hak Akses Guru</h1>
                 <p class="font-semibold text-red-600">Keterangan:</p>
                 <p class="mb-4 text-sm text-slate-500">Fitur yang dapat diakses oleh guru yang berstatus <em class="text-green-600">Activated</em> ⇾ Detail Data Siswa, PPDB Online (Cooming Soon), Jurnal Online Prakerin (Cooming Soon).</p>
-                <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
+                <table class="min-w-full border border-collapse border-gray-200 divide-y divide-gray-200">
                     <thead class="bg-gray-100">
                         <tr>
                             <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">#</th>

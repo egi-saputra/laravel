@@ -107,6 +107,15 @@ Route::get('/foto-profil', function () {
     return $response;
 })->name('foto-profil');
 
+Route::middleware(['auth', 'no.cache'])->group(function () {
+    Route::get('/dev/dashboard', [DevController::class, 'index']);
+    Route::get('/admin/dashboard', [AdminController::class, 'index']);
+    Route::get('/guru/dashboard', [GuruController::class, 'index']);
+    Route::get('/staff/dashboard', [StaffController::class, 'index']);
+    Route::get('/siswa/dashboard', [SiswaController::class, 'index']);
+    Route::get('/user/dashboard', [UserController::class, 'index']);
+});
+
 // ======================
 // Profile & Foto
 // ======================

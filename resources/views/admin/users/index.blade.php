@@ -23,7 +23,7 @@
                 </div>
 
                 <!-- Filter Search & Role -->
-                <form method="GET" class="flex flex-wrap w-full gap-2 mb-4">
+                {{-- <form method="GET" class="flex flex-wrap w-full gap-2 mb-4">
                     <input type="text" name="search" value="{{ request('search') }}"
                         placeholder="Cari nama/email..."
                         class="flex-1 min-w-[200px] px-3 py-2 border rounded" />
@@ -42,6 +42,34 @@
                     class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800">
                     <i class="bi bi-arrow-clockwise"></i> Reset
                     </a>
+                </form> --}}
+
+                <form method="GET" class="flex flex-col w-full gap-2 mb-4">
+                    <!-- Input + Select -->
+                    <div class="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-2">
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Cari nama/email..."
+                            class="w-full sm:flex-1 min-w-[200px] px-3 py-2 border rounded" />
+
+                        <select name="role" class="w-full px-3 py-2 border rounded sm:w-48">
+                            <option value="">Semua Role</option>
+                            @foreach(['admin','guru','staff','siswa','user'] as $role)
+                                <option value="{{ $role }}" {{ request('role')==$role?'selected':'' }}>{{ ucfirst($role) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Buttons (hanya mobile sejajar horizontal) -->
+                    <div class="flex flex-row justify-between gap-2 sm:flex-row sm:justify-start sm:gap-2 sm:w-auto">
+                        <button type="submit" class="w-1/2 px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700 sm:w-auto">
+                            <i class="bi bi-funnel"></i> Filter
+                        </button>
+
+                        <a href="{{ route('admin.users.index') }}"
+                        class="w-1/2 px-4 py-2 text-center text-white rounded bg-slate-700 hover:bg-slate-800 sm:w-auto">
+                            <i class="bi bi-arrow-clockwise"></i> Reset
+                        </a>
+                    </div>
                 </form>
 
                 <!-- Tabel User -->
@@ -58,9 +86,9 @@
                         <tbody>
                             @forelse ($allUsers as $user)
                                 <tr>
-                                    <td class="px-4 py-2 border">{{ $user->name }}</td>
-                                    <td class="px-4 py-2 border">{{ $user->email }}</td>
-                                    <td class="px-4 py-2 text-center capitalize border">{{ $user->role }}</td>
+                                    <td class="px-4 py-2 border whitespace-nowrap">{{ $user->name }}</td>
+                                    <td class="px-4 py-2 border whitespace-nowrap">{{ $user->email }}</td>
+                                    <td class="px-4 py-2 text-center capitalize border whitespace-nowrap">{{ $user->role }}</td>
                                     <td class="px-4 py-2 border">
                                         <div class="flex justify-center gap-2">
                                             <button

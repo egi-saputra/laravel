@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Laravel App' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        /* Nonaktifkan background biru/kuning browser pada autofill */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0px 1000px white inset !important; /* ubah white sesuai bg input */
+            -webkit-text-fill-color: #000 !important; /* warna teks tetap hitam */
+            transition: background-color 5000s ease-in-out 0s; /* cegah flash biru */
+        }
+
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center min-h-screen px-4 py-6 sm:py-12">

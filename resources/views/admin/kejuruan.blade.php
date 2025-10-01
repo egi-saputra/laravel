@@ -52,17 +52,17 @@
             </div>
 
             <!-- Tabel Data Kejuruan -->
-            <div class="p-4 bg-white rounded shadow">
+            <div class="p-4 overflow-x-auto bg-white rounded shadow md:overflow-x-visible">
                 <h2 class="mb-4 text-lg font-bold">Daftar Program Kejuruan</h2>
 
                 <table class="w-full border border-collapse" id="kejuruanTable">
                     <thead>
                         <tr class="bg-gray-100">
-                            <th class="px-4 py-2 text-center border">No</th>
-                            <th class="px-4 py-2 text-center border">Kode</th>
-                            <th class="px-4 py-2 text-center border">Program Kejuruan</th>
-                            <th class="px-4 py-2 text-center border">Kepala Program</th>
-                            <th class="px-4 py-2 text-center border">Jumlah Siswa</th>
+                            <th class="px-4 py-2 text-center border whitespace-nowrap">No</th>
+                            <th class="px-4 py-2 text-center border whitespace-nowrap">Kode</th>
+                            <th class="px-4 py-2 text-center border whitespace-nowrap">Program Kejuruan</th>
+                            <th class="px-4 py-2 text-center border whitespace-nowrap">Kepala Program</th>
+                            <th class="px-4 py-2 text-center border whitespace-nowrap">Jumlah Siswa</th>
                             <th class="px-4 py-2 text-center border"></th>
                         </tr>
                     </thead>
@@ -70,12 +70,12 @@
                         @forelse ($kejuruan ?? [] as $k)
                         <tr>
                             <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
-                            <td class="px-4 py-2 text-center border">{{ $k->kode }}</td>
-                            <td class="px-4 py-2 border">{{ $k->nama_kejuruan }}</td>
-                            <td class="px-4 py-2 border">
+                            <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $k->kode }}</td>
+                            <td class="px-4 py-2 border whitespace-nowrap">{{ $k->nama_kejuruan }}</td>
+                            <td class="px-4 py-2 border whitespace-nowrap">
                                 {{ $k->kepalaProgram->user->name ?? $k->kepalaProgram->nama ?? 'Tidak Ada' }}
                             </td>
-                            <td class="px-4 py-2 text-center border">
+                            <td class="px-4 py-2 text-center border whitespace-nowrap">
                                 {{ $k->siswa_count ?? 0 }}
                             </td>
                             <td class="px-4 py-2 text-center border">
