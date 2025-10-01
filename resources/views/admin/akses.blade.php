@@ -7,12 +7,12 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="sticky z-10 w-full top-16 md:static md:w-auto md:ml-6 md:mt-6 md:h-screen md:top-0">
+        <aside class="z-10 mx-4 mt-4 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
             <x-sidebar />
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 space-y-6 md:p-6">
+        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
 
             <div class="p-6 overflow-x-auto bg-white rounded shadow md:overflow-x-visible">
                 <h1 class="inline-block mb-8 text-xl font-bold border-b-2 border-slate-600">Kelola Hak Akses Guru</h1>
