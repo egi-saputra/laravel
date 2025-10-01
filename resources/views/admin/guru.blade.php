@@ -51,7 +51,7 @@
                     </form>
 
                     <!-- Tombol Upload & Export -->
-                    <div class="flex flex-wrap items-center justify-end gap-3">
+                    {{-- <div class="flex flex-wrap items-center justify-end gap-3">
                         <!-- Form Import -->
                         <form action="{{ route('admin.guru.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2">
                             @csrf
@@ -66,6 +66,27 @@
                         <!-- Download Template -->
                         <a href="{{ route('admin.guru.template') }}"
                         class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800">
+                            <i class="bi bi-download me-1"></i> Download Template
+                        </a>
+                    </div> --}}
+
+                    <!-- Tombol Upload & Export -->
+                    <div class="flex flex-col items-end gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                        {{-- Import User --}}
+                        <form action="{{ route('admin.guru.import') }}" method="POST" enctype="multipart/form-data"
+                            class="flex flex-col w-full gap-2 sm:flex-row sm:w-auto sm:items-center">
+                            @csrf
+                            <input type="file" name="file" required accept=".xls,.xlsx,.csv"
+                                class="w-full p-2 text-sm border rounded-lg focus:ring focus:ring-green-200 sm:w-auto">
+                            <button type="submit"
+                                    class="w-full px-4 py-2 font-semibold text-white bg-green-700 rounded shadow sm:w-auto hover:bg-green-800">
+                                <i class="bi bi-file-earmark-excel me-1"></i> Import Excel
+                            </button>
+                        </form>
+
+                        {{-- Export Template --}}
+                        <a href="{{ route('admin.guru.template') }}"
+                        class="w-full px-4 py-2 font-semibold text-center text-white rounded shadow bg-slate-700 hover:bg-slate-800 sm:w-auto sm:ml-2">
                             <i class="bi bi-download me-1"></i> Download Template
                         </a>
                     </div>
@@ -111,22 +132,22 @@
                     <table class="w-full border border-collapse" id="guruTable">
                         <thead>
                             <tr class="bg-gray-100">
-                                <th class="w-12 px-4 py-2 text-center border">No</th>
-                                <th class="px-4 py-2 text-center border">Kode Guru</th>
-                                <th class="px-4 py-2 border">Nama Lengkap</th>
-                                <th class="px-4 py-2 border">Email Guru</th>
-                                <th class="w-24 px-4 py-2 text-center border"></th>
+                                <th class="w-12 px-4 py-2 text-center border whitespace-nowrap">No</th>
+                                <th class="px-4 py-2 text-center border whitespace-nowrap">Kode Guru</th>
+                                <th class="px-4 py-2 border whitespace-nowrap">Nama Lengkap</th>
+                                <th class="px-4 py-2 border whitespace-nowrap">Email Guru</th>
+                                <th class="w-24 px-4 py-2 text-center border whitespace-nowrap"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($guru ?? [] as $g)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
+                                <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
                                 <td class="px-4 py-2 text-center border">{{ $g->guru->kode ?? '-' }}
                                 </td>
-                                <td class="px-4 py-2 border">{{ $g->name }}</td>
-                                <td class="px-4 py-2 border">{{ $g->email }}</td>
-                                <td class="px-4 py-2 text-center border">
+                                <td class="px-4 py-2 border whitespace-nowrap">{{ $g->name }}</td>
+                                <td class="px-4 py-2 border whitespace-nowrap">{{ $g->email }}</td>
+                                <td class="px-4 py-2 text-center border whitespace-nowrap">
                                     <div x-data="{ open: false, showModal: false }" class="relative inline-block">
                                         <!-- Tombol ⋮ -->
                                         <button @click="open = !open"

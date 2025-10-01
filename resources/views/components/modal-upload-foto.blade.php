@@ -11,8 +11,10 @@
     x-transition:leave-end="opacity-0 scale-90"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60"
 >
-    <div @click.away="open = false" class="relative w-full max-w-md p-6 bg-white shadow-xl rounded-xl">
-
+    <div
+        @click.away="open = false"
+        class="relative w-full max-w-md p-6 mx-4 bg-white shadow-xl rounded-xl md:mx-0"
+    >
         <h2 class="pb-2 mb-4 text-2xl font-bold text-gray-800 border-b">Upload Foto Profil</h2>
 
         <!-- CLOSE BUTTON -->
@@ -25,16 +27,8 @@
         </button>
 
         <!-- FORM UPLOAD -->
-        {{-- <form action="{{ route('foto.upload') }}" method="POST" enctype="multipart/form-data" id="form-upload">
-            @csrf
-            <input type="file" name="foto" required
-                   class="block w-full p-2 mb-4 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-        </form> --}}
-
-        <!-- FORM UPLOAD -->
         <form action="{{ route('foto.upload') }}" method="POST" enctype="multipart/form-data" id="form-upload">
             @csrf
-            <!-- Keterangan ukuran ideal -->
             <input type="file" name="foto" required accept="image/*"
             class="block w-full p-2 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
             <p class="mb-4 text-sm text-gray-500">
@@ -59,7 +53,6 @@
                 </button>
             </form>
         </div>
-
     </div>
 </div>
 
