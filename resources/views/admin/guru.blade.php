@@ -94,7 +94,7 @@
 
             <!-- Tabel Data Guru -->
             <div class="p-4 bg-white rounded shadow">
-                <div class="flex items-center justify-between mb-4">
+                {{-- <div class="flex items-center justify-between mb-4">
                     <h2 class="text-lg font-bold">Daftar Guru</h2>
 
                     <!-- Tombol Hapus Semua -->
@@ -108,6 +108,21 @@
                             @method('DELETE')
                         </form>
                     </div>
+                </div> --}}
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-bold">Daftar Guru</h2>
+
+                    <div class="flex gap-2">
+                        <button id="hapusSemua" type="button" class="flex items-center px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
+                            <i class="bi bi-trash me-1"></i>
+                            <p>Hapus <span class="hidden sm:inline">Semua</span></p>
+                        </button>
+                    </div>
+
+                    <form id="formHapusSemua" action="{{ route('admin.guru.destroyAll') }}" method="POST" class="hidden">
+                        @csrf
+                        @method('DELETE')
+                    </form>
                 </div>
 
                 <!-- Search Box -->
@@ -132,7 +147,7 @@
                     <table class="w-full border border-collapse" id="guruTable">
                         <thead>
                             <tr class="bg-gray-100">
-                                <th class="w-12 px-4 py-2 text-center border whitespace-nowrap">No</th>
+                                {{-- <th class="w-12 px-4 py-2 text-center border whitespace-nowrap">No</th> --}}
                                 <th class="px-4 py-2 text-center border whitespace-nowrap">Kode Guru</th>
                                 <th class="px-4 py-2 border whitespace-nowrap">Nama Lengkap</th>
                                 <th class="px-4 py-2 border whitespace-nowrap">Email Guru</th>
@@ -142,7 +157,7 @@
                         <tbody>
                             @forelse ($guru ?? [] as $g)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
+                                {{-- <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td> --}}
                                 <td class="px-4 py-2 text-center border">{{ $g->guru->kode ?? '-' }}
                                 </td>
                                 <td class="px-4 py-2 border whitespace-nowrap">{{ $g->name }}</td>
