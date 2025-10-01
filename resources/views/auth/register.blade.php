@@ -8,13 +8,13 @@
             <h3 class="mt-4 block md:hidden mb-3 text-[#063970] text-xl md:text-2xl font-semibold">
                 SIMSTAL | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}
             </h3>
-            {{-- <p class="px-4 hidden md:block text-[#063970] text-justify mb-2 text-sm md:text-base">
+            <p class="px-4 hidden md:block text-[#063970] text-justify mb-2 text-sm md:text-base">
                 Bergabunglah bersama kami di SIMSTAL {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}.
                 Kelola seluruh progres administrasi, pembelajaran, hingga pekerjaan dengan lebih mudah, cepat, dan terintegrasi. Kami menghadirkan kemudahan akses serta pelayanan digital yang efisien, mendukung terciptanya lingkungan sekolah modern di era digital 4.0.
-            </p> --}}
-            <p class="px-4 block md:hidden text-justify text-[#063970] mb-4 text-sm md:text-base">
-                Bergabunglah bersama kami di SIMSTAL {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}. Kelola seluruh progres administrasi, pembelajaran, hingga pekerjaan dengan lebih mudah, cepat, dan terintegrasi.
             </p>
+            {{-- <p class="px-4 block md:hidden text-center text-[#063970] mb-4 text-sm md:text-base">
+                Bergabunglah bersama kami di SIMSTAL {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}. Kelola seluruh progres administrasi, pembelajaran, hingga pekerjaan dengan lebih mudah, cepat, dan terintegrasi.
+            </p> --}}
         </div>
 
         <!-- Right Panel -->

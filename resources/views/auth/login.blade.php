@@ -8,12 +8,10 @@
             <h3 class="mb-3 text-xl font-semibold text-white md:text-2xl">
                 SIMSTAL | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}
             </h3>
-            {{-- <p class="hidden px-4 text-sm text-center text-white md:block md:text-base">Dalam menghadapi era digital 4.0, SIMSTAL hadir sebagai solusi terpadu untuk mendukung transformasi manajemen sekolah berbasis teknologi. Melalui platform ini, pengelolaan data, informasi, dan dokumen menjadi lebih modern, cepat, aman, dan efisien.
+            {{-- <p class="hidden px-4 text-sm text-center text-white md:block md:text-base">Dalam menghadapi era digital 4.0, SIMSTAL hadir sebagai solusi terpadu untuk mendukung transformasi manajemen sekolah berbasis teknologi digital.
             </p> --}}
-            <p class="hidden px-4 text-sm text-center text-white md:block md:text-base">Dalam menghadapi era digital 4.0, SIMSTAL hadir sebagai solusi terpadu untuk mendukung transformasi manajemen sekolah berbasis teknologi digital.
-            </p>
 
-            <p class="block px-4 mb-4 text-sm text-center text-white md:hidden md:text-base">Sistem Informasi Dan Manajamen Sekolah Berbasis Digital (SIMSTAL). Merupakan solusi terpadu untuk mendukung transformasi dalam menghadapi perkembangan era digital 4.0.
+            <p class="hidden px-4 text-sm text-center text-white md:block md:text-base">Sistem Informasi Dan Manajamen Sekolah Berbasis Digital (SIMSTAL). Merupakan solusi terpadu untuk mendukung transformasi dalam menghadapi perkembangan era digital 4.0.
             </p>
         </div>
 
