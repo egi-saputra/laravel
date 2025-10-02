@@ -14,7 +14,7 @@
         <!-- Main Content -->
         <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
             {{-- ===== Statistik User ===== --}}
-            <div class="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @php
                     $stats = [
                         ['title'=>'Jumlah Admin','count'=>$adminCount,'bg'=>'bg-blue-100','text'=>'text-blue-600','icon'=>'fas fa-user-shield'],
@@ -98,15 +98,12 @@
                             <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
                             <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
                         </select> --}}
-                        <div class="flex items-center gap-2 justify between">
-                            <p class="text-sm font-medium text-gray-500">Filter :</p>
                             <select name="limit" onchange="this.form.submit()" class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="all" {{ request('limit') === 'all' ? 'selected' : '' }}>Semua</option>
                                 <option value="10" {{ request('limit', 10) == 10 ? 'selected' : '' }}>10</option>
                                 <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
                                 <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
                             </select>
-                        </div>
                     </form>
                 </div>
 
