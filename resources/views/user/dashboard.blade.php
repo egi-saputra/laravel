@@ -4,7 +4,7 @@
         <div class="flex">
             <main class="flex items-center mx-auto">
                 <div class="flex items-center justify-center">
-                    <h1 class="inline-block mb-2 text-lg font-bold text-orange-700">Selamat akun anda berhasil dibuat!</h1>
+                    <h1 class="inline-block mb-2 text-base font-bold text-orange-700 md:text-lg">Selamat akun anda berhasil dibuat!</h1>
                 </div>
             </main>
         </div>
