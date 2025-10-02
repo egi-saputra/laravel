@@ -151,7 +151,7 @@
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
                     Swal.fire({
-                        title: 'Hancurkan user ini?',
+                        title: 'Hapus user ini ?',
                         text: "User akan dihapus secara permanen!",
                         icon: 'question',
                         showCancelButton: true,

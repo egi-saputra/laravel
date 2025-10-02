@@ -91,12 +91,6 @@
         </div>
 
         {{-- MENU - DESKTOP + TOGGLE --}}
-        {{-- <div
-            x-ref="menu"
-            :class="showMenu ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'"
-            class="pb-4 mx-8 overflow-hidden transition-all duration-500 ease-in-out md:max-h-none md:opacity-100 md:overflow-visible md:block"
-            x-cloak
-        > --}}
         <div
             x-ref="menu"
             :class="showMenu ? 'opacity-100' : 'opacity-0 hidden'"

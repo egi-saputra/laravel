@@ -34,17 +34,22 @@
                     @endphp
 
                     <!-- Logo Preview -->
-                    <div class="flex flex-col items-center mb-4">
-                        <div class="w-32 h-32 mb-2 overflow-hidden rounded">
+                    <div class="flex flex-col items-center justify-center w-full mb-6 text-center">
+                        <div class="flex items-center justify-center w-32 h-32 mb-3 overflow-hidden rounded">
                             @if($profil && $profil->file_path)
-                                <img src="{{ url('/logo-sekolah') }}?v={{ $profil->updated_at->timestamp }}" class="object-contain w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32"
-                            alt="Logo Sekolah">
+                                <img src="{{ url('/logo-sekolah') }}?v={{ $profil->updated_at->timestamp }}"
+                                    class="object-contain w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32"
+                                    alt="Logo Sekolah">
                             @else
-                                <img src="https://via.placeholder.com/150" class="object-contain w-full h-full">
+                                <img src="https://via.placeholder.com/150"
+                                    class="object-contain w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32">
                             @endif
                         </div>
-                        <input type="file" name="logo" class="p-2 mt-4 mb-4 border rounded w-50 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                        @error('logo') <p class="mt-1 text-sm text-red-500">{{ $message }}</p> @enderror
+                        <input type="file" name="logo"
+                            class="w-full max-w-xs p-2 mt-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        @error('logo')
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">

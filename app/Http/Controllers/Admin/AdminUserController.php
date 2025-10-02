@@ -156,11 +156,11 @@ class AdminUserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        if ($user->role === 'admin' && $user->id == 1) {
+        if ($user->role === 'admin' && $user->id == 2) {
             return back()->with('alert', [
-                'message' => 'Super Admin tidak boleh dihapus!',
-                'type' => 'success',
-                'title' => 'Berhasil'
+                'message' => 'Admin tidak dapat dihapus!',
+                'type' => 'error',
+                'title' => 'Error!'
             ]);
         }
 

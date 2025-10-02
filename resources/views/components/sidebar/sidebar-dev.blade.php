@@ -46,16 +46,6 @@
         <div class="flex flex-col items-center p-4 pt-4">
             <div class="w-full h-32 rounded shadow-sm bg-sky-800"></div>
 
-            {{-- @php
-                $foto = Auth::user()->foto_profil->file_path ?? null;
-            @endphp
-
-            @if($foto)
-                <img src="{{ Storage::url($foto) }}" alt="Foto Profil" class="w-24 h-24 rounded-full -mt-14 drop-shadow-md">
-            @else
-                <img src="{{ asset('storage/default/avatar.jpeg') }}" alt="Default Foto Profil" class="w-24 h-24 -mt-8 rounded-full">
-            @endif --}}
-
             @php
                 $foto = Auth::user()->foto_profil;
                 $fotoUrl = $foto
@@ -96,9 +86,9 @@
 
         {{-- MENU - DESKTOP + TOGGLE --}}
         <div
-            id="sidebarMenu"
-            :class="{ 'max-h-full': showMenu, 'max-h-0': !showMenu }"
-            class="mx-8 pb-4 overflow-hidden transition-[max-height] duration-500 ease-in-out md:max-h-full md:block"
+            x-ref="menu"
+            :class="showMenu ? 'opacity-100' : 'opacity-0 hidden'"
+            class="pb-4 mx-8 transition-all duration-500 ease-in-out md:opacity-100 md:block"
             x-cloak
         >
             {{-- USER MANAGEMENT --}}

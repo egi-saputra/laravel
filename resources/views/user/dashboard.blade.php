@@ -1,5 +1,5 @@
 <x-reg-layout-nologo>
-    <div class="p-10">
+    <div class="md:p-10">
         {{-- <p class="mb-3 font-semibold text-center text-gray-700">Hello, this page is</p> --}}
         <div class="flex">
             <main class="flex items-center mx-auto">

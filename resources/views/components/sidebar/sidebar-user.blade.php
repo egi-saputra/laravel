@@ -72,10 +72,16 @@
         </div>
 
         {{-- MENU - DESKTOP + TOGGLE --}}
-        <div
+        {{-- <div
             id="sidebarMenu"
             :class="{ 'max-h-96': showMenu, 'max-h-0': !showMenu }"
             class="px-4 pb-4 overflow-hidden transition-[max-height] duration-500 ease-in-out md:max-h-full md:block"
+            x-cloak
+        > --}}
+        <div
+            x-ref="menu"
+            :class="showMenu ? 'opacity-100' : 'opacity-0 hidden'"
+            class="pb-4 mx-8 transition-all duration-500 ease-in-out md:opacity-100 md:block"
             x-cloak
         >
             {{-- USER MANAGEMENT --}}

@@ -1,7 +1,7 @@
 <section class="relative">
      <!-- Tombol X di pojok kanan atas -->
     <a href="{{ route('dashboard') }}"
-       class="absolute text-gray-400 border border-gray-400 rounded -top-4 -right-4 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:border-gray-700">
+       class="absolute text-gray-400 border border-gray-400 rounded -top-2 -right-2 md:-top-4 md:-right-4 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:border-gray-700">
         <!-- Icon X -->
         <svg xmlns="http://www.w3.org/2000/svg"
              fill="none"

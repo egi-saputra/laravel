@@ -1,4 +1,20 @@
-<section id="delete-account" class="space-y-6">
+<section id="delete-account" class="relative space-y-6">
+    <!-- Tombol X di pojok kanan atas -->
+    <a href="{{ route('dashboard') }}"
+       class="absolute text-gray-400 border border-gray-400 rounded -top-8 -right-2 md:-top-10 md:-right-4 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:border-gray-700">
+        <!-- Icon X -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke-width="1.5"
+             stroke="currentColor"
+             class="w-6 h-6">
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </a>
+
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
             {{ __('Delete Account') }}
