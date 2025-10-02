@@ -14,9 +14,15 @@
                 @csrf
             </form>
 
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                ⇽ Logout
-            </a>
+            <div class="flex justify-center">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="px-5 py-2 text-sm font-semibold text-white transition duration-200 bg-red-600 rounded shadow md:rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-red-500">
+                        ⇽ Logout
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </x-reg-layout-nologo>
