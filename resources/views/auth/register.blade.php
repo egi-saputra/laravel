@@ -5,13 +5,14 @@
         <!-- Left Panel -->
         <div class="flex flex-col items-center justify-center w-full p-8 text-center bg-slate-50 md:w-1/2">
             <img src="{{ Storage::url('logo_login/bg_login.png') }}" alt="Logo" class="w-3/4 mt-4 mb-4 md:w-2/3 md:mt-0">
-            <h3 class="mt-4 block md:hidden mb-3 text-[#063970] text-xl md:text-2xl font-semibold">
+            <h3 class="mt-4 mb-3 md:hidden block text-[#063970] text-xl md:text-2xl font-semibold">
                 SIMSTAL | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}
             </h3>
-            <p class="px-4 hidden md:block text-[#063970] text-justify mb-2 text-sm md:text-base">
+            {{-- <p class="px-4 hidden md:block text-[#063970] text-justify mb-2 text-sm md:text-base">
                 Bergabunglah bersama kami di SIMSTAL {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}.
                 Kelola seluruh progres administrasi, pembelajaran, hingga pekerjaan dengan lebih mudah, cepat, dan terintegrasi. Kami menghadirkan kemudahan akses serta pelayanan digital yang efisien, mendukung terciptanya lingkungan sekolah modern di era digital 4.0.
-            </p>
+            </p> --}}
+
             {{-- <p class="px-4 block md:hidden text-center text-[#063970] mb-4 text-sm md:text-base">
                 Bergabunglah bersama kami di SIMSTAL {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}. Kelola seluruh progres administrasi, pembelajaran, hingga pekerjaan dengan lebih mudah, cepat, dan terintegrasi.
             </p> --}}
