@@ -89,7 +89,7 @@
             {{-- ===== Statistik Visitor ===== --}}
             <div class="p-4 mt-4 bg-white shadow-sm rounded-2xl">
                 <div class="flex items-center justify-between mb-4">
-                    <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung Semua User</p>
+                    <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung <span class="hidden sm:inline">Semua User</span></p>
                     <form method="GET" action="{{ url()->current() }}">
                         {{-- <select name="limit" onchange="this.form.submit()"
                                 class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('data_siswa', function (Blueprint $table) {
-            $table->enum('jabatan', ['Tidak Ada', 'Sekretaris', 'Bendahara'])
+            $table->enum('jabatan_siswa', ['Tidak Ada', 'Sekretaris', 'Bendahara'])
                   ->default('Tidak Ada')
                   ->after('kejuruan_id');
         });

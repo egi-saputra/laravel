@@ -41,8 +41,8 @@ Route::middleware(['auth', 'verified', 'role:guru'])->prefix('guru')->name('guru
 
         // Halaman Kelas
         Route::get('/ruang_walas', [WalasController::class, 'index'])
-        ->middleware(['auth', 'walas'])
-        ->name('walas.index');
+            ->middleware(['auth', 'walas'])
+            ->name('ruang_walas.index');
 
         // Halaman utama rekap presensi siswa
         Route::get('absensi-kelas', [RekapAbsenSiswaController::class, 'index'])
