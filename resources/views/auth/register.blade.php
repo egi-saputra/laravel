@@ -119,7 +119,7 @@
                     </div>
 
                     <!-- Terms of service and Privacy Policy -->
-                    <div class="flex items-center justify-center mb-3 text-xs font-semibold md:text-sm text-slate-600 ">
+                    <div class="flex items-center justify-center text-xs font-semibold md:text-sm text-slate-600 ">
                         <small>By creating an account, you agree to our
                             <a href="{{ url('#') }}" class="font-semibold text-blue-600 hover:underline">Terms of Service</a> and <a href="{{ url('#') }}" class="font-semibold text-blue-600 hover:underline">Privacy Policy</a>.
                         </small>
