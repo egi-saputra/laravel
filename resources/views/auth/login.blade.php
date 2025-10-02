@@ -13,7 +13,7 @@
         </div>
 
         <!-- Right Panel -->
-        <div class="flex items-center justify-center w-full p-6 mt-10 bg-white md:w-1/2 md:mt-0 md:p-12">
+        <div class="flex items-center justify-center w-full p-6 my-4 bg-white md:w-1/2 md:mt-0 md:p-12">
 
             <div class="w-full max-w-md">
                 <h4 class="mb-2 text-lg font-bold md:text-xl">Sign In</h4>

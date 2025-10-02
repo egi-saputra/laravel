@@ -19,7 +19,7 @@
         </div>
 
         <!-- Right Panel -->
-        <div class="flex items-center justify-center w-full p-6 mt-14 md:w-1/2 md:p-12 md:mt-0">
+        <div class="flex items-center justify-center w-full p-6 my-4 md:w-1/2 md:p-12 md:mt-0">
             <div class="w-full max-w-md">
                 <div class="relative mb-6">
                     <h4 class="mb-2 text-lg font-bold md:text-xl">Sign Up</h4>
