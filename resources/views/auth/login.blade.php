@@ -16,8 +16,8 @@
         <div class="flex items-center justify-center w-full p-6 my-4 bg-white md:w-1/2 md:mt-0 md:p-12">
 
             <div class="w-full max-w-md">
-                <h4 class="mb-2 text-lg font-bold md:text-xl">Sign In</h4>
-                <p class="mb-10 text-sm text-slate-500 md:text-base">Nusantara Member Directory</p>
+                <h4 class="mb-2 text-lg font-bold capitalize md:text-xl">Sign In</h4>
+                <p class="mb-10 text-sm capitalize text-slate-500 md:text-base">Nusantara Member Directory</p>
 
                 <!-- Login Form -->
                 <form method="POST" action="{{ route('login') }}">

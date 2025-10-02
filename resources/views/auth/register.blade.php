@@ -22,8 +22,8 @@
         <div class="flex items-center justify-center w-full p-6 my-4 md:w-1/2 md:p-12 md:mt-0">
             <div class="w-full max-w-md">
                 <div class="relative mb-6">
-                    <h4 class="mb-2 text-lg font-bold md:text-xl">Sign Up</h4>
-                    <p class="mb-10 text-sm text-slate-500 md:text-base">Buat akun Nusantara Member Directory</p>
+                    <h4 class="mb-2 text-lg font-bold capitalize md:text-xl">Sign Up</h4>
+                    <p class="mb-10 text-sm capitalize text-slate-500 md:text-base">Buat Akun Nusantara Member Directory</p>
                 </div>
 
                 <!-- Register Form -->
