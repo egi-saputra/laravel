@@ -146,8 +146,8 @@ Route::middleware(['auth'])->group(function () {
             ->except(['show']);
 
         // Daftar Kelas
-        Route::resource('kelas', ListKelasController::class)
-            ->except(['show']);
+        // Route::resource('kelas', ListKelasController::class)
+        //     ->except(['show']);
 
         // Daftar Mapel
         Route::resource('jadwal_mapel', JadwalMapelController::class)

@@ -18,7 +18,7 @@
                 @if(auth()->user()->role === 'admin')
                     <x-data-kelas :kelas="$kelas" :guru="$guru" />
                     @else
-                    <x-public-list-kelas :kelas="$kelas"/>
+                    <x-public.list-kelas :kelas="$kelas"/>
                 @endif
             </div>
         </main>
