@@ -2,9 +2,11 @@
 
 <div class="p-4 bg-white rounded shadow">
     <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold">Daftar Mata Pelajaran</h2>
+        <h2 class="text-lg font-semibold md:font-bold">Informasi Daftar Kelas</h2>
         {{-- Tombol Hapus Semua --}}
-        <button id="hapusSemua" type="button" class="px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800"><i class="bi bi-trash me-1"></i> Hapus Semua
+        <button id="hapusSemua" type="button" class="flex items-center px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
+            <i class="bi bi-trash me-1"></i>
+            <p>Hapus <span class="hidden sm:inline">Semua</span></p>
         </button>
         <form id="formHapusSemua" action="{{ route('admin.kelas.destroyAll') }}" method="POST" class="hidden">
             @csrf
@@ -30,22 +32,22 @@
         <table class="w-full border border-collapse" id="kelasTable">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="px-4 py-2 text-center border">Kode Kelas</th>
-                    <th class="px-4 py-2 border">Unit Kelas</th>
-                    <th class="px-4 py-2 border">Wali Kelas</th>
-                    <th class="px-4 py-2 text-center border">Jumlah Siswa</th>
+                    <th class="px-4 py-2 text-center border whitespace-nowrap">Kode Kelas</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Unit Kelas</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Wali Kelas</th>
+                    <th class="px-4 py-2 text-center border whitespace-nowrap">Jumlah Siswa</th>
                     <th class="px-4 py-2 text-center border"></th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($kelas ?? [] as $k)
                     <tr>
-                        <td class="px-4 py-2 text-center border">{{ $k->kode }}</td>
-                        <td class="px-4 py-2 border">{{ $k->kelas }}</td>
-                        <td class="px-4 py-2 border">
+                        <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $k->kode }}</td>
+                        <td class="px-4 py-2 border whitespace-nowrap">{{ $k->kelas }}</td>
+                        <td class="px-4 py-2 border whitespace-nowrap">
                             {{ optional($k->waliKelas->user)->name ?? 'Tidak Ada' }}
                         </td>
-                        <td class="px-4 py-2 text-center border">{{ $k->jumlah_siswa ?? 0 }}</td>
+                        <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $k->jumlah_siswa ?? 0 }}</td>
                         <td class="px-4 py-2 text-center border">
                             <div x-data="{ open: false, showModal: false }" class="relative inline-block">
                                 <!-- Tombol ⋮ -->
@@ -138,8 +140,8 @@
 <script>
     document.getElementById('hapusSemua').addEventListener('click', function() {
         Swal.fire({
-            title: 'Yakin gak nyesel ?',
-            text: "Semua data kelas akan dihapus loh!",
+            title: 'Hapus semua kelas ?',
+            text: "Semua data kelas akan dihapus!",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#d33',

@@ -90,12 +90,24 @@ class AppServiceProvider extends ServiceProvider
                 ->count('user_id');
 
             // ambil limit dari request, default 10
+            // $limit = request()->get('limit', 10);
+            // $visitsByUser = User::withCount('visitors as total_visits')
+            //     ->whereIn('role', $allowedRoles)
+            //     ->orderByDesc('total_visits')
+            //     ->take($limit)
+            //     ->get();
+
+            // ambil limit dari request, default 10
             $limit = request()->get('limit', 10);
-            $visitsByUser = User::withCount('visitors as total_visits')
+            $query = User::withCount('visitors as total_visits')
                 ->whereIn('role', $allowedRoles)
-                ->orderByDesc('total_visits')
-                ->take($limit)
-                ->get();
+                ->orderByDesc('total_visits');
+
+            if ($limit !== 'all') {
+                $query->take((int) $limit);
+            }
+
+            $visitsByUser = $query->get();
 
             /**
              * Routes (menu + title)

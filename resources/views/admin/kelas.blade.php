@@ -51,25 +51,28 @@
                     </button>
                 </form>
 
-                <!-- Tombol Upload & Export -->
-                <div class="flex flex-wrap items-center justify-end gap-3">
-                    <!-- Form Import -->
-                    <form action="{{ route('admin.kelas.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2">
-                        @csrf
-                        <input type="file" name="file" required accept=".xls,.xlsx,.csv"
-                        class="px-3 py-2 text-sm border rounded cursor-pointer focus:outline-none focus:ring focus:border-blue-300">
-                        <button type="submit"
-                                class="px-4 py-2 text-white bg-green-700 rounded hover:bg-green-800">
-                            <i class="bi bi-file-earmark-excel me-1"></i> Import Excel
-                        </button>
-                    </form>
+                <hr class="my-6">
 
-                    <!-- Download Template -->
-                    <a href="{{ route('admin.kelas.template') }}"
-                    class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800">
-                        <i class="bi bi-download me-1"></i> Download Template
-                    </a>
-                </div>
+                <!-- Tombol Upload & Export -->
+                    <div class="flex flex-col items-end gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                        {{-- Import User --}}
+                        <form action="{{ route('admin.kelas.import') }}" method="POST" enctype="multipart/form-data"
+                            class="flex flex-col w-full gap-2 sm:flex-row sm:w-auto sm:items-center">
+                            @csrf
+                            <input type="file" name="file" required accept=".xls,.xlsx,.csv"
+                                class="w-full p-2 text-sm border rounded-lg focus:ring focus:ring-green-200 sm:w-auto">
+                            <button type="submit"
+                                    class="w-full px-4 py-2 font-semibold text-white bg-green-700 rounded shadow sm:w-auto hover:bg-green-800">
+                                <i class="bi bi-file-earmark-excel me-1"></i> Import Excel
+                            </button>
+                        </form>
+
+                        {{-- Export Template --}}
+                        <a href="{{ route('admin.kelas.template') }}"
+                        class="w-full px-4 py-2 font-semibold text-center text-white rounded shadow bg-slate-700 hover:bg-slate-800 sm:w-auto sm:ml-2">
+                            <i class="bi bi-download me-1"></i> Download Template
+                        </a>
+                    </div>
             </div>
 
             {{-- Tabel Daftar Kelas --}}

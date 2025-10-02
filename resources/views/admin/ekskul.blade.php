@@ -42,25 +42,28 @@
                     </button>
                 </form>
 
-                <!-- Tombol Upload & Export -->
-                <div class="flex flex-wrap items-center justify-end gap-3">
-                    <!-- Form Import -->
-                    <form action="{{ route('admin.ekskul.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2">
-                        @csrf
-                        <input type="file" name="file" required accept=".xls,.xlsx,.csv"
-                        class="px-3 py-2 text-sm border rounded cursor-pointer focus:outline-none focus:ring focus:border-blue-300">
-                        <button type="submit"
-                                class="px-4 py-2 text-white bg-green-700 rounded hover:bg-green-800">
-                            <i class="bi bi-file-earmark-excel me-1"></i> Import Excel
-                        </button>
-                    </form>
+                <hr class="my-6">
 
-                    <!-- Download Template -->
-                    <a href="{{ route('admin.ekskul.export') }}"
-                    class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800">
-                        <i class="bi bi-download me-1"></i> Download Template
-                    </a>
-                </div>
+                    <!-- Tombol Upload & Export -->
+                    <div class="flex flex-col items-end gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                        {{-- Import User --}}
+                        <form action="{{ route('admin.ekskul.import') }}" method="POST" enctype="multipart/form-data"
+                            class="flex flex-col w-full gap-2 sm:flex-row sm:w-auto sm:items-center">
+                            @csrf
+                            <input type="file" name="file" required accept=".xls,.xlsx,.csv"
+                                class="w-full p-2 text-sm border rounded-lg focus:ring focus:ring-green-200 sm:w-auto">
+                            <button type="submit"
+                                    class="w-full px-4 py-2 font-semibold text-white bg-green-700 rounded shadow sm:w-auto hover:bg-green-800">
+                                <i class="bi bi-file-earmark-excel me-1"></i> Import Excel
+                            </button>
+                        </form>
+
+                        {{-- Export Template --}}
+                        <a href="{{ route('admin.ekskul.export') }}"
+                        class="w-full px-4 py-2 font-semibold text-center text-white rounded shadow bg-slate-700 hover:bg-slate-800 sm:w-auto sm:ml-2">
+                            <i class="bi bi-download me-1"></i> Download Template
+                        </a>
+                    </div>
             </div>
 
             <!-- Tabel Data Ekskul -->
@@ -68,8 +71,9 @@
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-lg font-bold">Daftar Ekstrakurikuler</h2>
                     {{-- Tombol Hapus Semua --}}
-                    <button id="hapusSemua" type="button" class="px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
-                        <i class="bi bi-trash me-1"></i> Hapus Semua
+                    <button id="hapusSemua" type="button" class="flex items-center px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
+                        <i class="bi bi-trash me-1"></i>
+                        <p>Hapus <span class="hidden sm:inline">Semua</span></p>
                     </button>
                     <form id="formHapusSemua" action="{{ route('admin.ekskul.destroyAll') }}" method="POST" class="hidden">
                         @csrf
@@ -92,18 +96,18 @@
                 <table class="w-full border border-collapse" id="ekskulTable">
                     <thead>
                         <tr class="bg-gray-100">
-                            <th class="w-16 px-4 py-2 text-center border">No</th>
-                            <th class="px-4 py-2 border">Nama Ekskul</th>
-                            <th class="px-4 py-2 border">Nama Pembina</th>
+                            <th class="px-4 py-2 text-center border w-16whitespace-nowrap">No</th>
+                            <th class="px-4 py-2 border whitespace-nowrap">Nama Ekskul</th>
+                            <th class="px-4 py-2 border whitespace-nowrap">Nama Pembina</th>
                             <th class="px-4 py-2 text-center border"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($ekskul ?? [] as $e)
                         <tr>
-                            <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
-                            <td class="px-4 py-2 border">{{ $e->nama_ekskul }}</td>
-                            <td class="px-4 py-2 border">{{ $e->pembina->user->name ?? '-' }}</td>
+                            <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
+                            <td class="px-4 py-2 border whitespace-nowrap">{{ $e->nama_ekskul }}</td>
+                            <td class="px-4 py-2 border whitespace-nowrap">{{ $e->pembina->user->name ?? '-' }}</td>
                             <td class="px-4 py-2 text-center border">
                                 <div x-data="{ open: false, showModal: false }" class="relative inline-block">
                                     <button @click="open = !open" class="px-2 py-1 rounded hover:bg-gray-200">
@@ -180,8 +184,8 @@
     <script>
         document.getElementById('hapusSemua').addEventListener('click', function() {
             Swal.fire({
-                title: 'Yakin gak nyesel ?',
-                text: "Semua data ekskul akan dihapus loh!",
+                title: 'Hapus semua ekskul ?',
+                text: "Semua data ekskul akan dihapus!",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',

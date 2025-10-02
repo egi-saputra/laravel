@@ -50,25 +50,7 @@
                         </button>
                     </form>
 
-                    <!-- Tombol Upload & Export -->
-                    {{-- <div class="flex flex-wrap items-center justify-end gap-3">
-                        <!-- Form Import -->
-                        <form action="{{ route('admin.guru.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2">
-                            @csrf
-                            <input type="file" name="file" required accept=".xls,.xlsx,.csv"
-                            class="px-3 py-2 text-sm border rounded cursor-pointer focus:outline-none focus:ring focus:border-blue-300">
-                            <button type="submit"
-                                    class="px-4 py-2 text-white bg-green-700 rounded hover:bg-green-800">
-                                <i class="bi bi-file-earmark-excel me-1"></i> Import Excel
-                            </button>
-                        </form>
-
-                        <!-- Download Template -->
-                        <a href="{{ route('admin.guru.template') }}"
-                        class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800">
-                            <i class="bi bi-download me-1"></i> Download Template
-                        </a>
-                    </div> --}}
+                    <hr class="my-6">
 
                     <!-- Tombol Upload & Export -->
                     <div class="flex flex-col items-end gap-3 sm:flex-row sm:flex-wrap sm:items-center">
@@ -249,8 +231,8 @@
 
         document.getElementById('hapusSemua').addEventListener('click', function() {
             Swal.fire({
-                title: 'Yakin gak nyesel ?',
-                text: "Semua data guru akan dihapus loh!",
+                title: 'Hapus semua guru ?',
+                text: "Semua data guru akan dihapus!",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',

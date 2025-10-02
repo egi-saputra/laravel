@@ -14,14 +14,14 @@
         <!-- Main Content -->
         <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
             {{-- ===== Statistik User ===== --}}
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div class="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @php
                     $stats = [
-                        ['title'=>'Admin','count'=>$adminCount,'bg'=>'bg-blue-100','text'=>'text-blue-600','icon'=>'fas fa-user-shield'],
-                        ['title'=>'Guru','count'=>$guruCount,'bg'=>'bg-purple-100','text'=>'text-purple-600','icon'=>'fas fa-chalkboard-teacher'],
-                        ['title'=>'Staff','count'=>$staffCount,'bg'=>'bg-yellow-100','text'=>'text-yellow-600','icon'=>'fas fa-user-tie'],
-                        ['title'=>'Siswa','count'=>$siswaCount,'bg'=>'bg-green-100','text'=>'text-green-600','icon'=>'fas fa-user-graduate'],
-                        ['title'=>'User','count'=>$userCount,'bg'=>'bg-pink-100','text'=>'text-pink-600','icon'=>'fas fa-users'],
+                        ['title'=>'Jumlah Admin','count'=>$adminCount,'bg'=>'bg-blue-100','text'=>'text-blue-600','icon'=>'fas fa-user-shield'],
+                        ['title'=>'Jumlah Guru','count'=>$guruCount,'bg'=>'bg-purple-100','text'=>'text-purple-600','icon'=>'fas fa-chalkboard-teacher'],
+                        ['title'=>'Jumlah Staff','count'=>$staffCount,'bg'=>'bg-yellow-100','text'=>'text-yellow-600','icon'=>'fas fa-user-tie'],
+                        ['title'=>'Jumlah Siswa','count'=>$siswaCount,'bg'=>'bg-green-100','text'=>'text-green-600','icon'=>'fas fa-user-graduate'],
+                        ['title'=>'Jumlah User','count'=>$userCount,'bg'=>'bg-pink-100','text'=>'text-pink-600','icon'=>'fas fa-users'],
                         ['title'=>'Total Pengguna','count'=>$totalUsers,'bg'=>'bg-indigo-100','text'=>'text-indigo-600','icon'=>'fas fa-user-friends'],
                         ['title'=>'Pengunjung Unik (IP)','count'=>$uniqueVisitors,'bg'=>'bg-teal-100','text'=>'text-teal-600','icon'=>'fas fa-fingerprint'],
                         ['title'=>'Total Pengunjung','count'=>$totalVisitors,'bg'=>'bg-red-100','text'=>'text-red-600','icon'=>'fas fa-eye'],
@@ -62,8 +62,8 @@
                 <form id="truncateVisitorForm" action="{{ route('visitor.truncate') }}" method="POST">
                     @csrf
                     <button type="button" id="truncateVisitorBtn"
-                        class="px-3 py-1 text-white transition bg-red-600 rounded-lg md:py-2 hover:bg-red-700">
-                        Hapus Data Pengunjung
+                        class="hidden px-3 py-1 text-white transition bg-red-600 rounded-lg md:block md:py-2 hover:bg-red-700">
+                        <i class="bi bi-trash me-1"></i> Hapus Data Pengunjung
                     </button>
                 </form>
             </div>
@@ -88,16 +88,25 @@
 
             {{-- ===== Statistik Visitor ===== --}}
             <div class="p-4 mt-4 bg-white shadow-sm rounded-2xl">
-                <div class="flex items-center justify-between mb-3">
-                    <p class="text-sm font-medium text-gray-500">Statistik Pengunjung Semua User</p>
+                <div class="flex items-center justify-between mb-4">
+                    <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung Semua User</p>
                     <form method="GET" action="{{ url()->current() }}">
-                        <select name="limit" onchange="this.form.submit()"
+                        {{-- <select name="limit" onchange="this.form.submit()"
                                 class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Semua</option>
                             <option value="10" {{ request('limit') == 10 ? 'selected' : '' }}>10</option>
                             <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
                             <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
-                        </select>
+                        </select> --}}
+                        <div class="flex items-center gap-2 justify between">
+                            <p class="text-sm font-medium text-gray-500">Filter :</p>
+                            <select name="limit" onchange="this.form.submit()" class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="all" {{ request('limit') === 'all' ? 'selected' : '' }}>Semua</option>
+                                <option value="10" {{ request('limit', 10) == 10 ? 'selected' : '' }}>10</option>
+                                <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
+                            </select>
+                        </div>
                     </form>
                 </div>
 
