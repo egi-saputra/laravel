@@ -1,6 +1,6 @@
 <div>
     <div class="flex items-center justify-between mb-4">
-        <h2 class="mb-2 text-lg font-bold md:mb-4">
+        <h2 class="mb-2 text-base font-bold md:text-lg md:mb-4">
             Daftar Mata Pelajaran <span class="hidden md:inline-block">Dan Guru Pengampu</span> <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
         </h2>
         <hr class="mb-4">
@@ -23,14 +23,14 @@
     <!-- Tabel Daftar Mapel -->
     <div class="overflow-x-auto md:overflow-x-visible">
         <table class="w-full border border-collapse" id="mapelTable">
-            <thead>
+            <thead class="text-sm md:text-base">
                 <tr class="bg-gray-100">
                     <th class="px-4 py-2 text-center border whitespace-nowrap">No</th>
                     <th class="px-4 py-2 border whitespace-nowrap">Nama Mapel</th>
                     <th class="px-4 py-2 border whitespace-nowrap">Guru Pengampu</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-sm md:text-base">
                 @forelse ($mapel ?? [] as $index => $m)
                     <tr>
                         <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>

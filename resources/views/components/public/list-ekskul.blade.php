@@ -1,6 +1,6 @@
 <div>
     <div class="flex items-center justify-between mb-4">
-        <h2 class="mb-2 text-lg font-bold md:mb-4">
+        <h2 class="mb-2 text-base font-bold md:text-lg md:mb-4">
             Daftar Ekstrakurikuler <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
         </h2>
         <hr class="mb-4">
@@ -16,33 +16,35 @@
                          1110.5 3a7.5 7.5 0 016.15 13.65z"/>
             </svg>
         </span>
-        <input type="text" id="searchEkskul" placeholder="Cari nama ekskul atau pembina ekskul..."
+        <input type="text" id="searchEkskul" placeholder="Cari ekskul atau pembina ..."
                class="w-full py-2 pl-12 border rounded focus:outline-none focus:ring focus:border-blue-300 md:w-auto">
     </div>
 
     <!-- Tabel Daftar Ekskul -->
-    <table class="w-full border border-collapse" id="ekskulTable">
-        <thead>
-            <tr class="bg-gray-100">
-                <th class="w-16 px-4 py-2 text-center border whitespace-nowrap">No</th>
-                <th class="px-4 py-2 border whitespace-nowrap">Nama Ekskul</th>
-                <th class="px-4 py-2 border whitespace-nowrap">Nama Pembina</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($ekskul ?? [] as $e)
-                <tr>
-                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
-                    <td class="px-4 py-2 border whitespace-nowrap">{{ $e->nama_ekskul }}</td>
-                    <td class="px-4 py-2 border whitespace-nowrap">{{ $e->pembina->user->name ?? '-' }}</td>
+    <div class="overflow-x-auto md:overflow-x-visible">
+        <table class="w-full border border-collapse" id="ekskulTable">
+            <thead class="text-sm md:text-base">
+                <tr class="bg-gray-100">
+                    <th class="w-16 px-4 py-2 text-center border whitespace-nowrap">No</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Nama Ekskul</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Nama Pembina</th>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="3" class="py-2 text-center">Belum ada data ekskul</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="text-sm md:text-base">
+                @forelse ($ekskul ?? [] as $e)
+                    <tr>
+                        <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-2 border whitespace-nowrap">{{ $e->nama_ekskul }}</td>
+                        <td class="px-4 py-2 border whitespace-nowrap">{{ $e->pembina->user->name ?? '-' }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="3" class="py-2 text-center">Belum ada data ekskul</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Script Search -->

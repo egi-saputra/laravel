@@ -1,19 +1,19 @@
 <!-- Tabel Data Struktural -->
 <div>
     <div>
-        <h2 class="mb-2 text-lg font-bold md:mb-4">Struktur Internal Sekolah <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2><hr class="mb-4">
+        <h2 class="mb-2 text-base font-bold md:text-lg md:mb-4">Struktur Internal Sekolah <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2><hr class="mb-4">
     </div>
 
     <div class="overflow-x-auto md:overflow-x-visible">
         <table class="w-full border border-collapse" id="strukturalTable">
-            <thead>
+            <thead class="text-sm md:text-base">
                 <tr class="bg-gray-100">
                     <th class="px-4 py-2 text-center border whitespace-nowrap">No</th>
                     <th class="px-4 py-2 border whitespace-nowrap">Jabatan</th>
                     <th class="px-4 py-2 border whitespace-nowrap">Nama Lengkap</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-sm md:text-base">
                 @forelse($struktural ?? [] as $s)
                     <tr>
                         <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>

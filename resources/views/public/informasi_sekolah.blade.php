@@ -30,12 +30,12 @@
 
             <!-- Tabel Data Kejuruan -->
             <div class="px-8 py-4 bg-white rounded shadow">
-                <h2 class="mb-2 text-lg font-bold md:mb-4">Daftar Program Kejuruan <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2>
+                <h2 class="mb-2 text-base font-bold md:text-lg md:mb-4">Daftar Program Kejuruan <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2>
                 <hr class="mb-4">
 
                 <div class="overflow-x-auto md:overflow-x-visible">
                     <table class="min-w-full text-center border border-collapse" id="kejuruanTable">
-                        <thead class="bg-gray-100">
+                        <thead class="text-sm bg-gray-100 md:text-base">
                             <tr>
                                 <th class="px-4 py-2 border whitespace-nowrap">No</th>
                                 <th class="px-4 py-2 border whitespace-nowrap">Program Kejuruan</th>
@@ -43,7 +43,7 @@
                                 <th class="px-4 py-2 border whitespace-nowrap">Jumlah Siswa</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-sm md:text-base">
                             @forelse ($kejuruan ?? [] as $k)
                             <tr>
                                 <td class="px-4 py-2 border whitespace-nowrap">{{ $loop->iteration }}</td>
@@ -76,7 +76,7 @@
             </div>
 
             <!-- Tabel Data Ekskul -->
-            <div class="px-8 py-4 overflow-x-auto bg-white rounded shadow md:overflow-x-visible">
+            <div class="px-8 py-4 bg-white rounded shadow ">
                 <x-public.list-ekskul :ekskul="$ekskul" />
             </div>
         </main>
