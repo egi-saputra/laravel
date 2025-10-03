@@ -26,7 +26,7 @@
                 alt="Logo Sekolah">
         </div>
 
-        <div class="flex items-start pb-8 space-x-6">
+        <div class="flex items-start pb-8 space-x-6 overflow-x-auto">
             <!-- Nama Sekolah & Info Singkat -->
             <div class="flex-1">
                 <h2 class="mb-2 text-2xl font-bold text-center text-gray-800">
@@ -46,13 +46,13 @@
                     Informasi Administratif Sekolah
                 </h2>
 
-                <div class="grid gap-8 p-4 border rounded-md shadow md:border-none md:shadow-none md:grid-cols-3">
+                <div class="grid gap-8 p-0 border-none rounded-md shadow-none md:p-4 md:border md:shadow md:grid-cols-3">
                     <!-- Kolom 1: Nama Yayasan, Kepala Yayasan, Kepala Sekolah -->
                     <div class="space-y-2">
                         <div class="grid grid-cols-[120px_10px_1fr] items-center">
-                            <span class="font-semibold">Nama Yayasan</span>
+                            <span class="font-semibold">Nama Sekolah</span>
                             <span class="text-right">:</span>
-                            <span class="pl-2">{{ $profil->nama_sekolah }} CITAYAM</span>
+                            <span class="pl-2">{{ $profil->nama_sekolah }}</span>
                         </div>
                         <div class="grid grid-cols-[120px_10px_1fr] items-center">
                             <span class="font-semibold">Kepala Yayasan</span>

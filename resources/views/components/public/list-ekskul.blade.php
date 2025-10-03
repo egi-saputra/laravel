@@ -1,10 +1,7 @@
 <div>
     <div class="flex items-center justify-between mb-4">
         <h2 class="mb-4 text-lg font-bold">
-            Daftar Ekstrakurikuler |
-            <span class="capitalize text-sky-900">
-                {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}
-            </span> |
+            Daftar Ekstrakurikuler <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
         </h2>
         <hr class="mb-4">
     </div>
@@ -20,24 +17,24 @@
             </svg>
         </span>
         <input type="text" id="searchEkskul" placeholder="Cari nama ekskul atau pembina ekskul..."
-               class="w-full py-2 pl-12 border rounded focus:outline-none focus:ring focus:border-blue-300">
+               class="w-full py-2 pl-12 border rounded focus:outline-none focus:ring focus:border-blue-300 md:w-auto">
     </div>
 
     <!-- Tabel Daftar Ekskul -->
     <table class="w-full border border-collapse" id="ekskulTable">
         <thead>
             <tr class="bg-gray-100">
-                <th class="w-16 px-4 py-2 text-center border">No</th>
-                <th class="px-4 py-2 border">Nama Ekskul</th>
-                <th class="px-4 py-2 border">Nama Pembina</th>
+                <th class="w-16 px-4 py-2 text-center border whitespace-nowrap">No</th>
+                <th class="px-4 py-2 border whitespace-nowrap">Nama Ekskul</th>
+                <th class="px-4 py-2 border whitespace-nowrap">Nama Pembina</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($ekskul ?? [] as $e)
                 <tr>
-                    <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
-                    <td class="px-4 py-2 border">{{ $e->nama_ekskul }}</td>
-                    <td class="px-4 py-2 border">{{ $e->pembina->user->name ?? '-' }}</td>
+                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
+                    <td class="px-4 py-2 border whitespace-nowrap">{{ $e->nama_ekskul }}</td>
+                    <td class="px-4 py-2 border whitespace-nowrap">{{ $e->pembina->user->name ?? '-' }}</td>
                 </tr>
             @empty
                 <tr>

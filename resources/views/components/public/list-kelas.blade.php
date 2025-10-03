@@ -1,7 +1,7 @@
 {{-- Cara penggunaan : <x-data-kelas-views :kelas="$kelas" /> --}}
 
 <div>
-    <h2 class="mb-4 text-lg font-bold">Daftar Unit Kelas Dan Wali Kelas |  <span class="capitalize text-sky-900">{{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}</span> |</h2><hr class="mb-4">
+    <h2 class="mb-4 text-lg font-bold">Daftar Unit Kelas Dan Wali Kelas <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2><hr class="mb-4">
 
     <!-- Search Box -->
     <div class="relative mb-4">
@@ -21,27 +21,27 @@
         <table class="w-full border border-collapse" id="kelasTable">
             <thead class="text-center">
                 <tr class="bg-gray-100">
-                    <th class="px-4 py-2 border">No</th>
-                    <th class="px-4 py-2 border">Nama Kelas</th>
-                    <th class="px-4 py-2 border">Wali Kelas</th>
-                    <th class="px-4 py-2 border">Jumlah Siswa</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">No</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Nama Kelas</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Wali Kelas</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Jumlah Siswa</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($kelas ?? [] as $k)
                     <tr>
-                        <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2 border">{{ $k->kelas }}</td>
-                        <td class="px-4 py-2 border">
+                        <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-2 border whitespace-nowrap">{{ $k->kelas }}</td>
+                        <td class="px-4 py-2 border whitespace-nowrap">
                             {{ $k->waliKelas?->user?->name ?? 'Tidak Ada' }}
                         </td>
-                        <td class="px-4 py-2 text-center border">
+                        <td class="px-4 py-2 text-center border whitespace-nowrap">
                             {{ $k->jumlah_siswa ?? 0 }}
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="py-2 text-center">Belum ada data kelas</td>
+                        <td colspan="4" class="py-2 text-center whitespace-nowrap">Belum ada data kelas</td>
                     </tr>
                 @endforelse
             </tbody>
