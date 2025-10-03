@@ -12,7 +12,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 space-y-6 md:p-6">
+        <main class="flex-wrap flex-1 p-4 space-y-6 md:p-6">
             <!-- Profil Sekolah Card -->
             <div>
                 <x-public.profil-sekolah-card />
@@ -30,7 +30,7 @@
 
             <!-- Tabel Data Kejuruan -->
             <div class="px-8 py-4 bg-white rounded shadow">
-                <h2 class="mb-4 text-lg font-bold">Daftar Program Kejuruan <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2>
+                <h2 class="mb-2 text-lg font-bold md:mb-4">Daftar Program Kejuruan <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2>
                 <hr class="mb-4">
 
                 <div class="overflow-x-auto md:overflow-x-visible">

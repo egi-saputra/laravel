@@ -1,6 +1,6 @@
 <div>
     <div class="flex items-center justify-between mb-4">
-        <h2 class="mb-4 text-lg font-bold">
+        <h2 class="mb-2 text-lg font-bold md:mb-4">
             Daftar Ekstrakurikuler <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
         </h2>
         <hr class="mb-4">

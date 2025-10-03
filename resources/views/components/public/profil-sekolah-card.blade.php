@@ -26,13 +26,13 @@
                 alt="Logo Sekolah">
         </div>
 
-        <div class="flex flex-wrap items-start pb-8 space-x-6">
+        {{-- <div class="flex flex-wrap items-start pb-8 space-x-6">
             <!-- Nama Sekolah & Info Singkat -->
             <div class="flex-1">
-                <h2 class="mb-2 text-2xl font-bold text-center text-gray-800">
+                <h2 class="mb-2 text-xl font-bold text-center text-gray-800 md:text-2xl">
                     {{ $profil->nama_sekolah }}
                 </h2>
-                <h4 class="mb-2 text-xl font-bold text-center text-red-700">
+                <h4 class="mb-2 text-base font-bold text-center text-red-700 md:text-xl">
                     {{ $profil->akreditasi ?? '-' }}
                 </h4>
                 <p class="mb-4 text-center">
@@ -46,7 +46,7 @@
                     Informasi Administratif Sekolah
                 </h2>
 
-                <div class="grid gap-8 p-0 border-none rounded-md shadow-none md:p-4 md:border md:shadow md:grid-cols-3">
+                <div class="grid gap-8 p-0 overflow-x-auto border-none rounded-md shadow-none md:p-4 md:border md:shadow md:grid-cols-3 md:overflow-x-visible">
                     <!-- Kolom 1 -->
                     <div class="space-y-2">
                         <div class="grid grid-cols-[120px_10px_1fr] items-center">
@@ -105,7 +105,92 @@
                     </div>
                 </div>
             </div>
+        </div> --}}
+        <div class="flex flex-wrap items-start pb-8 space-x-6">
+    <!-- Nama Sekolah & Info Singkat -->
+    <div class="flex-1">
+        <h2 class="mb-2 text-lg font-bold text-center text-gray-800 md:text-2xl">
+            {{ $profil->nama_sekolah }}
+        </h2>
+        <h4 class="mb-2 text-sm font-bold text-center text-red-700 md:text-xl">
+            {{ $profil->akreditasi ?? '-' }}
+        </h4>
+        <p class="mb-4 text-xs text-center md:text-base">
+            {{ $profil->alamat }} RT {{ $profil->rt }} RW {{ $profil->rw }} Desa {{ $profil->kelurahan }},
+            Kec. {{ $profil->kecamatan }}, Kab. {{ $profil->kabupaten_kota }},
+            Provinsi {{ $profil->provinsi }}, Kode Pos: {{ $profil->kode_pos }}
+        </p>
+        <hr class="mb-8">
+
+        <h2 class="inline-block pb-1 mb-4 font-semibold text-left border-b border-slate-300">
+            Informasi Administratif Sekolah
+        </h2>
+
+        <!-- Grid tanpa overflow-x -->
+        <div class="grid grid-cols-1 gap-8 p-0 text-sm border-none rounded-md shadow-none md:text-base md:p-4 md:border md:shadow md:grid-cols-3">
+            <!-- Kolom 1 -->
+            <div class="hidden space-y-2 md:block">
+                <div class="grid grid-cols-[120px_10px_1fr] items-center">
+                    <span class="font-semibold">Nama Sekolah</span>
+                    <span class="text-right">:</span>
+                    <span class="pl-2">{{ $profil->nama_sekolah }}</span>
+                </div>
+                {{-- <div class="grid grid-cols-[120px_10px_1fr] items-center">
+                    <span class="font-semibold">Kepala Yayasan</span>
+                    <span class="text-right">:</span>
+                    <span class="pl-2">{{ $profil->kepala_yayasan }}</span>
+                </div> --}}
+                <div class="grid grid-cols-[120px_10px_1fr] items-center">
+                    <span class="font-semibold">Kepala Sekolah</span>
+                    <span class="text-right">:</span>
+                    <span class="pl-2">{{ $profil->kepala_sekolah ?? '-' }}</span>
+                </div>
+            </div>
+
+            <!-- Kolom 2 -->
+            <div class="ml-0 space-y-2 md:ml-4">
+                <div class="grid grid-cols-[90px_10px_1fr] items-center">
+                    <span class="font-semibold">No. Izin</span>
+                    <span class="text-left">:</span>
+                    <span>{{ $profil->no_izin }}</span>
+                </div>
+                <div class="grid grid-cols-[90px_10px_1fr] items-center">
+                    <span class="font-semibold">NPSN</span>
+                    <span class="text-left">:</span>
+                    <span>{{ $profil->npsn }}</span>
+                </div>
+                <div class="grid grid-cols-[90px_10px_1fr] items-center">
+                    <span class="font-semibold">NSS</span>
+                    <span class="text-left">:</span>
+                    <span>{{ $profil->nss ?? '-' }}</span>
+                </div>
+            </div>
+
+            <!-- Kolom 3 -->
+            <div class="space-y-2">
+                <div class="grid grid-cols-[90px_10px_1fr] items-center">
+                    <span class="font-semibold">Email</span>
+                    <span class="text-left">:</span>
+                    <a href="#" class="text-sm underline break-all md:text-base text-sky-600 hover:text-sky-800">
+                        <span class="break-all">{{ $profil->website }}</span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-[90px_10px_1fr] items-center">
+                    <span class="font-semibold">No. Hp</span>
+                    <span class="text-left">:</span>
+                    <a href="#" class="text-sky-600 hover:text-sky-800"><span>{{ $profil->telepon }}</span></a>
+                </div>
+                <div class="grid grid-cols-[90px_10px_1fr] items-center">
+                    <span class="font-semibold">Website</span>
+                    <span class="text-left">:</span>
+                    <a href="#" class="underline break-all text-sky-600 hover:text-sky-800">
+                        <span class="break-all">{{ $profil->website }}</span>
+                    </a>
+            </div>
+            </div>
         </div>
+    </div>
+</div>
 
         <!-- Visi & Misi -->
         <div class="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
