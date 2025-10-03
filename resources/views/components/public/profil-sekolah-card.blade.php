@@ -26,7 +26,7 @@
                 alt="Logo Sekolah">
         </div>
 
-        <div class="flex items-start pb-8 space-x-6 overflow-x-auto">
+        <div class="flex flex-wrap items-start pb-8 space-x-6">
             <!-- Nama Sekolah & Info Singkat -->
             <div class="flex-1">
                 <h2 class="mb-2 text-2xl font-bold text-center text-gray-800">
@@ -47,7 +47,7 @@
                 </h2>
 
                 <div class="grid gap-8 p-0 border-none rounded-md shadow-none md:p-4 md:border md:shadow md:grid-cols-3">
-                    <!-- Kolom 1: Nama Yayasan, Kepala Yayasan, Kepala Sekolah -->
+                    <!-- Kolom 1 -->
                     <div class="space-y-2">
                         <div class="grid grid-cols-[120px_10px_1fr] items-center">
                             <span class="font-semibold">Nama Sekolah</span>
@@ -66,7 +66,7 @@
                         </div>
                     </div>
 
-                    <!-- Kolom 2: No. Izin, NPSN, NSS -->
+                    <!-- Kolom 2 -->
                     <div class="ml-0 space-y-2 md:ml-4">
                         <div class="grid md:grid-cols-[90px_10px_1fr] grid-cols-[120px_10px_1fr] items-center">
                             <span class="font-semibold">No. Izin</span>
@@ -85,7 +85,7 @@
                         </div>
                     </div>
 
-                    <!-- Kolom 3: Email, No. Hp, Website -->
+                    <!-- Kolom 3 -->
                     <div class="space-y-2">
                         <div class="grid md:grid-cols-[90px_10px_1fr] grid-cols-[120px_10px_1fr] items-center">
                             <span class="font-semibold">Email</span>
