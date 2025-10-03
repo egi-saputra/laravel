@@ -7,7 +7,7 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="sticky z-10 w-full top-16 md:static md:w-auto md:ml-6 md:mt-6 md:h-screen md:top-0">
+        <aside class="mx-4 mt-4 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
             <x-sidebar />
         </aside>
 
@@ -78,7 +78,7 @@
             {{-- ===== Statistik Visitor ===== --}}
             <div class="p-4 mt-4 bg-white shadow-sm rounded-2xl">
                 <div class="flex items-center justify-between mb-3">
-                    <p class="text-sm font-medium text-gray-500">Statistik Pengunjung Semua User</p>
+                    <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung <span class="hidden sm:inline">Semua User</span></p>
                     <form method="GET" action="{{ route('visitor.index') }}">
                         <select name="limit" onchange="this.form.submit()"
                                 class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">

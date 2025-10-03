@@ -59,21 +59,21 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">Nama Siswa</th>
-                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-700 uppercase">Hadir</th>
-                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-700 uppercase">Sakit</th>
-                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-700 uppercase">Izin</th>
-                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-700 uppercase">Alpa</th>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase whitespace-nowrap">Nama Siswa</th>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-700 uppercase whitespace-nowrap">Hadir</th>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-700 uppercase whitespace-nowrap">Sakit</th>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-700 uppercase whitespace-nowrap">Izin</th>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-700 uppercase whitespace-nowrap">Alpa</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($rekap as $siswa)
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-3 text-sm text-gray-700">{{ $siswa->nama_lengkap }}</td>
-                            <td class="px-6 py-3 text-sm text-center text-gray-700">{{ $siswa->hadir_count }}</td>
-                            <td class="px-6 py-3 text-sm text-center text-gray-700">{{ $siswa->sakit_count }}</td>
-                            <td class="px-6 py-3 text-sm text-center text-gray-700">{{ $siswa->izin_count }}</td>
-                            <td class="px-6 py-3 text-sm text-center text-gray-700">{{ $siswa->alpa_count }}</td>
+                            <td class="px-6 py-3 text-sm text-gray-700 whitespace-nowrap">{{ $siswa->nama_lengkap }}</td>
+                            <td class="px-6 py-3 text-sm text-center text-gray-700 whitespace-nowrap">{{ $siswa->hadir_count }}</td>
+                            <td class="px-6 py-3 text-sm text-center text-gray-700 whitespace-nowrap">{{ $siswa->sakit_count }}</td>
+                            <td class="px-6 py-3 text-sm text-center text-gray-700 whitespace-nowrap">{{ $siswa->izin_count }}</td>
+                            <td class="px-6 py-3 text-sm text-center text-gray-700 whitespace-nowrap">{{ $siswa->alpa_count }}</td>
                         </tr>
                     @endforeach
                 </tbody>

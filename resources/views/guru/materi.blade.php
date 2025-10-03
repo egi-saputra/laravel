@@ -6,16 +6,16 @@
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
-        <aside class="sticky z-10 w-full top-16 md:static md:w-auto md:ml-6 md:mt-6 md:h-screen md:top-0">
-            <!-- Sidebar -->
+        <!-- Sidebar -->
+        <aside class="mx-4 mt-4 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
             <x-sidebar />
         </aside>
 
         <!-- Main Content -->
         <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
-            <!-- Form Tambah Siswa + Upload Excel -->
-            <main class="p-4 bg-white rounded shadow">
-                <h1 class="mb-4 text-lg font-bold">Tambahkan Materi Untuk Peserta Didik!</h1>
+            <!-- Form Tambah Materi -->
+            <div class="p-4 bg-white rounded shadow">
+                <h1 class="mb-4 text-lg font-bold">Buat Materi Pembelajaran</h1>
 
                 <!-- Form Input Materi -->
                 <form action="{{ route('guru.materi.store') }}" method="POST" enctype="multipart/form-data" class="space-y-3">
@@ -50,7 +50,7 @@
                         <input type="text" name="judul" class="w-full px-3 py-2 mb-4 border rounded" required>
                     </div>
 
-                    <div>
+                    <div class="overflow-x-auto md:overflow-x-visible">
                         <x-forms-tinymce.tinymce-editor/>
                     </div>
 
@@ -68,7 +68,7 @@
                         <i class="bi bi-save"></i> Simpan
                     </button>
                 </form>
-            </main>
+            </div>
 
             <!-- Tabel Daftar Materi -->
             <x-guru.list-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />

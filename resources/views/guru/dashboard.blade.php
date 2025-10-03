@@ -7,7 +7,7 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="sticky z-10 w-full top-16 md:static md:w-auto md:ml-6 md:mt-6 md:h-screen md:top-0">
+        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
             <x-sidebar />
         </aside>
 
@@ -21,11 +21,21 @@
             {{-- ===== Filter ===== --}}
             <div class="flex flex-col mb-4 space-y-2 md:flex-row md:justify-between md:items-center md:space-y-0">
                 {{-- Filter Role --}}
+                {{-- <div>
+                    <label for="roleFilter" class="ml-2 text-sm font-medium text-gray-700 md:ml-0 md:mr-2">Filter Role:</label>
+                    <select id="roleFilter" class="px-3 py-1 border rounded-lg">
+                        <option value="all">Semua</option>
+                        <option value="guru">Guru</option>
+                        <option value="siswa">Siswa</option>
+                        <option value="user">User</option>
+                    </select>
+                </div> --}}
                 <div>
                     <label for="roleFilter" class="mr-2 text-sm font-medium text-gray-700">Filter Role:</label>
                     <select id="roleFilter" class="px-3 py-1 border rounded-lg">
                         <option value="all">Semua</option>
                         <option value="guru">Guru</option>
+                        <option value="staff">Staff</option>
                         <option value="siswa">Siswa</option>
                         <option value="user">User</option>
                     </select>
@@ -154,7 +164,7 @@
             {{-- ===== Statistik Visitor ===== --}}
             <div class="p-4 mt-4 bg-white shadow-sm rounded-2xl">
                 <div class="flex items-center justify-between mb-3">
-                    <p class="text-sm font-medium text-gray-500">Statistik Pengunjung Semua User</p>
+                    <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung <span class="hidden sm:inline">Semua User</span></p>
                     <form method="GET" action="{{ url()->current() }}">
                         <select name="limit" onchange="this.form.submit()"
                                 class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">

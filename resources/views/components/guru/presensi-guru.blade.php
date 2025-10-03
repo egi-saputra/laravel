@@ -1,27 +1,34 @@
-<div class="p-6 space-y-4 bg-white rounded shadow-md">
+<div class="space-y-4 rounded">
     <form action="{{ route('guru.presensi.store') }}" method="POST">
         @csrf
 
         <!-- Tanggal & Hari -->
-        <div class="flex justify-center mb-4 space-x-4">
-            <div class="mb-4">
-                <label for="hari"><small>Hari</small></label>
-                <input type="text" name="hari" value="{{ $hariIni }}" readonly class="w-full p-2 border rounded">
+        <div class="flex flex-col justify-center mb-4 space-y-4 md:flex-row md:space-x-4 md:space-y-0">
+
+            <!-- Hari & Tanggal -->
+            <div class="flex w-full gap-4 md:block">
+                <div class="w-1/2 md:w-auto">
+                    <label for="hari"><small>Hari</small></label>
+                    <input type="text" name="hari" value="{{ $hariIni }}" readonly class="w-full p-2 border rounded">
+                </div>
+
+                <div class="w-1/2 md:w-auto">
+                    <label for="tanggal"><small>Tanggal</small></label>
+                    <input type="number" name="tanggal" value="{{ $tanggal }}" class="w-full p-2 border rounded" required>
+                </div>
             </div>
 
-            <div class="mb-4">
-                <label for="tanggal"><small>Tanggal</small></label>
-                <input type="number" name="tanggal" value="{{ $tanggal }}" class="w-full p-2 border rounded" required>
-            </div>
+            <!-- Bulan & Tahun -->
+            <div class="flex w-full gap-4 md:block">
+                <div class="w-1/2 md:w-auto">
+                    <label for="bulan"><small>Bulan</small></label>
+                    <input type="number" name="bulan" value="{{ $bulan }}" class="w-full p-2 border rounded" required>
+                </div>
 
-            <div class="mb-4">
-                <label for="bulan"><small>Bulan</small></label>
-                <input type="number" name="bulan" value="{{ $bulan }}" class="w-full p-2 border rounded" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="tahun"><small>Tahun</small></label>
-                <input type="number" name="tahun" value="{{ $tahun }}" class="w-full p-2 border rounded" required>
+                <div class="w-1/2 md:w-auto">
+                    <label for="tahun"><small>Tahun</small></label>
+                    <input type="number" name="tahun" value="{{ $tahun }}" class="w-full p-2 border rounded" required>
+                </div>
             </div>
         </div>
 
@@ -30,13 +37,13 @@
             <table class="min-w-full border border-gray-300">
                 <thead class="text-center bg-gray-100">
                     <tr>
-                        <th class="py-2 border border-gray-300">Jam</th>
-                        <th class="px-4 py-2 border border-gray-300">Nama Guru</th>
-                        <th class="px-4 py-2 border border-gray-300">Sesi</th>
-                        <th class="px-4 py-2 border border-gray-300">Kelas</th>
-                        <th class="px-4 py-2 border border-gray-300">Keterangan</th>
-                        <th class="px-4 py-2 border border-gray-300">Apel</th>
-                        <th class="px-4 py-2 border border-gray-300">Upacara</th>
+                        <th class="py-2 border border-gray-300 whitespace-nowrap">Jam</th>
+                        <th class="px-4 py-2 border border-gray-300 whitespace-nowrap">Nama Guru</th>
+                        <th class="px-4 py-2 border border-gray-300 whitespace-nowrap">Sesi</th>
+                        <th class="px-4 py-2 border border-gray-300 whitespace-nowrap">Kelas</th>
+                        <th class="px-4 py-2 border border-gray-300 whitespace-nowrap">Keterangan</th>
+                        <th class="px-4 py-2 border border-gray-300 whitespace-nowrap">Apel</th>
+                        <th class="px-4 py-2 border border-gray-300 whitespace-nowrap">Upacara</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -94,7 +101,7 @@
         <!-- Submit Button -->
         <div class="mt-4">
             <button type="submit"
-                class="px-6 py-2 text-white bg-blue-600 rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                class="px-6 py-2 mt-3 text-white bg-blue-600 rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
                 @if($presensiSelesai) disabled @endif>
                 Submit / Update Presensi Guru
             </button>

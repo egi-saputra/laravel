@@ -6,8 +6,8 @@
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
-        {{-- Sidebar --}}
-        <aside class="sticky z-10 w-full top-16 md:static md:w-auto md:ml-6 md:mt-6 md:h-screen md:top-0">
+        <!-- Sidebar -->
+        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
             <x-sidebar />
         </aside>
 
@@ -19,7 +19,7 @@
                   class="flex flex-col items-end gap-4 mb-6 md:items-center md:flex-row">
 
                 <!-- Global Search -->
-                <div class="relative md:col-span-2">
+                <div class="relative w-full md:col-span-2 md:w-auto">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3 pr-3 border-r text-slate-700">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z"/>

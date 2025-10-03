@@ -5,9 +5,9 @@
 
         <!-- Tombol Hapus Semua -->
         <div>
-            <button id="hapusSemua" type="button"
-                class="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700">
-                <i class="bi bi-trash me-1"></i> Hapus Semua
+            <button id="hapusSemua" type="button" class="flex items-center px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
+                <i class="bi bi-trash me-1"></i>
+                <p>Hapus <span class="hidden sm:inline">Semua</span></p>
             </button>
 
             <form id="formHapusSemua"
@@ -19,10 +19,16 @@
         </div>
     </div>
 
-    <form method="GET" action="{{ route('guru.tugas_siswa.index') }}" class="flex flex-wrap gap-4 mb-6">
-        <input type="text" name="nama" placeholder="Cari Nama" class="px-3 py-2 border rounded"
-               value="{{ request('nama') }}">
-        <select name="kelas" class="px-3 py-2 border rounded">
+    {{-- Filter dan Search --}}
+    <form method="GET" action="{{ route('guru.tugas_siswa.index') }}"
+        class="flex flex-wrap gap-4 mb-6">
+
+        <input type="text" name="nama" placeholder="Cari Nama"
+            class="w-full px-3 py-2 border rounded md:w-auto"
+            value="{{ request('nama') }}">
+
+        <select name="kelas"
+                class="w-full px-3 py-2 border rounded md:w-auto">
             <option value="Semua">-- Semua Kelas --</option>
             @foreach($kelas as $k)
                 <option value="{{ $k->id }}" {{ request('kelas') == $k->id ? 'selected' : '' }}>
@@ -30,7 +36,9 @@
                 </option>
             @endforeach
         </select>
-        <select name="mapel" class="px-3 py-2 border rounded">
+
+        <select name="mapel"
+                class="w-full px-3 py-2 border rounded md:w-auto">
             <option value="Semua">-- Semua Mapel --</option>
             @foreach($mapel as $m)
                 <option value="{{ $m->id }}" {{ request('mapel') == $m->id ? 'selected' : '' }}>
@@ -38,34 +46,45 @@
                 </option>
             @endforeach
         </select>
-        <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"><i class="bi bi-funnel"></i> Filter</button>
-        <a href="{{ route('guru.tugas_siswa.index') }}" class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800"><i class="bi bi-arrow-clockwise"></i> Reset</a>
+
+        {{-- Wrapper tombol khusus mobile agar sejajar --}}
+        <div class="flex justify-end w-full gap-2 md:w-auto md:justify-start md:gap-4">
+            <button type="submit"
+                    class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                <i class="bi bi-funnel"></i> Filter
+            </button>
+            <a href="{{ route('guru.tugas_siswa.index') }}"
+            class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800">
+                <i class="bi bi-arrow-clockwise"></i> Reset
+            </a>
+        </div>
     </form>
 
+    {{-- Tabel List Tugas --}}
     <div class="overflow-x-auto md:overflow-x-visible">
         <table class="w-full border border-collapse" id="tugasTable">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="w-12 px-4 py-2 text-center border">No</th>
-                    <th class="px-4 py-2 border">Judul Tugas</th>
-                    <th class="px-4 py-2 border">Nama</th>
-                    <th class="px-4 py-2 border">Kelompok</th>
-                    <th class="px-4 py-2 text-center border">Kelas</th>
-                    <th class="px-4 py-2 text-center border">Mapel</th>
-                    <th class="px-4 py-2 border">File Terkait</th>
+                    <th class="w-12 px-4 py-2 text-center border whitespace-nowrap">No</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Judul Tugas</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Nama Siswa</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Kelompok</th>
+                    <th class="px-4 py-2 text-center border whitespace-nowrap">Kelas</th>
+                    <th class="px-4 py-2 text-center border whitespace-nowrap">Mapel</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">File Terkait</th>
                     <th class="w-24 px-4 py-2 text-center border"></th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($tugas as $t)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2 border">{{ $t->judul ?? '-' }}</td>
-                        <td class="px-4 py-2 border">{{ $t->nama ?? '-' }}</td>
-                        <td class="px-4 py-2 border">{{ $t->kelompok ?? '-' }}</td>
-                        <td class="px-4 py-2 text-center border">{{ $t->kelas->kelas ?? '-' }}</td>
-                        <td class="px-4 py-2 text-center border">{{ $t->mapel->mapel ?? '-' }}</td>
-                        <td class="px-4 py-2 text-center border">
+                        <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-2 border whitespace-nowrap">{{ $t->judul ?? '-' }}</td>
+                        <td class="px-4 py-2 border whitespace-nowrap">{{ $t->nama ?? '-' }}</td>
+                        <td class="px-4 py-2 border whitespace-nowrap">{{ $t->kelompok ?? '-' }}</td>
+                        <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $t->kelas->kelas ?? '-' }}</td>
+                        <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $t->mapel->mapel ?? '-' }}</td>
+                        <td class="px-4 py-2 text-center border whitespace-nowrap">
                             @if($t->file_path)
                                 <a href="{{ route('guru.view_file_tugas', $t->id) }}"
                                    class="px-4 py-1 text-white bg-blue-600 rounded hover:bg-blue-700">
@@ -108,22 +127,22 @@
         </table>
     </div>
 
-<!-- Script Konfirmasi Hapus Semua -->
-<script>
-    document.getElementById('hapusSemua').addEventListener('click', function () {
-        Swal.fire({
-            title: 'Yakin hapus semua?',
-            text: "Semua tugas akan dihapus permanen!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, hapus semua!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('formHapusSemua').submit();
-            }
+    <!-- Script Konfirmasi Hapus Semua -->
+    <script>
+        document.getElementById('hapusSemua').addEventListener('click', function () {
+            Swal.fire({
+                title: 'Hapus semua tugas ?',
+                text: "Semua tugas akan dihapus permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus semua!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('formHapusSemua').submit();
+                }
+            });
         });
-    });
-</script>
+    </script>

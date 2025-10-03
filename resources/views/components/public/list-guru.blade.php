@@ -1,7 +1,7 @@
 <!-- Tabel Data Guru -->
             <div>
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="mb-4 text-lg font-bold">Jumlah Jam Mengajar |  <span class="capitalize text-sky-900">{{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2><hr class="mb-4">
+                    <h2 class="mb-4 text-lg font-bold">Jumlah Jam Mengajar <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2><hr class="mb-4">
                 </div>
 
                 <!-- Search Box -->
@@ -26,19 +26,19 @@
                     <table class="w-full border border-collapse" id="guruTable">
                         <thead>
                             <tr class="bg-gray-100">
-                                <th class="w-12 px-4 py-2 text-center border">No</th>
-                                <th class="px-4 py-2 border">Nama Lengkap</th>
-                                <th class="px-4 py-2 border">Email Guru</th>
-                                <th class="px-4 py-2 border">Jumlah Jam</th>
+                                <th class="w-12 px-4 py-2 text-center border whitespace-nowrap">No</th>
+                                <th class="px-4 py-2 border whitespace-nowrap">Nama Lengkap</th>
+                                <th class="px-4 py-2 border whitespace-nowrap">Email Guru</th>
+                                <th class="px-4 py-2 border whitespace-nowrap">Jumlah Jam</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($guru ?? [] as $g)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
-                                <td class="px-4 py-2 border">{{ $g->name }}</td>
-                                <td class="px-4 py-2 border">{{ $g->email }}</td>
-                                <td class="px-4 py-2 text-center border">{{ $guruJam[$g->id] ?? 0 }}</td>
+                                <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
+                                <td class="px-4 py-2 border whitespace-nowrap">{{ $g->name }}</td>
+                                <td class="px-4 py-2 border whitespace-nowrap">{{ $g->email }}</td>
+                                <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $guruJam[$g->id] ?? 0 }}</td>
                             </tr>
                             @empty
                             <tr>

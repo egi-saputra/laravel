@@ -5,9 +5,9 @@
 
         <!-- Tombol Hapus Semua -->
         <div>
-            <button id="hapusSemua" type="button"
-                class="px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
-                <i class="bi bi-trash me-1"></i> Hapus Semua
+            <button id="hapusSemua" type="button" class="flex items-center px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
+                <i class="bi bi-trash me-1"></i>
+                <p>Hapus <span class="hidden sm:inline">Semua</span></p>
             </button>
 
             <form id="formHapusSemua"
@@ -124,7 +124,7 @@
                                 <div x-show="showModal"
                                      x-cloak
                                      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                    <div class="w-full max-w-md p-6 text-left bg-white rounded shadow-lg">
+                                    <div class="w-full max-w-md p-6 mx-4 text-left bg-white rounded shadow-lg md:mx-0">
                                         <h2 class="mb-4 text-lg font-bold text-center">Edit Materi</h2>
                                         <form action="{{ route('guru.materi.update', $m->id) }}"
                                               method="POST"
@@ -141,12 +141,6 @@
                                                        class="w-full px-3 py-2 border rounded"
                                                        required>
                                             </div>
-
-                                            {{-- <div>
-                                                <label class="block font-medium">Materi</label>
-                                                <textarea name="materi"
-                                                          class="w-full px-3 py-2 border rounded">{{ $m->materi }}</textarea>
-                                            </div> --}}
 
                                             <div>
                                                 <label class="block font-medium">Kelas</label>
@@ -221,9 +215,9 @@
     // Konfirmasi hapus semua
     document.getElementById('hapusSemua').addEventListener('click', function () {
         Swal.fire({
-            title: 'Yakin hapus semua?',
+            title: 'Hapus Daftar Materi?',
             text: "Semua materi akan dihapus permanen!",
-            icon: 'warning',
+            icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',

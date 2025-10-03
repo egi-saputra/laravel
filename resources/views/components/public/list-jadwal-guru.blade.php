@@ -1,9 +1,9 @@
 <div class="p-4 bg-white rounded shadow">
     <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold">Daftar Jadwal Mengajar</h2>
+        <h2 class="w-full mr-0 text-lg font-bold md:mr-4 md:w-auto">Daftar Jadwal Mengajar</h2>
         <div class="flex gap-2">
             <button id="exportPDF" type="button" class="flex items-center px-3 py-2 text-white bg-red-800 rounded hover:bg-red-900">
-                <i class="bi bi-file-earmark-pdf-fill me-1"></i> Export PDF
+                <i class="bi bi-file-earmark-pdf-fill me-1"></i> Export
             </button>
         </div>
     </div>
@@ -37,14 +37,14 @@
         <!-- Filter Kelas -->
         <input type="text" name="kelas" placeholder="Filter Kelas" value="{{ request('kelas') }}" class="px-3 py-2 border rounded">
 
-        <div class="flex gap-2">
+        <div class="flex justify-end gap-2 md:justify-start">
             <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"><i class="bi bi-funnel"></i> Filter</button>
             <a href="{{ route('public.jadwal_guru.index') }}"
             class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800"><i class="bi bi-arrow-clockwise"></i> Reset</a>
         </div>
     </form>
 
-    <div class="overflow-x-auto md:overflow-x-visible">
+    <div class="mt-4 overflow-x-auto md:overflow-x-visible md:mt-0">
         <table class="w-full border border-collapse" id="jadwalGuruTable">
             {{-- <thead>
                 <tr class="bg-gray-100">

@@ -6,8 +6,8 @@
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
-        <aside class="sticky z-10 w-full top-16 md:static md:w-auto md:ml-6 md:mt-6 md:h-screen md:top-0">
-            <!-- Sidebar -->
+        <!-- Sidebar -->
+        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
             <x-sidebar />
         </aside>
 
@@ -15,7 +15,7 @@
         <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
             <!-- Form Tambah Siswa + Upload Excel -->
             <div class="p-4 bg-white rounded shadow">
-                <h1 class="mb-4 text-lg font-bold">Tambahkan Data Siswa Untuk Kelasmu!</h1>
+                <h1 class="mb-4 text-lg font-bold">Tambahkan Data Siswa <span class="hidden md:inline-block">Untuk Kelasmu!</span></h1>
 
                 <!-- Form Input Manual -->
                 <form action="{{ route('guru.walas.store') }}" method="POST">
@@ -27,7 +27,7 @@
                             <input type="text" value="{{ $kelas->kelas ?? '-' }}"
                                 class="w-full px-3 py-2 mb-2 bg-gray-100 border rounded" readonly disabled>
                             <input type="hidden" name="kelas_id" value="{{ $kelas->id ?? '' }}">
-                            <small class="mb-4 text-red-600">* Kolom kelas auto generate berdasarkan kelas yang diwalikan!</small>
+                            <small class="mb-4 text-red-600">* Kolom kelas auto generate <span class="hidden md:inline-block">berdasarkan kelas yang diwalikan!</span></small>
                         </div>
                     </div>
 
@@ -73,8 +73,10 @@
                     </button>
                 </form>
 
+                <hr class="my-6">
+
                 <!-- Tombol Upload & Export -->
-                <div class="flex flex-wrap items-center justify-end gap-3 mt-4">
+                {{-- <div class="flex flex-wrap items-center justify-end gap-3 mt-4">
                     <!-- Form Import -->
                     <form action="{{ route('guru.walas.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2">
                         @csrf
@@ -91,19 +93,40 @@
                     class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800">
                         <i class="bi bi-download me-1"></i> Download Template
                     </a>
+                </div> --}}
+
+                <!-- Tombol Upload & Export -->
+                <div class="flex flex-col items-end gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                    {{-- Import User --}}
+                    <form action="{{ route('guru.walas.import') }}" method="POST" enctype="multipart/form-data"
+                        class="flex flex-col w-full gap-2 sm:flex-row sm:w-auto sm:items-center">
+                        @csrf
+                        <input type="file" name="file" required accept=".xls,.xlsx,.csv"
+                            class="w-full p-2 text-sm border rounded focus:ring focus:ring-green-200 sm:w-auto">
+                        <button type="submit"
+                                class="w-full px-4 py-2 font-semibold text-white bg-green-700 rounded shadow sm:w-auto hover:bg-green-800">
+                            <i class="bi bi-file-earmark-excel me-1"></i> Import Excel
+                        </button>
+                    </form>
+
+                    {{-- Export Template --}}
+                    <a href="{{ route('guru.walas.template') }}"
+                    class="w-full px-4 py-2 font-semibold text-center text-white rounded shadow bg-slate-700 hover:bg-slate-800 sm:w-auto sm:ml-2">
+                        <i class="bi bi-download me-1"></i> Download Template
+                    </a>
                 </div>
             </div>
 
             <!-- Tabel Data Siswa -->
             <div class="p-4 bg-white rounded shadow">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-bold">Daftar Siswa</h2>
+                    <h2 class="text-lg font-bold">Daftar Siswa ( {{ $kelas->kelas ?? '' }} )</h2>
 
                     <!-- Tombol Hapus Semua -->
                     <div>
-                        <button id="hapusSemua" type="button"
-                            class="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700">
-                            <i class="bi bi-trash me-1"></i> Hapus Semua
+                        <button id="hapusSemua" type="button" class="flex items-center px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
+                            <i class="bi bi-trash me-1"></i>
+                            <p>Hapus <span class="hidden sm:inline">Semua</span></p>
                         </button>
                         <form id="formHapusSemua" action="{{ route('guru.walas.destroyAll') }}" method="POST" class="hidden">
                             @csrf
@@ -136,7 +159,7 @@
                             <tr class="bg-gray-100">
                                 <th class="w-12 px-4 py-2 text-center border">No</th>
                                 <th class="px-4 py-2 border whitespace-nowrap">Nama Lengkap</th>
-                                <th class="px-4 py-2 border whitespace-nowrap">Email</th>
+                                <th class="px-4 py-2 border whitespace-nowrap">Email Siswa</th>
                                 <th class="px-4 py-2 text-center border whitespace-nowrap">NIS</th>
                                 <th class="px-4 py-2 text-center border whitespace-nowrap">NISN</th>
                                 <th class="px-4 py-2 text-center border whitespace-nowrap">Kelas</th>
@@ -183,7 +206,7 @@
                                         <!-- Modal Edit -->
                                         <div x-show="showModal" x-cloak
                                             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                            <div class="w-full max-w-md p-6 bg-white rounded shadow-lg">
+                                            <div class="w-full max-w-md p-6 mx-4 bg-white rounded shadow-lg md:mx-0">
                                                 <h2 class="mb-4 text-lg font-bold">Edit Siswa</h2>
                                                 <form action="{{ route('guru.walas.update', $s->id) }}" method="POST" class="space-y-3">
                                                     @csrf
@@ -194,22 +217,22 @@
                                                             class="w-full px-3 py-2 border rounded" required>
                                                     </div>
                                                     <div>
-                                                        <label class="block font-medium text-left">Email</label>
+                                                        <label class="block font-medium text-left">Email Siswa</label>
                                                         <input type="email" name="email" value="{{ $s->user->email ?? '' }}"
                                                             class="w-full px-3 py-2 border rounded" required>
                                                     </div>
                                                     <div>
-                                                        <label class="block font-medium text-left">NIS</label>
+                                                        <label class="block font-medium text-left">Nomor NIS</label>
                                                         <input type="text" name="nis" value="{{ $s->nis ?? '' }}" class="w-full px-3 py-2 border rounded" minlength="4">
                                                     </div>
                                                     <div>
-                                                        <label class="block font-medium text-left">NISN</label>
+                                                        <label class="block font-medium text-left">Nomor NISN</label>
                                                         <input type="text" name="nisn" value="{{ $s->nisn ?? '' }}" class="w-full px-3 py-2 border rounded" minlength="10" maxlength="10">
                                                     </div>
 
                                                     <!-- Dropdown Jabatan -->
                                                     <div>
-                                                        <label class="block font-medium text-left">Jabatan</label>
+                                                        <label class="block font-medium text-left">Struktur Kelas</label>
                                                         <select name="jabatan_siswa" class="w-full px-3 py-2 border rounded">
                                                             <option value="Tidak Ada" {{ $s->jabatan_siswa == 'Tidak Ada' ? 'selected' : '' }}>Tidak Ada</option>
                                                             <option value="Sekretaris" {{ $s->jabatan_siswa == 'Sekretaris' ? 'selected' : '' }}>Sekretaris</option>

@@ -119,7 +119,7 @@
         <div x-data="{ open: false, showMenu: false }">
 
             <!-- SIDEBAR -->
-            <div class="z-30 w-full m-0 bg-white border-none rounded-md shadow-md md:border-r md:rounded sm:pb-5">
+            <div class="w-full m-0 bg-white border-none rounded-md shadow-md md:border-r md:rounded sm:pb-5">
 
                 {{-- SIDEBAR PROFIL --}}
                 <div class="flex flex-col items-center p-4 pt-4">
@@ -165,18 +165,18 @@
                 </div>
 
                 <!-- SIDEBAR MENU -->
-                {{-- <div
+                <div
                     x-ref="menu"
                     x-bind:style="showMenu ? 'max-height:' + $refs.menu.scrollHeight + 'px' : 'max-height:0'"
                     class="pb-4 mx-8 overflow-hidden transition-all duration-500 ease-in-out
                         md:!max-h-none md:overflow-visible md:block"
-                > --}}
-                <div
-                    x-ref="menu"
-                    :class="showMenu ? 'opacity-100' : 'opacity-0 hidden'"
-                    class="pb-4 mx-8 transition-all duration-500 ease-in-out md:opacity-100 md:block"
-                    x-cloak
                 >
+                {{-- <div
+                    x-ref="menu"
+                    :class="showMenu ? 'max-height:' : 'opacity-0 hidden'"
+                    class="pb-4 mx-8 transition-all duration-500 ease-in-out"
+                    x-cloak
+                > --}}
                 {{-- USER MANAGEMENT --}}
                 @isset($menus)
                     <hr class="w-full mb-2">
