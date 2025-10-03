@@ -78,18 +78,20 @@
                     <table class="w-full border border-collapse">
                         <thead class="bg-gray-100">
                             <tr>
-                                <th class="px-4 py-2 border">Nama</th>
-                                <th class="px-4 py-2 border">Email</th>
-                                <th class="px-4 py-2 border">Role</th>
+                                <th class="w-12 px-4 py-2 text-center border">No</th>
+                                <th class="px-4 py-2 text-left border md:text-center ">Nama User</th>
+                                <th class="px-4 py-2 text-left border md:text-center">Email Addres</th>
+                                <th class="px-4 py-2 text-left border md:text-center">Role</th>
                                 <th class="px-4 py-2 border">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($allUsers as $user)
                                 <tr>
+                                    <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
                                     <td class="px-4 py-2 border whitespace-nowrap">{{ $user->name }}</td>
                                     <td class="px-4 py-2 border whitespace-nowrap">{{ $user->email }}</td>
-                                    <td class="px-4 py-2 text-center capitalize border whitespace-nowrap">{{ $user->role }}</td>
+                                    <td class="px-4 py-2 text-left capitalize border md:text-center whitespace-nowrap">{{ $user->role }}</td>
                                     <td class="px-4 py-2 border">
                                         <div class="flex justify-center gap-2">
                                             <button

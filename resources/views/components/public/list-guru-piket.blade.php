@@ -7,15 +7,15 @@
                     <thead>
                         <tr class="bg-gray-100">
                             <th class="w-16 px-4 py-2 text-center border whitespace-nowrap">No</th>
-                            <th class="px-4 py-2 text-center border whitespace-nowrap">Hari</th>
-                            <th class="px-4 py-2 border whitespace-nowrap">Petugas Piket</th>
+                            <th class="px-4 py-2 text-left border whitespace-nowrap md:text-center">Hari</th>
+                            <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Petugas Piket</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($jadwalPiket ?? [] as $j)
                         <tr>
                             <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
-                            <td class="px-4 py-2 pl-4 border whitespace-nowrap">{{ $j->hari }}</td>
+                            <td class="px-4 py-2 pl-4 text-left border md:text-center whitespace-nowrap">{{ $j->hari }}</td>
                             <td class="px-4 py-2 pl-4 border whitespace-nowrap">{{ $j->user->name ?? '-' }}</td>
                         </tr>
                         @empty

@@ -58,7 +58,6 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
             <option value="">Semua Hari</option>
             @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $h)
                 <option value="{{ $h }}" {{ request('hari')==$h?'selected':'' }}>{{ $h }}</option>
-                {{-- <option>{{ $h }}</option> --}}
             @endforeach
         </select>
 
@@ -74,7 +73,7 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
         {{-- <input type="text" name="kelas" placeholder="Filter Kelas" class="px-3 py-2 border rounded"> --}}
 
         {{-- <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">Filter</button> --}}
-        <div class="flex gap-2">
+        <div class="flex justify-end gap-2 md:justify-start">
             <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"><i class="bi bi-funnel"></i> Filter</button>
             <a href="{{ route('admin.jadwal_guru.index') }}"
             class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800"><i class="bi bi-arrow-clockwise"></i> Reset</a>
@@ -86,18 +85,18 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
             <thead>
                 <tr class="bg-gray-100">
                     <th class="px-4 py-2 border whitespace-nowrap">Hari</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Sesi</th>
+                    <th class="px-4 py-2 text-center border whitespace-nowrap">Sesi</th>
                     <th class="px-4 py-2 border whitespace-nowrap">Jam</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Nama Guru</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Ruang Kelas</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Guru</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Ruang Kelas</th>
                     <th class="px-4 py-2 text-center border"></th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($jadwal as $j)
                 <tr>
-                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $j->hari }}</td>
-                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $j->sesi }}</td>
+                    <td class="px-4 py-2 text-left border md:text-center whitespace-nowrap">{{ $j->hari }}</td>
+                    <td class="px-4 py-2 text-left border md:text-center whitespace-nowrap">{{ $j->sesi }}</td>
                     <td class="px-4 py-2 text-center border whitespace-nowrap">
                         {{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }}
                     </td>
@@ -129,7 +128,7 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
 
                             <!-- Modal Edit -->
                             <div x-show="showModal" x-cloak
-                                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                class="fixed inset-0 z-50 flex items-center justify-center mx-4 bg-opacity-50 bg-none md:bg-black md:mx-0">
                                 <div class="w-full max-w-md p-6 bg-white rounded shadow-lg">
                                     <h2 class="mb-4 text-lg font-bold">Edit Jadwal Guru</h2>
                                     <form action="{{ route('admin.jadwal_guru.update', $j->id) }}" method="POST" class="space-y-3">
@@ -167,8 +166,10 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
                                         <div>
                                             <label class="block font-medium">Guru</label>
                                             <select name="guru_id" class="w-full px-3 py-2 border rounded" required>
-                                                @foreach($guru as $g)
-                                                    <option value="{{ $g->id }}">{{ $g->user->name ?? $g->nama }} ({{ $g->kode }})</option>
+                                                @foreach($guru->sortBy(fn($g) => $g->user->name ?? $g->nama) as $g)
+                                                    <option value="{{ $g->id }}">
+                                                        {{ $g->user->name ?? $g->nama }} ({{ $g->kode }})
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>

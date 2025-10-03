@@ -25,7 +25,7 @@
                             <input type="text" name="kode" class="w-full px-3 py-2 mb-4 border rounded" required>
                         </div>
                         <div>
-                            <label class="block font-medium">Nama Lengkap Guru + Gelar (opsional)</label>
+                            <label class="block font-medium">Nama Guru</label>
                             <input type="text" name="nama" class="w-full px-3 py-2 mb-4 border rounded" required>
                             @error('name')
                                 <p class="text-red-600">{{ $message }}</p>
@@ -45,9 +45,11 @@
                         <p class="pl-1 mt-4 mb-2 text-xs text-red-600">Keterangan :</p>
                         <p class="pl-1 mb-6 text-xs text-gray-500">Password akan terisi otomatis secara default dengan <span class="italic font-semibold text-slate-700"> "password"</span></p>
 
-                        <button type="submit" class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
-                            <i class="bi bi-save"></i> Simpan
-                        </button>
+                        <div class="flex justify-end md:justify-start">
+                            <button type="submit" class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                                <i class="bi bi-save"></i> Simpan
+                            </button>
+                        </div>
                     </form>
 
                     <hr class="my-6">
@@ -76,21 +78,6 @@
 
             <!-- Tabel Data Guru -->
             <div class="p-4 bg-white rounded shadow">
-                {{-- <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-bold">Daftar Guru</h2>
-
-                    <!-- Tombol Hapus Semua -->
-                    <div>
-                        <button id="hapusSemua" type="button"
-                            class="px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
-                            <i class="bi bi-trash me-1"></i> Hapus Semua
-                        </button>
-                        <form id="formHapusSemua" action="{{ route('admin.guru.destroyAll') }}" method="POST" class="hidden">
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                    </div>
-                </div> --}}
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-lg font-bold">Daftar Guru</h2>
 
@@ -130,9 +117,9 @@
                         <thead>
                             <tr class="bg-gray-100">
                                 {{-- <th class="w-12 px-4 py-2 text-center border whitespace-nowrap">No</th> --}}
-                                <th class="px-4 py-2 text-center border whitespace-nowrap">Kode Guru</th>
-                                <th class="px-4 py-2 border whitespace-nowrap">Nama Lengkap</th>
-                                <th class="px-4 py-2 border whitespace-nowrap">Email Guru</th>
+                                <th class="px-4 py-2 text-center border whitespace-nowrap">Kode</th>
+                                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Lengkap</th>
+                                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Email Addres</th>
                                 <th class="w-24 px-4 py-2 text-center border whitespace-nowrap"></th>
                             </tr>
                         </thead>
@@ -177,7 +164,7 @@
 
                                         <!-- Modal Edit -->
                                         <div x-show="showModal" x-cloak
-                                            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                            class="fixed inset-0 z-50 flex items-center justify-center mx-4 bg-opacity-50 bg-none md:bg-black md:mx-0">
                                             <div class="w-full max-w-md p-6 bg-white rounded shadow-lg">
                                                 <h2 class="mb-4 text-lg font-bold">Edit Guru</h2>
                                                 <form action="{{ route('admin.guru.updateUser', $g->id) }}" method="POST" class="space-y-3">

@@ -1,24 +1,6 @@
-<div class="p-4 bg-white rounded shadow">
-    {{-- <div class="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
-        <!-- Judul -->
-        <h2 class="w-full mb-2 text-lg font-bold sm:w-auto sm:mb-0">Jadwal Tugas Piket Guru</h2>
-
-        <!-- Tombol Hapus -->
-        <div class="flex justify-end sm:justify-start">
-            <button id="hapusSemua" type="button"
-                    class="px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
-                <i class="bi bi-trash me-1"></i> Hapus Semua
-            </button>
-        </div>
-
-        <!-- Form Hapus -->
-        <form id="formHapusSemua" action="{{ route('admin.jadwal.destroyAll') }}" method="POST" class="hidden">
-            @csrf
-            @method('DELETE')
-        </form>
-    </div> --}}
+<div>
     <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold">Jadwal Tugas Piket Guru</h2>
+        <h2 class="text-lg font-bold">Jadwal Petugas Piket</h2>
 
         <div class="flex gap-2">
             <button id="hapusSemua" type="button" class="flex items-center px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
@@ -38,8 +20,8 @@
             <thead>
                 <tr class="bg-gray-100">
                     <th class="w-16 px-4 py-2 text-center border whitespace-nowrap">No</th>
-                    <th class="px-4 py-2 text-center border whitespace-nowrap">Hari</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Petugas Piket</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Hari</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Petugas Piket</th>
                     <th class="px-4 py-2 text-center border"></th>
                 </tr>
             </thead>
@@ -47,7 +29,7 @@
                 @forelse ($jadwalPiket ?? [] as $j)
                 <tr>
                     <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
-                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $j->hari }}</td>
+                    <td class="px-4 py-2 text-left border md:text-center whitespace-nowrap">{{ $j->hari }}</td>
                     <td class="px-4 py-2 border whitespace-nowrap">{{ $j->guru->user->name ?? '-' }}</td>
                     <td class="px-4 py-2 text-center border ">
                         <div x-data="{ open: false, showModal: false }" class="relative inline-block">
@@ -78,13 +60,13 @@
                             <!-- Modal Edit -->
                             <div x-show="showModal" x-cloak
                                 class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                <div class="w-full max-w-md p-6 bg-white rounded shadow-lg">
-                                    <h2 class="mb-4 text-lg font-bold">Edit Jadwal Piket</h2>
+                                <div class="w-full max-w-md p-6 mx-4 bg-white rounded shadow-lg md:mx-0">
+                                    <h2 class="mb-4 text-lg font-bold text-left">Edit Jadwal Piket</h2>
                                     <form action="{{ route('admin.jadwal.update', $j->id) }}" method="POST" class="space-y-3">
                                         @csrf
                                         @method('PUT')
                                         <div>
-                                            <label class="block font-medium">Hari</label>
+                                            <label class="block font-medium text-left">Hari</label>
                                             <select name="hari" class="w-full px-3 py-2 border rounded" required>
                                                 @foreach($hariList as $hari)
                                                     <option value="{{ $hari }}" {{ $j->hari == $hari ? 'selected' : '' }}>{{ $hari }}</option>
@@ -92,7 +74,7 @@
                                             </select>
                                         </div>
                                         <div>
-                                            <label class="block font-medium">Petugas</label>
+                                            <label class="block font-medium text-left">Petugas</label>
                                             <select name="petugas" class="w-full px-3 py-2 border rounded" required>
                                                 @foreach($guru as $g)
                                                     <option value="{{ $g->id }}" {{ $j->petugas == $g->id ? 'selected' : '' }}>

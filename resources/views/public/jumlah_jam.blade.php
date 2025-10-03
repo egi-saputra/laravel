@@ -19,7 +19,7 @@
             </div>
             <div class="px-8 py-4 overflow-x-auto bg-white rounded shadow">
                 <!-- Tabel Data Guru dan Jumlah Jam -->
-                <x-public.list-guru :guru="$guru" :guruJam="$guruJam" />
+                <x-public.list-jumlah-jam-guru :guru="$guru" :guruJam="$guruJam" />
             </div>
         </main>
     </div>

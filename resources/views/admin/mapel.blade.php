@@ -32,7 +32,7 @@
                         <label class="block font-medium">Guru Pengajar</label>
                         <select name="guru_id" class="w-full px-3 py-2 border rounded" required>
                             <option value="">-- Pilih Guru --</option>
-                            @foreach(\App\Models\DataGuru::with('user')->get() as $guru)
+                            @foreach(\App\Models\DataGuru::with('user')->get()->sortBy(fn($g) => $g->user->name) as $guru)
                                 <option value="{{ $guru->id }}">
                                     {{ $guru->user->name ?? '-' }}
                                 </option>
@@ -104,8 +104,8 @@
                         <thead>
                             <tr class="bg-gray-100">
                                 <th class="px-4 py-2 text-center border whitespace-nowrap">No</th>
-                                <th class="px-4 py-2 border whitespace-nowrap">Nama Mapel</th>
-                                <th class="px-4 py-2 border whitespace-nowrap">Guru Pengampu</th>
+                                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Mapel</th>
+                                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Guru Pengampu</th>
                                 <th class="px-4 py-2 text-center border whitespace-nowrap"></th>
                             </tr>
                         </thead>
@@ -138,7 +138,7 @@
                                         <!-- Modal Edit -->
                                         <div x-show="showModal" x-cloak
                                             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                            <div class="w-full max-w-md p-6 bg-white rounded shadow-lg">
+                                            <div class="w-full max-w-md p-6 mx-4 bg-white rounded shadow-lg md:mx-0">
                                                 <h2 class="mb-4 text-lg font-bold">Edit Mata Pelajaran</h2>
                                                 <form action="{{ route('admin.mapel.update', $m->id) }}" method="POST" class="space-y-3">
                                                     @csrf
@@ -149,7 +149,7 @@
                                                         <label class="block font-medium">Guru Pengajar</label>
                                                         <select name="guru_id" class="w-full px-3 py-2 border rounded" required>
                                                             <option value="">-- Pilih Guru --</option>
-                                                            @foreach(\App\Models\DataGuru::with('user')->get() as $guru)
+                                                            @foreach(\App\Models\DataGuru::with('user')->get()->sortBy(fn($g) => $g->user->name) as $guru)
                                                                 <option value="{{ $guru->id }}" {{ $m->guru_id == $guru->id ? 'selected' : '' }}>
                                                                     {{ $guru->user->name ?? '-' }}
                                                                 </option>

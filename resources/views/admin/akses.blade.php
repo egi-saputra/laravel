@@ -17,7 +17,7 @@
             <div class="p-6 bg-white rounded shadow">
                 <h1 class="inline-block mb-8 text-xl font-bold border-b-2 border-slate-600">Kelola Hak Akses Guru</h1>
                 <p class="font-semibold text-red-600">Keterangan:</p>
-                <p class="mb-4 text-sm text-slate-500">Fitur yang dapat diakses oleh guru yang berstatus <em class="text-green-600">Activated</em> ⇾ Detail Data Siswa, PPDB Online (Cooming Soon), Jurnal Online Prakerin (Cooming Soon).</p>
+                <p class="mb-4 text-sm text-slate-500">Fitur yang dapat diakses oleh guru yang berstatus <em class="text-green-600">Activated</em> ⇾ Detail Data Siswa, PPDB Online (Coming Soon), Jurnal Online Prakerin (Coming Soon).</p>
                 <div class="overflow-x-auto md:overflow-x-visible">
                     <table class="min-w-full border border-collapse border-gray-200 divide-y divide-gray-200">
                         <thead class="bg-gray-100">

@@ -19,44 +19,44 @@
         </div>
 
         <!-- Body -->
-        <div class="p-4 space-y-3 max-h-[60vh] overflow-y-auto">
-            <div class="grid grid-cols-[130px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
+        <div class="p-4 space-y-3 max-h-[60vh] overflow-x-auto md:overflow-x-visible overflow-y-auto">
+            <div class="grid md:grid-cols-[130px_10px_1fr] grid-cols-[110px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
                 <span class="font-semibold text-gray-600">Nama</span><span class="text-right">:</span>
                 <span class="pl-2" id="modalName"></span>
             </div>
-            <div class="grid grid-cols-[130px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
+            <div class="grid md:grid-cols-[130px_10px_1fr] grid-cols-[110px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
                 <span class="font-semibold text-gray-600">Tempat, Tanggal Lahir</span><span class="text-right">:</span>
                 <span class="pl-2" id="modalTempatTanggalLahir"></span>
             </div>
-            <div class="grid grid-cols-[130px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
+            <div class="grid md:grid-cols-[130px_10px_1fr] grid-cols-[110px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
                 <span class="font-semibold text-gray-600">Jenis Kelamin</span><span class="text-right">:</span>
                 <span class="pl-2" id="modalJenisKelamin"></span>
             </div>
-            <div class="grid grid-cols-[130px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
+            <div class="grid md:grid-cols-[130px_10px_1fr] grid-cols-[110px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
                 <span class="font-semibold text-gray-600">Agama</span><span class="text-right">:</span>
                 <span class="pl-2" id="modalAgama"></span>
             </div>
-            <div class="grid grid-cols-[130px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
+            <div class="grid md:grid-cols-[130px_10px_1fr] grid-cols-[110px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
                 <span class="font-semibold text-gray-600">Asal Sekolah</span><span class="text-right">:</span>
                 <span class="pl-2" id="modalAsalSekolah"></span>
             </div>
-            <div class="grid grid-cols-[130px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
+            <div class="grid md:grid-cols-[130px_10px_1fr] grid-cols-[110px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
                 <span class="font-semibold text-gray-600">Kelas</span><span class="text-right">:</span>
                 <span class="pl-2" id="modalKelas"></span>
             </div>
-            <div class="grid grid-cols-[130px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
+            <div class="grid md:grid-cols-[130px_10px_1fr] grid-cols-[110px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
                 <span class="font-semibold text-gray-600">Kejuruan</span><span class="text-right">:</span>
                 <span class="pl-2" id="modalKejuruan"></span>
             </div>
-            <div class="grid grid-cols-[130px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
+            <div class="grid md:grid-cols-[130px_10px_1fr] grid-cols-[110px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
                 <span class="font-semibold text-gray-600">NIS</span><span class="text-right">:</span>
                 <span class="pl-2" id="modalNIS"></span>
             </div>
-            <div class="grid grid-cols-[130px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
+            <div class="grid md:grid-cols-[130px_10px_1fr] grid-cols-[110px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
                 <span class="font-semibold text-gray-600">NISN</span><span class="text-right">:</span>
                 <span class="pl-2" id="modalNISN"></span>
             </div>
-            <div class="grid grid-cols-[130px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
+            <div class="grid md:grid-cols-[130px_10px_1fr] grid-cols-[110px_10px_1fr] items-center p-2 bg-gray-50 rounded-lg border">
                 <span class="font-semibold text-gray-600">Email</span><span class="text-right">:</span>
                 <span class="pl-2" id="modalEmail"></span>
             </div>

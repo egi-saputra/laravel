@@ -2,20 +2,27 @@
 <div id="detailModal" class="fixed inset-0 z-50 items-center justify-center hidden p-4">
     <div id="modalOverlay" class="fixed inset-0 bg-black bg-opacity-50"></div>
 
-    <div class="relative w-full max-w-4xl p-6 bg-white rounded-lg shadow-lg overflow-auto max-h-[80vh]">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold"><i class="bi bi-person-lines-fill"></i> Detail Data Siswa</h3>
-            <button id="closeModal" class="px-2 py-0 text-xl font-bold md:border md:rounded hover:text-slate-700 border-slate-400 text-slate-400 hover:border-slate-700">&times;</button>
-        </div>
+    {{-- <div class="relative w-full max-w-4xl p-6 bg-white rounded-lg shadow-lg overflow-auto max-h-[80vh]">
+        <div class="flex items-center justify-between mb-4"> --}}
+    <div class="relative w-full max-w-xl bg-white rounded-lg shadow-lg flex flex-col max-h-[80vh]">
 
+    <!-- Header sticky -->
+    <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-white border-b rounded-lg">
+        <h3 class="text-lg font-semibold"><i class="bi bi-person-lines-fill"></i> Detail Data Siswa</h3>
+        <button id="closeModal" class="px-2 py-0 text-xl font-bold md:border md:rounded hover:text-slate-700 border-slate-400 text-slate-400 hover:border-slate-700">&times;</button>
+    </div>
+
+    <!-- Scrollable body -->
+    <div class="flex-1 overflow-y-auto">
         <!-- Foto Profil -->
-        <div class="flex justify-center mb-4">
-            <img id="modalFoto" src="{{ asset('storage/default/avatar.jpeg') }}" class="object-cover border-4 border-white rounded-full shadow-md w-28 h-28">
+        <div class="flex justify-center p-4">
+            <img id="modalFoto" src="{{ asset('storage/default/avatar.jpeg') }}"
+                 class="object-cover border-4 border-white rounded-full shadow-md w-28 h-28">
         </div>
 
         <!-- Tabel Detail -->
-        <table class="w-full text-sm border border-collapse border-gray-300">
-            <tbody>
+        <table class="w-[calc(100%-2rem)] mx-auto text-sm border border-collapse border-gray-300">
+            <tbody class="break-words">
                 <tr class="bg-gray-100"><th class="w-1/4 p-2 text-left border border-gray-300">Nama Lengkap</th><td id="modalNama" class="p-2 border border-gray-300"></td></tr>
                 <tr><th class="p-2 text-left border border-gray-300">Asal Sekolah</th><td id="modalAsal" class="p-2 border border-gray-300"></td></tr>
                 <tr class="bg-gray-100"><th class="p-2 text-left border border-gray-300">Tempat, Tanggal Lahir</th><td id="modalTtl" class="p-2 border border-gray-300"></td></tr>
@@ -31,12 +38,16 @@
                 <tr class="bg-gray-100"><th class="p-2 text-left border border-gray-300">No. HP</th><td id="modalTelepon" class="p-2 border border-gray-300"></td></tr>
                 <tr><th class="p-2 text-left border border-gray-300">Kelas</th><td id="modalKelas" class="p-2 border border-gray-300"></td></tr>
                 <tr class="bg-gray-100"><th class="p-2 text-left border border-gray-300">Kejuruan</th><td id="modalKejuruan" class="p-2 border border-gray-300"></td></tr>
+                <tr class="bg-gray-100"><th class="p-2 text-left border border-gray-300">Email</th><td id="modalEmail" class="p-2 border border-gray-300"></td></tr>
             </tbody>
         </table>
+    </div>
 
-        <div class="flex justify-end mt-4">
-            <button id="closeModalFooter" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">Tutup</button>
-        </div>
+    <!-- Footer sticky di bawah -->
+    <div class="sticky bottom-0 z-10 flex justify-end p-4 bg-white border-t rounded-lg">
+        <button id="closeModalFooter" class="px-5 py-2 text-white rounded bg-sky-600 hover:bg-sky-700">
+            Tutup
+        </button>
     </div>
 </div>
 
@@ -61,6 +72,7 @@
     const modalTelepon = document.getElementById('modalTelepon');
     const modalKelas = document.getElementById('modalKelas');
     const modalKejuruan = document.getElementById('modalKejuruan');
+    const modalEmail = document.getElementById('modalEmail');
 
     const closeModal = document.getElementById('closeModal');
     const closeModalFooter = document.getElementById('closeModalFooter');
@@ -85,6 +97,7 @@
                 : '-';
             modalKelas.textContent = btn.dataset.kelas || '-';
             modalKejuruan.textContent = btn.dataset.kejuruan || '-';
+            modalEmail.textContent = btn.dataset.email || '-';
 
             modal.classList.remove('hidden');
             modal.classList.add('flex');

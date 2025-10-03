@@ -57,8 +57,8 @@
                             <label class="block font-medium">Guru</label>
                             <select name="guru_id" class="w-full px-3 py-2 border rounded" required>
                                 <option value="">-- Pilih Guru --</option>
-                                @foreach($guru as $g)
-                                    <option value="{{ $g->id }}">{{ $g->user->name ?? $g->nama }} ({{ $g->kode }})</option>
+                                @foreach($guru->sortBy(fn($g) => $g->user->name ?? $g->nama) as $g)
+                                    <option value="{{ $g->id }}">{{ $g->user->name ?? $g->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div class="flex justify-end md:justify-start">
                         <button type="submit" class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700"><i class="bi bi-save"></i>
                             Simpan
                         </button>
@@ -81,24 +81,6 @@
                 </form>
 
                 <hr class="my-6">
-
-                <!-- Tombol Upload & Export -->
-                {{-- <div class="flex flex-wrap items-center justify-end gap-3 mt-3">
-                    <form action="{{ route('admin.jadwal_guru.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2">
-                        @csrf
-                        <input type="file" name="file" required accept=".xls,.xlsx,.csv"
-                               class="px-3 py-2 text-sm border rounded cursor-pointer focus:outline-none focus:ring focus:border-blue-300">
-                        <button type="submit"
-                                class="flex items-center px-3 py-2 text-white bg-green-700 rounded hover:bg-green-800">
-                            <i class="bi bi-file-earmark-excel me-1"></i> Import Excel
-                        </button>
-                    </form>
-
-                    <a href="{{ route('admin.jadwal_guru.export') }}"
-                       class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800">
-                        <i class="bi bi-download me-1"></i> Download Template
-                    </a>
-                </div> --}}
 
                 <!-- Tombol Upload & Export -->
                 <div class="flex flex-col items-end gap-3 sm:flex-row sm:flex-wrap sm:items-center">

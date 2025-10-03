@@ -15,7 +15,8 @@
         <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
             <!-- Form Tambah Data Struktural -->
             <div class="p-4 bg-white rounded shadow">
-                <h2 class="mb-4 text-xl font-bold">Tambah Data Struktur Internal Sekolah</h2>
+                <h2 class="hidden mb-4 text-xl font-bold md:inline-block">Tambah Data Struktur Internal Sekolah</h2>
+                <h2 class="inline-block mb-4 text-xl font-bold md:hidden">Tambahkan Data Struktural</h2>
 
                 <form action="{{ route('admin.struktural.store') }}" method="POST">
                     @csrf
@@ -33,7 +34,7 @@
                         <label for="nama_gtk" class="block text-sm font-medium text-gray-700">Nama GTK</label>
                         <select name="nama_gtk" id="nama_gtk" class="w-full px-3 py-2 mt-1 border border-gray-300 rounded shadow-sm" required>
                             <option value="">-- Pilih Guru --</option>
-                            @foreach($gurus as $guru)
+                            @foreach($gurus->sortBy(fn($guru) => $guru->user->name ?? '') as $guru)
                                 <option value="{{ $guru->id }}" {{ old('nama_gtk') == $guru->id ? 'selected' : '' }}>
                                     {{ $guru->user->name ?? '-' }}
                                 </option>
@@ -42,7 +43,7 @@
                     </div>
 
                     <!-- Tombol Simpan -->
-                    <div class="flex justify-start mt-2">
+                    <div class="flex justify-end md:justify-start">
                         <button type="submit"
                                 class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
                             <i class="bi bi-check2-square"></i> Simpan

@@ -49,10 +49,12 @@
         </div>
 
         {{-- Tombol Simpan --}}
-        <button type="submit"
+        <div class="flex justify-end md:justify-start">
+            <button type="submit"
                 class="px-4 py-2 font-semibold text-white bg-blue-600 rounded shadow hover:bg-blue-700">
-            <i class="bi bi-save"></i> {{ $button ?? 'Simpan Data' }}
-        </button>
+                <i class="bi bi-save"></i> {{ $button ?? 'Simpan Data' }}
+            </button>
+        </div>
     </form>
 
     <hr class="my-6">

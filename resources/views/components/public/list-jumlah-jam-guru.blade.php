@@ -27,8 +27,8 @@
                         <thead>
                             <tr class="bg-gray-100">
                                 <th class="w-12 px-4 py-2 text-center border whitespace-nowrap">No</th>
-                                <th class="px-4 py-2 border whitespace-nowrap">Nama Lengkap</th>
-                                <th class="px-4 py-2 border whitespace-nowrap">Email Guru</th>
+                                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Lengkap</th>
+                                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Email Guru</th>
                                 <th class="px-4 py-2 border whitespace-nowrap">Jumlah Jam</th>
                             </tr>
                         </thead>

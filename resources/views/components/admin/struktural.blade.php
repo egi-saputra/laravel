@@ -9,8 +9,8 @@
             <thead>
                 <tr class="bg-gray-100">
                     <th class="px-4 py-2 text-center border whitespace-nowrap">No</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Jabatan</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Nama Lengkap</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Jabatan</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Lengkap</th>
                     <th class="px-4 py-2 text-center border"></th>
                 </tr>
             </thead>

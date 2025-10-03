@@ -1,6 +1,6 @@
 <div id="userEditModal"
      class="fixed inset-0 z-[9999] hidden bg-black bg-opacity-50 items-center justify-center">
-    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
+    <div class="w-full max-w-md p-6 mx-4 bg-white rounded-lg shadow-xl md:mx-0">
         <h3 class="mb-4 text-lg font-semibold">Edit User</h3>
 
         <form id="editForm" method="POST">
