@@ -26,8 +26,8 @@
             <thead class="text-sm md:text-base">
                 <tr class="bg-gray-100">
                     <th class="w-16 px-4 py-2 text-center border whitespace-nowrap">No</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Nama Ekskul</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Nama Pembina</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Ekskul</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Pembina</th>
                 </tr>
             </thead>
             <tbody class="text-sm md:text-base">

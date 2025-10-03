@@ -22,8 +22,8 @@
             <thead class="text-sm text-center md:text-base">
                 <tr class="bg-gray-100">
                     <th class="px-4 py-2 border whitespace-nowrap">No</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Nama Kelas</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Wali Kelas</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Kelas</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Wali Kelas</th>
                     <th class="px-4 py-2 border whitespace-nowrap">Jumlah Siswa</th>
                 </tr>
             </thead>

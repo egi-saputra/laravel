@@ -38,9 +38,9 @@
                         <thead class="text-sm bg-gray-100 md:text-base">
                             <tr>
                                 <th class="px-4 py-2 border whitespace-nowrap">No</th>
-                                <th class="px-4 py-2 border whitespace-nowrap">Program Kejuruan</th>
-                                <th class="px-4 py-2 border whitespace-nowrap">Kepala Program</th>
-                                <th class="px-4 py-2 border whitespace-nowrap">Jumlah Siswa</th>
+                                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Program Kejuruan</th>
+                                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Kepala Program</th>
+                                <th class="px-4 py-2 text-center border whitespace-nowrap">Jumlah Siswa</th>
                             </tr>
                         </thead>
                         <tbody class="text-sm md:text-base">
