@@ -15,8 +15,9 @@
             <div class="p-4 bg-white rounded shadow">
                 <h1 class="mb-4 text-lg font-bold">Form Input Data Diri Siswa</h1>
 
-                <form action="{{ route('siswa.data_diri.store') }}" method="POST" class="space-y-3">
+                <form action="{{ route('siswa.data_diri.update', $siswa->id) }}" method="POST" class="space-y-3">
                     @csrf
+                    @method('PUT')
 
                     <!-- Nama Lengkap & Tempat, Tanggal Lahir -->
                     <div class="grid grid-cols-2 gap-4">
