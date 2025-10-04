@@ -9,6 +9,8 @@
 /storage/*.log
 /storage/framework/*
 !/storage/framework/.gitignore
+/file-backup
+/backup-migrasi
 
 # Public build (Vite / Mix)
 public/build
