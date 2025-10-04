@@ -1,6 +1,6 @@
 {{-- Cara penggunaan : <x-data-kelas :kelas="$kelas" /> --}}
 
-<div class="p-4 bg-white rounded shadow">
+<div>
     <div class="flex items-center justify-between mb-4">
         <h2 class="text-lg font-semibold md:font-bold">Informasi Daftar Kelas</h2>
         {{-- Tombol Hapus Semua --}}
@@ -79,31 +79,30 @@
                                 {{-- Modal Edit --}}
                                 <div x-show="showModal" x-cloak
                                     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                    <div class="w-full max-w-md p-6 bg-white rounded shadow-lg">
+                                    <div class="w-full max-w-md p-6 mx-4 bg-white rounded shadow-lg md:mx-0">
                                         <h2 class="mb-4 text-lg font-bold">Edit Kelas</h2>
                                         <form action="{{ route('admin.kelas.update', $k->id) }}" method="POST" class="space-y-3">
                                             @csrf
                                             @method('PUT')
 
                                             <div>
-                                                <label class="block font-medium">Kode Kelas</label>
+                                                <label class="block font-medium text-left">Kode Kelas</label>
                                                 <input type="text" name="kode" value="{{ $k->kode }}"
                                                     class="w-full px-3 py-2 border rounded" required>
                                             </div>
 
                                             <div>
-                                                <label class="block font-medium">Nama Kelas</label>
+                                                <label class="block font-medium text-left">Nama Kelas</label>
                                                 <input type="text" name="kelas" value="{{ $k->kelas }}"
                                                     class="w-full px-3 py-2 border rounded" required>
                                             </div>
 
                                             <div>
-                                                <label class="block font-medium">Wali Kelas</label>
+                                                <label class="block font-medium text-left">Wali Kelas</label>
                                                 <select name="walas_id" class="w-full px-3 py-2 border rounded">
                                                     <option value="">-- Pilih Wali Kelas --</option>
-                                                    @foreach($guru as $g)
-                                                        <option value="{{ $g->id }}"
-                                                            {{ $k->walas_id == $g->id ? 'selected' : '' }}>
+                                                    @foreach($guru->sortBy(fn($g) => optional($g->user)->name ?? $g->nama) as $g)
+                                                        <option value="{{ $g->id }}" {{ $k->walas_id == $g->id ? 'selected' : '' }}>
                                                             {{ optional($g->user)->name ?? $g->nama }}
                                                         </option>
                                                     @endforeach

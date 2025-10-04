@@ -37,7 +37,7 @@
                         <label class="block font-medium">Wali Kelas</label>
                         <select name="walas_id" class="w-full px-3 py-2 border rounded" required>
                             <option value="">-- Pilih Wali Kelas --</option>
-                            @foreach($guru as $g)
+                            @foreach($guru->sortBy(fn($g) => optional($g->user)->name ?? $g->nama) as $g)
                                 <option value="{{ $g->id }}">
                                     {{ optional($g->user)->name ?? $g->nama }}
                                 </option>
@@ -45,10 +45,12 @@
                         </select>
                     </div>
 
-                    <button type="submit"
-                            class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
-                        <i class="bi bi-save"></i> Simpan
-                    </button>
+                    <div class="flex justify-end md:justify-start">
+                        <button type="submit"
+                                class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                            <i class="bi bi-save"></i> Simpan
+                        </button>
+                    </div>
                 </form>
 
                 <hr class="my-6">

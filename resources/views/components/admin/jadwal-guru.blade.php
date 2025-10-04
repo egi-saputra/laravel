@@ -128,15 +128,15 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
 
                             <!-- Modal Edit -->
                             <div x-show="showModal" x-cloak
-                                class="fixed inset-0 z-50 flex items-center justify-center mx-4 bg-opacity-50 bg-none md:bg-black md:mx-0">
-                                <div class="w-full max-w-md p-6 bg-white rounded shadow-lg">
+                                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                <div class="w-full max-w-md p-6 mx-4 bg-white rounded shadow-lg md:mx-0">
                                     <h2 class="mb-4 text-lg font-bold">Edit Jadwal Guru</h2>
                                     <form action="{{ route('admin.jadwal_guru.update', $j->id) }}" method="POST" class="space-y-3">
                                         @csrf
                                         @method('PUT')
 
                                         <div>
-                                            <label class="block font-medium">Hari</label>
+                                            <label class="block font-medium text-left">Hari</label>
                                             <select name="hari" class="w-full px-3 py-2 border rounded" required>
                                                 @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'] as $h)
                                                     <option value="{{ $h }}" {{ $j->hari == $h ? 'selected' : '' }}>{{ $h }}</option>
@@ -145,26 +145,26 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
                                         </div>
 
                                         <div>
-                                            <label class="block font-medium">Sesi</label>
+                                            <label class="block font-medium text-left">Sesi</label>
                                             <input type="text" name="sesi" value="{{ $j->sesi }}" class="w-full px-3 py-2 border rounded" required>
                                         </div>
 
                                         <div>
-                                            <label class="block font-medium">Jam Mulai</label>
+                                            <label class="block font-medium text-left">Jam Mulai</label>
                                             <input type="time" name="jam_mulai"
                                             value="{{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }}"
                                             class="w-full px-3 py-2 border rounded" step="60" required>
                                         </div>
 
                                         <div>
-                                            <label class="block font-medium">Jam Selesai</label>
+                                            <label class="block font-medium text-left">Jam Selesai</label>
                                             <input type="time" name="jam_selesai"
                                             value="{{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }}"
                                             class="w-full px-3 py-2 border rounded" step="60" required>
                                         </div>
 
                                         <div>
-                                            <label class="block font-medium">Guru</label>
+                                            <label class="block font-medium text-left">Guru</label>
                                             <select name="guru_id" class="w-full px-3 py-2 border rounded" required>
                                                 @foreach($guru->sortBy(fn($g) => $g->user->name ?? $g->nama) as $g)
                                                     <option value="{{ $g->id }}">
@@ -175,7 +175,7 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
                                         </div>
 
                                         <div>
-                                            <label class="block font-medium">Kelas</label>
+                                            <label class="block font-medium text-left">Kelas</label>
                                             <select name="kelas_id" class="w-full px-3 py-2 border rounded" required>
                                                 @foreach($kelas as $k)
                                                     <option value="{{ $k->id }}" {{ $j->kelas_id == $k->id ? 'selected' : '' }}>

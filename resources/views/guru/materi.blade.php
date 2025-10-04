@@ -51,7 +51,8 @@
                     </div>
 
                     <div class="overflow-x-auto md:overflow-x-visible">
-                        <x-forms-tinymce.tinymce-editor/>
+                        <label class="block mb-2 font-medium">Deskripsi / Isi Materi <small class="text-red-500">*</small></label>
+                        <x-forms-tinymce.tinymce-editor name="materi" />
                     </div>
 
                     <div>
@@ -63,10 +64,12 @@
                     <!-- user_id otomatis dari auth -->
                     <input type="hidden" name="user_id" value="{{ auth()->id() }}">
 
-                    <button type="submit"
-                        class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
-                        <i class="bi bi-save"></i> Simpan
-                    </button>
+                    <div class="flex justify-end md:justify-start">
+                        <button type="submit"
+                            class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                            <i class="bi bi-save"></i> Simpan
+                        </button>
+                    </div>
                 </form>
             </div>
 

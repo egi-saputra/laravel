@@ -1,4 +1,4 @@
-@php
+{{-- @php
     $role = auth()->user()->role;
     $routes = [
         'developer' => [
@@ -26,6 +26,41 @@
             ['label' => 'Kegiatan Saya', 'route' => 'user.activities'],
         ],
     ];
+@endphp --}}
+@php
+    $role = auth()->user()->role;
+    $routes = [
+        'developer' => [
+            ['label' => 'Dashboard', 'route' => 'dev.dashboard'],
+            ['label' => 'Informasi Sekolah', 'route' => 'public.informasi_sekolah.index'],
+            ['label' => 'Log Out', 'route' => 'logout', 'logout' => true], // tambah logout
+        ],
+        'admin' => [
+            ['label' => 'Dashboard', 'route' => 'admin.dashboard'],
+            ['label' => 'Profil Sekolah', 'route' => 'admin.profil_sekolah'],
+            ['label' => 'Log Out', 'route' => 'logout', 'logout' => true],
+        ],
+        'guru' => [
+            ['label' => 'Dashboard', 'label_mobile' => 'Dashboard', 'route' => 'guru.dashboard'],
+            ['label' => 'Informasi Sekolah', 'label_mobile' => 'Sekolah', 'route' => 'public.informasi_sekolah.index'],
+            ['label' => 'Log Out', 'route' => 'logout', 'logout' => true],
+        ],
+        'staff' => [
+            ['label' => 'Dashboard', 'label_mobile' => 'Dashboard', 'route' => 'staff.dashboard'],
+            ['label' => 'Informasi Sekolah', 'label_mobile' => 'Sekolah', 'route' => 'public.informasi_sekolah.index'],
+            ['label' => 'Log Out', 'route' => 'logout', 'logout' => true],
+        ],
+        'siswa' => [
+            ['label' => 'Dashboard', 'label_mobile' => 'Dashboard', 'route' => 'siswa.dashboard'],
+            ['label' => 'Informasi Sekolah', 'label_mobile' => 'Sekolah', 'route' => 'public.informasi_sekolah.index'],
+            ['label' => 'Log Out', 'route' => 'logout', 'logout' => true],
+        ],
+        'user' => [
+            ['label' => 'Dashboard', 'route' => 'user.dashboard'],
+            ['label' => 'Kegiatan Saya', 'route' => 'user.activities'],
+            ['label' => 'Log Out', 'route' => 'logout', 'logout' => true],
+        ],
+    ];
 @endphp
 
 <nav x-data="{ open: false }" class="sticky top-0 z-20 bg-white border-b border-gray-100 shadow-sm dark:bg-gray-800 dark:border-gray-700 md:static">
@@ -45,10 +80,27 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 border-b border-gray-100 sm:-my-px sm:ms-10 sm:flex dark:bg-gray-800 dark:border-gray-700">
-                    @foreach ($routes[$role] as $menu)
+                    {{-- @foreach ($routes[$role] as $menu)
                         <x-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])">
                             {{ __($menu['label']) }}
                         </x-nav-link>
+                    @endforeach --}}
+                    @foreach ($routes[$role] as $menu)
+                        @if (isset($menu['logout']) && $menu['logout'] === true)
+                            {{-- Logout: hanya tampil di mobile --}}
+                            <form method="POST" action="{{ route('logout') }}" class="sm:hidden">
+                                @csrf
+                                <x-nav-link :href="route('logout')"
+                                    onclick="event.preventDefault(); this.closest('form').submit();">
+                                    {{ __($menu['label']) }}
+                                </x-nav-link>
+                            </form>
+                        @else
+                            {{-- Normal menu --}}
+                            <x-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])">
+                                {{ __($menu['label']) }}
+                            </x-nav-link>
+                        @endif
                     @endforeach
                 </div>
             </div>
@@ -70,9 +122,15 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+                        @if (Auth::user()->role === 'guru')
+                            <x-dropdown-link :href="route('profile.password')">
+                                {{ __('Password') }}
+                            </x-dropdown-link>
+                        @else
+                            <x-dropdown-link :href="route('profile.edit')">
+                                {{ __('Profile') }}
+                            </x-dropdown-link>
+                        @endif
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -114,19 +172,51 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            @foreach ($routes[$role] as $menu)
+            {{-- @foreach ($routes[$role] as $menu)
                 <x-responsive-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])">
                     {{ __($menu['label']) }}
                 </x-responsive-nav-link>
+            @endforeach --}}
+            {{-- @foreach ($routes[$role] as $menu)
+                @if (isset($menu['logout']) && $menu['logout'] === true)
+                    <form method="POST" action="{{ route('logout') }}" class="sm:hidden">
+                        @csrf
+                        <x-responsive-nav-link :href="route('logout')"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
+                            {{ __($menu['label']) }}
+                        </x-responsive-nav-link>
+                    </form>
+                @else
+                    <x-responsive-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])">
+                        {{ __($menu['label']) }}
+                    </x-responsive-nav-link>
+                @endif
+            @endforeach --}}
+            @foreach ($routes[$role] as $menu)
+                @if (isset($menu['logout']) && $menu['logout'] === true)
+                    <form method="POST" action="{{ route('logout') }}" class="sm:hidden">
+                        @csrf
+                        <x-responsive-nav-link :href="route('logout')"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
+                            {{ __($menu['label']) }}
+                        </x-responsive-nav-link>
+                    </form>
+                @else
+                    <x-responsive-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])">
+                        {{ __($menu['label_mobile'] ?? $menu['label']) }}
+                    </x-responsive-nav-link>
+                @endif
             @endforeach
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+        {{-- <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
+                @if (Auth::user()->role !== 'guru')
+                    <x-responsive-nav-link :href="route('profile.edit')">
+                        {{ __('Profile') }}
+                    </x-responsive-nav-link>
+                @endif
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -136,7 +226,7 @@
                     </x-responsive-nav-link>
                 </form>
             </div>
-        </div>
+        </div> --}}
     </div>
 </nav>
 

@@ -122,77 +122,86 @@
 
                                 <!-- Modal Edit -->
                                 <div x-show="showModal"
-                                     x-cloak
-                                     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                    <div class="w-full max-w-md p-6 mx-4 text-left bg-white rounded shadow-lg md:mx-0">
-                                        <h2 class="mb-4 text-lg font-bold text-center">Edit Materi</h2>
-                                        <form action="{{ route('guru.materi.update', $m->id) }}"
-                                              method="POST"
-                                              enctype="multipart/form-data"
-                                              class="space-y-3">
-                                            @csrf
-                                            @method('PUT')
+                                    x-cloak
+                                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
 
-                                            <div>
-                                                <label class="block font-medium">Judul</label>
-                                                <input type="text"
-                                                       name="judul"
-                                                       value="{{ $m->judul }}"
-                                                       class="w-full px-3 py-2 border rounded"
-                                                       required>
-                                            </div>
+                                    <div class="relative w-full max-w-2xl p-6 mx-4 bg-white rounded shadow-lg">
+                                        <!-- Scrollable content -->
+                                        <div class="max-h-[80vh] overflow-y-auto pr-2">
+                                            <h2 class="mb-4 text-lg font-bold text-center">Edit Materi</h2>
+                                            <form action="{{ route('guru.materi.update', $m->id) }}"
+                                                method="POST"
+                                                enctype="multipart/form-data"
+                                                class="space-y-3">
+                                                @csrf
+                                                @method('PUT')
 
-                                            <div>
-                                                <label class="block font-medium">Kelas</label>
-                                                <select name="kelas_id"
+                                                <div>
+                                                    <label class="block font-medium text-left">Judul</label>
+                                                    <input type="text"
+                                                        name="judul"
+                                                        value="{{ $m->judul }}"
                                                         class="w-full px-3 py-2 border rounded"
                                                         required>
-                                                    <option value="">-- Pilih Kelas --</option>
-                                                    @foreach(\App\Models\DataKelas::all() as $kelas)
-                                                        <option value="{{ $kelas->id }}"
-                                                            {{ $m->kelas_id == $kelas->id ? 'selected' : '' }}>
-                                                            {{ $kelas->kelas }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                                </div>
 
-                                            <div>
-                                                <label class="block font-medium">Mata Pelajaran</label>
-                                                <select name="mapel_id"
-                                                        class="w-full px-3 py-2 border rounded"
-                                                        required>
-                                                    <option value="">-- Pilih Mata Pelajaran --</option>
-                                                    @foreach(\App\Models\DataMapel::all() as $mapel)
-                                                        <option value="{{ $mapel->id }}"
-                                                            {{ $m->mapel_id == $mapel->id ? 'selected' : '' }}>
-                                                            {{ $mapel->mapel }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                                <div>
+                                                    <label class="block font-medium text-left">Kelas</label>
+                                                    <select name="kelas_id"
+                                                            class="w-full px-3 py-2 border rounded"
+                                                            required>
+                                                        <option value="">-- Pilih Kelas --</option>
+                                                        @foreach(\App\Models\DataKelas::all() as $kelas)
+                                                            <option value="{{ $kelas->id }}"
+                                                                {{ $m->kelas_id == $kelas->id ? 'selected' : '' }}>
+                                                                {{ $kelas->kelas }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
-                                            <div>
-                                                <label class="block font-medium">Upload File (opsional)</label>
-                                                <input type="file" name="file"
-                                                       class="w-full px-3 py-2 border rounded">
-                                                <small class="text-left text-gray-500">
-                                                    Biarkan kosong jika tidak ingin ganti file.
-                                                </small>
-                                            </div>
+                                                <div>
+                                                    <label class="block font-medium text-left">Mata Pelajaran</label>
+                                                    <select name="mapel_id"
+                                                            class="w-full px-3 py-2 border rounded"
+                                                            required>
+                                                        <option value="">-- Pilih Mata Pelajaran --</option>
+                                                        @foreach(\App\Models\DataMapel::all() as $mapel)
+                                                            <option value="{{ $mapel->id }}"
+                                                                {{ $m->mapel_id == $mapel->id ? 'selected' : '' }}>
+                                                                {{ $mapel->mapel }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
-                                            <div class="flex justify-end gap-2">
-                                                <button type="button"
-                                                        @click="showModal = false"
-                                                        class="px-4 py-2 text-gray-700 bg-gray-200 rounded hover:bg-gray-300">
-                                                    Batal
-                                                </button>
-                                                <button type="submit"
-                                                        class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
-                                                    Simpan
-                                                </button>
-                                            </div>
-                                        </form>
+                                                <div>
+                                                    <label class="block font-medium text-left">Isi Materi</label>
+                                                    <x-forms-tinymce.tinymce-editor name="materi" :value="$m->materi" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block font-medium text-left">Upload File (opsional)</label>
+                                                    <input type="file" name="file"
+                                                        class="w-full px-3 py-2 border rounded">
+                                                    <small class="text-left text-gray-500">
+                                                        Biarkan kosong jika tidak ingin ganti file.
+                                                    </small>
+                                                </div>
+
+                                                <div class="flex justify-end gap-2 pt-4">
+                                                    <button type="button"
+                                                            @click="showModal = false"
+                                                            class="px-4 py-2 text-gray-700 bg-gray-200 rounded hover:bg-gray-300">
+                                                        Batal
+                                                    </button>
+                                                    <button type="submit"
+                                                            class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                                                        Simpan
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -164,8 +164,8 @@
 
                                         <!-- Modal Edit -->
                                         <div x-show="showModal" x-cloak
-                                            class="fixed inset-0 z-50 flex items-center justify-center mx-4 bg-opacity-50 bg-none md:bg-black md:mx-0">
-                                            <div class="w-full max-w-md p-6 bg-white rounded shadow-lg">
+                                            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
+                                            <div class="w-full max-w-md p-6 mx-4 bg-white rounded shadow-lg md:mx-0">
                                                 <h2 class="mb-4 text-lg font-bold">Edit Guru</h2>
                                                 <form action="{{ route('admin.guru.updateUser', $g->id) }}" method="POST" class="space-y-3">
                                                     @csrf

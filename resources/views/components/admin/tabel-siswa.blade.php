@@ -42,7 +42,7 @@
     </select>
 
     <!-- Tombol -->
-    <div class="flex gap-2">
+    {{-- <div class="flex gap-2">
         <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
             <i class="bi bi-funnel"></i> Filter
         </button>
@@ -50,33 +50,50 @@
            class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800">
             <i class="bi bi-arrow-clockwise"></i> Reset
         </a>
+    </div> --}}
+
+    <div class="flex flex-row justify-between gap-2 sm:flex-row sm:justify-start sm:gap-2 sm:w-auto">
+        <button type="submit" class="w-1/2 px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700 sm:w-auto">
+            <i class="bi bi-funnel"></i> Filter
+        </button>
+
+        <a href="{{ route('admin.siswa.index') }}" class="w-1/2 px-4 py-2 text-center text-white rounded bg-slate-700 hover:bg-slate-800 sm:w-auto">
+            <i class="bi bi-arrow-clockwise"></i> Reset
+        </a>
     </div>
 </form>
+
+<div class="flex flex-row justify-end gap-2 mb-4 sm:w-auto md:hidden">
+    <a href="{{ route('admin.daftar_siswa.export') }}"
+       class="w-1/2 px-4 py-2 text-center text-white bg-green-800 rounded sm:w-auto hover:bg-green-900">
+        <i class="bi bi-file-earmark-excel-fill me-1"></i> Export Excel
+    </a>
+</div>
 
 <div class="mb-4 overflow-x-auto md:overflow-x-visible">
     <table class="w-full border border-collapse" id="siswaTable">
         <thead>
             <tr class="bg-gray-100">
                 <th class="w-12 px-4 py-2 text-center border">No</th>
-                <th class="px-4 py-2 border">Nama Lengkap</th>
-                <th class="px-4 py-2 border">NIS</th>
-                <th class="px-4 py-2 border">NISN</th>
-                <th class="px-4 py-2 border">Kelas</th>
-                <th class="px-4 py-2 border">Kejuruan</th>
-                <th class="px-4 py-2 border">Email</th>
+                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Lengkap</th>
+                <th class="px-4 py-2 border whitespace-nowrap">NIS</th>
+                <th class="px-4 py-2 border whitespace-nowrap">NISN</th>
+                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Unit Kelas</th>
+                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap"> Program Kejuruan</th>
+                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Email Address</th>
                 <th class="w-24 px-4 py-2 text-center border"></th>
             </tr>
         </thead>
         <tbody>
             @forelse ($siswa ?? [] as $s)
                 <tr class="hover:bg-gray-50" x-data="{ open: false, showModal: false }">
-                    <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
-                    <td class="px-4 py-2 border">{{ $s->nama_lengkap }}</td>
-                    <td class="px-4 py-2 border">{{ $s->nis ?? '-' }}</td>
-                    <td class="px-4 py-2 border">{{ $s->nisn ?? '-' }}</td>
-                    <td class="px-4 py-2 border">{{ $s->kelas->kelas ?? '-' }}</td>
-                    <td class="px-4 py-2 border">{{ $s->kejuruan->nama_kejuruan ?? '-' }}</td>
-                    <td class="px-4 py-2 border">{{ $s->user->email ?? '-' }}</td>
+                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
+                    <td class="px-4 py-2 border whitespace-nowrap">{{ $s->nama_lengkap }}</td>
+                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $s->nis ?? '-' }}</td>
+                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $s->nisn ?? '-' }}</td>
+                    <td class="px-4 py-2 border whitespace-nowrap">{{ $s->kelas->kelas ?? '-' }}</td>
+                    <td class="px-4 py-2 border whitespace-nowrap">{{ $s->kejuruan->nama_kejuruan ?? '-' }}</td>
+                    <td class="px-4 py-2 border whitespace-nowrap">{{ $s->user->email ?? '-' }}</td>
                     <td class="px-4 py-2 text-center border">
                         <div class="relative inline-block">
                             <!-- Tombol ⋮ -->
@@ -110,7 +127,7 @@
                             <!-- Modal Edit -->
                             <div x-show="showModal" x-cloak
                                  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                <div class="w-full max-w-md p-6 bg-white rounded shadow-lg">
+                                <div class="w-full max-w-md p-6 mx-4 bg-white rounded shadow-lg md:mx-0">
                                     <h2 class="mb-4 text-lg font-bold">Edit Siswa</h2>
                                     <form action="{{ route('admin.siswa.update', $s->id) }}" method="POST" class="space-y-3">
                                         @csrf
@@ -182,7 +199,7 @@
     </table>
 </div>
 
-<div class="flex justify-end mb-3">
+<div class="justify-end hidden mb-3 md:flex">
     <a href="{{ route('admin.daftar_siswa.export') }}"
        class="px-4 py-2 text-white bg-green-800 rounded hover:bg-green-900">
         <i class="bi bi-file-earmark-excel-fill me-1"></i> Export Excel

@@ -41,7 +41,7 @@
                     </div>
 
                     <!-- Tombol Simpan -->
-                    <div class="flex justify-end sm:block">
+                    <div class="flex justify-end md:justify-start sm:block">
                         <button type="submit" class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
                             <i class="bi bi-check2-square"></i> Simpan
                         </button>
@@ -146,7 +146,7 @@
 
                                                     <!-- Pilih Guru -->
                                                     <div>
-                                                        <label class="block font-medium">Guru Pengajar</label>
+                                                        <label class="block font-medium text-left">Guru Pengampu</label>
                                                         <select name="guru_id" class="w-full px-3 py-2 border rounded" required>
                                                             <option value="">-- Pilih Guru --</option>
                                                             @foreach(\App\Models\DataGuru::with('user')->get()->sortBy(fn($g) => $g->user->name) as $guru)
@@ -159,7 +159,7 @@
 
                                                     <!-- Nama Mapel -->
                                                     <div>
-                                                        <label class="block font-medium">Nama Mapel</label>
+                                                        <label class="block font-medium text-left">Nama Mapel</label>
                                                         <input type="text" name="mapel" value="{{ $m->mapel }}" class="w-full px-3 py-2 border rounded" required>
                                                     </div>
 
