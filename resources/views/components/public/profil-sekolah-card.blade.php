@@ -18,9 +18,6 @@
         @endphp
 
         <div class="flex items-center justify-center pt-4 overflow-hidden rounded">
-            {{-- <img src="{{ url('/logo-sekolah') }}?v={{ $lastModified }}"
-                class="object-contain w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32"
-                alt="Logo Sekolah"> --}}
             <img src="{{ url('/logo-sekolah') }}?v={{ $profil->updated_at->timestamp }}"
                 class="object-contain w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32"
                 alt="Logo Sekolah">
@@ -47,7 +44,7 @@
                 </h2>
 
                 <!-- Grid tanpa overflow-x -->
-                <div class="grid grid-cols-1 gap-8 p-0 text-sm border-none rounded-md shadow-none md:text-base md:p-4 md:border md:shadow md:grid-cols-3">
+                <div class="grid grid-cols-1 gap-6 p-0 text-sm border-none rounded-md shadow-none md:gap-4 md:text-base md:p-4 md:border md:shadow md:grid-cols-3">
                     <!-- Kolom 1 -->
                     <div class="hidden space-y-2 md:block">
                         <div class="grid grid-cols-[120px_10px_1fr] items-center">
@@ -55,11 +52,11 @@
                             <span class="text-right">:</span>
                             <span class="pl-2">{{ $profil->nama_sekolah }}</span>
                         </div>
-                        {{-- <div class="grid grid-cols-[120px_10px_1fr] items-center">
+                        <div class="grid grid-cols-[120px_10px_1fr] items-center">
                             <span class="font-semibold">Kepala Yayasan</span>
                             <span class="text-right">:</span>
-                            <span class="pl-2">{{ $profil->kepala_yayasan }}</span>
-                        </div> --}}
+                            <span class="pl-2">{{ $profil->kepala_yayasan ?? '-' }}</span>
+                        </div>
                         <div class="grid grid-cols-[120px_10px_1fr] items-center">
                             <span class="font-semibold">Kepala Sekolah</span>
                             <span class="text-right">:</span>
