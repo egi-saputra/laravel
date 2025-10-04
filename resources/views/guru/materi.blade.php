@@ -13,6 +13,14 @@
 
         <!-- Main Content -->
         <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
+            <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
+                <h2 class="mb-0 text-lg font-bold">
+                    Kelola Materi Pembelajaran
+                    <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
+                </h2>
+                <hr class="mb-2">
+            </div>
+
             <!-- Form Tambah Materi -->
             <div class="p-4 bg-white rounded shadow">
                 <h1 class="mb-4 text-lg font-bold">Buat Materi Pembelajaran</h1>

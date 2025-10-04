@@ -16,19 +16,19 @@ use Carbon\Carbon;
         </aside>
 
         <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
-            <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow-md">
-                <h1 class="text-lg font-semibold">Halaman Presensi Siswa | <span class="capitalize text-sky-900">{{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}</span> |</h1>
+            <div class="flex items-center justify-center w-full p-6 bg-white rounded shadow md:p-10">
+                <h1 class="text-lg font-semibold">Halaman Presensi Siswa <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h1>
             </div>
 
             {{-- Judul Presensi Siswa --}}
             <div class="p-4 bg-white rounded shadow-md">
-                <div class="overflow-x-auto md:overflow-x-visible">
-                    <h2 class="mb-4 text-lg font-semibold">
-                        {{ $user->name }}, Kamu Adalah Sekretaris Kelas
+                <div class="p-0 overflow-x-auto md:p-4 md:overflow-x-visible">
+                    <h2 class="mb-4 text-base font-semibold md:text-lg">
+                        <span class="hidden md:inline-block">{{ $user->name }}, Kamu Adalah Sekretaris Kelas
                         @if($kelas)
                             ({{ $kelas->kelas }})
                         @endif
-                        , Lakukan Absensi Online Hari ini Untuk Kelasmu Sekarang!
+                        , </span>Lakukan Absensi Online Untuk Kelasmu!
                     </h2>
 
                     <hr class="mb-4">

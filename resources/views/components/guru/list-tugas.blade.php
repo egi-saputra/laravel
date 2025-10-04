@@ -62,7 +62,7 @@
 
     {{-- Tabel List Tugas --}}
     <div class="mb-10 overflow-x-auto md:overflow-x-visible md:mb-3" id="scrollableTable">
-            <table class="w-full border border-collapse" id="tugasTable">
+            <table class="w-full mb-10 border border-collapse md:mb-0" id="tugasTable">
                 <thead>
                     <tr class="bg-gray-100">
                         <th class="w-12 px-4 py-2 text-center border whitespace-nowrap">No</th>
@@ -71,7 +71,7 @@
                         <th class="px-4 py-2 border whitespace-nowrap">Kelompok</th>
                         <th class="px-4 py-2 text-center border whitespace-nowrap">Kelas</th>
                         {{-- <th class="px-4 py-2 text-center border whitespace-nowrap">Mapel</th> --}}
-                        <th class="px-4 py-2 border whitespace-nowrap">File Terkait</th>
+                        <th class="px-4 py-2 border whitespace-nowrap">File Tugas</th>
                         <th class="w-24 px-4 py-2 text-center border"></th>
                     </tr>
                 </thead>
@@ -86,9 +86,9 @@
                             {{-- <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $t->mapel->mapel ?? '-' }}</td> --}}
                             <td class="px-4 py-2 text-center border whitespace-nowrap">
                                 @if($t->file_path)
-                                    <a href="{{ route('guru.view_file_tugas', $t->id) }}"
+                                    <a href="{{ route('guru.tugas.download', $t->id) }}"
                                     class="px-4 py-1 text-white bg-blue-600 rounded hover:bg-blue-700">
-                                        Lihat Detail
+                                        <i class="bi bi-download"></i>
                                     </a>
                                 @else
                                     Tidak Ada File!

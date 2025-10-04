@@ -19,26 +19,26 @@
                         Judul Tugas ( {{ $tugas->judul }} )
                     </h3>
 
-                    <div class="mb-8 ml-0 space-y-2 md:ml-4">
-                        <div class="grid md:grid-cols-[140px_10px_1fr] grid-cols-[100px_10px_1fr] items-start">
-                            <span class="text-sm font-semibold md:text-base">Pengirim</span>
+                    <div class="mb-8 space-y-2">
+                        <div class="grid md:grid-cols-[140px_10px_1fr] grid-cols-[100px_10px_1fr] items-start ml-2">
+                            <span class="text-sm font-semibold md:text-base">Nama Pengirim</span>
                             <span class="text-sm text-left md:text-base">:</span>
                             <span class="text-sm capitalize md:text-base">{{ $tugas->nama ?? '-' }}</span>
                         </div>
 
-                        <div class="grid md:grid-cols-[140px_10px_1fr] grid-cols-[100px_10px_1fr] items-start">
-                            <span class="text-sm font-semibold md:text-base">Kelompok</span>
+                        <div class="grid md:grid-cols-[140px_10px_1fr] ml-2 grid-cols-[100px_10px_1fr] items-start">
+                            <span class="text-sm font-semibold md:text-base">Nama Kelompok</span>
                             <span class="text-sm text-left md:text-base">:</span>
                             <span class="text-sm capitalize md:text-base">{{ $tugas->kelompok ?? '-' }}</span>
                         </div>
 
-                        <div class="grid md:grid-cols-[140px_10px_1fr] grid-cols-[100px_10px_1fr] items-start">
+                        {{-- <div class="grid md:grid-cols-[140px_10px_1fr] grid-cols-[100px_10px_1fr] items-start">
                             <span class="text-sm font-semibold md:text-base">Deskripsi</span>
                             <span class="text-sm text-left md:text-base">:</span>
                             <span class="text-sm text-gray-600 md:text-base">
                                 {!! strip_tags($tugas->materi ?? '') ?: '<em class="text-gray-400">Tidak ada deskripsi tugas!</em>' !!}
                             </span>
-                        </div>
+                        </div> --}}
                     </div>
 
                     @if($tugas->file_path)
@@ -62,9 +62,11 @@
                         <p class="w-1/2 p-8 mx-auto mb-4 text-center text-gray-500 border rounded shadow">Tidak ada file yang diupload.</p>
                     @endif
                     <div class="block mt-6 md:hidden">
-                        <a href="{{ route('guru.tugas_siswa.index') }}"
-                           class="pl-2 font-semibold text-blue-600 hover:underline">← Back
-                        </a>
+                        <button type="button"
+                            onclick="window.location.href='{{ route('guru.tugas_siswa.index') }}'"
+                            class="pl-2 font-semibold text-blue-600 hover:underline">
+                            ← Back
+                        </button>
                     </div>
                 </div>
 

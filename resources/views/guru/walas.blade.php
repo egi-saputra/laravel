@@ -7,12 +7,20 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+        <aside class="z-0 mx-3 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
             <x-sidebar />
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
+        <main class="flex-1 p-3 space-y-6 overflow-x-auto md:p-6">
+            <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
+                <h2 class="mb-0 text-lg font-bold">
+                    Kelola Ruang Kelas
+                    <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
+                </h2>
+                <hr class="mb-4">
+            </div>
+
             <!-- Form Tambah Siswa + Upload Excel -->
             <div class="p-4 bg-white rounded shadow">
                 <h1 class="mb-4 text-lg font-bold">Tambahkan Data Siswa <span class="hidden md:inline-block">Untuk Kelasmu!</span></h1>
@@ -66,11 +74,13 @@
                     <input type="hidden" name="password" value="{{ env('DEFAULT_SISWA_PASSWORD', 'password') }}">
                     <input type="hidden" name="role" value="siswa">
                     <p class="pl-1 mt-4 text-xs text-red-600">Keterangan :</p>
-                    <p class="pl-1 mb-6 text-xs text-gray-500">Password akan terisi otomatis secara default dengan <span class="italic font-semibold text-slate-700"> "password"</span></p>
+                    <p class="pl-1 mb-6 text-xs text-gray-500">Password akan terisi otomatis dengan <span class="italic font-semibold text-slate-700"> "password"</span></p>
 
-                    <button type="submit" class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
-                        <i class="bi bi-save"></i> Simpan
-                    </button>
+                    <div class="flex justify-end md:justify-start">
+                        <button type="submit" class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                            <i class="bi bi-save"></i> Simpan
+                        </button>
+                    </div>
                 </form>
 
                 <hr class="my-6">
@@ -120,7 +130,7 @@
             <!-- Tabel Data Siswa -->
             <div class="p-4 bg-white rounded shadow">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-bold">Daftar Siswa ( {{ $kelas->kelas ?? '' }} )</h2>
+                    <h2 class="text-base font-semibold md:font-bold md:text-lg">Daftar Siswa ( {{ $kelas->kelas ?? '' }} )</h2>
 
                     <!-- Tombol Hapus Semua -->
                     <div>
@@ -148,33 +158,33 @@
                         </svg>
                     </span>
                     <input type="text" id="searchInput"
-                        placeholder="Cari nama, email, NIS, NISN, atau kelas..."
+                        placeholder="Search ...."
                         class="w-full py-2 pl-12 border rounded focus:outline-none focus:ring focus:border-blue-300">
                 </div>
 
                 <!-- Table -->
                 <div class="overflow-x-auto md:overflow-x-visible">
-                    <table class="w-full border border-collapse" id="siswaTable">
+                    <table class="w-full mb-10 border border-collapse md:mb-0" id="siswaTable">
                         <thead>
                             <tr class="bg-gray-100">
-                                <th class="w-12 px-4 py-2 text-center border">No</th>
-                                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Lengkap</th>
-                                <th class="px-4 py-2 text-center border whitespace-nowrap">Email Siswa</th>
-                                <th class="px-4 py-2 text-center border whitespace-nowrap">NIS</th>
-                                <th class="px-4 py-2 text-center border whitespace-nowrap">NISN</th>
-                                <th class="px-4 py-2 text-center border whitespace-nowrap">Kelas</th>
+                                <th class="w-12 px-4 py-2 text-sm text-center border md:text-base">No</th>
+                                <th class="px-4 py-2 text-sm text-left border md:text-base md:text-center whitespace-nowrap">Nama Lengkap</th>
+                                <th class="px-4 py-2 text-sm text-left border md:text-center md:text-base whitespace-nowrap">Email Siswa</th>
+                                <th class="px-4 py-2 text-sm text-center border md:text-base whitespace-nowrap">NIS</th>
+                                <th class="px-4 py-2 text-sm text-center border md:text-base whitespace-nowrap">NISN</th>
+                                <th class="px-4 py-2 text-sm text-center border md:text-base whitespace-nowrap">Kelas</th>
                                 <th class="w-24 px-4 py-2 text-center border"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($siswa ?? [] as $s)
                             <tr class="hover:bg-gray-50" x-data="{ open: false, showModal: false }">
-                                <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
-                                <td class="px-4 py-2 border whitespace-nowrap">{{ $s->nama_lengkap }}</td>
-                                <td class="px-4 py-2 border whitespace-nowrap">{{ $s->user->email ?? '-' }}</td>
-                                <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $s->nis ?? '-' }}</td>
-                                <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $s->nisn ?? '-' }}</td>
-                                <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $s->kelas->kelas ?? '-' }}</td>
+                                <td class="px-4 py-2 text-sm text-center border md:text-base">{{ $loop->iteration }}</td>
+                                <td class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">{{ $s->nama_lengkap }}</td>
+                                <td class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">{{ $s->user->email ?? '-' }}</td>
+                                <td class="px-4 py-2 text-sm text-center border md:text-base whitespace-nowrap">{{ $s->nis ?? '-' }}</td>
+                                <td class="px-4 py-2 text-sm text-center border md:text-base whitespace-nowrap">{{ $s->nisn ?? '-' }}</td>
+                                <td class="px-4 py-2 text-sm text-center border md:text-base whitespace-nowrap">{{ $s->kelas->kelas ?? '-' }}</td>
                                 <td class="px-4 py-2 text-center border">
                                     <div class="relative inline-block">
                                         <!-- Tombol ⋮ -->

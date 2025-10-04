@@ -19,14 +19,14 @@
 
         <div class="flex items-center justify-center pt-4 overflow-hidden rounded">
             <img src="{{ url('/logo-sekolah') }}?v={{ $profil->updated_at->timestamp }}"
-                class="object-contain w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32"
+                class="object-contain w-24 h-24 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32"
                 alt="Logo Sekolah">
         </div>
 
         <div class="flex flex-wrap items-start pb-8 space-x-6">
             <!-- Nama Sekolah & Info Singkat -->
             <div class="flex-1">
-                <h2 class="mb-0 text-base font-bold text-center text-gray-800 md:mb-2 md:text-2xl">
+                <h2 class="mb-0 -mt-4 text-base font-bold text-center text-gray-800 md:mt-0 md:mb-2 md:text-2xl">
                     {{ $profil->nama_sekolah }}
                 </h2>
                 <h4 class="mb-2 text-sm font-bold text-center text-red-700 md:text-xl">

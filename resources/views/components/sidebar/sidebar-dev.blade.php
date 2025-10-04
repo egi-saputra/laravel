@@ -40,7 +40,7 @@
 <div x-data="{ open: false, showMenu: false }">
 
     <!-- SIDEBAR -->
-    <div class="w-full m-0 bg-white border-none rounded-md shadow-md md:border-r md:rounded sm:pb-5">
+    <div class="z-0 w-full m-0 mb-2 bg-white rounded shadow md:z-30 md:mb-0 sm:pb-5">
 
         {{-- SIDEBAR PROFIL --}}
         <div class="flex flex-col items-center p-4 pt-4">

@@ -39,8 +39,8 @@
     </div>
 
     <!-- Table -->
-    <div class="overflow-x-auto md:overflow-x-visible">
-        <table class="w-full border border-collapse" id="materiTable">
+    <div class="overflow-x-auto over md:overflow-x-visible">
+        <table class="w-full mb-10 border border-collapse md:mb-0" id="materiTable">
             <thead>
                 <tr class="bg-gray-100">
                     <th class="w-12 px-4 py-2 text-center border">No</th>
@@ -75,7 +75,7 @@
                                 <a href="{{ route('guru.view_file_materi', $m->id) }}"
                                    class="px-4 py-1 text-white bg-blue-600 border-transparent rounded-md hover:bg-blue-700">
                                     {{-- {{ $m->file_name }} --}}
-                                    Lihat Detail
+                                    Lihat
                                 </a>
                             @else
                                 Tidak Ada File!

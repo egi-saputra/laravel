@@ -34,7 +34,9 @@
                 data-kodepos="{{ $s->dataSiswa->kode_pos ?? '-' }}"
                 data-telepon="{{ $s->dataSiswa->telepon ?? '-' }}"
                 data-kelas="{{ $s->dataSiswa->kelas->kelas ?? '-' }}"
-                data-kejuruan="{{ $s->dataSiswa->kejuruan->nama_kejuruan ?? '-' }}">
+                data-kejuruan="{{ $s->dataSiswa->kejuruan->nama_kejuruan ?? '-' }}"
+                data-email="{{ $s->email ?? '-' }}">
+
                 <i class="bi bi-eye"></i> Lihat Detail
             </button>
         </div>
