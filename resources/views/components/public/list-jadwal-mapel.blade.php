@@ -51,7 +51,7 @@
                     <th class="px-4 py-2 border whitespace-nowrap">Hari</th>
                     <th class="px-4 py-2 border whitespace-nowrap">Jam</th>
                     <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Mapel</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Kelas</th>
+                    <th class="px-4 py-2 border whitespace-nowrap">Unit Kelas</th>
                 </tr>
             </thead>
             <tbody>

@@ -20,49 +20,49 @@
                     @method('PUT')
 
                     <!-- Nama Lengkap & Tempat, Tanggal Lahir -->
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div>
                             <label class="block font-medium">Nama Lengkap <small class="text-red-500">*</small></label>
                             <input type="text" name="nama_lengkap" class="w-full px-3 py-2 border rounded"
-                                   value="{{ old('nama_lengkap', $siswa->nama_lengkap ?? '') }}" required>
+                                value="{{ old('nama_lengkap', $siswa->nama_lengkap ?? '') }}" required>
                         </div>
                         <div>
                             <label class="block font-medium">Tempat, Tanggal Lahir <small class="text-red-500">*</small></label>
                             <input type="text" name="tempat_tanggal_lahir" class="w-full px-3 py-2 border rounded"
-                                   value="{{ old('tempat_tanggal_lahir', $siswa->tempat_tanggal_lahir ?? '') }}" required>
+                                value="{{ old('tempat_tanggal_lahir', $siswa->tempat_tanggal_lahir ?? '') }}" required>
                         </div>
                     </div>
 
                     <!-- Asal Sekolah & Telepon -->
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div>
                             <label class="block font-medium">Asal Sekolah</label>
                             <input type="text" name="asal_sekolah" class="w-full px-3 py-2 border rounded"
-                                   value="{{ old('asal_sekolah', $siswa->asal_sekolah ?? '') }}" required>
+                                value="{{ old('asal_sekolah', $siswa->asal_sekolah ?? '') }}" required>
                         </div>
                         <div>
                             <label class="block font-medium">Telepon</label>
                             <input type="text" name="telepon" class="w-full px-3 py-2 border rounded"
-                                   value="{{ old('telepon', $siswa->telepon ?? '') }}" required>
+                                value="{{ old('telepon', $siswa->telepon ?? '') }}" required>
                         </div>
                     </div>
 
                     <!-- NIS & NISN -->
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-4 md:grid-cols-2">
                         <div>
                             <label class="block font-medium">NIS</label>
                             <input type="text" name="nis" class="w-full px-3 py-2 border rounded"
-                                   value="{{ old('nis', $siswa->nis ?? '') }}" required>
+                                value="{{ old('nis', $siswa->nis ?? '') }}" required>
                         </div>
                         <div>
                             <label class="block font-medium">NISN</label>
                             <input type="text" name="nisn" class="w-full px-3 py-2 border rounded"
-                                   value="{{ old('nisn', $siswa->nisn ?? '') }}" required>
+                                value="{{ old('nisn', $siswa->nisn ?? '') }}" required>
                         </div>
                     </div>
 
                     <!-- Jenis Kelamin & Agama -->
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-4 md:grid-cols-2">
                         <div>
                             <label class="block font-medium">Jenis Kelamin</label>
                             <select name="jenis_kelamin" class="w-full px-3 py-2 border rounded">
@@ -94,31 +94,36 @@
                     </div>
 
                     <!-- RT, RW, Kecamatan, Kota/Kabupaten, Kode Pos -->
-                    <div class="grid grid-cols-5 gap-4">
+                    <div class="grid grid-cols-2 gap-4 md:grid-cols-5">
+                        <!-- RT -->
                         <div>
                             <label class="block font-medium">RT</label>
                             <input type="text" name="rt" class="w-full px-3 py-2 border rounded" value="{{ old('rt', $siswa->rt ?? '') }}" required>
                         </div>
+                        <!-- RW -->
                         <div>
                             <label class="block font-medium">RW</label>
                             <input type="text" name="rw" class="w-full px-3 py-2 border rounded" value="{{ old('rw', $siswa->rw ?? '') }}" required>
                         </div>
-                        <div>
+                        <!-- Kecamatan -->
+                        <div class="col-span-1 md:col-span-1">
                             <label class="block font-medium">Kecamatan</label>
                             <input type="text" name="kecamatan" class="w-full px-3 py-2 border rounded" value="{{ old('kecamatan', $siswa->kecamatan ?? '') }}" required>
                         </div>
-                        <div>
+                        <!-- Kota/Kabupaten -->
+                        <div class="col-span-1 md:col-span-1">
                             <label class="block font-medium">Kota/Kabupaten</label>
                             <input type="text" name="kota_kabupaten" class="w-full px-3 py-2 border rounded" value="{{ old('kota_kabupaten', $siswa->kota_kabupaten ?? '') }}" required>
                         </div>
-                        <div>
+                        <!-- Kode Pos -->
+                        <div class="col-span-2 md:col-span-1">
                             <label class="block font-medium">Kode Pos</label>
                             <input type="text" name="kode_pos" class="w-full px-3 py-2 border rounded" value="{{ old('kode_pos', $siswa->kode_pos ?? '') }}" required>
                         </div>
                     </div>
 
                     <!-- Kelas & Kejuruan -->
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-4 md:grid-cols-2">
                         <div>
                             <label class="block font-medium">Kelas</label>
                             <select name="kelas_id" class="w-full px-3 py-2 border rounded">
@@ -143,23 +148,16 @@
                         </div>
                     </div>
 
-
-
                     <input type="hidden" name="user_id" value="{{ auth()->id() }}">
 
                     <!-- Tombol Submit Data -->
-                    <button id="submitButton" type="submit"
-                        class="px-4 py-2 text-white bg-blue-600 rounded disabled:cursor-not-allowed"
-                        {{ (isset($siswa) && isset($siswa->id) && $siswa->status === 'Valid') ? 'disabled' : '' }}>
-                        <i class="bi bi-save"></i> Simpan Data
-                    </button>
-
-                    <!-- Tombol Sinkronisasi -->
-                    <button id="syncButton" type="button" onclick="syncData()"
-                        class="px-4 py-2 text-white bg-teal-600 rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
-                        {{ (!isset($siswa) || $siswa->status === 'Valid') ? 'disabled' : '' }}>
-                        <i class="bi bi-arrow-repeat"></i> Sinkronisasi
-                    </button>
+                    <div class="flex justify-end md:justify-start">
+                        <button id="submitButton" type="submit"
+                            class="px-4 py-2 text-white bg-blue-600 rounded disabled:cursor-not-allowed"
+                            {{ (isset($siswa) && isset($siswa->id) && $siswa->status === 'Valid') ? 'disabled' : '' }}>
+                            <i class="bi bi-save"></i> Simpan Data
+                        </button>
+                    </div>
 
                     @if(isset($siswa) && $siswa->status === 'Valid' && isset($siswa->updated_at))
                         <span id="syncBadge" class="px-2 py-1 ml-2 text-white bg-green-600 rounded">
@@ -168,6 +166,7 @@
                     @endif
                 </form>
             </div>
+
             <!-- Footer -->
             <x-footer :profil="$profil" />
         </main>

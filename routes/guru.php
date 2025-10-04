@@ -87,5 +87,6 @@ Route::middleware(['auth', 'verified', 'role:guru'])->prefix('guru')->name('guru
         // Resource route untuk CRUD
         Route::resource('tugas_siswa', TugasSiswaController::class)
             ->except(['show']);
+        Route::get('tugas/{id}/download', [TugasSiswaController::class, 'download'])->name('tugas.download');
 
     });

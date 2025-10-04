@@ -61,70 +61,70 @@
     </form>
 
     {{-- Tabel List Tugas --}}
-    <div class="overflow-x-auto md:overflow-x-visible">
-        <table class="w-full border border-collapse" id="tugasTable">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="w-12 px-4 py-2 text-center border whitespace-nowrap">No</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Judul Tugas</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Nama Siswa</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Kelompok</th>
-                    <th class="px-4 py-2 text-center border whitespace-nowrap">Kelas</th>
-                    <th class="px-4 py-2 text-center border whitespace-nowrap">Mapel</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">File Terkait</th>
-                    <th class="w-24 px-4 py-2 text-center border"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($tugas as $t)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2 border whitespace-nowrap">{{ $t->judul ?? '-' }}</td>
-                        <td class="px-4 py-2 border whitespace-nowrap">{{ $t->nama ?? '-' }}</td>
-                        <td class="px-4 py-2 border whitespace-nowrap">{{ $t->kelompok ?? '-' }}</td>
-                        <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $t->kelas->kelas ?? '-' }}</td>
-                        <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $t->mapel->mapel ?? '-' }}</td>
-                        <td class="px-4 py-2 text-center border whitespace-nowrap">
-                            @if($t->file_path)
-                                <a href="{{ route('guru.view_file_tugas', $t->id) }}"
-                                   class="px-4 py-1 text-white bg-blue-600 rounded hover:bg-blue-700">
-                                    Lihat Detail
-                                </a>
-                            @else
-                                Tidak Ada File!
-                            @endif
-                        </td>
-                        <td class="px-4 py-2 text-center border">
-                            <div class="relative inline-block" x-data="{ open: false }">
-                                <button @click="open = !open" class="px-2 py-1 rounded hover:bg-gray-200">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700"
-                                         fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/>
-                                    </svg>
-                                </button>
-                                <div x-show="open" @click.away="open = false" x-transition
-                                     class="absolute top-0 z-20 mr-2 bg-white border rounded shadow-md right-full w-28">
+    <div class="mb-10 overflow-x-auto md:overflow-x-visible md:mb-3" id="scrollableTable">
+            <table class="w-full border border-collapse" id="tugasTable">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="w-12 px-4 py-2 text-center border whitespace-nowrap">No</th>
+                        <th class="px-4 py-2 border whitespace-nowrap">Judul Tugas</th>
+                        <th class="px-4 py-2 border whitespace-nowrap">Nama Siswa</th>
+                        <th class="px-4 py-2 border whitespace-nowrap">Kelompok</th>
+                        <th class="px-4 py-2 text-center border whitespace-nowrap">Kelas</th>
+                        {{-- <th class="px-4 py-2 text-center border whitespace-nowrap">Mapel</th> --}}
+                        <th class="px-4 py-2 border whitespace-nowrap">File Terkait</th>
+                        <th class="w-24 px-4 py-2 text-center border"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($tugas as $t)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
+                            <td class="px-4 py-2 border whitespace-nowrap">{{ $t->judul ?? '-' }}</td>
+                            <td class="px-4 py-2 border whitespace-nowrap">{{ $t->nama ?? '-' }}</td>
+                            <td class="px-4 py-2 border whitespace-nowrap">{{ $t->kelompok ?? '-' }}</td>
+                            <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $t->kelas->kelas ?? '-' }}</td>
+                            {{-- <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $t->mapel->mapel ?? '-' }}</td> --}}
+                            <td class="px-4 py-2 text-center border whitespace-nowrap">
+                                @if($t->file_path)
                                     <a href="{{ route('guru.view_file_tugas', $t->id) }}"
-                                       class="block w-full px-4 py-2 hover:bg-gray-100">Lihat</a>
-                                    <form action="{{ route('guru.tugas_siswa.destroy', $t->id) }}" method="POST"
-                                          onsubmit="return confirm('Yakin ingin menghapus tugas ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="w-full px-4 py-2 text-left text-red-600 hover:bg-red-100">
-                                            Hapus
-                                        </button>
-                                    </form>
+                                    class="px-4 py-1 text-white bg-blue-600 rounded hover:bg-blue-700">
+                                        Lihat Detail
+                                    </a>
+                                @else
+                                    Tidak Ada File!
+                                @endif
+                            </td>
+                            <td class="px-4 py-2 text-center border">
+                                <div class="relative inline-block" x-data="{ open: false }">
+                                    <button @click="open = !open" class="px-2 py-1 rounded hover:bg-gray-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700"
+                                            fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/>
+                                        </svg>
+                                    </button>
+                                    <div x-show="open" @click.away="open = false" x-transition
+                                        class="absolute top-0 z-20 mr-2 bg-white border rounded shadow-md right-full w-28">
+                                        <a href="{{ route('guru.view_file_tugas', $t->id) }}"
+                                        class="block w-full px-4 py-2 text-left hover:bg-gray-100">Lihat</a>
+                                        <form action="{{ route('guru.tugas_siswa.destroy', $t->id) }}" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus tugas ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="w-full px-4 py-2 text-left text-red-600 hover:bg-red-100">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="8" class="py-2 text-center">Belum ada data tugas</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="8" class="py-2 text-center">Belum ada data tugas</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
     </div>
 
     <!-- Script Konfirmasi Hapus Semua -->
@@ -144,5 +144,32 @@
                     document.getElementById('formHapusSemua').submit();
                 }
             });
+        });
+
+        const slider = document.getElementById('scrollableTable');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('cursor-grabbing');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.classList.remove('cursor-grabbing');
+        });
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.classList.remove('cursor-grabbing');
+        });
+        slider.addEventListener('mousemove', (e) => {
+            if(!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 1; // scroll-fastness
+            slider.scrollLeft = scrollLeft - walk;
         });
     </script>

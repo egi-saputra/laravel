@@ -138,4 +138,16 @@ class TugasSiswaController extends Controller
         $tugas = TugasSiswa::findOrFail($id);
         return view('guru.view_file_tugas', compact('tugas'));
     }
+
+    public function download($id)
+    {
+        $tugas = TugasSiswa::findOrFail($id);
+
+        if (!\Storage::disk('public')->exists($tugas->file_path)) {
+            abort(404, 'File tidak ditemukan');
+        }
+
+        return \Storage::disk('public')->download($tugas->file_path, $tugas->file_name);
+    }
+
 }

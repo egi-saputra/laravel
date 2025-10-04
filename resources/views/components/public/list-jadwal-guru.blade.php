@@ -46,38 +46,13 @@
 
     <div class="mt-4 overflow-x-auto md:overflow-x-visible md:mt-0">
         <table class="w-full border border-collapse" id="jadwalGuruTable">
-            {{-- <thead>
-                <tr class="bg-gray-100">
-                    <th class="px-4 py-2 border whitespace-nowrap">Hari</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Sesi</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Jam</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Nama Guru</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Ruang Kelas</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($groupedJadwal as $gj)
-                <tr>
-                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $gj['hari'] }}</td>
-                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $gj['sesi'] }}</td>
-                    <td class="px-4 py-2 text-center border whitespace-nowrap">{{ implode(' s/d ', $gj['jam']) }}</td>
-                    <td class="px-4 py-2 border whitespace-nowrap">{{ $gj['guru'] }}</td>
-                    <td class="px-4 py-2 border whitespace-nowrap">{{ $gj['kelas'] }}</td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="5" class="py-2 text-center">Belum ada data jadwal guru</td>
-                </tr>
-                @endforelse
-            </tbody> --}}
-
             <thead>
                 <tr class="bg-gray-100">
                     <th class="px-4 py-2 border whitespace-nowrap">Hari</th>
                     <th class="px-4 py-2 border whitespace-nowrap">Jam</th>
                     <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Guru</th>
                     <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Mapel</th>
-                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Ruang Kelas</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Unit Kelas</th>
                 </tr>
             </thead>
             <tbody>

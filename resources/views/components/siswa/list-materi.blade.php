@@ -1,7 +1,7 @@
 <div class="p-4 bg-white rounded shadow">
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold">Daftar Materi</h2>
+        <h2 class="text-base font-bold md:text-lg">Daftar Materi</h2>
     </div>
 
     <!-- Search Box -->
@@ -28,23 +28,23 @@
         <table class="w-full border border-collapse" id="materiTable">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="w-12 px-4 py-2 text-center border">No</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Judul Materi</th>
-                    <th class="px-4 py-2 text-center border whitespace-nowrap">Mapel</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">Isi Materi</th>
-                    <th class="px-4 py-2 border whitespace-nowrap">File Terkait</th>
+                    <th class="w-12 px-4 py-2 text-sm text-center border md:text-base">No</th>
+                    <th class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">Judul Materi</th>
+                    <th class="px-4 py-2 text-sm text-center border md:text-base whitespace-nowrap">Mapel</th>
+                    <th class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">Isi Materi</th>
+                    <th class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">File Terkait</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($materis ?? [] as $m)
                     <tr class="hover:bg-gray-50" x-data="{ open: false, showModal: false }">
-                        <td class="px-4 py-2 text-center border">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2 border whitespace-nowrap">{{ $m->judul ?? '-' }}</td>
-                        <td class="px-4 py-2 border whitespace-nowrap">{{ $m->mapel->mapel ?? '-' }}</td>
+                        <td class="px-4 py-2 text-sm text-center border md:text-base">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">{{ $m->judul ?? '-' }}</td>
+                        <td class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">{{ $m->mapel->mapel ?? '-' }}</td>
                         {{-- <td class="px-4 py-2 border">
                             {{ strip_tags($m->materi) ?: 'Tidak ada materi / Hanya berupa file!' }}
                         </td> --}}
-                        <td class="px-4 py-2 border whitespace-nowrap">
+                        <td class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">
                             <div class="text-center">
                                 <x-detail-materi :title="$m->judul">
                                     {!! $m->materi !!}

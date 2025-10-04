@@ -29,6 +29,8 @@ Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('si
 
         // Tugas Siswa
         Route::resource('tugas', TugasSiswaController::class)->except(['show']);
+        Route::put('/tugas/{id}', [TugasSiswaController::class, 'update'])->name('tugas.update');
+        Route::get('tugas/download/{id}', [TugasSiswaController::class, 'download'])->name('tugas.download');
 
         // Presensi Siswa
         Route::get('/presensi', [PresensiSiswaController::class, 'index'])

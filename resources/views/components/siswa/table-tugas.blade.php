@@ -1,25 +1,28 @@
             <!-- Riwayat Tugas -->
-            <div class="p-4 bg-white rounded shadow">
-                <h2 class="mb-4 text-lg font-bold">Riwayat Tugas Saya</h2>
+            <div class="mb-8">
+                <h2 class="mb-4 text-base font-bold md:text-lg">Riwayat Tugas Saya</h2>
 
                     <table class="w-full border border-collapse" id="tugasTable">
                         <thead>
                             <tr class="bg-gray-100">
-                                <th class="px-4 py-2 border">Judul Tugas</th>
-                                <th class="px-4 py-2 border">Mapel</th>
-                                <th class="px-4 py-2 border">Kelas</th>
-                                <th class="px-4 py-2 border">File Tugas</th>
+                                <th class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">Judul Tugas</th>
+                                <th class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">Nama Guru</th>
+                                <th class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">Kelas</th>
+                                <th class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">File Tugas</th>
                                 <th class="px-4 py-2 text-center border"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($tugas as $t)
                             <tr>
-                                <td class="px-4 py-2 border">{{ $t->judul }}</td>
-                                <td class="px-4 py-2 border">{{ $t->mapel->mapel ?? '-' }}</td>
-                                <td class="px-4 py-2 text-center border">{{ $t->kelas->kelas ?? '-' }}</td>
-                                <td class="px-4 py-2 text-center border">
-                                    <a href="{{ Storage::url($t->file_path) }}" target="_blank" class="text-blue-600 hover:underline">Download</a>
+                                <td class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">{{ $t->judul }}</td>
+                                {{-- <td class="px-4 py-2 border whitespace-nowrap">{{ $t->mapel->mapel ?? '-' }}</td> --}}
+                                <td class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">
+                                    {{ $t->mapel->guru->user->name ?? '-' }}
+                                </td>
+                                <td class="px-4 py-2 text-sm text-center border md:text-base whitespace-nowrap">{{ $t->kelas->kelas ?? '-' }}</td>
+                                <td class="px-4 py-2 text-sm text-center border md:text-base">
+                                    <a href="{{ route('siswa.tugas.download', $t->id) }}" class="text-blue-600 hover:underline">Download</a>
                                 </td>
                                 <td class="px-4 py-2 text-center border">
                                     <div x-data="{ open: false, showModal: false }" class="relative inline-block">
@@ -44,37 +47,47 @@
                                         <!-- Modal Edit -->
                                         <div x-show="showModal" x-cloak
                                             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                            <div class="w-full max-w-md p-6 bg-white rounded shadow-lg">
+                                            <div class="w-full max-w-md p-6 mx-4 bg-white rounded shadow-lg md:mx-0">
                                                 <h2 class="mb-4 text-lg font-bold">Edit Tugas</h2>
                                                 <form action="{{ route('siswa.tugas.update', $t->id) }}" method="POST" enctype="multipart/form-data" class="space-y-3">
                                                     @csrf
                                                     @method('PUT')
 
                                                     <div>
-                                                        <label class="block font-medium">Judul Tugas</label>
+                                                        <label class="block font-medium text-left">Judul Tugas</label>
                                                         <input type="text" name="judul" value="{{ $t->judul }}" class="w-full px-3 py-2 border rounded" required>
                                                     </div>
 
                                                     <div>
-                                                        <label class="block font-medium">Kelompok</label>
+                                                        <label class="block font-medium text-left">Kelompok</label>
                                                         <input type="text" name="kelompok" value="{{ $t->kelompok }}" class="w-full px-3 py-2 border rounded">
                                                     </div>
 
                                                     <div>
-                                                        <label class="block font-medium">Mata Pelajaran</label>
+                                                        {{-- <label class="block font-medium text-left">Mata Pelajaran</label>
                                                         <select name="mapel_id" class="w-full px-3 py-2 border rounded" required>
                                                             @foreach($mapel as $m)
                                                                 <option value="{{ $m->id }}" {{ $t->mapel_id == $m->id ? 'selected' : '' }}>
                                                                     {{ $m->mapel }}
                                                                 </option>
                                                             @endforeach
+                                                        </select> --}}
+                                                        <label class="block font-medium text-left">Nama Guru Mapel</label>
+                                                        <select name="guru_id" class="w-full px-3 py-2 border rounded" required>
+                                                            <option value="">-- Pilih Guru --</option>
+                                                            @foreach($gurus as $guru)
+                                                                <option value="{{ $guru->id }}"
+                                                                    {{ ($t->mapel->guru->id ?? null) == $guru->id ? 'selected' : '' }}>
+                                                                    {{ $guru->user->name ?? 'Belum Ada Guru' }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
 
                                                     <div>
-                                                        <label class="block font-medium">Upload File (opsional)</label>
+                                                        <label class="block font-medium text-left">Upload File (opsional)</label>
                                                         <input type="file" name="file_tugas" class="w-full px-3 py-2 border rounded">
-                                                        <small class="text-gray-500">Kosongkan jika tidak ingin ganti file</small>
+                                                        <small class="text-left text-gray-500">Kosongkan jika tidak ingin ganti file</small>
                                                     </div>
 
                                                     <div class="flex justify-end gap-2">
