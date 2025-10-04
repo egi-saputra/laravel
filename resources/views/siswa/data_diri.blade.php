@@ -135,7 +135,7 @@
                                 <option value="" required>-- Pilih Kejuruan --</option>
                                 @foreach($kejuruan as $kj)
                                     <option value="{{ $kj->id }}" {{ (old('kejuruan_id', $siswa->kejuruan_id ?? '') == $kj->id) ? 'selected' : '' }}>
-                                        {{ $kj->program }}
+                                        {{ $kj->nama_kejuruan }}
                                     </option>
                                 @endforeach
                             </select>
