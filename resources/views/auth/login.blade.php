@@ -1,8 +1,8 @@
 <x-guest-layout>
     <x-alert />
-    <div class="flex flex-col min-h-screen md:flex-row">
+    <div class="flex flex-col min-h-screen mx-6 md:mx-0 md:flex-row">
         <!-- Left Panel -->
-        <div class="flex flex-col justify-center items-center w-full md:w-1/2 text-center bg-[#063970] p-8">
+        <div class="md:flex flex-col justify-center items-center w-full md:w-1/2 text-center bg-[#063970] p-8 hidden">
             <img src="{{ Storage::url('logo_login/login.png') }}" alt="Logo" class="w-3/4 mt-0 mb-4 md:w-1/2">
 
             <h3 class="mb-3 text-xl font-semibold text-white md:text-2xl">
@@ -13,7 +13,7 @@
         </div>
 
         <!-- Right Panel -->
-        <div class="flex items-center justify-center w-full p-6 my-4 bg-white md:w-1/2 md:mt-0 md:p-12">
+        <div class="flex items-center justify-center w-full my-auto bg-white md:my-0 md:w-1/2">
 
             <div class="w-full max-w-md">
                 <h4 class="mb-2 text-lg font-bold capitalize md:text-xl">Sign In</h4>

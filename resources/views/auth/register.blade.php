@@ -1,9 +1,9 @@
 <x-guest-layout>
     <x-alert />
 
-    <div class="flex flex-col min-h-screen md:flex-row">
+    <div class="flex flex-col min-h-screen mx-6 md:mx-0 md:flex-row">
         <!-- Left Panel -->
-        <div class="flex flex-col items-center justify-center w-full p-8 text-center bg-slate-50 md:w-1/2">
+        <div class="flex-col items-center justify-center hidden w-full p-8 text-center md:flex bg-slate-50 md:w-1/2">
             <img src="{{ Storage::url('logo_login/bg_login.png') }}" alt="Logo" class="w-3/4 mt-4 mb-4 md:w-2/3 md:mt-0">
             <h3 class="mt-4 mb-3 md:hidden block text-[#063970] text-xl md:text-2xl font-semibold">
                 SIMSTAL | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}
@@ -19,7 +19,7 @@
         </div>
 
         <!-- Right Panel -->
-        <div class="flex items-center justify-center w-full p-6 my-4 md:w-1/2 md:p-12 md:mt-0">
+        <div class="flex items-center justify-center w-full my-auto bg-white md:my-0 md:w-1/2">
             <div class="w-full max-w-md">
                 <div class="relative mb-6">
                     <h4 class="mb-2 text-lg font-bold capitalize md:text-xl">Sign Up</h4>
@@ -40,7 +40,7 @@
                                 peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
                                 peer-focus:-top-3 peer-focus:text-[#063970]
                                 peer-not-placeholder-shown:-top-3 peer-not-placeholder-shown:text-[#063970]">
-                            Name
+                            Your Name
                         </label>
                         @error('name')
                             <small class="text-red-600">{{ $message }}</small>
@@ -73,7 +73,7 @@
                                     peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400
                                     peer-focus:-top-3 peer-focus:text-[#063970]
                                     peer-not-placeholder-shown:-top-3 peer-not-placeholder-shown:text-[#063970]">
-                            {{-- Password --}}
+                            New Password
                         </label>
                         <button type="button" class="absolute text-gray-400 right-3 top-2" onclick="togglePassword('password', 'togglePasswordIcon')">
                             <i id="togglePasswordIcon" class="bi bi-eye"></i>

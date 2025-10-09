@@ -31,9 +31,10 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
-
+    'lifetime' => env('SESSION_LIFETIME', 525600),
     'expire_on_close' => false,
+    'secure' => true,           // jika pakai HTTPS
+    'same_site' => 'none',      // agar cookie bisa diakses di InAppWebView
 
     /*
     |--------------------------------------------------------------------------
