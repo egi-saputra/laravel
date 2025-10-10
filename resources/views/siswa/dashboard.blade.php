@@ -29,7 +29,7 @@
             </div>
 
             {{-- ===== Grid Online Users ===== --}}
-            <div class="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer">
                 @forelse ($onlineUsers as $user)
                     <div class="flex items-center p-4 space-x-4 transition bg-white shadow rounded-xl md:rounded-2xl hover:shadow-lg user-card"
                          data-role="{{ $user->role }}">
@@ -48,7 +48,7 @@
             </div>
 
             {{-- ===== Statistik User ===== --}}
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+            <div class="hidden grid-cols-1 gap-6 md:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
                 @php
                     $stats = [
                         ['title'=>'Guru','count'=>$guruCount,'bg'=>'bg-purple-100','text'=>'text-purple-600','icon'=>'fas fa-chalkboard-teacher'],
@@ -114,35 +114,35 @@
     </div>
 
         <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
-        <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 bg-white border-t shadow-md md:hidden text-xs">
+        <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow-md md:hidden">
 
             <!-- Home/Dashboard -->
             <a href="{{ route('siswa.dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
-                <i class="fas fa-chart-line text-lg"></i>
+                <i class="text-lg fas fa-chart-line"></i>
                 <small class="text-xs font-semibold">Beranda</small>
             </a>
 
             <!-- Siswa -->
             <a href="{{ route('public.daftar_siswa.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
-                <i class="fas fa-user-graduate text-lg"></i>
+                <i class="text-lg fas fa-user-graduate"></i>
                 <small class="text-xs font-semibold">Siswa</small>
             </a>
 
             <!-- Informasi Sekolah -->
             <a href="{{ route('public.informasi_sekolah.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.informasi_sekolah.index') ? 'active' : '' }}">
-                <i class="fas fa-school text-lg"></i>
+                <i class="text-lg fas fa-school"></i>
                 <small class="text-xs font-semibold">Sekolah</small>
             </a>
 
             <!-- Akademik -->
             <a href="{{ route('siswa.materi.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
-                <i class="fas fa-book text-lg"></i>
+                <i class="text-lg fas fa-book"></i>
                 <small class="text-xs font-semibold">Materi</small>
             </a>
 
             <!-- Tugas Siswa -->
             <a href="{{ route('siswa.tugas.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.tugas.*') ? 'active' : '' }}">
-                <i class="fas fa-tasks text-lg"></i>
+                <i class="text-lg fas fa-tasks"></i>
                 <small class="text-xs font-semibold">Tugas</small>
             </a>
 
