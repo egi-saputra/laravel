@@ -134,7 +134,7 @@
                 <small class="text-xs font-semibold">Sekolah</small>
             </a>
 
-            <!-- Akademik -->
+            <!-- Materi -->
             <a href="{{ route('siswa.materi.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
                 <i class="text-lg fas fa-book"></i>
                 <small class="text-xs font-semibold">Materi</small>

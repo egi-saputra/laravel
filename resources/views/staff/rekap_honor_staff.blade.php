@@ -17,7 +17,7 @@ use Carbon\Carbon;
 
         <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
             <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
-                <h2 class="mb-4 text-lg font-bold">Rekapitulasi Honor Bulanan Staff / Karyawan |  <span class="capitalize text-sky-900">{{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2><hr class="mb-4">
+                <h2 class="mb-4 text-lg font-bold">Rekapitulasi Honor Bulanan Staff / Karyawan <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2><hr class="mb-4">
             </div>
 
                 {{-- Judul --}}

@@ -12,26 +12,26 @@ $role = $user->role;
     'type'  => 'modal',
     'icon'  => 'bi-upload' // lebih simpel dan jelas untuk upload
 ],
-[
-    'label' => 'Rekap Honor Guru',
-    'route' => route('staff.rekap_honor_guru.index'),
-    'icon'  => 'bi-person-lines-fill' // menggambarkan banyak orang / guru
-],
-[
-    'label' => 'Rekap Honor Staff',
-    'route' => route('staff.rekap_honor_staff.index'),
-    'icon'  => 'bi-people-fill' // profesional untuk staff/pekerjaan
-],
+// [
+//     'label' => 'Rekap Honor Guru',
+//     'route' => route('staff.rekap_honor_guru.index'),
+//     'icon'  => 'bi-person-lines-fill'
+// ],
+// [
+//     'label' => 'Rekap Honor Staff',
+//     'route' => route('staff.rekap_honor_staff.index'),
+//     'icon'  => 'bi-people-fill'
+// ],
 // [
 //     'label' => 'Rekapitulasi Keuangan',
 //     'route' => route('staff.rekap_keuangan.index'),
 //     'icon'  => 'bi-currency-dollar'
 // ],
-[
-    'label' => 'Data Riwayat Presensi',
-    'route' => route('staff.riwayat_presensi.index'),
-    'icon'  => 'bi bi-clipboard-data-fill' // menggambarkan banyak orang / guru
-],
+// [
+//     'label' => 'Data Riwayat Presensi',
+//     'route' => route('staff.riwayat_presensi.index'),
+//     'icon'  => 'bi bi-clipboard-data-fill'
+// ],
         ],
     ];
 

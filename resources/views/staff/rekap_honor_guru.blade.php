@@ -11,22 +11,21 @@ use Carbon\Carbon;
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="mx-4 mt-4 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+        <aside class="mt-2 mb-4 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:w-auto">
             <x-sidebar />
         </aside>
 
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
-            <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
-                <h2 class="mb-4 text-lg font-bold">
-                    Rekapitulasi Honor Bulanan Guru |
-                    <span class="capitalize text-sky-900">{{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
+        <main class="flex-1 p-0 mb-10 space-y-6 overflow-x-auto md:mb-0 md:p-6">
+            <div class="flex items-center justify-center w-full p-4 bg-white rounded shadow md:p-10">
+                <h2 class="text-lg font-bold">
+                    Rekapitulasi Honor Guru <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
                 </h2>
                 <hr class="mb-4">
             </div>
 
             <div class="overflow-x-auto md:overflow-x-visible">
                 <div class="p-6 mb-6 bg-white rounded shadow-md">
-                    <h2 class="mb-4 text-lg font-bold">Buat Rekap Honor Guru Bulan Ini!</h2>
+                    <h2 class="mb-4 text-lg font-bold">Buat Rekap Honor Guru!</h2>
 
                     <form action="{{ route('staff.rekap_honor_guru.generate') }}" method="POST" class="space-y-4">
                         @csrf
