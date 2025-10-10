@@ -7,7 +7,7 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+        <aside class="z-0 mx-4 mt-4 md:mt-6 md:z-10 top-16 md:top-0 md:ml-6  md:h-screen md:mx-0 md:w-auto">
             <x-sidebar />
         </aside>
 

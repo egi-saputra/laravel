@@ -52,7 +52,6 @@
 
                 /* Navbar sticky/top-0 */
                 nav {
-                    position: sticky;
                     top: 0;
                     left: 0;
                     width: 100%;
@@ -183,7 +182,7 @@
     ];
 @endphp
 
-<nav x-data="{ open: false }" class="fixed top-0 z-20 bg-white border-b border-gray-100 shadow-sm block dark:bg-gray-800 dark:border-gray-700 md:static">
+<nav x-data="{ open: false }" class="sticky top-0 z-20 bg-white border-b border-gray-100 shadow-sm block dark:bg-gray-800 dark:border-gray-700 md:static">
     <!-- Primary Navigation Menu -->
     <div class="w-full px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">

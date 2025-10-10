@@ -1,8 +1,8 @@
 <x-guest-layout>
     <x-alert />
-    <div class="flex flex-col min-h-screen mx-6 md:mx-0 md:flex-row">
+    <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Left Panel -->
-        <div class="md:flex flex-col justify-center items-center w-full md:w-1/2 text-center bg-[#063970] p-8 hidden">
+        <div class="flex flex-col justify-center items-center w-full md:w-1/2 text-center bg-[#063970] p-8">
             <img src="{{ Storage::url('logo_login/login.png') }}" alt="Logo" class="w-3/4 mt-0 mb-4 md:w-1/2">
 
             <h3 class="mb-3 text-xl font-semibold text-white md:text-2xl">
@@ -13,7 +13,7 @@
         </div>
 
         <!-- Right Panel -->
-        <div class="flex items-center justify-center w-full my-auto bg-white md:my-0 md:w-1/2">
+        <div class="flex flex-col md:justify-center md:items-center w-full md:w-1/2 bg-white p-8">
 
             <div class="w-full max-w-md">
                 <h4 class="mb-2 text-lg font-bold capitalize md:text-xl">Sign In</h4>
@@ -74,7 +74,7 @@
                             Password
                         </label>
                         <button type="button" class="absolute text-gray-400 right-5 top-2" onclick="togglePassword()">
-                            <i id="togglePasswordIcon" class="bi bi-eye"></i>
+                            <i id="togglePasswordIcon" class="bi bi-eye-slash"></i>
                         </button>
                         <!-- Alert error login -->
                         @if ($errors->any())
@@ -180,10 +180,10 @@
                         const icon = document.getElementById("togglePasswordIcon");
                         if (passwordInput.type === "password") {
                             passwordInput.type = "text";
-                            icon.classList.replace("bi-eye", "bi-eye-slash");
+                            icon.classList.replace("bi-eye-slash", "bi-eye");
                         } else {
                             passwordInput.type = "password";
-                            icon.classList.replace("bi-eye-slash", "bi-eye");
+                            icon.classList.replace("bi-eye", "bi-eye-slash");
                         }
                     }
 

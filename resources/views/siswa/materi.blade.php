@@ -12,7 +12,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-0 md:mb-0 mb-10 space-y-6 overflow-x-auto md:p-6">
+        <main class="flex-1 mt-4 md:mt-6 p-0 md:mb-0 mb-10 space-y-6 overflow-x-auto md:p-6">
 
             <!-- Tabel Daftar Materi -->
             <x-siswa.list-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
