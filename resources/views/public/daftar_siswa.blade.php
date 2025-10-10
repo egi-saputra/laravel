@@ -7,12 +7,12 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+        <aside class="mt-0 md:ml-6 md:block hidden md:mt-6 md:h-screen md:mb-0 mb-4 md:w-auto">
             <x-sidebar />
         </aside>
 
         {{-- Main Content --}}
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
+        <main class="flex-1 p-0 md:mb-0 mb-10 space-y-6 overflow-x-auto md:p-6">
 
             {{-- Search & Filter Form --}}
             <form method="GET" action="{{ route('public.daftar_siswa.index') }}"
@@ -81,33 +81,33 @@
         </main>
 
         <!-- Bottom Navigation (Mobile Only - Icon Only) -->
-    <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 bg-white border-t shadow-md md:hidden">
+        <div id="navhp" class="fixed bottom-0 left-0 right-0 flex justify-around py-2 bg-white border-t shadow-md md:hidden">
 
-        <!-- Home/Dashboard -->
-        <a href="{{ route('siswa.dashboard') }}" class="nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
-            <i class="fas fa-home"></i>
-        </a>
+            <!-- Home/Dashboard -->
+            <a href="{{ route('siswa.dashboard') }}" class="nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
+                <i class="fas fa-home"></i>
+            </a>
 
-        <!-- Data Diri -->
-        <a href="{{ route('siswa.data_diri') }}" class="nav-icon {{ request()->routeIs('siswa.data_diri') ? 'active' : '' }}">
-            <i class="fas fa-id-card"></i>
-        </a>
+            <!-- Akademik -->
+            <a href="{{ route('siswa.materi.index') }}" class="nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
+                <i class="fas fa-book"></i>
+            </a>
 
-        <!-- Siswa -->
-        <a href="{{ route('public.daftar_siswa.index') }}" class="nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
-            <i class="fas fa-user-graduate"></i>
-        </a>
+            <!-- Siswa -->
+            <a href="{{ route('public.daftar_siswa.index') }}" class="nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
+                <i class="fas fa-user-graduate"></i>
+            </a>
 
-        <!-- Akademik -->
-        <a href="{{ route('siswa.materi.index') }}" class="nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
-            <i class="fas fa-book"></i>
-        </a>
+            <!-- Tugas Siswa -->
+            <a href="{{ route('siswa.tugas.index') }}" class="nav-icon {{ request()->routeIs('siswa.tugas.*') ? 'active' : '' }}">
+                <i class="fas fa-tasks"></i>
+            </a>
 
-        <!-- Tugas Siswa -->
-        <a href="{{ route('siswa.tugas.index') }}" class="nav-icon {{ request()->routeIs('siswa.tugas.*') ? 'active' : '' }}">
-            <i class="fas fa-tasks"></i>
-        </a>
-    </div>
+            <!-- Informasi Sekolah -->
+            <a href="{{ route('public.informasi_sekolah.index') }}" class="nav-icon {{ request()->routeIs('public.informasi_sekolah.index') ? 'active' : '' }}">
+                <i class="fas fa-school"></i>
+            </a>
+        </div>
     </div>
 
     <!-- Footer -->

@@ -13,8 +13,8 @@ $menus = [
     'default' => [
         ['label' => 'Upload Foto Profil', 'type' => 'modal', 'icon' => 'bi-cloud-upload'],
         ['label' => 'Lengkapi Data Diri', 'route' => route('siswa.data_diri'), 'icon'  => 'bi-person-lines-fill'],
-        ['label' => 'Materi Pembelajaran', 'route' => route('siswa.materi.index'), 'icon'  => 'bi-clipboard-check'],
-        ['label' => 'Upload Tugas Belajar', 'route' => route('siswa.tugas.index'), 'icon'  => 'bi-upload'],
+        // ['label' => 'Materi Pembelajaran', 'route' => route('siswa.materi.index'), 'icon'  => 'bi-clipboard-check'],
+        // ['label' => 'Upload Tugas Belajar', 'route' => route('siswa.tugas.index'), 'icon'  => 'bi-upload'],
     ],
 ];
 
@@ -36,8 +36,8 @@ if ($jabatan === 'Sekretaris') {
 // }
 
 $datas = [
-    ['label' => 'Daftar Peserta Didik', 'route' => route('public.daftar_siswa.index'), 'icon' => 'bi-people'],
-    ['label' => 'Jadwal Mengajar Guru', 'route' => route('public.jadwal_guru.index'), 'icon' => 'bi-clock-history'],
+    // ['label' => 'Daftar Peserta Didik', 'route' => route('public.daftar_siswa.index'), 'icon' => 'bi-people'],
+    ['label' => 'Jadwal Guru Mengajar', 'route' => route('public.jadwal_guru.index'), 'icon' => 'bi-clock-history'],
     ['label' => 'Jadwal Mata Pelajaran', 'route' => route('public.jadwal_mapel.index'), 'icon' => 'bi-journal-bookmark'],
     ['label' => 'Jadwal Guru Piket', 'route' => route('public.jadwal_piket.index'), 'icon' => 'bi-clipboard2-check'],
 ];
@@ -46,7 +46,7 @@ $accounts = [
     ['label' => 'Edit Data Profil', 'route' => route('profile.edit'), 'icon' => 'bi-person'],
     ['label' => 'Ubah Password', 'route' => route('profile.password'), 'icon' => 'bi-key'],
     ['label' => 'Hapus Akun', 'route' => route('profile.delete'), 'icon' => 'bi-trash'],
-    ['label' => 'Logout', 'route' => route('logout'), 'type'  => 'form', 'icon' => 'bi-box-arrow-right'],
+    // ['label' => 'Logout', 'route' => route('logout'), 'type'  => 'form', 'icon' => 'bi-box-arrow-right'],
 ];
 @endphp
 

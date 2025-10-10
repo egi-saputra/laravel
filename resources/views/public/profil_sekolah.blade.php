@@ -17,7 +17,6 @@
             <div>
                 <x-public.profil-sekolah-card />
             </div>
-
         </main>
     </div>
 

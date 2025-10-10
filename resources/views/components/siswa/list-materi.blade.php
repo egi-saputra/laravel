@@ -25,7 +25,7 @@
 
     <!-- Table -->
     <div class="overflow-x-auto md:overflow-x-visible">
-        <table class="w-full border border-collapse" id="materiTable">
+        <table class="w-full mb-6 border border-collapse" id="materiTable">
             <thead>
                 <tr class="bg-gray-100">
                     <th class="w-12 px-4 py-2 text-sm text-center border md:text-base">No</th>

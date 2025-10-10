@@ -7,12 +7,12 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+        <aside class="mt-0 md:block hidden md:ml-6 md:mt-6 md:h-screen md:mb-0 mb-4 md:w-auto">
             <x-sidebar />
         </aside>
 
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
-            <div class="px-8 py-4 bg-white rounded shadow">
+        <main class="flex-1 p-0 md:mb-0 mb-16 space-y-6 overflow-x-auto md:p-6">
+            <div class="md:px-8 px-4 py-4 bg-white rounded shadow">
                 <h1 class="mb-4 text-lg font-bold">Form Input Tugas</h1>
 
                 <form action="{{ route('siswa.tugas.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
@@ -36,7 +36,7 @@
                     </div>
 
                     <!-- Kelas & Mapel -->
-                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div class="md:grid grid-cols-1 hidden gap-4 md:grid-cols-2">
                         <div>
                             <label class="block font-medium">Kelas</label>
                             <input type="text" class="w-full px-3 py-2 bg-gray-100 border rounded"
@@ -92,11 +92,44 @@
             </div>
 
             <!-- Tabel Daftar Materi -->
-            <div class="p-4 overflow-x-auto bg-white rounded shadow">
                 <x-siswa.table-tugas :tugas="$tugas" :gurus="$gurus" />
-            </div>
         </main>
     </div>
+
+        <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
+        <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 bg-white border-t shadow-md md:hidden text-xs">
+
+            <!-- Home/Dashboard -->
+            <a href="{{ route('siswa.dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
+                <i class="fas fa-chart-line text-lg"></i>
+                <small class="text-xs font-semibold">Beranda</small>
+            </a>
+
+            <!-- Siswa -->
+            <a href="{{ route('public.daftar_siswa.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
+                <i class="fas fa-user-graduate text-lg"></i>
+                <small class="text-xs font-semibold">Siswa</small>
+            </a>
+
+            <!-- Informasi Sekolah -->
+            <a href="{{ route('public.informasi_sekolah.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.informasi_sekolah.index') ? 'active' : '' }}">
+                <i class="fas fa-school text-lg"></i>
+                <small class="text-xs font-semibold">Sekolah</small>
+            </a>
+
+            <!-- Akademik -->
+            <a href="{{ route('siswa.materi.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
+                <i class="fas fa-book text-lg"></i>
+                <small class="text-xs font-semibold">Materi</small>
+            </a>
+
+            <!-- Tugas Siswa -->
+            <a href="{{ route('siswa.tugas.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.tugas.*') ? 'active' : '' }}">
+                <i class="fas fa-tasks text-lg"></i>
+                <small class="text-xs font-semibold">Tugas</small>
+            </a>
+
+        </div>
 
     <x-footer :profil="$profil" />
 </x-app-backtop-layout>

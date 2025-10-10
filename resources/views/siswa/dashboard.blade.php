@@ -113,37 +113,40 @@
         </main>
     </div>
 
-    <!-- Bottom Navigation (Mobile Only - Icon Only) -->
-    <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 bg-white border-t shadow-md md:hidden">
+        <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
+        <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 bg-white border-t shadow-md md:hidden text-xs">
 
-        <!-- Home/Dashboard -->
-        <a href="{{ route('siswa.dashboard') }}" class="nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
-            <i class="fas fa-home"></i>
-        </a>
+            <!-- Home/Dashboard -->
+            <a href="{{ route('siswa.dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
+                <i class="fas fa-chart-line text-lg"></i>
+                <small class="text-xs font-semibold">Beranda</small>
+            </a>
 
-        <!-- Data Diri -->
-        <a href="{{ route('public.informasi_sekolah.index') }}" class="nav-icon {{ request()->routeIs('public.informasi_sekolah.index') ? 'active' : '' }}">
-            <i class="fas fa-folder-open"></i>
-        </a>
+            <!-- Siswa -->
+            <a href="{{ route('public.daftar_siswa.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
+                <i class="fas fa-user-graduate text-lg"></i>
+                <small class="text-xs font-semibold">Siswa</small>
+            </a>
 
-        <!-- Siswa -->
-        <a href="{{ route('public.daftar_siswa.index') }}" class="nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
-            <i class="fas fa-user-graduate"></i>
-        </a>
+            <!-- Informasi Sekolah -->
+            <a href="{{ route('public.informasi_sekolah.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.informasi_sekolah.index') ? 'active' : '' }}">
+                <i class="fas fa-school text-lg"></i>
+                <small class="text-xs font-semibold">Sekolah</small>
+            </a>
 
-        <!-- Akademik -->
-        <a href="{{ route('siswa.materi.index') }}" class="nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
-            <i class="fas fa-book"></i>
-        </a>
+            <!-- Akademik -->
+            <a href="{{ route('siswa.materi.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
+                <i class="fas fa-book text-lg"></i>
+                <small class="text-xs font-semibold">Materi</small>
+            </a>
 
-        <!-- Tugas Siswa -->
-        <a href="{{ route('siswa.tugas.index') }}" class="nav-icon {{ request()->routeIs('siswa.tugas.*') ? 'active' : '' }}">
-            {{-- <i class="fas fa-file-alt"></i> --}}
-            {{-- <i class="fas fa-clipboard-list"></i> --}}
-            <i class="fas fa-tasks"></i>
-            {{-- <i class="fas fa-id-card"></i> --}}
-        </a>
-    </div>
+            <!-- Tugas Siswa -->
+            <a href="{{ route('siswa.tugas.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.tugas.*') ? 'active' : '' }}">
+                <i class="fas fa-tasks text-lg"></i>
+                <small class="text-xs font-semibold">Tugas</small>
+            </a>
+
+        </div>
 
     <script>
         // Filter role online users

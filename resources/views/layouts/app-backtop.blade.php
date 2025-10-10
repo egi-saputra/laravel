@@ -7,6 +7,10 @@
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
+        <!-- Warna status bar Android -->
+        <meta name="theme-color" content="#063970">
+        <!-- Warna status bar Safari iOS -->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -73,7 +77,7 @@
                         display: flex;
                         justify-around;
                         padding: 0.5rem 0;
-                        background: rgba(255, 255, 255, 0.95);
+                        background: rgba(255, 255, 255, 1);
                         backdrop-filter: blur(8px);
                         border-top: 1px solid #e5e7eb;
                         box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
@@ -179,7 +183,7 @@
     ];
 @endphp
 
-<nav x-data="{ open: false }" class="sticky top-0 z-20 hidden bg-white border-b border-gray-100 shadow-sm md:block dark:bg-gray-800 dark:border-gray-700 md:static">
+<nav x-data="{ open: false }" class="fixed top-0 z-20 bg-white border-b border-gray-100 shadow-sm block dark:bg-gray-800 dark:border-gray-700 md:static">
     <!-- Primary Navigation Menu -->
     <div class="w-full px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -272,15 +276,22 @@
             </div>
 
             <!-- Hamburger (Mobile Menu Button) -->
-            <div class="flex items-center -me-2 sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none">
+            <div class="flex items-center mx-0 md:-mx-2 sm:hidden">
+                {{-- <button @click="open = ! open" class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none">
                     <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                </button>
+                </button> --}}
+                <!-- Logout -->
+                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="nav-icon text-red-500">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </form>
             </div>
         </div>
     </div>

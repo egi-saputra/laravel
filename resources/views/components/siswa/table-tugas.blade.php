@@ -1,8 +1,9 @@
             <!-- Riwayat Tugas -->
-            <div class="mb-8">
+            <div class="mb-8 p-4 bg-white rounded shadow">
                 <h2 class="mb-4 text-base font-bold md:text-lg">Riwayat Tugas Saya</h2>
 
-                    <table class="w-full border border-collapse" id="tugasTable">
+                <div class="overflow-x-auto md:overflow-x-visible">
+                    <table class="w-full mb-10 border border-collapse" id="tugasTable">
                         <thead>
                             <tr class="bg-gray-100">
                                 <th class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">Judul Tugas</th>
@@ -15,7 +16,7 @@
                         <tbody>
                             @forelse($tugas as $t)
                             <tr>
-                                <td class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">{{ $t->judul }}</td>
+                                <td class="px-4 py-2 text-sm border md:text-base">{{ $t->judul }}</td>
                                 {{-- <td class="px-4 py-2 border whitespace-nowrap">{{ $t->mapel->mapel ?? '-' }}</td> --}}
                                 <td class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">
                                     {{ $t->mapel->guru->user->name ?? '-' }}
@@ -109,3 +110,4 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>

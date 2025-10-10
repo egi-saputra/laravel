@@ -201,6 +201,35 @@
     </div>
     </div>
 
+    <!-- Bottom Navigation (Mobile Only - Icon Only) -->
+        <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 bg-white border-t shadow-md md:hidden">
+
+            <!-- Home/Dashboard -->
+            <a href="{{ route('siswa.dashboard') }}" class="nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
+                <i class="fas fa-home"></i>
+            </a>
+
+            <!-- Akademik -->
+            <a href="{{ route('siswa.materi.index') }}" class="nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
+                <i class="fas fa-book"></i>
+            </a>
+
+            <!-- Siswa -->
+            <a href="{{ route('public.daftar_siswa.index') }}" class="nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
+                <i class="fas fa-user-graduate"></i>
+            </a>
+
+            <!-- Tugas Siswa -->
+            <a href="{{ route('siswa.tugas.index') }}" class="nav-icon {{ request()->routeIs('siswa.tugas.*') ? 'active' : '' }}">
+                <i class="fas fa-tasks"></i>
+            </a>
+
+            <!-- Informasi Sekolah -->
+            <a href="{{ route('public.informasi_sekolah.index') }}" class="nav-icon {{ request()->routeIs('public.informasi_sekolah.index') ? 'active' : '' }}">
+                <i class="fas fa-school"></i>
+            </a>
+        </div>
+
     <script>
         function syncData() {
             const button = document.getElementById('syncButton');

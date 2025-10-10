@@ -55,9 +55,43 @@ use Carbon\Carbon;
                     Presensi Hari Ini Telah Dilakukan
                 </span>
             @endif
-
         </main>
     </div>
+
+        <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
+        <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 bg-white border-t shadow-md md:hidden text-xs">
+
+            <!-- Home/Dashboard -->
+            <a href="{{ route('siswa.dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
+                <i class="fas fa-home text-lg"></i>
+                <span>Home</span>
+            </a>
+
+            <!-- Akademik -->
+            <a href="{{ route('siswa.materi.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
+                <i class="fas fa-book text-lg"></i>
+                <span>Akademik</span>
+            </a>
+
+            <!-- Siswa -->
+            <a href="{{ route('public.daftar_siswa.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
+                <i class="fas fa-user-graduate text-lg"></i>
+                <span>Siswa</span>
+            </a>
+
+            <!-- Tugas Siswa -->
+            <a href="{{ route('siswa.tugas.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.tugas.*') ? 'active' : '' }}">
+                <i class="fas fa-tasks text-lg"></i>
+                <span>Tugas</span>
+            </a>
+
+            <!-- Informasi Sekolah -->
+            <a href="{{ route('public.informasi_sekolah.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.informasi_sekolah.index') ? 'active' : '' }}">
+                <i class="fas fa-school text-lg"></i>
+                <span>Sekolah</span>
+            </a>
+
+        </div>
 
     <!-- Footer -->
     <x-footer :profil="$profil" />
