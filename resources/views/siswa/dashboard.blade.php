@@ -7,40 +7,12 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="hidden mx-4 mt-4 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto md:block">
+        <aside class="mx-0 mt-2 mb-4 md:top-0 md:ml-6 md:mt-6 md:h-screen md:w-auto">
             <x-sidebar />
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
-
-            {{-- ===== Statistik User ===== --}}
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-                @php
-                    $stats = [
-                        ['title'=>'Guru','count'=>$guruCount,'bg'=>'bg-purple-100','text'=>'text-purple-600','icon'=>'fas fa-chalkboard-teacher'],
-                        ['title'=>'Siswa','count'=>$siswaCount,'bg'=>'bg-green-100','text'=>'text-green-600','icon'=>'fas fa-user-graduate'],
-                        ['title'=>'User','count'=>$userCount,'bg'=>'bg-pink-100','text'=>'text-pink-600','icon'=>'fas fa-users'],
-                        ['title'=>'Total Pengguna','count'=>$totalUsers,'bg'=>'bg-indigo-100','text'=>'text-indigo-600','icon'=>'fas fa-user-friends'],
-                        ['title'=>'Pengunjung Unik (IP)','count'=>$uniqueVisitors,'bg'=>'bg-teal-100','text'=>'text-teal-600','icon'=>'fas fa-fingerprint'],
-                        ['title'=>'Total Pengunjung','count'=>$totalVisitors,'bg'=>'bg-red-100','text'=>'text-red-600','icon'=>'fas fa-eye'],
-                    ];
-                @endphp
-
-                @foreach ($stats as $stat)
-                    <div class="p-6 transition bg-white shadow rounded-2xl hover:shadow-lg">
-                        <div class="flex items-center">
-                            <div class="p-3 {{ $stat['bg'] }} rounded-full">
-                                <i class="text-2xl {{ $stat['text'] }} {{ $stat['icon'] }}"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500">{{ $stat['title'] }}</p>
-                                <h3 class="text-2xl font-bold {{ $stat['text'] }}">{{ $stat['count'] }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
+        <main class="flex-1 p-0 mb-16 space-y-6 overflow-x-auto md:mb-0 md:p-6">
 
             {{-- ===== Filter ===== --}}
             <div class="flex flex-col mb-4 space-y-2 md:flex-row md:justify-between md:items-center md:space-y-0">
@@ -57,15 +29,15 @@
             </div>
 
             {{-- ===== Grid Online Users ===== --}}
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer">
+            <div class="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer">
                 @forelse ($onlineUsers as $user)
-                    <div class="flex items-center p-4 space-x-4 transition bg-white shadow rounded-xl hover:shadow-lg user-card"
+                    <div class="flex items-center p-4 space-x-4 transition bg-white shadow rounded-xl md:rounded-2xl hover:shadow-lg user-card"
                          data-role="{{ $user->role }}">
                         <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
                         <div>
                             <h3 class="text-sm font-semibold text-gray-700">{{ $user->name }}</h3>
                             <p class="text-xs text-green-600">Online</p>
-                            <p class="text-xs text-gray-400">Role: {{ ucfirst($user->role) }}</p>
+                            {{-- <p class="text-xs text-gray-400">Role: {{ ucfirst($user->role) }}</p> --}}
                         </div>
                     </div>
                 @empty
@@ -75,8 +47,36 @@
                 <p class="text-center text-gray-500 col-span-full no-users" style="display: none;">Tidak ada user yang sedang online</p>
             </div>
 
+            {{-- ===== Statistik User ===== --}}
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+                @php
+                    $stats = [
+                        ['title'=>'Guru','count'=>$guruCount,'bg'=>'bg-purple-100','text'=>'text-purple-600','icon'=>'fas fa-chalkboard-teacher'],
+                        ['title'=>'Siswa','count'=>$siswaCount,'bg'=>'bg-green-100','text'=>'text-green-600','icon'=>'fas fa-user-graduate'],
+                        ['title'=>'User','count'=>$userCount,'bg'=>'bg-pink-100','text'=>'text-pink-600','icon'=>'fas fa-users'],
+                        ['title'=>'Total Pengguna','count'=>$totalUsers,'bg'=>'bg-indigo-100','text'=>'text-indigo-600','icon'=>'fas fa-user-friends'],
+                        ['title'=>'Pengunjung Unik (IP)','count'=>$uniqueVisitors,'bg'=>'bg-teal-100','text'=>'text-teal-600','icon'=>'fas fa-fingerprint'],
+                        ['title'=>'Total Pengunjung','count'=>$totalVisitors,'bg'=>'bg-red-100','text'=>'text-red-600','icon'=>'fas fa-eye'],
+                    ];
+                @endphp
+
+                @foreach ($stats as $stat)
+                    <div class="p-6 transition bg-white rounded-md shadow md:rounded-2xl hover:shadow-lg">
+                        <div class="flex items-center">
+                            <div class="p-3 {{ $stat['bg'] }} rounded-full">
+                                <i class="md:text-2xl text-xl {{ $stat['text'] }} {{ $stat['icon'] }}"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-500">{{ $stat['title'] }}</p>
+                                <h3 class="text-2xl font-bold {{ $stat['text'] }}">{{ $stat['count'] }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
             {{-- ===== Statistik Visitor ===== --}}
-            <div class="p-4 mt-4 bg-white shadow-sm rounded-2xl">
+            <div class="hidden p-4 mt-4 bg-white rounded-md shadow-sm md:block md:rounded-2xl">
                 <div class="flex items-center justify-between mb-3">
                     <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung <span class="hidden sm:inline">Semua User</span></p>
                     <form method="GET" action="{{ route('visitor.index') }}">
@@ -122,7 +122,7 @@
         </a>
 
         <!-- Data Diri -->
-        <a href="{{ route('public.profil_sekolah.index') }}" class="nav-icon {{ request()->routeIs('siswa.data_diri') ? 'active' : '' }}">
+        <a href="{{ route('public.informasi_sekolah.index') }}" class="nav-icon {{ request()->routeIs('public.informasi_sekolah.index') ? 'active' : '' }}">
             <i class="fas fa-folder-open"></i>
         </a>
 

@@ -179,7 +179,7 @@
     ];
 @endphp
 
-<nav x-data="{ open: false }" class="sticky top-0 z-20 bg-white border-b border-gray-100 shadow-sm dark:bg-gray-800 dark:border-gray-700 md:static">
+<nav x-data="{ open: false }" class="sticky top-0 z-20 hidden bg-white border-b border-gray-100 shadow-sm md:block dark:bg-gray-800 dark:border-gray-700 md:static">
     <!-- Primary Navigation Menu -->
     <div class="w-full px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -406,7 +406,7 @@
 
         <!-- Back to Top -->
         <button id="backToTop"
-            class="fixed flex items-center justify-center w-12 h-12 text-white transition-all duration-300 rounded-full shadow-lg md:bottom-6 bottom-16 right-6 bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-2xl hover:scale-110"
+            class="fixed items-center justify-center hidden w-12 h-12 text-white transition-all duration-300 rounded-full shadow-lg md:flex md:bottom-6 bottom-16 right-6 bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-2xl hover:scale-110"
             title="Kembali ke atas">
             <i class="text-xl bi bi-arrow-up"></i>
         </button>
