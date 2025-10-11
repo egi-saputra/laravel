@@ -249,7 +249,7 @@
     </head>
     <body class="font-sans antialiased bg-gray-100">
         <x-alert />
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen bg-gray-100">
             @php
                 $role = auth()->user()->role;
                 $routes = [
