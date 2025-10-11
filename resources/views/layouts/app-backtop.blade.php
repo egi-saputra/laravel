@@ -133,7 +133,7 @@
                 }
             </style>
 
-            {{-- <style>
+            <style>
                 .loader-bar {
                     width: 200px;
                     height: 6px;
@@ -165,8 +165,8 @@
                     opacity: 0;
                     pointer-events: none;
                 }
-            </style> --}}
-            <style>
+            </style>
+            {{-- <style>
                 #minimalLoader {
                     position: fixed;
                     top: 0; left: 0;
@@ -216,7 +216,7 @@
                     border-radius: 9999px;
                     transition: width 1.5s cubic-bezier(0.77, 0, 0.175, 1); /* smooth live feel */
                 }
-            </style>
+            </style> --}}
 
             <style>
                 #backToTop {
@@ -461,24 +461,27 @@
             </nav>
 
             <!-- Loader Global With Lottie Player -->
-            {{-- <div id="globalLoader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
-                <lottie-player
-                    src="https://assets10.lottiefiles.com/packages/lf20_usmfx6bp.json"
-                    background="transparent"
-                    speed="1"
-                    style="width: 200px; height: 200px;"
-                    loop
-                    autoplay>
-                </lottie-player>
-            </div> --}}
-
-            <!-- Minimal Loader Bar dengan tulisan -->
-            <div id="minimalLoader">
-                <div class="loader-text">Loading...</div>
-                <div class="loader-bar-wrapper">
-                    <div class="loader-bar" id="loaderBar"></div>
+            @if(!session('alert'))
+                <div id="globalLoader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
+                    <lottie-player
+                        src="https://assets10.lottiefiles.com/packages/lf20_usmfx6bp.json"
+                        background="transparent"
+                        speed="1"
+                        style="width: 200px; height: 200px;"
+                        loop
+                        autoplay>
+                    </lottie-player>
                 </div>
-            </div>
+            @endif
+
+            {{-- @if(!session('alert'))
+                <div id="minimalLoader">
+                    <div class="loader-text">Loading...</div>
+                    <div class="loader-bar-wrapper">
+                        <div class="loader-bar" id="loaderBar"></div>
+                    </div>
+                </div>
+            @endif --}}
 
             <!-- Page Content -->
             <main>
@@ -634,29 +637,45 @@
             });
 
             // Lottie Player
-            // document.addEventListener("DOMContentLoaded", function() {
-            //     const loader = document.getElementById('globalLoader');
-            //     // tambahkan delay kecil supaya animasi Lottie muncul
-            //     setTimeout(() => {
-            //         loader.classList.add('hidden');
-            //     }, 500);
-            // });
-
-            // Simple Bar Loader Live
-            window.addEventListener('load', () => {
-                const loaderBar = document.getElementById('loaderBar');
-                const loader = document.getElementById('minimalLoader');
-
-                // Animasi bar bergerak secara smooth
-                setTimeout(() => {
-                    loaderBar.style.width = '100%';
-                }, 50); // delay tipis agar transisi terlihat
-
-                // Sembunyikan loader setelah animasi selesai
+            document.addEventListener("DOMContentLoaded", function() {
+                const loader = document.getElementById('globalLoader');
+                // tambahkan delay kecil supaya animasi Lottie muncul
                 setTimeout(() => {
                     loader.classList.add('hidden');
-                }, 1600); // 1.5s + buffer
+                }, 500);
             });
+
+            // Simple Bar Loader Live
+            // document.addEventListener('DOMContentLoaded', function () {
+            //     const loader = document.getElementById('minimalLoader');
+            //     const loaderBar = document.getElementById('loaderBar');
+
+            //     // Cek apakah ada SweetAlert
+            //     const hasSweetAlert = @json(session('alert') ? true : false);
+
+            //     if (hasSweetAlert) {
+            //         // Hilangkan loader sepenuhnya
+            //         if (loader) loader.remove();
+            //         if (loaderBar) loaderBar.remove();
+
+            //         Swal.fire({
+            //             icon: '{{ session('alert.type') }}',
+            //             title: '{{ session('alert.title') ?? ucfirst(session('alert.type')) }}',
+            //             text: '{{ session('alert.message') }}',
+            //             confirmButtonText: 'OK',
+            //             confirmButtonColor: '#3085d6'
+            //         });
+            //     } else {
+            //         // Normal loader
+            //         setTimeout(() => {
+            //             loaderBar.style.width = '100%';
+            //         }, 50);
+
+            //         setTimeout(() => {
+            //             loader.classList.add('hidden');
+            //         }, 1600);
+            //     }
+            // });
         </script>
 
         @if (session('sanctum_token'))
