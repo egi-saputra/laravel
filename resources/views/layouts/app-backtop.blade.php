@@ -48,6 +48,7 @@
                     padding: 0;
                     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
                     background-color: #f3f4f6;
+                    color-scheme: only light;
                 }
 
                 /* ================================== */
