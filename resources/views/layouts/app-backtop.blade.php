@@ -672,5 +672,11 @@
             });
         </script>
 
+        @if (session('sanctum_token'))
+            <script>
+                // Simpan token Sanctum dari Laravel session ke localStorage browser
+                localStorage.setItem('sanctum_token', "{{ session('sanctum_token') }}");
+            </script>
+        @endif
     </body>
 </html>
