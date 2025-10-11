@@ -13,7 +13,7 @@
         </div>
 
         <!-- Right Panel -->
-        <div class="flex flex-col md:justify-center md:items-center w-full md:w-1/2 bg-white p-8">
+        <div class="flex flex-col w-full p-8 bg-white md:justify-center md:items-center md:w-1/2">
 
             <div class="w-full max-w-md">
                 <h4 class="mb-2 text-lg font-bold capitalize md:text-xl">Sign In</h4>
@@ -21,6 +21,7 @@
 
                 <!-- Login Form -->
                 <form method="POST" action="{{ route('login') }}">
+                {{-- <form method="POST" action="{{ url('/api/login') }}"> --}}
                     @csrf
 
                     <!-- Email -->

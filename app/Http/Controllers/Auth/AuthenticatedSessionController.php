@@ -25,15 +25,50 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
+    // public function store(LoginRequest $request): RedirectResponse
+    // {
+    //     $request->authenticate();
+    //     $request->session()->regenerate();
+
+    //     $user = Auth::user();
+    //     // 🔹 Update last_activity saat login
+    //     $user->update([
+    //         'last_activity' => Carbon::now(),
+    //     ]);
+
+    //     // ✅ Catat visit saat login berhasil
+    //     Visitor::create([
+    //         'user_id'    => $user->id,
+    //         'ip_address' => $request->ip(),
+    //         'user_agent' => $request->userAgent(),
+    //     ]);
+
+    //     switch ($user->role) {
+    //         case 'developer':
+    //             return redirect()->intended('/dev/dashboard');
+    //         case 'admin':
+    //             return redirect()->intended('/admin/dashboard');
+    //         case 'guru':
+    //             return redirect()->intended('/guru/dashboard');
+    //         case 'staff':
+    //             return redirect()->intended('/staff/dashboard');
+    //         case 'siswa':
+    //             return redirect()->intended('/siswa/dashboard');
+    //         case 'user':
+    //         default:
+    //             return redirect()->intended('/user/dashboard');
+    //     }
+    // }
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
         $request->session()->regenerate();
 
         $user = Auth::user();
+
         // 🔹 Update last_activity saat login
         $user->update([
-            'last_activity' => Carbon::now(),
+            'last_activity' => now(),
         ]);
 
         // ✅ Catat visit saat login berhasil
@@ -43,6 +78,11 @@ class AuthenticatedSessionController extends Controller
             'user_agent' => $request->userAgent(),
         ]);
 
+        // ✅ Tambahkan ini agar Sanctum token juga dibuat saat login biasa
+        $token = $user->createToken('web-login')->plainTextToken;
+        session(['sanctum_token' => $token]);
+
+        // 🔹 Arahkan user sesuai perannya
         switch ($user->role) {
             case 'developer':
                 return redirect()->intended('/dev/dashboard');
