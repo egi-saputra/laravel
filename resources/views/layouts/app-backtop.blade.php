@@ -47,12 +47,7 @@
                     margin: 0;
                     padding: 0;
                     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-                    background-color: #f3f4f6; /* sesuai bg-gray-100 */
-                    /* Safe area untuk semua device yang mendukung */
-                    padding-top: env(safe-area-inset-top);
-                    padding-bottom: env(safe-area-inset-bottom);
-                    padding-left: env(safe-area-inset-left);
-                    padding-right: env(safe-area-inset-right);
+                    background-color: #f3f4f6;
                 }
 
                 /* ================================== */
@@ -66,7 +61,8 @@
                     z-index: 1000;
                     background-color: #ffffff;
                     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                    padding-top: env(safe-area-inset-top); /* aman dari notch/status bar */
+                    padding-top: env(safe-area-inset-top);
+                    transform: translateZ(0);
                 }
 
                 /* ================================== */
@@ -134,16 +130,6 @@
                         display: none;
                     }
                 }
-
-                /* ================================== */
-                /* Optional: Fix untuk halaman reload/back button di WebView */
-                /* ================================== */
-                @supports (padding-top: env(safe-area-inset-top)) {
-                    body {
-                        padding-top: env(safe-area-inset-top);
-                    }
-                }
-
             </style>
 
             {{-- <style>
