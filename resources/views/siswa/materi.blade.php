@@ -15,13 +15,19 @@
         <main class="flex-1 p-0 mb-10 space-y-6 overflow-x-auto md:mb-0 md:p-6">
 
             <!-- Tabel Daftar Materi -->
-            <x-siswa.list-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
+            <div class="hidden md:block">
+                <x-siswa.list-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
+            </div>
+            <div class="block md:hidden">
+                <x-siswa.card-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
+            </div>
+
             <!-- Footer -->
             <x-footer :profil="$profil" />
         </main>
 
         <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
-        <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow-md md:hidden">
+        {{-- <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow-md md:hidden">
 
             <!-- Home/Dashboard -->
             <a href="{{ route('siswa.dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
@@ -53,6 +59,6 @@
                 <small class="text-xs font-semibold">Tugas</small>
             </a>
 
-        </div>
+        </div> --}}
     </div>
 </x-app-layout>

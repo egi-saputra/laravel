@@ -62,7 +62,7 @@
             </div>
 
             <!-- Tabel Daftar Kelas -->
-            <div class="px-8 py-4 overflow-x-auto bg-white rounded shadow md:overflow-x-visible">
+            <div class="px-0 py-4 overflow-x-auto bg-transparent rounded shadow-none md:bg-white md:shadow md:px-8 md:overflow-x-visible">
                 @if(auth()->user()->role === 'admin')
                     <x-data-kelas :kelas="$kelas" :guru="$guru" />
                 @else
@@ -83,7 +83,7 @@
     </div>
 
         <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
-        <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow-md md:hidden">
+        {{-- <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow-md md:hidden">
 
             <!-- Home/Dashboard -->
             <a href="{{ route('siswa.dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
@@ -115,7 +115,7 @@
                 <small class="text-xs font-semibold">Tugas</small>
             </a>
 
-        </div>
+        </div> --}}
 
     <!-- Footer -->
     <x-footer :profil="$profil" />
