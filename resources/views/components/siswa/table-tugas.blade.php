@@ -1,9 +1,9 @@
             <!-- Riwayat Tugas -->
-            <div class="mb-8 p-4 bg-white rounded shadow">
+            <div class="">
                 <h2 class="mb-4 text-base font-bold md:text-lg">Riwayat Tugas Saya</h2>
 
                 <div class="overflow-x-auto md:overflow-x-visible">
-                    <table class="w-full mb-10 border border-collapse" id="tugasTable">
+                    <table class="w-full mb-10 border border-collapse md:mb-2" id="tugasTable">
                         <thead>
                             <tr class="bg-gray-100">
                                 <th class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">Judul Tugas</th>

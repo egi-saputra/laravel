@@ -1,4 +1,4 @@
-<x-app-backtop-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? 'Input Tugas Siswa') }}
@@ -7,13 +7,13 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="mt-0 md:block hidden md:ml-6 md:mt-6 md:h-screen md:mb-0 mb-4 md:w-auto">
+        <aside class="z-50 hidden mt-0 md:block md:ml-6 md:mt-6 md:h-screen md:w-auto">
             <x-sidebar />
         </aside>
 
-        <main class="flex-1 p-0 md:mb-0 mb-16 space-y-6 overflow-x-auto md:p-6">
-            <div class="md:px-8 px-4 py-4 bg-white rounded shadow">
-                <h1 class="mb-4 text-lg font-bold">Form Input Tugas</h1>
+        <main class="flex-1 p-0 pb-16 space-y-6 overflow-x-auto md:p-6">
+            <div class="px-4 py-4 mb-8 bg-white rounded-md shadow md:rounded md:px-8">
+                <h1 class="pb-2 mb-4 text-lg font-semibold text-center md:mb-4 md:text-start md:font-bold">Form Input Tugas</h1>
 
                 <form action="{{ route('siswa.tugas.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                     @csrf
@@ -36,15 +36,15 @@
                     </div>
 
                     <!-- Kelas & Mapel -->
-                    <div class="md:grid grid-cols-1 hidden gap-4 md:grid-cols-2">
-                        <div>
-                            <label class="block font-medium">Kelas</label>
-                            <input type="text" class="w-full px-3 py-2 bg-gray-100 border rounded"
+                    <div class="grid grid-cols-1 gap-4 md:pb-3 md:mb-4 md:grid-cols-2">
+                        <div class="hidden mb-4 md:mb-0 md:grid">
+                            <label class="block font-medium">Kelas (Auto Generate)</label>
+                            <input type="text" class="w-full px-3 py-2 border rounded bg-gray-50"
                                    value="{{ $kelasUser->kelas ?? '-' }}" readonly disabled>
                             <!-- hidden agar tetap terkirim ke backend -->
                             <input type="hidden" name="kelas_id" value="{{ auth()->user()->kelas_id }}">
                         </div>
-                        <div>
+                        <div class="mb-4 md:mb-0">
                             {{-- Jika mau berdasarkan Mapel --}}
                             {{-- <label class="block font-medium">Mata Pelajaran</label>
                             <select name="mapel_id" class="w-full px-3 py-2 border rounded">
@@ -59,17 +59,17 @@
                             <label class="block font-medium">Nama Guru Mapel</label>
                             <select name="guru_id" class="w-full px-3 py-2 border rounded" required>
                                 <option value="">-- Pilih Guru --</option>
-                                @foreach($gurus as $guru)
-                                    <option value="{{ $guru->id }}" {{ old('guru_id') == $guru->id ? 'selected' : '' }}>
-                                        {{ $guru->user->name ?? 'Belum Ada Guru' }}
-                                    </option>
-                                @endforeach
+                                    @foreach($gurus as $guru)
+                                        <option value="{{ $guru->id }}" {{ old('guru_id') == $guru->id ? 'selected' : '' }}>
+                                            {{ $guru->user->name ?? 'Belum Ada Guru' }}
+                                        </option>
+                                    @endforeach
                             </select>
                         </div>
                     </div>
 
                     <!-- Upload File -->
-                    <div>
+                    {{-- <div>
                         <label class="block font-medium">Upload File</label>
                         <input type="file" name="file_tugas" class="w-full px-3 py-2 border rounded" required>
                         <small class="block mt-1 text-sm leading-relaxed text-gray-500">
@@ -77,59 +77,34 @@
                             <br>
                             <span class="font-medium">Ukuran maksimal:</span> 50MB
                         </small>
-                    </div>
+                    </div> --}}
 
-                    <!-- Hidden User ID -->
-                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                    <!-- Upload File Custom Button -->
+                    <div class="flex flex-col gap-4 md:flex-row md:items-center">
+                        <input type="file" name="file_tugas" id="fileInput" class="hidden" required>
+                        <button type="button" onclick="document.getElementById('fileInput').click()"
+                            class="w-full px-4 py-2 transition-colors border border-gray-300 rounded md:w-1/3 text-slate-900 md:font-semibold md:border-2 md:border-gray-700 hover:bg-gray-100">
+                            <i class="mr-2 bi bi-upload"></i> Upload File Tugas
+                        </button>
 
-                    <!-- Tombol Submit -->
-                    <div class="flex justify-end md:justify-start">
-                        <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                        <button type="submit" class="w-full px-4 py-2 text-white bg-blue-600 rounded md:w-auto hover:bg-blue-700">
                             <i class="bi bi-save"></i> Simpan
                         </button>
                     </div>
-                </form>
-            </div>
 
-            <!-- Tabel Daftar Materi -->
-                <x-siswa.table-tugas :tugas="$tugas" :gurus="$gurus" />
-        </main>
-    </div>
-
-        <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
-        <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 bg-white border-t shadow-md md:hidden text-xs">
-
-            <!-- Home/Dashboard -->
-            <a href="{{ route('siswa.dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
-                <i class="fas fa-chart-line text-lg"></i>
-                <small class="text-xs font-semibold">Beranda</small>
-            </a>
-
-            <!-- Siswa -->
-            <a href="{{ route('public.daftar_siswa.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
-                <i class="fas fa-user-graduate text-lg"></i>
-                <small class="text-xs font-semibold">Siswa</small>
-            </a>
-
-            <!-- Informasi Sekolah -->
-            <a href="{{ route('public.informasi_sekolah.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.informasi_sekolah.index') ? 'active' : '' }}">
-                <i class="fas fa-school text-lg"></i>
-                <small class="text-xs font-semibold">Sekolah</small>
-            </a>
-
-            <!-- Akademik -->
-            <a href="{{ route('siswa.materi.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
-                <i class="fas fa-book text-lg"></i>
-                <small class="text-xs font-semibold">Materi</small>
-            </a>
-
-            <!-- Tugas Siswa -->
-            <a href="{{ route('siswa.tugas.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.tugas.*') ? 'active' : '' }}">
-                <i class="fas fa-tasks text-lg"></i>
-                <small class="text-xs font-semibold">Tugas</small>
-            </a>
-
+                <small class="block mt-2 text-xs text-gray-500 md:text-sm">
+                    Format didukung: pdf, doc, docx, xls, xlsx, ppt, pptx, txt, zip, rar, jpg, jpeg, png, mp4, dll. <br class="hidden md:inline-block">
+                    Ukuran maksimal: 50MB
+                </small>
+            </form>
         </div>
 
+        <!-- Tabel Daftar Materi -->
+        <div class="p-4 overflow-x-auto bg-white rounded-md shadow md:px-8 md:overflow-x-visible">
+            <x-siswa.table-tugas :tugas="$tugas" :gurus="$gurus" />
+        </div>
+    </main>
+</div>
+
     <x-footer :profil="$profil" />
-</x-app-backtop-layout>
+</x-app-layout>

@@ -95,7 +95,7 @@
                         background: rgba(255, 255, 255, 1);
                         backdrop-filter: blur(8px);
                         border-top: 1px solid #e5e7eb;
-                        box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+                        /* box-shadow: 0 -2px 6px rgba(0,0,0,0.1); */
                         padding-bottom: calc(0.5rem + env(safe-area-inset-bottom)); /* aman untuk iPhone */
                     }
 
@@ -373,7 +373,7 @@
             </nav>
 
             @if(!session('alert'))
-                <div id="minimalLoader">
+                <div id="minimalLoader" class="md:hidden block">
                     <div class="loader-text">Loading...</div>
                     <div class="loader-bar-wrapper">
                         <div class="loader-bar" id="loaderBar"></div>
@@ -387,7 +387,7 @@
             </main>
 
             <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
-            <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow-md md:hidden">
+            <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow shadow-md md:hidden">
 
                 <!-- Home/Dashboard -->
                 <a href="{{ route('dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}">

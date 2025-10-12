@@ -21,7 +21,6 @@
 
                 <!-- Login Form -->
                 <form method="POST" action="{{ route('login') }}">
-                {{-- <form method="POST" action="{{ url('/api/login') }}"> --}}
                     @csrf
 
                     <!-- Email -->
