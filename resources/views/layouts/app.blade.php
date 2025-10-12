@@ -387,7 +387,7 @@
             </main>
 
             <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
-            <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow shadow-md md:hidden">
+            <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow md:hidden">
 
                 <!-- Home/Dashboard -->
                 <a href="{{ route('dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}">
