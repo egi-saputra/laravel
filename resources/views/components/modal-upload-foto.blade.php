@@ -1,7 +1,7 @@
 <div
+    x-data="{ open: false }"
     x-show="open"
     x-cloak
-    @click.self="open = false"
     @keydown.escape.window="open = false"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 scale-90"
@@ -9,10 +9,11 @@
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 scale-100"
     x-transition:leave-end="opacity-0 scale-90"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60"
+    class="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-45"
+    x-on:open-modal-upload-foto.window="open = true"
 >
     <div
-        @click.away="open = false"
+        @click.away="if($event.target.tagName !== 'INPUT') open = false"
         class="relative w-full max-w-md p-6 mx-4 bg-white shadow-xl rounded-xl md:mx-0"
     >
         <h2 class="pb-2 mb-4 text-2xl font-bold text-gray-800 border-b">Upload Foto Profil</h2>
@@ -29,12 +30,25 @@
         <!-- FORM UPLOAD -->
         <form action="{{ route('foto.upload') }}" method="POST" enctype="multipart/form-data" id="form-upload">
             @csrf
-            <input type="file" name="foto" required accept="image/*"
-            class="block w-full p-2 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-            <p class="mb-4 text-sm text-gray-500">
+            <!-- Wrapper untuk input file -->
+            <div class="mb-4">
+                <!-- Input file asli, disembunyikan -->
+                <input type="file" name="foto" id="inputFoto" required accept="image/*" class="hidden md:inline-flex w-full border p-2 rounded" onchange="document.getElementById('fileName').textContent = this.files[0]?.name || ''">
+
+                <!-- Label sebagai tombol -->
+                <label for="inputFoto"
+                    class="inline-flex md:hidden justify-center w-full border border-gray-300 items-center px-4 py-2 text-slate-800 rounded cursor-pointer hover:border-slate-800">
+                    <i class="bi bi-upload mr-2"></i> Pilih File
+                </label>
+
+                <!-- Teks nama file (opsional) -->
+                <span id="fileName" class="my-4 text-xs md:text-sm text-gray-600">Ukuran ideal foto: persegi <span class="md:inline-block hidden">(square)</span>, minimal 500×500 px.<br class="md:hidden block">Format: JPG, PNG, JPEG, atau WebP. Max Size: 10MB.
+                </span>
+            </div>
+            {{-- <p class="mb-4 text-sm text-gray-500">
                 Ukuran ideal foto: persegi (square), minimal 500×500 px. File maksimal 10MB.
                 Format: JPG, PNG, JPEG, atau WebP.
-            </p>
+            </p> --}}
         </form>
 
         <!-- BUTTON ACTION -->

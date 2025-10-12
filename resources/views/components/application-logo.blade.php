@@ -1,28 +1,24 @@
-{{-- @php
-use Illuminate\Support\Facades\Storage;
+@php
+    use App\Models\ProfilSekolah;
+    use Illuminate\Support\Facades\File;
 
-$logoUrl = $profil?->file_path
-    ? Storage::url($profil->file_path)
-    : 'https://via.placeholder.com/50';
+    $profil = ProfilSekolah::first();
+
+    $filePath = $profil && $profil->file_path
+        ? storage_path('app/public/' . ltrim($profil->file_path, '/'))
+        : storage_path('app/public/logo_sekolah/default-logo.png');
+
+    $lastModified = file_exists($filePath) ? filemtime($filePath) : time();
 @endphp
 
-<img src="{{ $logoUrl }}" alt="Logo Sekolah" class="object-contain w-12 h-12"> --}}
+<img src="{{ url('/logo-sekolah') }}?v={{ $lastModified }}"
+     alt="Logo Sekolah"
+     {{ $attributes->merge(['class' => 'object-contain w-12 h-12']) }}>
 
-{{-- ============================================================================= --}}
-
-{{-- @php
-use Illuminate\Support\Facades\Storage;
-
-$logoUrl = $profil?->file_path
-    ? Storage::url($profil->file_path) . '?v=' . ($profil->updated_at?->timestamp ?? time())
-    : asset('images/default-logo.png');
-@endphp
-
-<img src="{{ $logoUrl }}" alt="Logo Sekolah" class="object-contain w-12 h-12"> --}}
 
 {{-- =================================================================================== --}}
 
-@php
+{{-- @php
     use App\Models\ProfilSekolah;
     use Illuminate\Support\Facades\File;
 
@@ -39,6 +35,6 @@ $logoUrl = $profil?->file_path
 
 <img src="{{ url('/logo-sekolah') }}?v={{ $lastModified }}"
      alt="Logo Sekolah"
-     class="object-contain w-12 h-12">
+     class="object-contain w-12 h-12"> --}}
 
 

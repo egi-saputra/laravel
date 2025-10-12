@@ -186,6 +186,17 @@
             </style>
 
             <style>
+                .swal2-popup {
+                    @apply mx-6 sm:mx-6 md:mx-auto p-6 rounded-xl;
+                }
+
+                .swal2-title {
+                    @apply text-lg font-semibold;
+                }
+
+                .swal2-content {
+                    @apply text-sm text-gray-700;
+                }
                 #backToTop {
                     opacity: 0;
                     transform: scale(0.8);
@@ -207,6 +218,7 @@
     </head>
     <body class="font-sans antialiased bg-gray-100">
         <x-alert />
+
         <div class="min-h-screen bg-gray-100">
             @php
                 $role = auth()->user()->role;
@@ -234,7 +246,6 @@
                     'siswa' => [
                         ['label' => 'Dashboard', 'label_mobile' => 'Dashboard', 'route' => 'siswa.dashboard'],
                         ['label' => 'Informasi Sekolah', 'label_mobile' => 'Sekolah', 'route' => 'public.informasi_sekolah.index'],
-                        ['label' => 'Log Out', 'route' => 'logout', 'logout' => true],
                     ],
                     'user' => [
                         ['label' => 'Dashboard', 'route' => 'user.dashboard'],
@@ -244,107 +255,106 @@
                 ];
             @endphp
 
-            <nav x-data="{ open: false }" class="sticky top-0 z-20 block bg-white border-b border-gray-100 shadow-sm dark:bg-gray-800 dark:border-gray-700 md:static">
+            <nav x-data="{ open: false }"
+                class="sticky top-0 z-30 block bg-white border-b border-gray-100 shadow-sm dark:bg-gray-800 dark:border-gray-700 md:static">
+
                 <!-- Primary Navigation Menu -->
-                <div class="w-full px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-16">
+                <div class="w-full px-0 sm:px-6 lg:px-8">
+                    <div class="flex justify-between md:h-16 h-14">
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex items-center shrink-0">
                                 <a href="{{ route($routes[$role][0]['route']) }}">
-                                    <x-application-logo class="block w-auto text-gray-800 fill-current h-9 dark:text-gray-200" />
+                                    <x-application-logo class="hidden md:block w-12 h-12 text-gray-800 fill-current dark:text-gray-200" />
                                 </a>
-                                <div class="px-4 py-6 mx-auto font-semibold sm:hidden max-w-7xl sm:px-6 lg:px-8">
+                                <div
+                                    class="px-4 text-[#063970] text-lg py-6 mx-auto font-semibold sm:hidden max-w-7xl sm:px-6 lg:px-8">
                                     {{ $profil?->nama_sekolah ?? 'Nama Sekolah Default' }}
                                 </div>
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 border-b border-gray-100 sm:-my-px sm:ms-10 sm:flex dark:bg-gray-800 dark:border-gray-700">
-                                {{-- @foreach ($routes[$role] as $menu)
+                            <div
+                                class="hidden space-x-8 border-b border-gray-100 sm:-my-px sm:ms-4 sm:flex dark:bg-gray-800 dark:border-gray-700">
+                                @foreach ($routes[$role] as $menu)
                                     <x-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])">
                                         {{ __($menu['label']) }}
                                     </x-nav-link>
-                                @endforeach --}}
-                                @foreach ($routes[$role] as $menu)
-                                    @if (isset($menu['logout']) && $menu['logout'] === true)
-                                        {{-- Logout: hanya tampil di mobile --}}
-                                        <form method="POST" action="{{ route('logout') }}" class="sm:hidden">
-                                            @csrf
-                                            <x-nav-link :href="route('logout')"
-                                                onclick="event.preventDefault(); this.closest('form').submit();">
-                                                {{ __($menu['label']) }}
-                                            </x-nav-link>
-                                        </form>
-                                    @else
-                                        {{-- Normal menu --}}
-                                        <x-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])">
-                                            {{ __($menu['label']) }}
-                                        </x-nav-link>
-                                    @endif
                                 @endforeach
                             </div>
                         </div>
 
                         <!-- Settings Dropdown + Fullscreen -->
-                        <div class="hidden space-x-3 sm:flex sm:items-center sm:ms-6">
-
-
+                        <div class="flex items-center space-x-3 sm:ms-6">
+                            <!-- Dropdown User -->
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
-                                    <button class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
-                                        <div>{{ Auth::user()->name }}</div>
-                                        <div class="ms-1">
-                                            <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </button>
+                                    <!-- x-data di sini untuk kontrol rotasi panah -->
+                                    <div x-data="{ openDropdown: false }" @click.away="openDropdown = false">
+                                        <button
+                                            @click="openDropdown = !openDropdown"
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
+
+                                            <!-- Nama user hanya tampil di layar sedang ke atas -->
+                                            <div class="hidden sm:block">{{ Auth::user()->name }}</div>
+
+                                            <!-- Ikon panah dengan animasi rotasi -->
+                                            <div class="ms-1 transition-transform duration-300 ease-in-out"
+                                                :class="openDropdown ? 'rotate-0' : '-rotate-90'">
+                                                <svg class="w-6 h-6 md:w-4 md:h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                            </div>
+                                        </button>
+                                    </div>
                                 </x-slot>
 
                                 <x-slot name="content">
+                                    <x-dropdown-link href="#" @click.prevent="$dispatch('open-modal-upload-foto')">
+                                        <i class="bi bi-person-circle me-2"></i>
+                                        {{ __('Photo Profile') }}
+                                    </x-dropdown-link>
+
                                     @if (Auth::user()->role === 'guru')
                                         <x-dropdown-link :href="route('profile.password')">
+                                            <i class="bi bi-key-fill me-2"></i>
                                             {{ __('Password') }}
                                         </x-dropdown-link>
                                     @else
                                         <x-dropdown-link :href="route('profile.edit')">
-                                            {{ __('Profile') }}
+                                            <i class="bi bi-pencil-square me-2"></i>
+                                            {{ __('Edit Profile') }}
                                         </x-dropdown-link>
                                     @endif
+
+                                    <x-dropdown-link :href="route('profile.edit')">
+                                        <i class="bi bi-key-fill me-2"></i>
+                                        {{ __('Password') }}
+                                    </x-dropdown-link>
 
                                     <!-- Authentication -->
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <x-dropdown-link :href="route('logout')"
-                                            onclick="event.preventDefault(); this.closest('form').submit();">
-                                            {{ __('Log Out') }}
+                                        <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                                            <i class="bi bi-box-arrow-right me-2"></i>
+                                            {{ __('Logout') }}
                                         </x-dropdown-link>
                                     </form>
                                 </x-slot>
                             </x-dropdown>
 
-                            <!-- Fullscreen Button -->
+                            <!-- Fullscreen Button (hanya tampil di layar sedang ke atas) -->
                             <button onclick="toggleFullscreen()"
-                                class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-gray-200 rounded dark:text-gray-400 dark:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none">
-                                <!-- Heroicon: fullscreen -->
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="w-5 h-5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M4 8V4h4M4 16v4h4m8-16h4v4m-4 12h4v-4" />
-                                    </svg>
+                                class="hidden sm:inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-gray-200 rounded dark:text-gray-400 dark:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-auto" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 8V4h4M4 16v4h4m8-16h4v4m-4 12h4v-4" />
+                                </svg>
                             </button>
-                        </div>
-
-                        <!-- Hamburger (Mobile Menu Button) -->
-                        <div class="flex items-center mx-0 md:-mx-2 sm:hidden">
-                            <!-- Logout -->
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="text-red-500 nav-icon">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                </button>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -353,22 +363,11 @@
                 <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         @foreach ($routes[$role] as $menu)
-                            @if (isset($menu['logout']) && $menu['logout'] === true)
-                                <form method="POST" action="{{ route('logout') }}" class="sm:hidden">
-                                    @csrf
-                                    <x-responsive-nav-link :href="route('logout')"
-                                        onclick="event.preventDefault(); this.closest('form').submit();">
-                                        {{ __($menu['label']) }}
-                                    </x-responsive-nav-link>
-                                </form>
-                            @else
-                                <x-responsive-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])">
-                                    {{ __($menu['label_mobile'] ?? $menu['label']) }}
-                                </x-responsive-nav-link>
-                            @endif
+                            <x-responsive-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])">
+                                {{ __($menu['label_mobile'] ?? $menu['label']) }}
+                            </x-responsive-nav-link>
                         @endforeach
                     </div>
-
                 </div>
             </nav>
 
@@ -473,6 +472,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
         @stack('scripts')
+
+        <!-- MODAL -->
+        <x-modal-upload-foto />
 
         <!-- Back to Top -->
         <button id="backToTop"

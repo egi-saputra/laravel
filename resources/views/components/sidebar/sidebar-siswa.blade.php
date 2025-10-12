@@ -72,14 +72,14 @@ $accounts = [
                         class="w-24 h-24 rounded-full -mt-14 drop-shadow-md">
 
 
-                    <div class="mt-2 text-center">
+                    <div class="mt-2 md:mb-0 mb-4 text-center">
                         <p class="text-sm font-semibold text-gray-700">{{ $user->name }}</p>
                         <p class="text-xs text-gray-500 capitalize">{{ $user->email }}</p>
                     </div>
                 </div>
 
                 <!-- TOGGLE MENU - MOBILE -->
-                <div class="flex items-center justify-between px-4 py-2 border-b md:hidden">
+                {{-- <div class="flex items-center justify-between px-4 py-2 border-b md:hidden">
                     <span class="text-sm font-semibold text-gray-600">Menu</span>
                     <button @click="showMenu = !showMenu" class="text-gray-600 focus:outline-none">
                         <template x-if="!showMenu">
@@ -97,13 +97,13 @@ $accounts = [
                             </svg>
                         </template>
                     </button>
-                </div>
+                </div> --}}
 
                 <!-- SIDEBAR MENU -->
                 <div
                     x-ref="menu"
                     x-bind:style="showMenu ? 'max-height:' + $refs.menu.scrollHeight + 'px' : 'max-height:0'"
-                    class="pb-4 mx-8 overflow-hidden transition-all duration-500 ease-in-out
+                    class="pb-4 mx-8 hidden overflow-hidden transition-all duration-500 ease-in-out
                         md:!max-h-none md:overflow-visible md:block"
                 >
                 {{-- <div
@@ -131,7 +131,7 @@ $accounts = [
                                     </form>
                                 @elseif ($type === 'modal')
                                     <li>
-                                        <button @click="open = true" class="w-full px-2 py-2 text-left rounded hover:bg-gray-100">
+                                        <button @click="$dispatch('open-modal-upload-foto')" class="w-full px-2 py-2 text-left rounded hover:bg-gray-100">
                                             <i class="bi {{ $menu['icon'] ?? 'bi-dot' }} me-2"></i>{{ $menu['label'] }}
                                         </button>
                                     </li>

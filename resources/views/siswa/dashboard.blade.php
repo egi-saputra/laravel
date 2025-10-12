@@ -7,15 +7,15 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="mx-0 mt-2 mb-4 md:top-0 md:ml-6 md:mt-6 md:h-screen md:w-auto">
+        <aside class="mx-0 mt-2 md:block hidden mb-4 md:top-0 md:ml-6 md:mt-6 md:h-screen md:w-auto">
             <x-sidebar />
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-0 mb-16 space-y-6 overflow-x-auto md:mb-0 md:p-6">
+        <main class="flex-1 p-0 mb-16 space-y-2 md:space-y-6 overflow-x-auto md:mb-0 md:p-6">
 
             {{-- ===== Filter ===== --}}
-            <div class="flex flex-col mb-4 space-y-2 md:flex-row md:justify-between md:items-center md:space-y-0">
+            <div class="md:flex hidden flex-col mb-4 space-y-2 md:flex-row md:justify-between md:items-center md:space-y-0">
                 {{-- Filter Role --}}
                 <div>
                     <label for="roleFilter" class="mr-2 text-sm font-medium text-gray-700">Filter Role:</label>
@@ -29,7 +29,7 @@
             </div>
 
             {{-- ===== Grid Online Users ===== --}}
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer">
+            <div class="md:grid hidden grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer">
                 @forelse ($onlineUsers as $user)
                     <div class="flex items-center p-4 space-x-4 transition bg-white shadow rounded-xl md:rounded-2xl hover:shadow-lg user-card"
                          data-role="{{ $user->role }}">
@@ -48,7 +48,7 @@
             </div>
 
             {{-- ===== Statistik User ===== --}}
-            <div class="hidden grid-cols-1 gap-6 md:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+            <div class="grid-cols-1 gap-6 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
                 @php
                     $stats = [
                         ['title'=>'Guru','count'=>$guruCount,'bg'=>'bg-purple-100','text'=>'text-purple-600','icon'=>'fas fa-chalkboard-teacher'],
@@ -73,10 +73,10 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
+            </div> <br>
 
             {{-- ===== Statistik Visitor ===== --}}
-            <div class="hidden p-4 mt-4 bg-white rounded-md shadow-sm md:block md:rounded-2xl">
+            <div class="p-4 mt-4 bg-white rounded-md shadow-sm block md:rounded-2xl">
                 <div class="flex items-center justify-between mb-3">
                     <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung <span class="hidden sm:inline">Semua User</span></p>
                     <form method="GET" action="{{ route('visitor.index') }}">
@@ -114,12 +114,12 @@
     </div>
 
         <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
-        <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow-md md:hidden">
+        {{-- <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow-md md:hidden">
 
             <!-- Home/Dashboard -->
             <a href="{{ route('siswa.dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'siswa.dashboard' ? 'active' : '' }}">
                 <i class="text-lg fas fa-chart-line"></i>
-                <small class="text-xs font-semibold">Beranda</small>
+                <small class="text-xs font-semibold">Analytics</small>
             </a>
 
             <!-- Siswa -->
@@ -146,7 +146,7 @@
                 <small class="text-xs font-semibold">Tugas</small>
             </a>
 
-        </div>
+        </div> --}}
 
     <script>
         // Filter role online users
