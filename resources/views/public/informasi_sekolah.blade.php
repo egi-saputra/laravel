@@ -19,7 +19,7 @@
             </div>
 
             <!-- List/Tabel Data Struktural -->
-            <div class="px-8 py-4 overflow-x-auto bg-white rounded shadow md:overflow-x-visible">
+            <div class="px-0 py-4 overflow-x-auto bg-transparent rounded shadow-none md:bg-white md:shadow md:px-8 md:overflow-x-visible">
                 <x-public.list-struktural :struktural="$struktural" :gurus="$gurus" />
             </div>
 
@@ -29,7 +29,11 @@
             </div> --}}
 
             <!-- Tabel Data Kejuruan -->
-            <div class="px-8 py-4 bg-white rounded shadow">
+            <div class="px-0 py-4 overflow-x-auto bg-transparent rounded shadow-none md:bg-white md:shadow md:px-8 md:overflow-x-visible">
+                <x-public.list-kejuruan :profil="$profil" :kejuruan="$kejuruan" />
+            </div>
+
+            {{-- <div class="px-8 py-4 bg-white rounded shadow">
                 <h2 class="mb-2 text-base font-bold md:text-lg md:mb-4">Daftar Program Kejuruan <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2>
                 <hr class="mb-4">
 
@@ -59,7 +63,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Tabel Daftar Kelas -->
             <div class="px-0 py-4 overflow-x-auto bg-transparent rounded shadow-none md:bg-white md:shadow md:px-8 md:overflow-x-visible">
@@ -71,12 +75,12 @@
             </div>
 
             <!-- Tabel Data Mapel -->
-            <div class="hidden px-8 py-4 overflow-x-auto bg-white rounded shadow md:block md:overflow-x-visible">
+            <div class="px-0 py-4 overflow-x-auto bg-transparent rounded shadow-none md:bg-white md:shadow md:px-8 md:overflow-x-visible">
                 <x-public.list-mapel :mapel="$mapel" :guru="$guru" />
             </div>
 
             <!-- Tabel Data Ekskul -->
-            <div class="px-8 py-4 bg-white rounded shadow ">
+            <div class="px-0 py-4 overflow-x-auto bg-transparent rounded shadow-none md:bg-white md:shadow md:px-8 md:overflow-x-visible">
                 <x-public.list-ekskul :ekskul="$ekskul" />
             </div>
         </main>

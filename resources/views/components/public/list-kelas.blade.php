@@ -72,14 +72,15 @@
 </script> --}}
 
 <div>
-    <div class="p-4 mb-4 text-center bg-white rounded-md shadow">
-        <h2 class="mb-2 text-base font-bold md:text-lg md:mb-4">
-            Daftar Unit Kelas dan Wali Kelas
-            <span class="hidden capitalize text-sky-900 md:inline-block">
+    <div class="p-4 mb-4 text-center bg-white rounded-md shadow md:bg-none md:rounded-none md:shadow-none">
+        <h2 class="mb-4 text-lg font-bold text-gray-800 md:font-extrabold md:text-xl">
+            Daftar Unit Kelas
+            <span class="hidden font-medium text-gray-600 md:inline-block">dan Wali Kelas</span>
+            <span class="hidden text-sky-900 md:inline-block">
                 | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |
             </span>
         </h2>
-        <hr class="mb-4">
+        {{-- <hr class="mb-4"> --}}
 
         <!-- Search Box -->
         <div class="relative">
@@ -119,31 +120,33 @@
                 </div>
             </div>
         @empty
-            <p class="text-center text-gray-500">Belum ada data kelas.</p>
+            <div class="p-4 text-center text-gray-500 border rounded-lg bg-gray-50 col-span-full">
+                Belum ada data kelas.
+            </div>
         @endforelse
     </div>
 </div>
 
 <!-- Search Script -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const input = document.getElementById('searchKelas');
-    const cards = document.querySelectorAll("#kelasList > div");
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('searchKelas');
+        const cards = document.querySelectorAll("#kelasList > div");
 
-    input.addEventListener('keyup', function() {
-        const filter = this.value.toLowerCase();
+        input.addEventListener('keyup', function() {
+            const filter = this.value.toLowerCase();
 
-        cards.forEach(card => {
-            const namaKelas = card.dataset.namakelas || "";
-            const waliKelas = card.dataset.walikelas || "";
+            cards.forEach(card => {
+                const namaKelas = card.dataset.namakelas || "";
+                const waliKelas = card.dataset.walikelas || "";
 
-            if (namaKelas.includes(filter) || waliKelas.includes(filter)) {
-                card.style.display = "";
-            } else {
-                card.style.display = "none";
-            }
+                if (namaKelas.includes(filter) || waliKelas.includes(filter)) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            });
         });
     });
-});
 </script>
 

@@ -213,11 +213,11 @@
                 [x-cloak] { display: none !important; }
             </style>
 
-        <x-head-tinymce.tinymce-config/>
-
     </head>
     <body class="font-sans antialiased bg-gray-100">
         <x-alert />
+
+        <x-head-tinymce.tinymce-config/>
 
         <div class="min-h-screen bg-gray-100">
             @php
@@ -265,10 +265,10 @@
                             <!-- Logo -->
                             <div class="flex items-center shrink-0">
                                 <a href="{{ route($routes[$role][0]['route']) }}">
-                                    <x-application-logo class="hidden md:block w-12 h-12 text-gray-800 fill-current dark:text-gray-200" />
+                                    <x-application-logo class="hidden w-12 h-12 text-gray-800 fill-current md:block dark:text-gray-200" />
                                 </a>
                                 <div
-                                    class="px-4 text-[#063970] text-lg py-6 mx-auto font-semibold sm:hidden max-w-7xl sm:px-6 lg:px-8">
+                                    class="px-4 text-[#063970] text-lg py-6 mx-auto font-bold sm:hidden max-w-7xl sm:px-6 lg:px-8">
                                     {{ $profil?->nama_sekolah ?? 'Nama Sekolah Default' }}
                                 </div>
                             </div>
@@ -285,7 +285,7 @@
                         </div>
 
                         <!-- Settings Dropdown + Fullscreen -->
-                        <div class="flex items-center space-x-3 sm:ms-6">
+                        <div class="flex items-center space-x-3 md:hidden sm:ms-6">
                             <!-- Dropdown User -->
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
@@ -298,14 +298,23 @@
                                             <!-- Nama user hanya tampil di layar sedang ke atas -->
                                             <div class="hidden sm:block">{{ Auth::user()->name }}</div>
 
-                                            <!-- Ikon panah dengan animasi rotasi -->
-                                            <div class="ms-1 transition-transform duration-300 ease-in-out"
+                                            <!-- Ikon dengan animasi rotasi -->
+                                            <div class="transition-transform duration-300 ease-in-out ms-1"
                                                 :class="openDropdown ? 'rotate-0' : '-rotate-90'">
-                                                <svg class="w-6 h-6 md:w-4 md:h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                <!-- Ikon panah dengan animasi rotasi -->
+                                                {{-- <svg class="w-6 h-6 fill-current bold md:w-4 md:h-4" xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20">
                                                     <path fill-rule="evenodd"
                                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                                         clip-rule="evenodd" />
+                                                </svg> --}}
+
+                                                <!-- Ikon gear dengan animasi rotasi -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700 md:w-4 md:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.518-.88 3.285.886 2.405 2.405a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.88 1.518-.887 3.285-2.405 2.405a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.518.88-3.285-.887-2.405-2.405a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.88-1.519.887-3.285 2.405-2.405.999.58 2.147.187 2.573-1.066z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
                                             </div>
                                         </button>
@@ -315,24 +324,24 @@
                                 <x-slot name="content">
                                     <x-dropdown-link href="#" @click.prevent="$dispatch('open-modal-upload-foto')">
                                         <i class="bi bi-person-circle me-2"></i>
-                                        {{ __('Photo Profile') }}
+                                        {{ __('Upload Foto') }}
                                     </x-dropdown-link>
 
-                                    @if (Auth::user()->role === 'guru')
+                                    {{-- @if (Auth::user()->role === 'guru')
                                         <x-dropdown-link :href="route('profile.password')">
                                             <i class="bi bi-key-fill me-2"></i>
                                             {{ __('Password') }}
                                         </x-dropdown-link>
-                                    @else
+                                    @else --}}
                                         <x-dropdown-link :href="route('profile.edit')">
                                             <i class="bi bi-pencil-square me-2"></i>
-                                            {{ __('Edit Profile') }}
+                                            {{ __('Edit Profil') }}
                                         </x-dropdown-link>
-                                    @endif
+                                    {{-- @endif --}}
 
-                                    <x-dropdown-link :href="route('profile.edit')">
+                                    <x-dropdown-link :href="route('profile.password')">
                                         <i class="bi bi-key-fill me-2"></i>
-                                        {{ __('Password') }}
+                                        {{ __('Kata Sandi') }}
                                     </x-dropdown-link>
 
                                     <!-- Authentication -->
@@ -340,15 +349,17 @@
                                         @csrf
                                         <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
                                             <i class="bi bi-box-arrow-right me-2"></i>
-                                            {{ __('Logout') }}
+                                            {{ __('Keluar Aplikasi') }}
                                         </x-dropdown-link>
                                     </form>
                                 </x-slot>
                             </x-dropdown>
+                        </div>
 
+                        <div class="items-center hidden space-x-3 md:flex sm:ms-6">
                             <!-- Fullscreen Button (hanya tampil di layar sedang ke atas) -->
                             <button onclick="toggleFullscreen()"
-                                class="hidden sm:inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-gray-200 rounded dark:text-gray-400 dark:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none">
+                                class="items-center hidden px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-gray-200 rounded sm:inline-flex dark:text-gray-400 dark:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-auto" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -372,7 +383,7 @@
             </nav>
 
             @if(!session('alert'))
-                <div id="minimalLoader" class="md:hidden block">
+                <div id="minimalLoader" class="block md:hidden">
                     <div class="loader-text">Loading...</div>
                     <div class="loader-bar-wrapper">
                         <div class="loader-bar" id="loaderBar"></div>

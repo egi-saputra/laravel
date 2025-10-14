@@ -1,4 +1,4 @@
-<x-app-backtop-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
@@ -7,19 +7,21 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+        <aside class="hidden mt-0 mb-4 md:block md:ml-6 md:mt-6 md:h-screen md:mb-0 md:w-auto">
             <x-sidebar />
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
+        <!-- Tabel Daftar Mapel -->
+        <main class="hidden p-0 mb-16 space-y-6 overflow-x-auto md:block md:flex-1 md:mb-0 md:p-6">
             <!-- Tabel Daftar Mapel -->
             <x-public.list-jadwal-guru :paginatedJadwal="$paginatedJadwal" :sekolah="$sekolah" :pageTitle="$pageTitle" :logoBase64="$logoBase64" :logoMime="$logoMime" />
+        </main>
 
-            <div class="mt-4">
-                {{ $paginatedJadwal->links('pagination::tailwind') }}
-                {{-- {{ $jadwal->links('pagination::simple-tailwind') }} --}}
-            </div>
+        <!-- Card Daftar Mapel -->
+        <main class="flex-1 p-0 mb-16 space-y-6 overflow-x-auto md:hidden md:mb-0 md:p-6">
+            <!-- Card Daftar Mapel -->
+            <x-public.card-jadwal-guru :paginatedJadwal="$paginatedJadwal" :sekolah="$sekolah" :pageTitle="$pageTitle" :logoBase64="$logoBase64" :logoMime="$logoMime" />
         </main>
     </div>
 
@@ -45,4 +47,4 @@
 
     <!-- Footer -->
     <x-footer :profil="$profil" />
-</x-app-backtop-layout>
+</x-app-layout>
