@@ -47,7 +47,7 @@
                     margin: 0;
                     padding: 0;
                     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-                    /* background-color: #f3f4f6; */
+                    background-color: #f3f4f6;
                     color-scheme: only light;
                 }
 
@@ -214,7 +214,7 @@
             </style>
 
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased bg-[#063970]">
         <x-alert />
 
         <x-head-tinymce.tinymce-config/>
@@ -400,13 +400,9 @@
             <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow md:hidden">
 
                 <!-- Home/Dashboard -->
-                <a href="{{ route($role . '.dashboard') }}"
-                class="flex flex-col items-center nav-icon {{ request()->routeIs($role.'.dashboard') ? 'active' : '' }}">
-                {{-- <i class="text-lg fas fa-chart-line"></i> --}}
-                <i class="text-lg fas fa-layer-group"></i>
-                {{-- <i class="text-lg fas fa-calendar-check"></i> --}}
-                {{-- <i class="text-lg bi bi-grid"></i> --}}
-                <small class="text-xs font-semibold">Beranda</small>
+                <a href="{{ route('dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}">
+                    <i class="text-lg fas fa-chart-line"></i>
+                    <small class="text-xs font-semibold">Beranda</small>
                 </a>
 
                 @if(auth()->user()->role === 'staff')
@@ -426,7 +422,7 @@
                 @endif
 
                 <!-- Informasi Sekolah -->
-                <a href="{{ route('public.informasi_sekolah.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.informasi_sekolah.*') ? 'active' : '' }}">
+                <a href="{{ route('public.informasi_sekolah.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.informasi_sekolah.index') ? 'active' : '' }}">
                     <i class="text-lg fas fa-school"></i>
                     <small class="text-xs font-semibold">Sekolah</small>
                 </a>
