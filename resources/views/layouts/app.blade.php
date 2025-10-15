@@ -382,11 +382,19 @@
                 </div>
             </nav>
 
-            @if(!session('alert'))
+            {{-- @if(!session('alert'))
                 <div id="minimalLoader" class="block md:hidden">
                     <div class="loader-text">Loading...</div>
                     <div class="loader-bar-wrapper">
                         <div class="loader-bar" id="loaderBar"></div>
+                    </div>
+                </div>
+            @endif --}}
+            @if (!session('alert'))
+                <div id="minimalLoader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white md:hidden">
+                    <div class="mb-4 text-lg text-gray-600 loader-text">Loading...</div>
+                    <div class="w-3/4 h-2 bg-gray-200 rounded-full loader-bar-wrapper">
+                        <div class="h-2 bg-blue-500 rounded-full loader-bar" id="loaderBar"></div>
                     </div>
                 </div>
             @endif
@@ -556,11 +564,20 @@
                 const loader = document.getElementById('minimalLoader');
                 const loaderBar = document.getElementById('loaderBar');
 
-                // Cek apakah ada SweetAlert
+                // Deteksi apakah tampilan mobile
+                const isMobile = window.innerWidth < 768;
+
+                // Cek apakah ada SweetAlert dari session
                 const hasSweetAlert = @json(session('alert') ? true : false);
 
+                // Jika bukan mobile, hapus loader sepenuhnya
+                if (!isMobile && loader) {
+                    loader.remove();
+                    return;
+                }
+
                 if (hasSweetAlert) {
-                    // Hilangkan loader sepenuhnya
+                    // Hilangkan loader jika ada SweetAlert
                     if (loader) loader.remove();
                     if (loaderBar) loaderBar.remove();
 
@@ -572,14 +589,19 @@
                         confirmButtonColor: '#3085d6'
                     });
                 } else {
-                    // Normal loader
-                    setTimeout(() => {
-                        loaderBar.style.width = '100%';
-                    }, 50);
+                    // Jalankan animasi loader di mobile
+                    if (loaderBar) {
+                        setTimeout(() => {
+                            loaderBar.style.width = '100%';
+                        }, 50);
+                    }
 
-                    setTimeout(() => {
-                        loader.classList.add('hidden');
-                    }, 1600);
+                    // Sembunyikan loader setelah animasi selesai
+                    if (loader) {
+                        setTimeout(() => {
+                            loader.classList.add('hidden');
+                        }, 1600);
+                    }
                 }
             });
         </script>

@@ -1,4 +1,4 @@
-<x-app-backtop-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? 'Kelola Data Siswa') }}
@@ -7,22 +7,22 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="mx-4 mt-4 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:h-screen md:w-auto">
             <x-sidebar />
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
-            <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
+        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
+            {{-- <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
                 <h2 class="mb-0 text-lg font-bold">
                     Kelola Materi Pembelajaran
                     <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
                 </h2>
                 <hr class="mb-2">
-            </div>
+            </div> --}}
 
             <!-- Form Tambah Materi -->
-            <div class="p-4 bg-white rounded shadow">
+            <div class="p-4 bg-white border rounded-lg shadow-sm backdrop-blur border-slate-200">
                 <h1 class="mb-4 text-lg font-bold">Buat Materi Pembelajaran</h1>
 
                 <!-- Form Input Materi -->
@@ -81,11 +81,18 @@
                 </form>
             </div>
 
-            <!-- Tabel Daftar Materi -->
-            <x-guru.list-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
+            <!-- Versi Mobile: Card -->
+            <div class="block md:hidden">
+                <x-guru.card-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
+            </div>
+
+            <!-- Versi Desktop: Tabel -->
+            <div class="hidden md:block">
+                <x-guru.tabel-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
+            </div>
         </main>
     </div>
 
     <!-- Footer -->
     <x-footer :profil="$profil" />
-</x-app-backtop-layout>
+</x-app-layout>

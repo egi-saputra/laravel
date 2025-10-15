@@ -1,11 +1,14 @@
-<div class="p-4 bg-white rounded shadow">
+<div class="p-4 bg-white rounded-lg shadow">
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold">Daftar Materi</h2>
+        <h2 class="flex items-center gap-2 text-xl font-bold text-slate-800">
+            <i class="text-lg text-blue-600 bi bi-journal-text"></i>
+            Daftar Materi
+        </h2>
 
         <!-- Tombol Hapus Semua -->
         <div>
-            <button id="hapusSemua" type="button" class="flex items-center px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
+            <button id="hapusSemua" type="button" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition rounded-md shadow bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800">
                 <i class="bi bi-trash me-1"></i>
                 <p>Hapus <span class="hidden sm:inline">Semua</span></p>
             </button>
