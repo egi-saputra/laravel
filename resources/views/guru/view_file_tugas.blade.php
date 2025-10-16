@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="flex-col hidden min-h-screen md:flex md:flex-row">
+    <div class="flex-col min-h-screen flex md:flex-row">
         <!-- Sidebar -->
         <aside class="top-0 hidden p-2 mb-4 mr-4 md:block md:h-screen">
             <x-sidebar />
