@@ -5,14 +5,14 @@
         </h2>
     </x-slot>
 
-    <div class="flex-col min-h-screen flex md:flex-row">
+    <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="top-0 hidden p-2 mb-4 mr-4 md:block md:h-screen">
+        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:h-screen md:w-auto">
             <x-sidebar />
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-2 overflow-x-auto md:space-y-6">
+        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
             <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
                 <h2 class="mb-0 text-lg font-bold">
                     Kelola Tugas Peserta Didik
