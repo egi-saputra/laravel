@@ -5,13 +5,13 @@
         </h2>
     </x-slot>
 
-    <div class="flex flex-col min-h-screen md:flex-row">
+    <div class="flex-col hidden min-h-screen md:flex md:flex-row">
         <!-- Sidebar -->
-        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+        <aside class="top-0 hidden p-2 mb-4 mr-4 md:block md:h-screen">
             <x-sidebar />
         </aside>
 
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
+        <main class="flex-1 p-2 overflow-x-auto md:space-y-6">
             <div x-data>
 
                 <div class="p-4 bg-white border rounded shadow-sm">
