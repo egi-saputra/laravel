@@ -35,7 +35,7 @@
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2">
         @foreach ($materis ?? [] as $m)
             <div class="relative flex flex-col justify-between p-5 transition-all duration-200 bg-white border shadow-sm border-slate-200 rounded-xl hover:shadow-lg hover:border-blue-300 group"
-                 x-show="match('{{ strtolower($m->judul . ' ' . ($m->kelas->kelas ?? '') . ' ' . ($m->mapel->mapel ?? '') . ' ' . strip_tags($m->materi)) }}')">
+                 x-show="match('{{ strtolower($m->judul . ' ' . ($m->kelas->kelas ?? '') . ' ' . ($m->mapel->mapel ?? '') . ' ' . strip_tags($m->materi ?? '')) }}')">
 
                 <!-- Dropdown ⋮ -->
                 <div class="absolute top-3 right-3" x-data="{ open: false }">

@@ -6,16 +6,18 @@
     </x-slot>
 
         <!-- Main Content Mobile Version -->
-        <main class="flex-1 p-2 space-y-2 overflow-x-auto md:my-2">
-
-            <!-- Halaman Guru Piket -->
-            <x-guru.halaman-piket :guru="Auth::user()->guru" />
+        <main class="flex-1 min-h-screen p-0 space-y-2 overflow-x-auto md:my-2">
 
             <!-- Menu Aplikasi -->
             <div>
-                {{-- <div class="flex items-center justify-between p-6">
-                    <h2 class="text-xl font-bold text-gray-800 md:text-2xl">📱 Menu Aplikasi</h2>
-                </div> --}}
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold text-gray-800 md:text-2xl">Selamat datang, </h2>
+                </div>
+
+                <div class="mb-4">
+                    <!-- Halaman Guru Piket -->
+                    <x-guru.halaman-piket :guru="Auth::user()->guru" />
+                </div>
 
                 <!-- Grid Menu -->
                 <div class="grid grid-cols-3 gap-4 p-0 text-center md:rounded-xl md:mb-4 md:grid-cols-6">

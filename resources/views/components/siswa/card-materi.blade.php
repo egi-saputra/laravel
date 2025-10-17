@@ -33,8 +33,8 @@
                     {!! Str::limit(strip_tags($m->materi), 150, '...') ?: 'Tidak ada materi / Hanya berupa file!' !!}
                 </div>
                 <div class="flex items-center justify-between">
-                    <x-detail-materi :title="$m->judul">
-                        {!! $m->materi !!}
+                    <x-detail-materi :title="$m->judul ?? '-' ">
+                        {!! $m->materi ?? '' !!}
                     </x-detail-materi>
 
                     @if($m->file_path)
