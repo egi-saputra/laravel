@@ -23,7 +23,7 @@
                     </p>
 
                     @if($materi->file_path)
-                        <div class="flex flex-col items-center justify-center w-1/2 pt-6 mx-auto mb-6 border rounded-md shadow hover:shadow-lg border-slate-300">
+                        <div class="flex flex-col items-center justify-center w-full p-2 pt-6 mx-auto mb-6 border rounded-md shadow hover:shadow-lg border-slate-300">
                             <!-- Preview PDF -->
                             @if(Str::endsWith($materi->file_path, ['.pdf']))
                                 <iframe src="{{ asset($materi->file_path) }}" class="w-full h-[600px] border"></iframe>

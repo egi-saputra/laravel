@@ -17,7 +17,7 @@
     <div x-show="open"
          class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
          x-cloak>
-        <div class="w-full max-w-3xl p-6 mx-2 bg-white rounded-lg shadow-lg dark:bg-gray-800 sm:mx-0">
+        <div class="w-full max-w-3xl p-2 mx-2 bg-white rounded-lg shadow-lg dark:bg-gray-800 sm:mx-0">
             <!-- Header -->
             <div class="flex items-center justify-between pb-2 mb-4 border-b">
                 <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100">{{ $title }}</h3>
