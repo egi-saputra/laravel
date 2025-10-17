@@ -9,7 +9,7 @@
         <main class="flex-1 p-2 space-y-2 overflow-x-auto md:my-2">
 
             <!-- Halaman Guru Piket -->
-            {{-- <x-guru.halaman-piket :guru="Auth::user()->guru" /> --}}
+            <x-guru.halaman-piket :guru="Auth::user()->guru" />
 
             <!-- Menu Aplikasi -->
             <div>
