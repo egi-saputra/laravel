@@ -8,22 +8,22 @@ use App\Models\Materi;
 use App\Models\DataKelas;
 use App\Models\DataMapel;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class MateriController extends Controller
 {
     /**
-     * Tampilkan daftar materi.
+     * Tampilkan daftar materi milik guru yang login.
      */
     public function index()
     {
-        // Ambil materi dengan relasi user (guru), kelas, dan mapel
         $materis = Materi::with(['user', 'kelas', 'mapel'])
+            ->where('user_id', auth()->id()) // hanya materi milik guru ini
             ->latest()
             ->paginate(10);
 
-        // Ambil data kelas & mapel untuk dropdown
-        $kelas  = DataKelas::all();
-        $mapel  = DataMapel::all();
+        $kelas = DataKelas::all();
+        $mapel = DataMapel::all();
 
         return view('guru.materi', compact('materis', 'kelas', 'mapel'));
     }
@@ -49,12 +49,12 @@ class MateriController extends Controller
             'materi'   => $validated['materi'] ?? null,
         ];
 
-        // cek kalau ada file
+        // Upload file jika ada
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
-            $slugName = \Str::slug($validated['judul'], '_');
-            $fileName = $slugName . '.' . $extension;
+            $slugName = Str::slug($validated['judul'], '_');
+            $fileName = $slugName . '_' . time() . '.' . $extension; // Tambahkan timestamp
 
             $filePath = $file->storeAs('materi', $fileName, 'public');
 
@@ -77,14 +77,17 @@ class MateriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $materi = Materi::findOrFail($id);
+        // Ambil materi milik guru ini, jika bukan miliknya maka 404
+        $materi = Materi::where('id', $id)
+                        ->where('user_id', auth()->id())
+                        ->firstOrFail();
 
         $validated = $request->validate([
             'kelas_id' => 'required|exists:data_kelas,id',
             'mapel_id' => 'required|exists:data_mapel,id',
             'judul'    => 'required|string|max:255',
             'materi'   => 'nullable|string',
-            'file'     => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,png|max:10240',
+            'file'     => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,webp,png|max:10240',
         ]);
 
         $data = [
@@ -94,16 +97,17 @@ class MateriController extends Controller
             'materi'   => $validated['materi'] ?? null,
         ];
 
-        // kalau user upload file baru
+        // Upload file baru jika ada
         if ($request->hasFile('file')) {
+            // Hapus file lama jika ada
             if ($materi->file_path && Storage::disk('public')->exists(str_replace('storage/', '', $materi->file_path))) {
                 Storage::disk('public')->delete(str_replace('storage/', '', $materi->file_path));
             }
 
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
-            $slugName = \Str::slug($validated['judul'], '_');
-            $fileName = $slugName . '.' . $extension;
+            $slugName = Str::slug($validated['judul'], '_');
+            $fileName = $slugName . '_' . time() . '.' . $extension; // Tambahkan timestamp
 
             $filePath = $file->storeAs('materi', $fileName, 'public');
 
@@ -126,7 +130,9 @@ class MateriController extends Controller
      */
     public function destroy($id)
     {
-        $materi = Materi::findOrFail($id);
+        $materi = Materi::where('id', $id)
+                        ->where('user_id', auth()->id())
+                        ->firstOrFail();
 
         if ($materi->file_path && Storage::disk('public')->exists(str_replace('storage/', '', $materi->file_path))) {
             Storage::disk('public')->delete(str_replace('storage/', '', $materi->file_path));
@@ -143,11 +149,11 @@ class MateriController extends Controller
     }
 
     /**
-     * Hapus semua materi.
+     * Hapus semua materi milik guru yang login.
      */
     public function destroyAll()
     {
-        $materiList = Materi::all();
+        $materiList = Materi::where('user_id', auth()->id())->get();
 
         foreach ($materiList as $materi) {
             if ($materi->file_path && Storage::disk('public')->exists(str_replace('storage/', '', $materi->file_path))) {
@@ -163,9 +169,15 @@ class MateriController extends Controller
         ]);
     }
 
+    /**
+     * Tampilkan file materi.
+     */
     public function view_file_materi($id)
     {
-        $materi = Materi::findOrFail($id);
+        $materi = Materi::where('id', $id)
+                        ->where('user_id', auth()->id())
+                        ->firstOrFail();
+
         return view('guru.view_file_materi', compact('materi'));
     }
 }

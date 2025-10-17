@@ -38,7 +38,7 @@
                     </x-detail-materi>
 
                     @if($m->file_path)
-                        <a href="{{ route('guru.view_file_materi', $m->id) }}"
+                        <a href="{{ route('siswa.view_file_materi', $m->id) }}"
                            class="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700">
                             Lihat File
                         </a>
