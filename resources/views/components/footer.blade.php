@@ -1,5 +1,5 @@
 {{-- resources/views/components/footer.blade.php --}}
-<footer class="hidden py-6 text-gray-800 bg-slate-100 md:block">
+<footer class="hidden py-6 -ml-5 text-gray-800 bg-slate-100 md:block">
     <div class="container flex flex-col justify-between px-0 mx-auto md:px-6 md:mx-0 md:flex-row">
         {{-- Nama Sekolah --}}
         <div class="text-center md:text-left">

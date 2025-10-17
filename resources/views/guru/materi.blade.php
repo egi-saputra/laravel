@@ -6,8 +6,9 @@
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
+
         <!-- Sidebar -->
-        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:h-screen md:w-auto">
+        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
             <x-sidebar />
         </aside>
 

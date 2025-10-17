@@ -90,7 +90,104 @@
                         right: 0;
                         z-index: 50;
                         display: flex;
-                        justify-around;
+                        justify-content: space-around;
+                        padding: 0.5rem 0;
+                        background: rgba(255, 255, 255, 1);
+                        backdrop-filter: blur(8px);
+                        border-top: 1px solid #e5e7eb;
+                        /* box-shadow: 0 -2px 6px rgba(0,0,0,0.1); */
+                        padding-bottom: calc(0.5rem + env(safe-area-inset-bottom)); /* aman untuk iPhone */
+                    }
+
+                    .nav-icon {
+                        flex: 1;
+                        text-align: center;
+                        color: #9ca3af;
+                        font-size: 1.5rem;
+                        transition: all 0.25s ease;
+                    }
+
+                    .nav-icon i {
+                        transition: transform 0.25s ease, color 0.25s ease;
+                    }
+
+                    .nav-icon:hover i {
+                        transform: scale(1.15);
+                    }
+
+                    .nav-icon.active {
+                        color: #063970;
+                    }
+
+                    .nav-icon.active i {
+                        transform: scale(1.25);
+                        color: #063970;
+                    }
+                }
+
+                /* Default desktop: sembunyikan #navhp */
+                @media (min-width: 769px) {
+                    #navhp {
+                        display: none;
+                    }
+                }
+            </style>
+            {{-- <style>
+                /* ================================== */
+                /* Base Styles */
+                /* ================================== */
+                *, *::before, *::after {
+                    box-sizing: border-box;
+                }
+
+                body {
+                    margin: 0;
+                    padding: 0;
+                    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                    /* background-color: #f3f4f6; */
+                    color-scheme: only light;
+                }
+
+                /* ================================== */
+                /* Navbar Sticky */
+                /* ================================== */
+                nav {
+                    position: sticky; /* selalu di top */
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    z-index: 1000;
+                    background-color: #ffffff;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    padding-top: env(safe-area-inset-top);
+                    transform: translateZ(0);
+                }
+
+                /* ================================== */
+                /* Main & Footer */
+                /* ================================== */
+                main {
+                    /* min-height: calc(100vh - 4rem); */
+                    padding: 1rem;
+                    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+                }
+
+                footer {
+                    padding-bottom: env(safe-area-inset-bottom);
+                }
+
+                /* ================================== */
+                /* Mobile Bottom Navigation */
+                /* ================================== */
+                @media (max-width: 768px) {
+                    #navhp {
+                        position: fixed;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        z-index: 50;
+                        display: flex;
+                        justify-content: space-around;
                         padding: 0.5rem 0;
                         background: rgba(255, 255, 255, 1);
                         backdrop-filter: blur(8px);
@@ -131,7 +228,7 @@
                         display: none;
                     }
                 }
-            </style>
+            </style> --}}
 
             <style>
                 #minimalLoader {
@@ -214,12 +311,12 @@
             </style>
 
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased bg-gray-100">
         <x-alert />
 
         <x-head-tinymce.tinymce-config/>
 
-        <div class="min-h-screen bg-gray-100">
+        {{-- <div> --}}
             @php
                 $role = auth()->user()->role;
                 $routes = [
@@ -404,87 +501,8 @@
                 {{ $slot }}
             </main>
 
-            <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
-            <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow md:hidden">
-
-                <!-- Home/Dashboard -->
-                <a href="{{ route($role . '.dashboard') }}"
-                class="flex flex-col items-center nav-icon {{ request()->routeIs($role.'.dashboard') ? 'active' : '' }}">
-                {{-- <i class="text-lg fas fa-chart-line"></i> --}}
-                <i class="text-lg fas fa-layer-group"></i>
-                {{-- <i class="text-lg fas fa-calendar-check"></i> --}}
-                {{-- <i class="text-lg bi bi-grid"></i> --}}
-                <small class="text-xs font-semibold">Beranda</small>
-                </a>
-
-                @if(auth()->user()->role === 'staff')
-                    <!-- Riwayat Presensi untuk Staff -->
-                    <a href="{{ route('staff.riwayat_presensi.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('staff.riwayat_presensi.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-calendar-check"></i>
-                        <small class="text-xs font-semibold">Presensi</small>
-                    </a>
-                @else
-                    <!-- Siswa untuk semua selain staff -->
-                    <a href="{{ route('public.daftar_siswa.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-user-graduate"></i>
-                        <small class="text-xs font-semibold">Siswa</small>
-                    </a>
-                @endif
-
-                <!-- Informasi Sekolah -->
-                <a href="{{ route('public.informasi_sekolah.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.informasi_sekolah.*') ? 'active' : '' }}">
-                    <i class="text-lg fas fa-school"></i>
-                    <small class="text-xs font-semibold">Sekolah</small>
-                </a>
-
-                @if(auth()->user()->role === 'guru')
-                    <!-- Materi -->
-                    <a href="{{ route('guru.materi.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('guru.materi.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-book"></i>
-                        <small class="text-xs font-semibold">Materi</small>
-                    </a>
-
-                    <!-- Tugas -->
-                    <a href="{{ route('guru.tugas_siswa.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('guru.tugas_siswa.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-tasks"></i>
-                        <small class="text-xs font-semibold">Tugas</small>
-                    </a>
-                @elseif(auth()->user()->role === 'staff')
-                    <!-- Rekap Honor Guru -->
-                    <a href="{{ route('staff.rekap_honor_guru.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('staff.rekap_honor_guru.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-user-tie"></i>
-                        <small class="text-xs font-semibold">Honor Guru</small>
-                    </a>
-
-                    <!-- Rekap Honor Staff -->
-                    <a href="{{ route('staff.rekap_honor_staff.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('staff.rekap_honor_staff.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-users"></i>
-                        <small class="text-xs font-semibold">Honor Staff</small>
-                    </a>
-                @else
-                    <!-- Siswa: Materi -->
-                    <a href="{{ route('siswa.materi.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-book"></i>
-                        <small class="text-xs font-semibold">Materi</small>
-                    </a>
-
-                    <!-- Siswa: Tugas -->
-                    <a href="{{ route('siswa.tugas.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.tugas.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-tasks"></i>
-                        <small class="text-xs font-semibold">Tugas</small>
-                    </a>
-                @endif
-
-            </div>
-        </div>
+            <x-nav-bot :role="$role" />
+        {{-- </div> --}}
 
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

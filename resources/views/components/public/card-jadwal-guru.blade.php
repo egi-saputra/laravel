@@ -1,14 +1,18 @@
 <!-- CARD -->
 <div>
-    <div class="flex justify-center p-4 mb-4 bg-white rounded-md">
+    {{-- <div class="flex justify-center p-4 mb-4 bg-white rounded-md">
         <h2 class="text-lg font-bold text-gray-800">
             Jadwal Mengajar Guru
         </h2>
-
-    </div>
+    </div> --}}
 
     <!-- Search & Filter -->
-    <form method="GET" class="grid grid-cols-1 gap-2 mb-6 md:grid-cols-6">
+    <form method="GET" class="grid grid-cols-1 gap-2 p-4 mb-6 bg-white border rounded-md shadow-sm border-slate-300 md:grid-cols-6">
+
+        <h2 class="mb-3 text-lg font-bold text-gray-800">
+            <i class="mr-2 bi bi-calendar2-week text-amber-500"></i> Jadwal Mengajar
+        </h2>
+
         {{-- <div class="relative md:col-span-2">
             <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-600">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
@@ -18,13 +22,13 @@
                         1110.5 3a7.5 7.5 0 016.15 13.65z"/>
                 </svg>
             </span>
-            <input type="text" name="search" placeholder="Cari guru / mapel..."
+            <input type="text" name="search" placeholder="Cari nama guru / mapel"
                 value="{{ request('search') }}"
                 class="w-full py-2 pl-10 pr-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
         </div> --}}
 
         <select name="hari" class="px-3 py-2 border rounded-lg">
-            <option value="">Semua Hari</option>
+            <option value="">Pilih Hari</option>
             @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $h)
                 <option value="{{ $h }}" {{ request('hari')==$h ? 'selected' : '' }}>{{ $h }}</option>
             @endforeach
@@ -33,11 +37,11 @@
         {{-- <input type="text" name="sesi" placeholder="Sesi"
             value="{{ request('sesi') }}" class="px-3 py-2 border rounded-lg"> --}}
 
-        {{-- <input type="text" name="guru" placeholder="Guru"
-            value="{{ request('guru') }}" class="px-3 py-2 border rounded-lg"> --}}
+        <input type="text" name="guru" placeholder="Nama Guru"
+            value="{{ request('guru') }}" class="px-3 py-2 border rounded-lg">
 
-        {{-- <input type="text" name="kelas" placeholder="Kelas"
-            value="{{ request('kelas') }}" class="px-3 py-2 border rounded-lg"> --}}
+        <input type="text" name="kelas" placeholder="Unit Kelas"
+            value="{{ request('kelas') }}" class="px-3 py-2 border rounded-lg">
 
         <div class="flex justify-end gap-2 mt-2">
             <button type="submit"

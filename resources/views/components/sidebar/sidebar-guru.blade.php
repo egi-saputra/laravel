@@ -119,11 +119,11 @@
         <div x-data="{ open: false, showMenu: false }">
 
             <!-- SIDEBAR -->
-            <div class="z-0 w-full m-0 mb-2 bg-white rounded-lg shadow md:z-30 md:mb-0 sm:pb-5">
+            <div class="z-0 w-full m-0 mb-2 border rounded-md shadow-sm md:bg-white bg-slate-50 md:border-none border-slate-200 hover:border-blue-200 backdrop-blur-lg md:z-30 md:mb-0 sm:pb-5">
 
                 {{-- SIDEBAR PROFIL --}}
                 <div class="flex flex-col items-center p-4 pt-4">
-                    <div class="w-full h-32 rounded shadow-sm bg-sky-800"></div>
+                    <div class="w-full h-32 rounded shadow-sm bg-[#063970]"></div>
 
                     @php
                         $foto = Auth::user()->foto_profil;
@@ -138,13 +138,13 @@
 
 
                     <div class="mt-2 text-center">
-                        <p class="text-sm font-semibold text-gray-700">{{ $user->name }}</p>
-                        <p class="text-xs text-gray-500 capitalize">{{ $user->email }}</p>
+                        <p class="mb-2 text-lg font-semibold text-gray-700 md:text-sm md:mb-0">{{ $user->name }}</p>
+                        <p class="text-sm text-gray-500 capitalize md:text-xs">{{ $user->email }}</p>
                     </div>
                 </div>
 
                 <!-- TOGGLE MENU - MOBILE -->
-                <div class="flex items-center justify-between px-4 py-2 border-b md:hidden">
+                {{-- <div class="flex items-center justify-between px-4 py-2 border-b md:hidden">
                     <span class="text-sm font-semibold text-gray-600">Menu</span>
                     <button @click="showMenu = !showMenu" class="text-gray-600 focus:outline-none">
                         <template x-if="!showMenu">
@@ -162,7 +162,7 @@
                             </svg>
                         </template>
                     </button>
-                </div>
+                </div> --}}
 
                 <!-- SIDEBAR MENU -->
                 <div
@@ -179,7 +179,7 @@
                 > --}}
                 {{-- USER MANAGEMENT --}}
                 @isset($menus)
-                    <hr class="w-full mb-2">
+                    <hr class="hidden w-full mb-2 md:block">
                     <small class="flex items-center justify-between mt-5">Management System</small>
 
                     @foreach ($menus as $group => $items)
