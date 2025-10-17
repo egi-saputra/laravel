@@ -27,7 +27,7 @@ Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('si
         // Materi
         Route::resource('materi', ListMateriController::class)->except(['show']);
         Route::get('materi/view-file/{id}', [ListMateriController::class, 'view_file_materi'])
-    ->name('siswa.view_file_materi');
+            ->name('view_file_materi');
 
         // Tugas Siswa
         Route::resource('tugas', TugasSiswaController::class)->except(['show']);
