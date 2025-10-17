@@ -35,7 +35,10 @@ class ListMateriController extends Controller
         $kelas  = DataKelas::all();
         $mapel  = DataMapel::all();
 
-        return view('siswa.materi', compact('materis', 'kelas', 'mapel'));
+        // Profil siswa untuk footer
+        $profil = Auth::user();
+
+        return view('siswa.materi', compact('materis', 'kelas', 'mapel', 'profil'));
     }
 
     public function view_file_materi($id)
