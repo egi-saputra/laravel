@@ -61,9 +61,9 @@
 
             <!-- Header -->
             <div class="flex items-center justify-between pb-2 mb-2 border-b">
-                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100"><i class="bi bi-file-earmark-text"></i> {{ $title }}</h3>
+                <h3 class="text-lg font-bold"><i class="hidden bi bi-file-earmark-text md:inline-block"></i> {{ $title }}</h3>
                 <button @click="open = false"
-                        class="hidden text-gray-600 md:block hover:text-gray-800 dark:text-gray-300">
+                        class="hidden px-2 py-1 font-bold text-gray-600 md:block hover:text-gray-800 dark:text-gray-300">
                     ✕
                 </button>
             </div>
@@ -76,8 +76,11 @@
                 <!-- Info Author, Kelas, Mapel -->
                 <div class="mb-4">
                     <div class="mb-2">
-                        <span class="py-1 pb-4 text-base font-bold text-slate-800">
-                            {{ $materi->mapel->mapel ?? '-' }}
+                        <span class="py-1 pb-4 text-base font-semibold
+                        bg-clip-text text-transparent
+                        bg-gradient-to-r from-blue-600 to-[#063970]
+                        md:text-slate-800 md:bg-clip-auto md:text-current">
+                            <i class="inline-block bi bi-file-earmark-text md:hidden"></i> {{ $materi->mapel->mapel ?? '-' }}
                         </span>
                     </div>
                     <div class="flex justify-start gap-2">
