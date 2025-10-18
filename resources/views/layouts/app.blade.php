@@ -399,20 +399,20 @@
                                             <div class="transition-transform duration-300 ease-in-out ms-1"
                                                 :class="openDropdown ? 'rotate-0' : '-rotate-90'">
                                                 <!-- Ikon panah dengan animasi rotasi -->
-                                                {{-- <svg class="w-6 h-6 fill-current bold md:w-4 md:h-4" xmlns="http://www.w3.org/2000/svg"
+                                                <svg class="w-8 fill-current h-7 bold md:w-4 md:h-4" xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20">
                                                     <path fill-rule="evenodd"
                                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                                         clip-rule="evenodd" />
-                                                </svg> --}}
+                                                </svg>
 
                                                 <!-- Ikon gear dengan animasi rotasi -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700 md:w-4 md:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                {{-- <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700 md:w-4 md:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.518-.88 3.285.886 2.405 2.405a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.88 1.518-.887 3.285-2.405 2.405a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.518.88-3.285-.887-2.405-2.405a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.88-1.519.887-3.285 2.405-2.405.999.58 2.147.187 2.573-1.066z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                </svg>
+                                                </svg> --}}
                                             </div>
                                         </button>
                                     </div>
@@ -446,7 +446,7 @@
                                         @csrf
                                         <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
                                             <i class="bi bi-box-arrow-right me-2"></i>
-                                            {{ __('Keluar Aplikasi') }}
+                                            {{ __('Logout') }}
                                         </x-dropdown-link>
                                     </form>
                                 </x-slot>
@@ -479,14 +479,6 @@
                 </div>
             </nav>
 
-            {{-- @if(!session('alert'))
-                <div id="minimalLoader" class="block md:hidden">
-                    <div class="loader-text">Loading...</div>
-                    <div class="loader-bar-wrapper">
-                        <div class="loader-bar" id="loaderBar"></div>
-                    </div>
-                </div>
-            @endif --}}
             @if (!session('alert'))
                 <div id="minimalLoader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white md:hidden">
                     <div class="mb-4 text-lg text-gray-600 loader-text">Loading...</div>
