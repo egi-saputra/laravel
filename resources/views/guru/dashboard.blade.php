@@ -1,3 +1,23 @@
+@php
+    use Illuminate\Support\Facades\Auth;
+    use App\Models\DataKelas;
+    use App\Models\HakAkses;
+
+    $user = Auth::user();
+    $role = $user->role;
+
+    // --- Cek Walas ---
+    $isWalas = DataKelas::whereHas('waliKelas', function($query) use ($user) {
+        $query->where('user_id', $user->id);
+    })->exists();
+
+    // --- Cek Hak Akses ---
+    $hakAkses = HakAkses::whereHas('guru', function($q) use ($user) {
+        $q->where('user_id', $user->id);
+    })->first();
+    $isActivated = $hakAkses && $hakAkses->status === 'Activated';
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
@@ -29,41 +49,42 @@
                 <!-- Grid Menu -->
                 <div class="grid grid-cols-3 gap-4 p-0 mb-4 text-center md:rounded-xl md:grid-cols-6">
                     <!-- Menu 1 -->
-                    <a href="{{ route('public.daftar_siswa.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-xl md:text-3xl bi bi-people-fill text-sky-600"></i>
-                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Data Siswa</span>
+                    <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-xl md:text-3xl bi bi-person-lines-fill text-sky-600"></i>
+                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Data Guru</span>
                     </a>
 
                     <!-- Menu 2 -->
-                    <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl bi bi-journal-text text-emerald-600"></i>
-                        <span class="text-sm font-semibold text-gray-700">Jurnal</span>
+                    <a href="{{ ($role === 'guru' && $isWalas) ? route('guru.walas.index') : '#' }}"
+                    class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-3xl text-red-600 bi bi-journal-bookmark"></i>
+                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Ruang Kelas</span>
                     </a>
 
                     <!-- Menu 3 -->
+                    <a href="{{ route('public.jumlah_jam.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-3xl text-gray-700 bi bi-clock"></i>
+                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Jumlah Jam</span>
+                    </a>
+
+                    <!-- Menu 4 -->
                     <a href="{{ route('public.jadwal_guru.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-3xl bi bi-calendar2-week text-amber-500"></i>
                         <span class="text-sm font-semibold text-gray-700">Jadwal</span>
                     </a>
 
-                    <!-- Menu 4 -->
-                    <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl text-gray-700 bi bi-gear-fill"></i>
-                        <span class="text-sm font-semibold text-gray-700">Pengaturan</span>
-                    </a>
-
                     <!-- Menu 5 -->
-                    <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl text-indigo-600 bi bi-globe2"></i>
-                        {{-- <i class="mb-2 text-3xl text-indigo-600 bi bi-grid"></i> --}}
-                        {{-- <i class="mb-2 text-3xl text-indigo-600 bi bi-building"></i> --}}
-                        <span class="text-sm font-semibold text-gray-700">Website</span>
+                    <a href="{{ route('guru.daftar_materi.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-3xl bi bi-book text-emerald-600"></i>
+                        <span class="text-sm font-semibold text-gray-700">Materi</span>
                     </a>
 
                     <!-- Menu 6 -->
                     <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl text-red-600 bi bi-box-arrow-right"></i>
-                        <span class="text-sm font-semibold text-gray-700">Logout</span>
+                        <i class="mb-2 text-3xl text-indigo-600 bi bi-journal-text"></i>
+                        {{-- <i class="mb-2 text-3xl text-indigo-600 bi bi-grid"></i> --}}
+                        {{-- <i class="mb-2 text-3xl text-indigo-600 bi bi-building"></i> --}}
+                        <span class="text-sm font-semibold text-gray-700">Nilai</span>
                     </a>
                 </div>
             </div>
@@ -84,13 +105,13 @@
                     <!-- Menu 2 -->
                     <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-3xl bi bi-journal-text text-emerald-600"></i>
-                        <span class="text-sm font-semibold text-gray-700">Jurnal</span>
+                        <span class="text-sm font-semibold text-gray-700">Materi</span>
                     </a>
 
                     <!-- Menu 3 -->
                     <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-3xl bi bi-calendar2-week text-amber-500"></i>
-                        <span class="text-sm font-semibold text-gray-700">Kegiatan</span>
+                        <span class="text-sm font-semibold text-gray-700">Jadwal</span>
                     </a>
 
                     <!-- Menu 4 -->

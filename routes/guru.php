@@ -6,6 +6,7 @@ use App\Http\Controllers\Guru\{
     WalasController,
     PiketController,
     MateriController,
+    DaftarMateriController,
     TugasSiswaController,
     RekapAbsenSiswaController
 };
@@ -71,9 +72,16 @@ Route::middleware(['auth', 'verified', 'role:guru'])->prefix('guru')->name('guru
         Route::resource('jadwal_piket', PiketController::class)
                 ->except(['show']);
 
+        // Input Materi
         Route::delete('materi/destroyAll', [MateriController::class, 'destroyAll'])->name('materi.destroyAll');
         Route::get('/{id}/view_file_materi', [MateriController::class, 'view_file_materi'])->name('view_file_materi');
         Route::resource('materi', MateriController::class)
+            ->except(['show']);
+
+        // Daftar Materi
+        Route::delete('daftar_materi/destroyAll', [DaftarMateriController::class, 'destroyAll'])->name('daftar_materi.destroyAll');
+        Route::get('/{id}/view_file_materi', [DaftarMateriController::class, 'view_file_materi'])->name('view_file_materi');
+        Route::resource('daftar_materi', DaftarMateriController::class)
             ->except(['show']);
 
         // Hapus semua tugas siswa

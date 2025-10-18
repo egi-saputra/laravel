@@ -118,7 +118,7 @@
                     </div>
 
                     <!-- Google Login -->
-                    <div class="mt-6 text-center">
+                    <div class="hidden mt-6 text-center md:block">
                         <a href="{{ route('google.login') }}"
                            class="flex items-center justify-center w-full gap-2 py-2 font-semibold transition-colors border border-gray-300 rounded-full hover:bg-gray-100 hover:border-[#063970]">
                             <img src="https://img.icons8.com/color/20/000000/google-logo.png" alt="Google" />

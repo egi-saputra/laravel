@@ -1,4 +1,4 @@
-<x-app-backtop-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? 'Kelola Data Siswa') }}
@@ -6,24 +6,32 @@
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
-        <!-- Sidebar -->
-        <aside class="z-0 mx-3 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+
+        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
+            <!-- Sidebar -->
             <x-sidebar />
+
+            <!-- Footer -->
+            <x-footer :profil="$profil" />
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-3 space-y-6 overflow-x-auto md:p-6">
-            <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
+        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
+            {{-- <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
                 <h2 class="mb-0 text-lg font-bold">
                     Kelola Ruang Kelas
                     <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
                 </h2>
                 <hr class="mb-4">
-            </div>
+            </div> --}}
 
             <!-- Form Tambah Siswa + Upload Excel -->
-            <div class="p-4 bg-white rounded shadow">
-                <h1 class="mb-4 text-lg font-bold">Tambahkan Data Siswa <span class="hidden md:inline-block">Untuk Kelasmu!</span></h1>
+            <div class="p-4 mb-0 bg-white rounded-lg shadow md:mb-8">
+                {{-- <h1 class="mb-4 text-lg font-bold">Tambahkan Data Siswa <span class="hidden md:inline-block">Untuk Kelasmu!</span></h1> --}}
+                <h1 class="flex items-center gap-2 mb-4 text-lg font-semibold md:text-xl md:font-bold text-slate-800">
+                    <i class="bi bi-journal-bookmark"></i>
+                    Tambahkan Data Siswa
+                </h1>
 
                 <!-- Form Input Manual -->
                 <form action="{{ route('guru.walas.store') }}" method="POST">
@@ -56,13 +64,13 @@
                     <div class="flex flex-col gap-4 md:flex-row md:gap-4">
                         <!-- Nama Lengkap -->
                         <div class="flex flex-col flex-1">
-                            <label class="block font-medium">Nama Lengkap</label>
+                            <label class="block font-medium">Nama Peserta Didik</label>
                             <input type="text" name="nama_lengkap" class="w-full px-3 py-2 border rounded" required>
                         </div>
 
                         <!-- Email -->
                         <div class="flex flex-col flex-1">
-                            <label class="block font-medium">Email</label>
+                            <label class="block font-medium">Email Addres</label>
                             <input type="email" name="email" class="w-full px-3 py-2 border rounded" required>
                             @error('email')
                                 <p class="text-red-600">{{ $message }}</p>
@@ -128,7 +136,7 @@
             </div>
 
             <!-- Tabel Data Siswa -->
-            <div class="p-4 bg-white rounded shadow">
+            <div class="hidden p-4 bg-white rounded-lg shadow md:block">
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-base font-semibold md:font-bold md:text-lg">Daftar Siswa ( {{ $kelas->kelas ?? '' }} )</h2>
 
