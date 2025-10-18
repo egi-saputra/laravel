@@ -1,17 +1,20 @@
-    {{-- TinyMce Versi 6 (Stable Version) --}}
+<!-- Load TinyMCE dari lokal -->
+<script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
 
-    {{-- <script src="https://cdn.tiny.cloud/1/ansmv3zp2f8a48xqie4t4khjoutfqntk9w8v229bbzh7o0os/tinymce/6/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script> --}}
-
-    {{-- <script src="https://cdn.tiny.cloud/1/NO_YOUR_API_KEY/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script> --}}
-
-    {{-- TinyMce Versi 8 (Latest Version) --}}
-    <script src="https://cdn.tiny.cloud/1/ansmv3zp2f8a48xqie4t4khjoutfqntk9w8v229bbzh7o0os/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
-
-    <script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
         tinymce.init({
-        selector: 'textarea#materi',
-        plugins: 'code table lists',
-        toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table',
-        height: 300
+            selector: 'textarea.tinymce', // semua textarea dengan class "tinymce"
+            height: 400,
+            menubar: false,
+            plugins: 'code table lists link image media autolink preview',
+            toolbar: [
+                'undo redo | blocks | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify',
+                'bullist numlist outdent indent | link image media | code preview'
+            ].join(' | '),
+            branding: false,
+            skin: 'oxide',
+            content_style: 'body { font-family:Arial,sans-serif; font-size:14px }'
         });
-    </script>
+    });
+</script>

@@ -88,7 +88,7 @@
                         bottom: 0;
                         left: 0;
                         right: 0;
-                        z-index: 50;
+                        z-index: 40;
                         display: flex;
                         justify-content: space-around;
                         padding: 0.5rem 0;

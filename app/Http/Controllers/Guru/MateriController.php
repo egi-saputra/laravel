@@ -31,22 +31,64 @@ class MateriController extends Controller
     /**
      * Simpan materi baru.
      */
+    // public function store(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'kelas_id' => 'required|exists:data_kelas,id',
+    //         'mapel_id' => 'required|exists:data_mapel,id',
+    //         'judul'    => 'required|string|max:255',
+    //         'materi'   => 'nullable|string',
+    //         'file'     => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,webp,png|max:10240',
+    //     ]);
+
+    //     $data = [
+    //         'user_id'  => auth()->id(),
+    //         'kelas_id' => $validated['kelas_id'],
+    //         'mapel_id' => $validated['mapel_id'],
+    //         'judul'    => $validated['judul'],
+    //         'materi'   => $validated['materi'] ?? null,
+    //     ];
+
+    //     // Upload file jika ada
+    //     if ($request->hasFile('file')) {
+    //         $file = $request->file('file');
+    //         $extension = $file->getClientOriginalExtension();
+    //         $slugName = Str::slug($validated['judul'], '_');
+    //         $fileName = $slugName . '_' . time() . '.' . $extension; // Tambahkan timestamp
+
+    //         $filePath = $file->storeAs('materi', $fileName, 'public');
+
+    //         $data['file_name'] = $fileName;
+    //         $data['file_path'] = 'storage/' . $filePath;
+    //     }
+
+    //     Materi::create($data);
+
+    //     return redirect()->route('guru.materi.index')
+    //         ->with('alert', [
+    //             'message' => 'Materi berhasil dibuat!',
+    //             'type'    => 'success',
+    //             'title'   => 'Berhasil',
+    //         ]);
+    // }
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'kelas_id' => 'required|exists:data_kelas,id',
-            'mapel_id' => 'required|exists:data_mapel,id',
-            'judul'    => 'required|string|max:255',
-            'materi'   => 'nullable|string',
-            'file'     => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,webp,png|max:10240',
+            'kelas_id'   => 'required|exists:data_kelas,id',
+            'mapel_id'   => 'required|exists:data_mapel,id',
+            'judul'      => 'required|string|max:255',
+            'deskripsi'  => 'required|string|max:500', // tambahkan validasi deskripsi
+            'materi'     => 'nullable|string',
+            'file'       => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,webp,png|max:10240',
         ]);
 
         $data = [
-            'user_id'  => auth()->id(),
-            'kelas_id' => $validated['kelas_id'],
-            'mapel_id' => $validated['mapel_id'],
-            'judul'    => $validated['judul'],
-            'materi'   => $validated['materi'] ?? null,
+            'user_id'   => auth()->id(),
+            'kelas_id'  => $validated['kelas_id'],
+            'mapel_id'  => $validated['mapel_id'],
+            'judul'     => $validated['judul'],
+            'deskripsi' => $validated['deskripsi'], // simpan deskripsi
+            'materi'    => $validated['materi'] ?? null,
         ];
 
         // Upload file jika ada
@@ -54,7 +96,7 @@ class MateriController extends Controller
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
             $slugName = Str::slug($validated['judul'], '_');
-            $fileName = $slugName . '_' . time() . '.' . $extension; // Tambahkan timestamp
+            $fileName = $slugName . '_' . time() . '.' . $extension;
 
             $filePath = $file->storeAs('materi', $fileName, 'public');
 
@@ -75,31 +117,80 @@ class MateriController extends Controller
     /**
      * Update materi.
      */
+    // public function update(Request $request, $id)
+    // {
+    //     // Ambil materi milik guru ini, jika bukan miliknya maka 404
+    //     $materi = Materi::where('id', $id)
+    //                     ->where('user_id', auth()->id())
+    //                     ->firstOrFail();
+
+    //     $validated = $request->validate([
+    //         'kelas_id' => 'required|exists:data_kelas,id',
+    //         'mapel_id' => 'required|exists:data_mapel,id',
+    //         'judul'    => 'required|string|max:255',
+    //         'materi'   => 'nullable|string',
+    //         'file'     => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,webp,png|max:10240',
+    //     ]);
+
+    //     $data = [
+    //         'kelas_id' => $validated['kelas_id'],
+    //         'mapel_id' => $validated['mapel_id'],
+    //         'judul'    => $validated['judul'],
+    //         'materi'   => $validated['materi'] ?? null,
+    //     ];
+
+    //     // Upload file baru jika ada
+    //     if ($request->hasFile('file')) {
+    //         // Hapus file lama jika ada
+    //         if ($materi->file_path && Storage::disk('public')->exists(str_replace('storage/', '', $materi->file_path))) {
+    //             Storage::disk('public')->delete(str_replace('storage/', '', $materi->file_path));
+    //         }
+
+    //         $file = $request->file('file');
+    //         $extension = $file->getClientOriginalExtension();
+    //         $slugName = Str::slug($validated['judul'], '_');
+    //         $fileName = $slugName . '_' . time() . '.' . $extension; // Tambahkan timestamp
+
+    //         $filePath = $file->storeAs('materi', $fileName, 'public');
+
+    //         $data['file_name'] = $fileName;
+    //         $data['file_path'] = 'storage/' . $filePath;
+    //     }
+
+    //     $materi->update($data);
+
+    //     return redirect()->route('guru.materi.index')
+    //         ->with('alert', [
+    //             'message' => 'Materi berhasil diperbarui!',
+    //             'type'    => 'success',
+    //             'title'   => 'Berhasil',
+    //         ]);
+    // }
     public function update(Request $request, $id)
     {
-        // Ambil materi milik guru ini, jika bukan miliknya maka 404
         $materi = Materi::where('id', $id)
                         ->where('user_id', auth()->id())
                         ->firstOrFail();
 
         $validated = $request->validate([
-            'kelas_id' => 'required|exists:data_kelas,id',
-            'mapel_id' => 'required|exists:data_mapel,id',
-            'judul'    => 'required|string|max:255',
-            'materi'   => 'nullable|string',
-            'file'     => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,webp,png|max:10240',
+            'kelas_id'   => 'required|exists:data_kelas,id',
+            'mapel_id'   => 'required|exists:data_mapel,id',
+            'judul'      => 'required|string|max:255',
+            'deskripsi'  => 'required|string|max:500', // tambahkan validasi deskripsi
+            'materi'     => 'nullable|string',
+            'file'       => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,webp,png|max:10240',
         ]);
 
         $data = [
-            'kelas_id' => $validated['kelas_id'],
-            'mapel_id' => $validated['mapel_id'],
-            'judul'    => $validated['judul'],
-            'materi'   => $validated['materi'] ?? null,
+            'kelas_id'  => $validated['kelas_id'],
+            'mapel_id'  => $validated['mapel_id'],
+            'judul'     => $validated['judul'],
+            'deskripsi' => $validated['deskripsi'], // update deskripsi
+            'materi'    => $validated['materi'] ?? null,
         ];
 
         // Upload file baru jika ada
         if ($request->hasFile('file')) {
-            // Hapus file lama jika ada
             if ($materi->file_path && Storage::disk('public')->exists(str_replace('storage/', '', $materi->file_path))) {
                 Storage::disk('public')->delete(str_replace('storage/', '', $materi->file_path));
             }
@@ -107,7 +198,7 @@ class MateriController extends Controller
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
             $slugName = Str::slug($validated['judul'], '_');
-            $fileName = $slugName . '_' . time() . '.' . $extension; // Tambahkan timestamp
+            $fileName = $slugName . '_' . time() . '.' . $extension;
 
             $filePath = $file->storeAs('materi', $fileName, 'public');
 

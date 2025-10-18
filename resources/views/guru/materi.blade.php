@@ -7,24 +7,23 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
 
-        <!-- Sidebar -->
         <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
+            <!-- Sidebar -->
             <x-sidebar />
+
+            <!-- Footer -->
+            <x-footer :profil="$profil" />
         </aside>
 
         <!-- Main Content -->
         <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
-            {{-- <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
-                <h2 class="mb-0 text-lg font-bold">
-                    Kelola Materi Pembelajaran
-                    <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
-                </h2>
-                <hr class="mb-2">
-            </div> --}}
 
             <!-- Form Tambah Materi -->
             <div class="p-4 bg-white border rounded-lg shadow-sm backdrop-blur border-slate-200">
-                <h1 class="mb-4 text-lg font-bold">Buat Materi Pembelajaran</h1>
+                <h2 class="flex items-center gap-2 mb-4 text-xl font-bold text-slate-800">
+                    <i class="text-lg text-blue-600 bi bi-journal-text"></i>
+                    Buat Materi Pembelajaran
+                </h2>
 
                 <!-- Form Input Materi -->
                 <form action="{{ route('guru.materi.store') }}" method="POST" enctype="multipart/form-data" class="space-y-3">
@@ -54,14 +53,22 @@
                         </div>
                     </div>
 
+                    <!-- Judul Materi -->
                     <div>
                         <label class="block font-medium">Judul Materi <small class="text-red-500">*</small></label>
                         <input type="text" name="judul" class="w-full px-3 py-2 mb-4 border rounded" required>
                     </div>
 
+                    <!-- Deskripsi Materi -->
+                    <div>
+                        <label class="block font-medium">Deskripsi Materi <small class="text-red-500">*</small></label>
+                        <textarea name="deskripsi" rows="3" class="w-full px-3 py-2 mb-4 border rounded" placeholder="Tuliskan deskripsi singkat materimu!" required></textarea>
+                    </div>
+
+                    <!-- Isi Materi -->
                     <div class="overflow-x-auto md:overflow-x-visible">
-                        <label class="block mb-2 font-medium">Deskripsi / Isi Materi <small class="text-red-500">*</small></label>
-                        <x-forms-tinymce.tinymce-editor name="materi" />
+                        <label class="block mb-2 font-medium">Isi Materi Pembelajaran <small class="text-red-500">*</small></label>
+                        <x-forms-tinymce.tinymce-editor name="materi" class="tinymce bg-gray-50" />
                     </div>
 
                     <div>
@@ -95,5 +102,5 @@
     </div>
 
     <!-- Footer -->
-    <x-footer :profil="$profil" />
+    {{-- <x-footer :profil="$profil" /> --}}
 </x-app-layout>

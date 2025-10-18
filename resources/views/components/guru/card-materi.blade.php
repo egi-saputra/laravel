@@ -86,12 +86,12 @@
                             overflow-wrap: break-word;
                             word-break: break-word;
                         ">
-                            {{ strip_tags($m->materi) }}
+                            {{ strip_tags($m->deskripsi) }}
                         </div>
                     </div>
 
                     <!-- Footer -->
-                    <div class="flex justify-end mt-5">
+                    {{-- <div class="flex justify-end mt-5">
                         @if($m->file_path)
                             <a href="{{ route('guru.view_file_materi', $m->id) }}"
                                 class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow hover:from-blue-700 hover:to-blue-800 transition">
@@ -100,7 +100,44 @@
                         @else
                             <span class="text-sm italic text-slate-400">Tidak ada file</span>
                         @endif
-                    </div>
+                    </div> --}}
+
+                    <!-- Footer Card -->
+                    {{-- <div class="flex justify-between gap-2 mt-5">
+                        @if($m->file_path)
+                            <a href="{{ route('guru.view_file_materi', $m->id) }}"
+                                class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow hover:from-blue-700 hover:to-blue-800 transition">
+                                <i class="bi bi-file-earmark-text"></i> Lihat File
+                            </a>
+                        @else
+                            <span class="text-sm italic text-slate-400">Tidak ada file</span>
+                        @endif
+
+                        <!-- Tombol Lihat Detail Materi -->
+                        <button @click="openDetailModal({{ $m->id }}, '{{ addslashes($m->judul) }}', `{{ addslashes(strip_tags($m->materi ?? '')) }}`)"
+                            class="px-3 py-1.5 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-700 rounded-lg shadow hover:from-green-700 hover:to-green-800 transition">
+                            <i class="bi bi-eye"></i> Lihat Materi
+                        </button>
+                    </div> --}}
+
+                        <!-- Tombol Lihat Materi di Card -->
+                        <div class="flex justify-between gap-2 mt-5">
+                            @if($m->file_path)
+                                <a href="{{ route('guru.view_file_materi', $m->id) }}"
+                                    class="px-3 py-1.5 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-700 rounded-lg shadow hover:from-green-700 hover:to-green-800 transition">
+                                    <i class="bi bi-file-earmark-text"></i> Lihat File
+                                </a>
+                            @else
+                                <span class="text-sm italic text-slate-400">Tidak ada file</span>
+                            @endif
+
+                            <!-- Detail Materi Component -->
+                            @if($m->materi || $m->file_path)
+                                <x-detail-materi :title="$m->judul" :materi="$m" />
+                            @else
+                                <span class="text-sm italic text-slate-400">Tidak ada materi</span>
+                            @endif
+                        </div>
                 </div>
             @endforeach
         </div>
@@ -114,9 +151,9 @@
 
     <!-- Modal Edit -->
     <template x-if="showModal">
-    <div
-        x-transition.opacity.duration.200ms
-        class="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+        <div
+            x-transition.opacity.duration.200ms
+            class="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
 
             <div class="relative w-full max-w-2xl mx-4 overflow-hidden bg-white shadow-xl rounded-xl">
 
@@ -161,28 +198,39 @@
                             </select>
                         </div>
 
+                        <!-- Tambahan kolom Deskripsi Materi -->
                         <div>
-                            <label class="block mb-1 font-medium">Isi Materi</label>
-                            <x-forms-tinymce.tinymce-editor name="materi" :value="old('materi')" />
+                            <label class="block font-medium text-left">Deskripsi Materi</label>
+                            <textarea name="deskripsi"
+                                    rows="3"
+                                    class="w-full px-3 py-2 border rounded"
+                                    placeholder="Tulis deskripsi singkat materi"
+                                    required>{{ old('deskripsi', $m->deskripsi) }}</textarea>
                         </div>
 
                         <div>
-                            <label class="block mb-1 font-medium">Upload File (opsional)</label>
-                            <input type="file" name="file"
-                                class="w-full px-3 py-2 border rounded-lg border-slate-300">
-                            <small class="text-slate-500">Biarkan kosong jika tidak ingin mengganti file.</small>
+                            <label class="block mb-1 font-medium">Isi Materi</label>
+                            <x-forms-tinymce.tinymce-editor name="materi"  class="tinymce-editor bg-gray-50" :value="old('materi', $m->materi ?? '')" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block mb-2 font-medium text-left">Upload File (opsional)</label>
+                            <input type="file" name="file" class="w-full px-3 py-2 border rounded">
+                            <small class="block ml-1 text-left text-gray-500">
+                            <span class="text-red-600">*</span> Biarkan kosong jika tidak ingin ganti file.
+                            </small>
                         </div>
                     </form>
                 </div>
 
                 <!-- Footer Sticky -->
                 <div class="sticky bottom-0 z-10 flex justify-end gap-3 px-6 py-4 bg-white border-t shadow-sm">
-                    <button type="button" @click="showModal = false"
-                        class="px-4 py-2 text-sm font-medium transition border rounded-md text-slate-700 border-slate-400 hover:bg-slate-300">
+                    <button type="button" @click="closeModal()"
+                            class="px-4 py-2 text-sm font-medium transition border rounded-md text-slate-700 border-slate-400 hover:bg-slate-300">
                         Batal
                     </button>
                     <button type="submit" form="editForm"
-                        class="px-4 py-2 text-sm font-medium text-white transition rounded-md shadow bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
+                            class="px-4 py-2 text-sm font-medium text-white transition rounded-md shadow bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
                         Simpan
                     </button>
                 </div>
@@ -190,6 +238,7 @@
             </div>
         </div>
     </template>
+
 </div>
 
 <script>
@@ -199,13 +248,54 @@
             showModal: false,
             editAction: '',
             editData: { id: '', judul: '', kelas_id: '', mapel_id: '' },
+
             match(text) {
                 return text.toLowerCase().includes(this.search.toLowerCase());
             },
+
+            // openEditModal(id, judul, kelas_id, mapel_id) {
+            //     this.editData = { id, judul, kelas_id, mapel_id };
+            //     this.editAction = `/guru/materi/${id}`;
+            //     this.showModal = true;
+
+            //     // Reinit TinyMCE saat modal muncul
+            //     this.$nextTick(() => {
+            //         if (tinymce.get('materi')) tinymce.get('materi').remove();
+            //         tinymce.init({
+            //             selector: 'textarea#materi',
+            //             plugins: 'code table lists',
+            //             toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table',
+            //             height: window.innerWidth < 640 ? 200 : 300,
+            //             menubar: false,
+            //             statusbar: false,
+            //             resize: false,           // matikan resize
+            //             content_style: "body { overflow: visible; }" // disable scroll di dalam editor
+            //         });
+            //     });
+            // },
             openEditModal(id, judul, kelas_id, mapel_id) {
                 this.editData = { id, judul, kelas_id, mapel_id };
                 this.editAction = `/guru/materi/${id}`;
                 this.showModal = true;
+
+                this.$nextTick(() => {
+                    if (tinymce.get('materi')) tinymce.get('materi').remove();
+                    tinymce.init({
+                        selector: 'textarea.tinymce-editor',
+                        plugins: 'code table lists',
+                        toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table',
+                        height: window.innerWidth < 640 ? 250 : 350,
+                        menubar: false,
+                        statusbar: false,
+                        resize: false,
+                        content_style: "body { overflow: visible; }"
+                    });
+                });
+            },
+
+            closeModal() {
+                this.showModal = false;
+                if (tinymce.get('materi')) tinymce.get('materi').remove();
             }
         }
     }
@@ -226,4 +316,3 @@
         });
     });
 </script>
-

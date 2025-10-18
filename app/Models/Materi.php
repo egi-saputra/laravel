@@ -16,6 +16,7 @@ class Materi extends Model
         'kelas_id',
         'mapel_id',
         'judul',
+        'deskripsi',
         'materi',
         'file_name',
         'file_path',
@@ -33,7 +34,7 @@ class Materi extends Model
         return $this->belongsTo(DataKelas::class, 'kelas_id');
     }
 
-    // ✅ Relasi ke Mapel
+    // Relasi ke Mapel
     public function mapel()
     {
         return $this->belongsTo(DataMapel::class, 'mapel_id');

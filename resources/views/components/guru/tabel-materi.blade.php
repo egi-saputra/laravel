@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between mb-4">
         <h2 class="flex items-center gap-2 text-xl font-bold text-slate-800">
             <i class="text-lg text-blue-600 bi bi-journal-text"></i>
-            Daftar Materi
+            Daftar Materi Pembelajaran
         </h2>
 
         <!-- Tombol Hapus Semua -->
@@ -42,7 +42,7 @@
     </div>
 
     <!-- Table -->
-    <div class="overflow-x-auto over md:overflow-x-visible">
+    <div class="overflow-x-auto">
         <table class="w-full mb-10 border border-collapse md:mb-0" id="materiTable">
             <thead>
                 <tr class="bg-gray-100">
@@ -65,7 +65,7 @@
                         <td class="px-4 py-2 border whitespace-nowrap">
                             <div class="text-center">
                                 @if($m->materi)
-                                    <x-detail-materi :title="$m->judul">
+                                    <x-detail-materi :title="$m->judul" :materi="$m">
                                         {!! $m->materi !!}
                                     </x-detail-materi>
                                 @else
@@ -139,6 +139,7 @@
                                                 @csrf
                                                 @method('PUT')
 
+                                                <!-- Judul Materi -->
                                                 <div>
                                                     <label class="block font-medium text-left">Judul</label>
                                                     <input type="text"
@@ -148,6 +149,7 @@
                                                         required>
                                                 </div>
 
+                                                <!-- Kelas -->
                                                 <div>
                                                     <label class="block font-medium text-left">Kelas</label>
                                                     <select name="kelas_id"
@@ -163,6 +165,7 @@
                                                     </select>
                                                 </div>
 
+                                                <!-- Mapel -->
                                                 <div>
                                                     <label class="block font-medium text-left">Mata Pelajaran</label>
                                                     <select name="mapel_id"
@@ -178,17 +181,28 @@
                                                     </select>
                                                 </div>
 
+                                                <!-- Deskripsi Materi -->
+                                                <div>
+                                                    <label class="block font-medium text-left">Deskripsi Materi</label>
+                                                    <textarea name="deskripsi"
+                                                            rows="3"
+                                                            class="w-full px-3 py-2 border rounded"
+                                                            placeholder="Tulis deskripsi singkat materi"
+                                                            required>{{ old('deskripsi', $m->deskripsi) }}</textarea>
+                                                </div>
+
+                                                <!-- Isi Materi -->
                                                 <div>
                                                     <label class="block font-medium text-left">Isi Materi</label>
                                                     <x-forms-tinymce.tinymce-editor name="materi" :value="$m->materi" />
                                                 </div>
 
-                                                <div>
-                                                    <label class="block font-medium text-left">Upload File (opsional)</label>
+                                               <div class="mb-4">
+                                                    <label class="block mb-2 font-medium text-left">Upload File (opsional)</label>
                                                     <input type="file" name="file"
                                                         class="w-full px-3 py-2 border rounded">
-                                                    <small class="text-left text-gray-500">
-                                                        Biarkan kosong jika tidak ingin ganti file.
+                                                    <small class="block ml-1 text-left text-gray-500">
+                                                        <span class="text-red-600">*</span> Biarkan kosong jika tidak ingin ganti file.
                                                     </small>
                                                 </div>
 
