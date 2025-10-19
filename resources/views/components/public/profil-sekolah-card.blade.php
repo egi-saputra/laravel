@@ -110,17 +110,17 @@
                             <h3 class="text-base font-semibold text-gray-800">Data Legalitas</h3>
                         </div>
                         <div class="space-y-2 text-sm text-gray-700">
-                            <div class="grid grid-cols-[90px_10px_1fr] items-center">
+                            <div class="grid md:grid-cols-[90px_10px_1fr] grid-cols-[80px_10px_1fr] items-center">
                                 <span class="font-semibold">No. Izin</span>
                                 <span class="text-left">:</span>
                                 <span>{{ $profil->no_izin }}</span>
                             </div>
-                            <div class="grid grid-cols-[90px_10px_1fr] items-center">
+                            <div class="grid md:grid-cols-[90px_10px_1fr] grid-cols-[80px_10px_1fr] items-center">
                                 <span class="font-semibold">NPSN</span>
                                 <span class="text-left">:</span>
                                 <span>{{ $profil->npsn }}</span>
                             </div>
-                            <div class="grid grid-cols-[90px_10px_1fr] items-center">
+                            <div class="grid md:grid-cols-[90px_10px_1fr] grid-cols-[80px_10px_1fr] items-center">
                                 <span class="font-semibold">NSS</span>
                                 <span class="text-left">:</span>
                                 <span>{{ $profil->nss ?? '-' }}</span>
@@ -139,19 +139,19 @@
                             <h3 class="text-base font-semibold text-gray-800">Kontak & Website</h3>
                         </div>
                         <div class="space-y-2 text-sm text-gray-700">
-                            <div class="grid grid-cols-[90px_10px_1fr] md:grid-cols-[70px_10px_1fr] items-center">
+                            <div class="grid grid-cols-[80px_10px_1fr] md:grid-cols-[70px_10px_1fr] items-center">
                                 <span class="font-semibold">Email</span>
                                 <span class="text-left">:</span>
                                 <a href="#" class="text-sm underline break-all md:text-base text-sky-600 hover:text-sky-800">
                                     <span class="break-all">{{ $profil->email }}</span>
                                 </a>
                             </div>
-                            <div class="grid grid-cols-[90px_10px_1fr] md:grid-cols-[70px_10px_1fr] items-center">
+                            <div class="grid grid-cols-[80px_10px_1fr] md:grid-cols-[70px_10px_1fr] items-center">
                                 <span class="font-semibold">No. Hp</span>
                                 <span class="text-left">:</span>
                                 <a href="#" class="text-sky-600 hover:text-sky-800"><span>{{ $profil->telepon }}</span></a>
                             </div>
-                            <div class="grid grid-cols-[90px_10px_1fr] md:grid-cols-[70px_10px_1fr] items-center">
+                            <div class="grid grid-cols-[80px_10px_1fr] md:grid-cols-[70px_10px_1fr] items-center">
                                 <span class="font-semibold">Email</span>
                                 <span class="text-left">:</span>
                                 <a href="#" class="text-sm break-all md:text-base text-sky-600 hover:text-sky-800">

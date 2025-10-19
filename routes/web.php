@@ -260,3 +260,6 @@ require __DIR__.'/admin.php';
 require __DIR__.'/guru.php';
 require __DIR__.'/staff.php';
 require __DIR__.'/siswa.php';
+
+// import route inertia terpisah
+require __DIR__.'/inertia_guru.php';

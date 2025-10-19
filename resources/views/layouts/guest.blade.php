@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
 
-    <!-- SweetAlert2 CDN -->
+
+        <!-- SweetAlert2 CDN -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <!-- Bootstrap Icons -->
@@ -22,127 +25,6 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://unpkg.com/alpinejs" defer></script>
-
-    <!-- Optional: Custom CSS -->
-    {{-- <style>
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active  {
-        -webkit-box-shadow: 0 0 0 1000px #fff inset !important; /* pakai background putih */
-        box-shadow: 0 0 0 1000px #fff inset !important;
-        -webkit-text-fill-color: #212529; /* warna teks normal */
-        caret-color: #212529; /* warna kursor */
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .left-panel {
-            color: #fff;
-            padding: 2rem;
-        }
-
-        .left-panel img {
-            width: 120px;
-            margin-bottom: 20px;
-        }
-
-        .login-container {
-            max-width: 400px;
-            width: 100%;
-        }
-
-        .form-label {
-            font-weight: 600;
-        }
-
-        .btn-login {
-            background-color: #063970;
-            border: none;
-        }
-
-        .btn-login:hover {
-            background-color: #212529;
-        }
-
-        .btn-outline-secondary {
-            border: 1.5px solid #ccc;
-            background-color: #fff;
-            color: #333;
-            padding: 10px 18px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-outline-secondary:hover {
-            border-color: #063970;
-            color: #063970;
-            background-color: #f9f9f9;
-        }
-
-        .form-password-wrapper {
-            border: 1px solid #ced4da;
-            transition: border-color 0.4s ease !important;
-            /* transition: all 0.2s; */
-        }
-
-        .form-password-wrapper:focus-within {
-            border-color: #063970 !important;
-        }
-
-        .form-group {
-        position: relative;
-        }
-
-        .form-group input {
-        width: 100%;
-        padding: 0.75rem;
-        font-size: 1rem;
-        border: 1px solid #ced4da;
-        transition: border-color 0.4s ease !important;
-        }
-
-        .px-2.border.rounded:focus-within {
-            border-color: #063970 !important;          /* warna border saat fokus */
-            /* box-shadow: 0 0 0 0.2rem rgba(6, 57, 112, 0.25); */
-        }
-
-        .form-control:focus {
-        border-color: #063970;
-        box-shadow: none !important;
-        }
-
-        .form-group label {
-        position: absolute;
-        left: 1rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #999;
-        background: transparent;
-        transition: 0.2s ease all;
-        pointer-events: none; /* supaya klik tetap fokus ke input */
-        }
-
-        /* Saat fokus atau ada isi → label naik ke border */
-        .form-group input:focus + label,
-        .form-group input:not(:placeholder-shown) + label {
-        top: 0;
-        transform: translateY(-50%);
-        font-size: 0.85rem;
-        color: #063970;
-        background: #fff;   /* biar seperti motong garis */
-        padding: 0 .25rem;
-        }
-
-        .font-poppins {
-        font-family: 'Poppins', sans-serif;
-        }
-
-    </style> --}}
 
     <style>
         /* Nonaktifkan background biru/kuning browser pada autofill */

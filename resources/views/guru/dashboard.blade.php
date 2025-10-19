@@ -300,6 +300,4 @@
             </main>
         </div>
 
-    <!-- Footer -->
-    {{-- <x-footer :profil="$profil" /> --}}
 </x-app-layout>

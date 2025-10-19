@@ -1,52 +1,6 @@
-{{-- @props(['id', 'title' => 'Detail'])
-
-<div x-data="{ open: false }" class="inline-block">
-    <!-- Trigger -->
-    <button type="button"
-            @click="open = true"
-            class="px-4 py-1 text-white bg-blue-600 rounded-md hover:bg-blue-700">
-        Lihat Detail
-    </button>
-
-    <!-- Modal -->
-    <div x-show="open"
-         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-         x-cloak>
-        <div class="w-full max-w-3xl p-2 mx-2 bg-white rounded-lg shadow-lg dark:bg-gray-800 sm:mx-0">
-            <!-- Header -->
-            <div class="flex items-center justify-between pb-2 mb-4 border-b">
-                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100">{{ $title }}</h3>
-                <button @click="open = false"
-                        class="text-gray-600 hover:text-gray-800 dark:text-gray-300">
-                    ✕
-                </button>
-            </div>
-
-            <!-- Content -->
-            <div class="prose max-h-[70vh] overflow-y-auto dark:prose-invert text-left">
-                {!! $slot !!}
-            </div>
-
-            <!-- Footer -->
-            <div class="flex justify-end mt-4">
-                <button @click="open = false"
-                        class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
-                    Tutup
-                </button>
-            </div>
-        </div>
-    </div>
-</div> --}}
-
 @props(['id', 'title' => 'Detail', 'materi'])
 
 <div x-data="{ open: false }" class="inline-block">
-    <!-- Trigger -->
-    {{-- <button type="button"
-            @click="open = true"
-            class="px-4 py-1 text-white bg-blue-600 rounded-md hover:bg-blue-700">
-        Lihat Detail
-    </button> --}}
     <button type="button"
             @click="open = true"
             class="px-3 py-1.5 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow hover:from-blue-700 hover:to-blue-800 transition">
@@ -61,7 +15,9 @@
 
             <!-- Header -->
             <div class="flex items-center justify-between pb-2 mb-2 border-b">
-                <h3 class="text-lg font-bold"><i class="hidden bi bi-file-earmark-text md:inline-block"></i> {{ $title }}</h3>
+                <h3 class="text-lg font-bold bg-clip-text text-transparent
+                        bg-gradient-to-r from-blue-600 to-[#063970]
+                        md:text-slate-800 md:bg-clip-auto md:text-current"><i class="bi bi-file-earmark-text"></i> {{ $materi->mapel->mapel ?? '-' }}</h3>
                 <button @click="open = false"
                         class="hidden px-2 py-1 font-bold text-gray-600 md:block hover:text-gray-800 dark:text-gray-300">
                     ✕
@@ -75,14 +31,14 @@
 
                 <!-- Info Author, Kelas, Mapel -->
                 <div class="mb-4">
-                    <div class="mb-2">
+                    {{-- <div class="mb-2">
                         <span class="py-1 pb-4 text-base font-semibold
                         bg-clip-text text-transparent
                         bg-gradient-to-r from-blue-600 to-[#063970]
                         md:text-slate-800 md:bg-clip-auto md:text-current">
                             <i class="inline-block bi bi-file-earmark-text md:hidden"></i> {{ $materi->mapel->mapel ?? '-' }}
                         </span>
-                    </div>
+                    </div> --}}
                     <div class="flex justify-start gap-2">
                         <span class="px-2 py-1 text-sm font-semibold rounded text-amber-600 bg-amber-100">
                             {{ $materi->kelas->kelas ?? '-' }}
@@ -104,7 +60,7 @@
                 <!-- Isi Materi -->
                 @if($materi->materi)
                     <div class="mb-4 text-gray-700 dark:text-gray-200">
-                        <h4 class="mb-1 font-semibold">Isi materi :</h4>
+                        <h4 class="mb-1 font-semibold">{{ $title }}</h4>
                         <div class="max-w-full prose dark:prose-invert">
                             {!! $materi->materi !!}
                         </div>

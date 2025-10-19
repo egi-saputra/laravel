@@ -26,7 +26,7 @@
             </div> --}}
 
             <!-- Form Tambah Siswa + Upload Excel -->
-            <div class="p-4 mb-0 bg-white rounded-lg shadow md:mb-8">
+            <div class="p-4 mb-6 bg-white rounded-lg shadow md:mb-8">
                 {{-- <h1 class="mb-4 text-lg font-bold">Tambahkan Data Siswa <span class="hidden md:inline-block">Untuk Kelasmu!</span></h1> --}}
                 <h1 class="flex items-center gap-2 mb-4 text-lg font-semibold md:text-xl md:font-bold text-slate-800">
                     <i class="bi bi-journal-bookmark"></i>
@@ -136,12 +136,12 @@
             </div>
 
             <!-- Tabel Data Siswa -->
-            <div class="hidden p-4 bg-white rounded-lg shadow md:block">
+            <div class="p-4 bg-white rounded-lg shadow">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-base font-semibold md:font-bold md:text-lg">Daftar Siswa ( {{ $kelas->kelas ?? '' }} )</h2>
+                    <h2 class="flex items-center gap-2 text-xl font-bold text-slate-800"><i class="bi bi-person-lines-fill"></i> Daftar Siswa ( {{ $kelas->kelas ?? '' }} )</h2>
 
                     <!-- Tombol Hapus Semua -->
-                    <div>
+                    {{-- <div>
                         <button id="hapusSemua" type="button" class="flex items-center px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">
                             <i class="bi bi-trash me-1"></i>
                             <p>Hapus <span class="hidden sm:inline">Semua</span></p>
@@ -150,7 +150,7 @@
                             @csrf
                             @method('DELETE')
                         </form>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <!-- Search Box -->
@@ -167,7 +167,21 @@
                     </span>
                     <input type="text" id="searchInput"
                         placeholder="Search ...."
-                        class="w-full py-2 pl-12 border rounded focus:outline-none focus:ring focus:border-blue-300">
+                        class="w-full py-2.5 pl-12 pr-4 border border-slate-300 rounded-xl text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition">
+                </div>
+
+                <!-- Tombol Hapus Semua -->
+                <div class="flex flex-wrap items-center justify-end gap-3 mb-4">
+                    <button id="hapusSemua" type="button"
+                        class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition rounded-lg shadow bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800">
+                        <i class="bi bi-trash"></i> <span>Hapus Semua</span>
+                    </button>
+                    <form id="formHapusSemua"
+                        action="{{ route('guru.walas.destroyAll') }}"
+                        method="POST" class="hidden">
+                        @csrf
+                        @method('DELETE')
+                    </form>
                 </div>
 
                 <!-- Table -->

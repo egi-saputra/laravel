@@ -1,10 +1,10 @@
 <!-- CARD MODERN: DAFTAR MATERI -->
-<div class="p-4 border shadow-sm bg-gradient-to-br from-slate-50 to-white rounded-2xl border-slate-200" x-data="materiList()">
+<div x-data="materiList()">
     <!-- Header -->
     <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h2 class="flex items-center gap-2 text-xl font-bold text-slate-800">
-            <i class="text-lg text-blue-600 bi bi-journal-text"></i>
-            Daftar Materi
+            <i class="bi bi-journal-text"></i>
+            Daftar Materi Pembelajaran
         </h2>
     </div>
 
@@ -52,7 +52,7 @@
                                     '{{ $m->kelas_id }}',
                                     '{{ $m->mapel_id }}',
                                     `{{ addslashes($m->deskripsi) }}`,
-                                    `{{ addslashes(strip_tags($m->materi ?? '')) }}`
+                                    `{{ addslashes($m->materi ?? '') }}`
                                 )"
                                 class="block w-full px-4 py-2 text-left transition text-slate-700 hover:bg-slate-100">
                                 <i class="bi bi-pencil me-1"></i> Edit
@@ -126,96 +126,6 @@
             <p class="text-sm text-slate-400">Silakan tambahkan materi terlebih dahulu.</p>
         </div>
     @endif
-
-    <!-- Modal Edit -->
-    {{-- <template x-if="showModal">
-        <div
-            x-transition.opacity.duration.200ms
-            class="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-
-            <div class="relative w-full max-w-2xl mx-4 overflow-hidden bg-white shadow-xl rounded-xl">
-
-                <!-- Header Sticky -->
-                <div class="sticky top-0 z-10 px-6 py-4 bg-white shadow-sm">
-                    <h2 class="-ml-4 text-lg font-bold text-center text-slate-800">
-                        <i class="bi bi-pencil-square me-2"></i> Edit Materi
-                    </h2>
-                </div>
-
-                <!-- Body Scrollable -->
-                <div class="max-h-[70vh] overflow-y-auto px-6 py-4 space-y-4">
-                    <form id="editForm" :action="editAction" method="POST" enctype="multipart/form-data" class="space-y-4">
-                        @csrf
-                        @method('PUT')
-
-                        <div>
-                            <label class="block mb-1 font-medium">Judul</label>
-                            <input type="text" name="judul" x-model="editData.judul"
-                                class="w-full px-3 py-2 border rounded-lg outline-none border-slate-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400" required>
-                        </div>
-
-                        <div>
-                            <label class="block mb-1 font-medium">Kelas</label>
-                            <select name="kelas_id" x-model="editData.kelas_id"
-                                    class="w-full px-3 py-2 border rounded-lg outline-none border-slate-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400" required>
-                                <option value="">-- Pilih Kelas --</option>
-                                @foreach(\App\Models\DataKelas::all() as $kelas)
-                                    <option value="{{ $kelas->id }}">{{ $kelas->kelas }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block mb-1 font-medium">Mata Pelajaran</label>
-                            <select name="mapel_id" x-model="editData.mapel_id"
-                                    class="w-full px-3 py-2 border rounded-lg outline-none border-slate-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400" required>
-                                <option value="">-- Pilih Mapel --</option>
-                                @foreach(\App\Models\DataMapel::all() as $mapel)
-                                    <option value="{{ $mapel->id }}">{{ $mapel->mapel }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Tambahan kolom Deskripsi Materi -->
-                        <div>
-                            <label class="block font-medium text-left">Deskripsi Materi</label>
-                            <textarea name="deskripsi"
-                                    rows="3"
-                                    class="w-full px-3 py-2 border rounded"
-                                    placeholder="Tulis deskripsi singkat materi"
-                                    required>{{ old('deskripsi', $m->deskripsi) }}</textarea>
-                        </div>
-
-                        <div>
-                            <label class="block mb-1 font-medium">Isi Materi</label>
-                            <x-forms-tinymce.tinymce-editor name="materi"  class="tinymce-editor bg-gray-50" :value="old('materi', $m->materi ?? '')" />
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="block mb-2 font-medium text-left">Upload File (opsional)</label>
-                            <input type="file" name="file" class="w-full px-3 py-2 border rounded">
-                            <small class="block ml-1 text-left text-gray-500">
-                            <span class="text-red-600">*</span> Biarkan kosong jika tidak ingin ganti file.
-                            </small>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Footer Sticky -->
-                <div class="sticky bottom-0 z-10 flex justify-end gap-3 px-6 py-4 bg-white border-t shadow-sm">
-                    <button type="button" @click="closeModal()"
-                            class="px-4 py-2 text-sm font-medium transition border rounded-md text-slate-700 border-slate-400 hover:bg-slate-300">
-                        Batal
-                    </button>
-                    <button type="submit" form="editForm"
-                            class="px-4 py-2 text-sm font-medium text-white transition rounded-md shadow bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
-                        Simpan
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </template> --}}
 
     <!-- Modal Edit -->
     <template x-if="showModal">
@@ -317,6 +227,11 @@
                         menubar: false,
                         statusbar: false,
                         resize: false,
+                        setup: (editor) => {
+                            editor.on('init', () => {
+                                editor.setContent(this.editData.materi || '');
+                            });
+                        },
                         content_style: "body { overflow: visible; }"
                     });
                 });

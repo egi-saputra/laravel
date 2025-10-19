@@ -46,7 +46,7 @@
                         </td> --}}
                         <td class="px-4 py-2 text-sm border md:text-base whitespace-nowrap">
                             <div class="text-center">
-                                <x-detail-materi :title="$m->judul ?? '-'">
+                                <x-detail-materi :materi="$m" :title="$m->judul ?? '-'">
                                     {!! $m->materi ?? '-' !!}
                                 </x-detail-materi>
                             </div>

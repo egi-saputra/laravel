@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" translate="no">
     <head>
         <meta charset="utf-8">
-        {{-- <meta name="viewport" content="width=device-width, initial-scale=1"> --}}
+        <meta name="google" content="notranslate">
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -14,6 +14,9 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
 
         <!-- SweetAlert2 CDN -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -132,103 +135,6 @@
                     }
                 }
             </style>
-            {{-- <style>
-                /* ================================== */
-                /* Base Styles */
-                /* ================================== */
-                *, *::before, *::after {
-                    box-sizing: border-box;
-                }
-
-                body {
-                    margin: 0;
-                    padding: 0;
-                    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-                    /* background-color: #f3f4f6; */
-                    color-scheme: only light;
-                }
-
-                /* ================================== */
-                /* Navbar Sticky */
-                /* ================================== */
-                nav {
-                    position: sticky; /* selalu di top */
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    z-index: 1000;
-                    background-color: #ffffff;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                    padding-top: env(safe-area-inset-top);
-                    transform: translateZ(0);
-                }
-
-                /* ================================== */
-                /* Main & Footer */
-                /* ================================== */
-                main {
-                    /* min-height: calc(100vh - 4rem); */
-                    padding: 1rem;
-                    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
-                }
-
-                footer {
-                    padding-bottom: env(safe-area-inset-bottom);
-                }
-
-                /* ================================== */
-                /* Mobile Bottom Navigation */
-                /* ================================== */
-                @media (max-width: 768px) {
-                    #navhp {
-                        position: fixed;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        z-index: 50;
-                        display: flex;
-                        justify-content: space-around;
-                        padding: 0.5rem 0;
-                        background: rgba(255, 255, 255, 1);
-                        backdrop-filter: blur(8px);
-                        border-top: 1px solid #e5e7eb;
-                        /* box-shadow: 0 -2px 6px rgba(0,0,0,0.1); */
-                        padding-bottom: calc(0.5rem + env(safe-area-inset-bottom)); /* aman untuk iPhone */
-                    }
-
-                    .nav-icon {
-                        flex: 1;
-                        text-align: center;
-                        color: #9ca3af;
-                        font-size: 1.5rem;
-                        transition: all 0.25s ease;
-                    }
-
-                    .nav-icon i {
-                        transition: transform 0.25s ease, color 0.25s ease;
-                    }
-
-                    .nav-icon:hover i {
-                        transform: scale(1.15);
-                    }
-
-                    .nav-icon.active {
-                        color: #2563eb;
-                    }
-
-                    .nav-icon.active i {
-                        transform: scale(1.25);
-                        color: #2563eb;
-                    }
-                }
-
-                /* Default desktop: sembunyikan #navhp */
-                @media (min-width: 769px) {
-                    #navhp {
-                        display: none;
-                    }
-                }
-            </style> --}}
 
             <style>
                 #minimalLoader {

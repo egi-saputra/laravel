@@ -17,30 +17,27 @@ class ListMateriController extends Controller
      */
     public function index()
     {
-        // Ambil siswa yang login
-        $siswa = DataSiswa::where('user_id', Auth::id())->first();
-
-        // Jika tidak ditemukan data siswa
+        // Ambil data siswa login
+        $siswa = DataSiswa::where('user_id', auth()->id())->first();
         if (!$siswa) {
             return redirect()->back()->with('error', 'Data siswa tidak ditemukan.');
         }
 
-        // Ambil materi berdasarkan kelas siswa
+        // Ambil materi untuk kelas siswa
         $materis = Materi::with(['user', 'kelas', 'mapel'])
             ->where('kelas_id', $siswa->kelas_id)
             ->latest()
             ->paginate(10);
 
-        // Ambil data kelas & mapel untuk dropdown/filter
-        $kelas  = DataKelas::all();
-        $mapel  = DataMapel::all();
+        $kelas = DataKelas::all();
+        $mapel = DataMapel::all();
 
-        // Profil siswa untuk footer
-        $profil = Auth::user();
-
-        return view('siswa.materi', compact('materis', 'kelas', 'mapel', 'profil'));
+        return view('siswa.materi', compact('materis','kelas','mapel'));
     }
 
+    /**
+     * Tampilkan file materi
+     */
     public function view_file_materi($id)
     {
         $materi = Materi::findOrFail($id);

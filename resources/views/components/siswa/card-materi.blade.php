@@ -1,7 +1,10 @@
-<div class="p-4 bg-white rounded shadow">
+<div>
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
-        <h2 class="text-base font-bold md:text-lg">Daftar Materi</h2>
+        <h2 class="flex items-center gap-2 text-xl font-bold text-slate-800">
+            <i class="bi bi-journal-text"></i>
+            Daftar Materi
+        </h2>
     </div>
 
     <!-- Search Box -->
@@ -20,20 +23,20 @@
         </span>
         <input type="text" id="searchInput"
                placeholder="Cari judul materi, mapel, isi materi..."
-               class="w-full py-2 pl-12 border rounded focus:outline-none focus:ring focus:border-blue-300">
+               class="w-full py-2 pl-12 border rounded-lg focus:outline-none  focus:border-blue-300">
     </div>
 
     <!-- Cards Container -->
     <div id="materiList" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         @forelse ($materis ?? [] as $m)
-            <div class="p-4 transition-shadow bg-white border rounded-lg shadow-sm hover:shadow-md" data-judul="{{ strtolower($m->judul ?? '') }}" data-mapel="{{ strtolower($m->mapel->mapel ?? '') }}" data-materi="{{ strtolower(strip_tags($m->materi ?? '')) }}">
+            <div class="p-4 transition-shadow bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md" data-judul="{{ strtolower($m->judul ?? '') }}" data-mapel="{{ strtolower($m->mapel->mapel ?? '') }}" data-materi="{{ strtolower(strip_tags($m->materi ?? '')) }}">
                 <div class="mb-2 text-sm text-gray-500">{{ $m->mapel->mapel ?? '-' }}</div>
                 <h3 class="mb-2 text-lg font-semibold text-gray-800">{{ $m->judul ?? '-' }}</h3>
                 <div class="mb-3 text-sm text-gray-700 line-clamp-3">
                     {!! Str::limit(strip_tags($m->materi), 150, '...') ?: 'Tidak ada materi / Hanya berupa file!' !!}
                 </div>
                 <div class="flex items-center justify-between">
-                    <x-detail-materi :title="$m->judul ?? '-' ">
+                    <x-detail-materi :materi="$m" :title="$m->judul ?? '-'">
                         {!! $m->materi ?? '' !!}
                     </x-detail-materi>
 

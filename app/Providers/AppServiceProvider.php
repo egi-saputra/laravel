@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\Observers\UserObserver;
 use App\Observers\DataSiswaObserver;
 use App\Models\DataSiswa;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,9 +22,24 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // 🔹 Root view untuk Inertia
+        Inertia::setRootView('inertia');
+
+        // 🔹 Global share untuk Inertia
+        Inertia::share([
+            'auth' => fn () => [
+                'user' => auth()->user(),
+            ],
+            'app' => fn () => [
+                'profil' => \App\Models\ProfilSekolah::first(),
+            ],
+        ]);
+
+        // 🔹 Observers
         User::observe(UserObserver::class);
         DataSiswa::observe(DataSiswaObserver::class);
 
+        // 🔹 View composer tetap jalan untuk Blade
         View::composer('*', function ($view) {
             $profil = ProfilSekolah::first();
             $currentUser = auth()->user();
