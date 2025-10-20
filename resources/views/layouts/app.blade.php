@@ -136,7 +136,7 @@
                 }
             </style>
 
-            <style>
+            {{-- <style>
                 #minimalLoader {
                     position: fixed;
                     top: 0; left: 0;
@@ -186,6 +186,19 @@
                     border-radius: 9999px;
                     transition: width 1.5s cubic-bezier(0.77, 0, 0.175, 1); /* smooth live feel */
                 }
+            </style> --}}
+            <style>
+                /* Loader bar di atas, tipis seperti YouTube */
+                #topLoader {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    height: 3px;
+                    width: 0%;
+                    background: linear-gradient(90deg, #2563eb, #3b82f6);
+                    z-index: 9999;
+                    transition: width 0.3s ease;
+                }
             </style>
 
             <style>
@@ -217,7 +230,7 @@
             </style>
 
     </head>
-    <body class="font-sans antialiased bg-gray-100">
+    <body class="font-sans antialiased bg-white">
         <x-alert />
 
         <x-head-tinymce.tinymce-config/>
@@ -384,17 +397,18 @@
                 </div>
             </nav>
 
-            @if (!session('alert'))
+            {{-- @if (!session('alert'))
                 <div id="minimalLoader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white md:hidden">
                     <div class="mb-4 text-lg text-gray-600 loader-text">Loading...</div>
                     <div class="w-3/4 h-2 bg-gray-200 rounded-full loader-bar-wrapper">
                         <div class="h-2 bg-blue-500 rounded-full loader-bar" id="loaderBar"></div>
                     </div>
                 </div>
-            @endif
+            @endif --}}
+            <div id="topLoader"></div>
 
             <!-- Page Content -->
-            <main>
+            <main id="mainContent">
                 {{ $slot }}
             </main>
 
@@ -421,7 +435,7 @@
             <i class="text-xl bi bi-arrow-up"></i>
         </button>
 
-        <script>
+        {{-- <script>
             // Script Fullscreen
             function toggleFullscreen() {
                     let elem = document.documentElement;
@@ -547,6 +561,401 @@
                     localStorage.setItem('sanctum_token', "{{ session('sanctum_token') }}");
                 @endif
             });
+        </script> --}}
+
+        {{-- <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const loader = document.getElementById('topLoader');
+                const mainContent = document.getElementById('mainContent');
+
+                // ============================
+                // Fullscreen Toggle
+                // ============================
+                window.toggleFullscreen = function() {
+                    const elem = document.documentElement;
+                    if (!document.fullscreenElement) {
+                        elem.requestFullscreen?.() || elem.mozRequestFullScreen?.() || elem.webkitRequestFullscreen?.() || elem.msRequestFullscreen?.();
+                    } else {
+                        document.exitFullscreen?.() || document.mozCancelFullScreen?.() || document.webkitExitFullscreen?.() || document.msExitFullscreen?.();
+                    }
+                };
+
+                // ============================
+                // Loader
+                // ============================
+                function startLoader() {
+                    loader.style.display = 'block';
+                    loader.style.width = '0%';
+                    let width = 0;
+                    const interval = setInterval(() => {
+                        if (width < 90) {
+                            width += Math.random() * 10;
+                            loader.style.width = width + '%';
+                        } else clearInterval(interval);
+                    }, 100);
+                    return interval;
+                }
+
+                function finishLoader(interval) {
+                    clearInterval(interval);
+                    loader.style.width = '100%';
+                    setTimeout(() => loader.style.display = 'none', 200);
+                }
+
+                // ============================
+                // Back to Top Button
+                // ============================
+                const backToTopBtn = document.getElementById("backToTop");
+                if (backToTopBtn) {
+                    window.addEventListener("scroll", () => {
+                        backToTopBtn.classList.toggle("show", window.scrollY > 100);
+                    });
+                    backToTopBtn.addEventListener("click", () => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    });
+                }
+
+                // ============================
+                // SPA Navigation
+                // ============================
+                function handleLinkClick(e) {
+                    const link = e.currentTarget;
+                    const href = link.getAttribute('href');
+
+                    if (!href || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('#') || link.closest('form')) return;
+
+                    e.preventDefault();
+                    const interval = startLoader();
+
+                    fetch(href, { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            const temp = document.createElement('div');
+                            temp.innerHTML = html;
+
+                            const newMain = temp.querySelector('main');
+                            if (newMain) {
+                                mainContent.innerHTML = newMain.innerHTML;
+                                // Jika ada script khusus di main, jalankan lagi
+                                temp.querySelectorAll('script').forEach(oldScript => {
+                                    const newScript = document.createElement('script');
+                                    if (oldScript.src) newScript.src = oldScript.src;
+                                    else newScript.textContent = oldScript.textContent;
+                                    mainContent.appendChild(newScript);
+                                });
+                            }
+
+                            window.history.pushState({}, '', href);
+                            finishLoader(interval);
+                        })
+                        .catch(err => {
+                            console.error('Fetch error:', err);
+                            finishLoader(interval);
+                        });
+                }
+
+                document.querySelectorAll('a').forEach(link => link.addEventListener('click', handleLinkClick));
+
+                window.addEventListener('popstate', () => {
+                    const interval = startLoader();
+                    fetch(location.href, { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            const temp = document.createElement('div');
+                            temp.innerHTML = html;
+                            const newMain = temp.querySelector('main');
+                            if (newMain) mainContent.innerHTML = newMain.innerHTML;
+                            finishLoader(interval);
+                        });
+                });
+            });
+        </script> --}}
+
+        {{-- <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const loader = document.getElementById('topLoader');
+                const mainContent = document.getElementById('mainContent');
+
+                // ============================
+                // Fullscreen Toggle
+                // ============================
+                window.toggleFullscreen = function() {
+                    const elem = document.documentElement;
+                    if (!document.fullscreenElement) {
+                        elem.requestFullscreen?.() || elem.mozRequestFullScreen?.() || elem.webkitRequestFullscreen?.() || elem.msRequestFullscreen?.();
+                    } else {
+                        document.exitFullscreen?.() || document.mozCancelFullScreen?.() || document.webkitExitFullscreen?.() || document.msExitFullscreen?.();
+                    }
+                };
+
+                // ============================
+                // Loader
+                // ============================
+                function startLoader() {
+                    loader.style.display = 'block';
+                    loader.style.width = '0%';
+                    let width = 0;
+                    const interval = setInterval(() => {
+                        if (width < 90) {
+                            width += Math.random() * 10;
+                            loader.style.width = width + '%';
+                        } else clearInterval(interval);
+                    }, 100);
+                    return interval;
+                }
+
+                function finishLoader(interval) {
+                    clearInterval(interval);
+                    loader.style.width = '100%';
+                    setTimeout(() => loader.style.display = 'none', 200);
+                }
+
+                // ============================
+                // Back to Top Button
+                // ============================
+                const backToTopBtn = document.getElementById("backToTop");
+                if (backToTopBtn) {
+                    window.addEventListener("scroll", () => {
+                        backToTopBtn.classList.toggle("show", window.scrollY > 100);
+                    });
+                    backToTopBtn.addEventListener("click", () => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    });
+                }
+
+                // ============================
+                // Nav-Bot Cache (Hanya dijalankan sekali)
+                // ============================
+                const wrapper = document.getElementById('navBotWrapper');
+                if (wrapper) {
+                    const cacheKey = 'navBotHTML';
+                    const cachedNav = localStorage.getItem(cacheKey);
+
+                    if (cachedNav) {
+                        wrapper.innerHTML = cachedNav;
+                    }
+
+                    fetch("{{ route('nav-bot') }}", { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            wrapper.innerHTML = html;
+                            localStorage.setItem(cacheKey, html);
+                        })
+                        .catch(err => {
+                            console.error('NavBot fetch error:', err);
+                            if (cachedNav) wrapper.innerHTML = cachedNav;
+                        });
+                }
+
+                // ============================
+                // SPA Navigation (Hanya update <main>)
+                // ============================
+                function handleLinkClick(e) {
+                    const link = e.currentTarget;
+                    const href = link.getAttribute('href');
+
+                    if (!href || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('#') || link.closest('form')) return;
+
+                    e.preventDefault();
+                    const interval = startLoader();
+
+                    fetch(href, { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            const temp = document.createElement('div');
+                            temp.innerHTML = html;
+
+                            const newMain = temp.querySelector('main');
+                            if (newMain) {
+                                mainContent.innerHTML = newMain.innerHTML;
+
+                                // Jalankan script khusus di <main>
+                                temp.querySelectorAll('script').forEach(oldScript => {
+                                    const newScript = document.createElement('script');
+                                    if (oldScript.src) newScript.src = oldScript.src;
+                                    else newScript.textContent = oldScript.textContent;
+                                    mainContent.appendChild(newScript);
+                                });
+                            }
+
+                            window.history.pushState({}, '', href);
+                            finishLoader(interval);
+                        })
+                        .catch(err => {
+                            console.error('Fetch error:', err);
+                            finishLoader(interval);
+                        });
+                }
+
+                document.querySelectorAll('a').forEach(link => link.addEventListener('click', handleLinkClick));
+
+                window.addEventListener('popstate', () => {
+                    const interval = startLoader();
+                    fetch(location.href, { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            const temp = document.createElement('div');
+                            temp.innerHTML = html;
+                            const newMain = temp.querySelector('main');
+                            if (newMain) mainContent.innerHTML = newMain.innerHTML;
+                            finishLoader(interval);
+                        });
+                });
+            });
+        </script> --}}
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const loader = document.getElementById('topLoader');
+                const mainContent = document.getElementById('mainContent');
+
+                // ============================
+                // Fullscreen Toggle
+                // ============================
+                window.toggleFullscreen = function() {
+                    const elem = document.documentElement;
+                    if (!document.fullscreenElement) {
+                        elem.requestFullscreen?.() || elem.mozRequestFullScreen?.() || elem.webkitRequestFullscreen?.() || elem.msRequestFullscreen?.();
+                    } else {
+                        document.exitFullscreen?.() || document.mozCancelFullScreen?.() || document.webkitExitFullscreen?.() || document.msExitFullscreen?.();
+                    }
+                };
+
+                // ============================
+                // Loader
+                // ============================
+                function startLoader() {
+                    loader.style.display = 'block';
+                    loader.style.width = '0%';
+                    let width = 0;
+
+                    const interval = setInterval(() => {
+                        if(width < 95){
+                            width += Math.random() * 8; // progres naik acak
+                            loader.style.width = width + '%';
+                        } else clearInterval(interval);
+                    }, 80);
+
+                    return interval;
+                }
+
+                function finishLoader(interval) {
+                    clearInterval(interval);
+                    loader.style.width = '100%';
+                    setTimeout(() => loader.style.display = 'none', 200);
+                }
+
+                // ============================
+                // Back to Top Button
+                // ============================
+                const backToTopBtn = document.getElementById("backToTop");
+                if (backToTopBtn) {
+                    window.addEventListener("scroll", () => {
+                        backToTopBtn.classList.toggle("show", window.scrollY > 100);
+                    });
+                    backToTopBtn.addEventListener("click", () => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    });
+                }
+
+                // ============================
+                // Nav-Bot Cache (sekali load)
+                // ============================
+                const wrapper = document.getElementById('navBotWrapper');
+                if (wrapper) {
+                    const cacheKey = 'navBotHTML';
+                    const cachedNav = localStorage.getItem(cacheKey);
+                    if (cachedNav) wrapper.innerHTML = cachedNav;
+
+                    fetch("{{ route('nav-bot') }}", { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            wrapper.innerHTML = html;
+                            localStorage.setItem(cacheKey, html);
+                        })
+                        .catch(err => console.error('NavBot fetch error:', err));
+                }
+
+                // ============================
+                // SPA Navigation
+                // ============================
+                function handleLinkClick(e) {
+                    const link = e.currentTarget;
+                    const href = link.getAttribute('href');
+
+                    if (!href || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('#') || link.closest('form')) return;
+
+                    e.preventDefault();
+                    const interval = startLoader();
+
+                    fetch(href, { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            const temp = document.createElement('div');
+                            temp.innerHTML = html;
+
+                            const newMain = temp.querySelector('main');
+                            if (newMain) {
+                                mainContent.style.opacity = 0; // sembunyikan sementara
+                                requestAnimationFrame(() => {
+                                    mainContent.innerHTML = newMain.innerHTML;
+
+                                    // Jalankan script baru
+                                    temp.querySelectorAll('script').forEach(oldScript => {
+                                        const newScript = document.createElement('script');
+                                        if (oldScript.src) newScript.src = oldScript.src;
+                                        else newScript.textContent = oldScript.textContent;
+                                        mainContent.appendChild(newScript);
+                                    });
+
+                                    mainContent.style.transition = 'opacity 0.2s';
+                                    mainContent.style.opacity = 1;
+                                });
+                            }
+
+                            window.history.pushState({}, '', href);
+                            finishLoader(interval);
+                        })
+                        .catch(err => {
+                            console.error('Fetch error:', err);
+                            finishLoader(interval);
+                        });
+                }
+
+                document.querySelectorAll('a').forEach(link => link.addEventListener('click', handleLinkClick));
+
+                // ============================
+                // Tangani back/forward browser
+                // ============================
+                window.addEventListener('popstate', () => {
+                    const interval = startLoader();
+                    fetch(location.href, { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            const temp = document.createElement('div');
+                            temp.innerHTML = html;
+
+                            const newMain = temp.querySelector('main');
+                            if (newMain) {
+                                mainContent.style.opacity = 0;
+                                requestAnimationFrame(() => {
+                                    mainContent.innerHTML = newMain.innerHTML;
+                                    temp.querySelectorAll('script').forEach(oldScript => {
+                                        const newScript = document.createElement('script');
+                                        if (oldScript.src) newScript.src = oldScript.src;
+                                        else newScript.textContent = oldScript.textContent;
+                                        mainContent.appendChild(newScript);
+                                    });
+                                    mainContent.style.transition = 'opacity 0.2s';
+                                    mainContent.style.opacity = 1;
+                                });
+                            }
+
+                            finishLoader(interval);
+                        });
+                });
+            });
         </script>
+
     </body>
 </html>

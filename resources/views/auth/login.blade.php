@@ -87,18 +87,22 @@
                     </div>
 
 
-                    <div class="flex items-center justify-between px-2 mb-4 text-sm text-slate-700">
+                    <div class="flex items-center justify-between px-2 mb-4">
                         <!-- Checkbox Remember Me -->
-                        <div class="flex items-center">
+                        <!-- Hidden auto-checked Remember Me -->
+                        <input type="checkbox" name="remember" id="remember" value="1" checked hidden>
+                        {{-- <div class="flex items-center">
                             <input type="checkbox" name="remember" id="remember" class="mr-2">
                             <label for="remember">Remember Me</label>
-                        </div>
+                        </div> --}}
 
                         <!-- Forgot Password -->
                         <div>
-                            <a href="{{ route('password.request') }}" class="font-semibold hover:underline">
-                                Forgot your password?
+                            <span class="text-xs font-semibold text-slate-700 hover:underline">
+                                <i class="fas fa-lock"></i> Forgot your password ? <a href="{{ route('password.request') }}" class="font-semibold text-blue-700 hover:underline">
+                                Click Here!
                             </a>
+                            </span>
                         </div>
                     </div>
 

@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" translate="no">
     <head>
         <meta charset="utf-8">
-        {{-- <meta name="viewport" content="width=device-width, initial-scale=1"> --}}
+        <meta name="google" content="notranslate">
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -14,6 +14,9 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
 
         <!-- SweetAlert2 CDN -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -47,7 +50,7 @@
                     margin: 0;
                     padding: 0;
                     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-                    background-color: #f3f4f6;
+                    /* background-color: #f3f4f6; */
                     color-scheme: only light;
                 }
 
@@ -88,9 +91,9 @@
                         bottom: 0;
                         left: 0;
                         right: 0;
-                        z-index: 50;
+                        z-index: 40;
                         display: flex;
-                        justify-around;
+                        justify-content: space-around;
                         padding: 0.5rem 0;
                         background: rgba(255, 255, 255, 1);
                         backdrop-filter: blur(8px);
@@ -116,12 +119,12 @@
                     }
 
                     .nav-icon.active {
-                        color: #2563eb;
+                        color: #063970;
                     }
 
                     .nav-icon.active i {
                         transform: scale(1.25);
-                        color: #2563eb;
+                        color: #063970;
                     }
                 }
 
@@ -214,12 +217,11 @@
             </style>
 
     </head>
-    <body class="font-sans antialiased bg-[#063970]">
+    <body class="font-sans antialiased bg-white">
         <x-alert />
 
         <x-head-tinymce.tinymce-config/>
 
-        <div class="min-h-screen bg-gray-100">
             @php
                 $role = auth()->user()->role;
                 $routes = [
@@ -302,7 +304,7 @@
                                             <div class="transition-transform duration-300 ease-in-out ms-1"
                                                 :class="openDropdown ? 'rotate-0' : '-rotate-90'">
                                                 <!-- Ikon panah dengan animasi rotasi -->
-                                                {{-- <svg class="w-6 h-6 fill-current bold md:w-4 md:h-4" xmlns="http://www.w3.org/2000/svg"
+                                                {{-- <svg class="fill-current w-7 h-7 bold md:w-4 md:h-4" xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20">
                                                     <path fill-rule="evenodd"
                                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -349,7 +351,7 @@
                                         @csrf
                                         <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
                                             <i class="bi bi-box-arrow-right me-2"></i>
-                                            {{ __('Keluar Aplikasi') }}
+                                            {{ __('Logout') }}
                                         </x-dropdown-link>
                                     </form>
                                 </x-slot>
@@ -382,11 +384,11 @@
                 </div>
             </nav>
 
-            @if(!session('alert'))
-                <div id="minimalLoader" class="block md:hidden">
-                    <div class="loader-text">Loading...</div>
-                    <div class="loader-bar-wrapper">
-                        <div class="loader-bar" id="loaderBar"></div>
+            @if (!session('alert'))
+                <div id="minimalLoader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white md:hidden">
+                    <div class="mb-4 text-lg text-gray-600 loader-text">Loading...</div>
+                    <div class="w-3/4 h-2 bg-gray-200 rounded-full loader-bar-wrapper">
+                        <div class="h-2 bg-blue-500 rounded-full loader-bar" id="loaderBar"></div>
                     </div>
                 </div>
             @endif
@@ -396,83 +398,8 @@
                 {{ $slot }}
             </main>
 
-            <!-- Bottom Navigation (Mobile Only - Icon + Text) -->
-            <div id="navhp" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around py-2 text-xs bg-white border-t shadow md:hidden">
-
-                <!-- Home/Dashboard -->
-                <a href="{{ route('dashboard') }}" class="flex flex-col items-center nav-icon {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}">
-                    <i class="text-lg fas fa-chart-line"></i>
-                    <small class="text-xs font-semibold">Beranda</small>
-                </a>
-
-                @if(auth()->user()->role === 'staff')
-                    <!-- Riwayat Presensi untuk Staff -->
-                    <a href="{{ route('staff.riwayat_presensi.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('staff.riwayat_presensi.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-calendar-check"></i>
-                        <small class="text-xs font-semibold">Presensi</small>
-                    </a>
-                @else
-                    <!-- Siswa untuk semua selain staff -->
-                    <a href="{{ route('public.daftar_siswa.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-user-graduate"></i>
-                        <small class="text-xs font-semibold">Siswa</small>
-                    </a>
-                @endif
-
-                <!-- Informasi Sekolah -->
-                <a href="{{ route('public.informasi_sekolah.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.informasi_sekolah.index') ? 'active' : '' }}">
-                    <i class="text-lg fas fa-school"></i>
-                    <small class="text-xs font-semibold">Sekolah</small>
-                </a>
-
-                @if(auth()->user()->role === 'guru')
-                    <!-- Materi -->
-                    <a href="{{ route('guru.materi.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('guru.materi.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-book"></i>
-                        <small class="text-xs font-semibold">Materi</small>
-                    </a>
-
-                    <!-- Tugas -->
-                    <a href="{{ route('guru.tugas_siswa.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('guru.tugas_siswa.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-tasks"></i>
-                        <small class="text-xs font-semibold">Tugas</small>
-                    </a>
-                @elseif(auth()->user()->role === 'staff')
-                    <!-- Rekap Honor Guru -->
-                    <a href="{{ route('staff.rekap_honor_guru.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('staff.rekap_honor_guru.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-user-tie"></i>
-                        <small class="text-xs font-semibold">Honor Guru</small>
-                    </a>
-
-                    <!-- Rekap Honor Staff -->
-                    <a href="{{ route('staff.rekap_honor_staff.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('staff.rekap_honor_staff.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-users"></i>
-                        <small class="text-xs font-semibold">Honor Staff</small>
-                    </a>
-                @else
-                    <!-- Siswa: Materi -->
-                    <a href="{{ route('siswa.materi.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.materi.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-book"></i>
-                        <small class="text-xs font-semibold">Materi</small>
-                    </a>
-
-                    <!-- Siswa: Tugas -->
-                    <a href="{{ route('siswa.tugas.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('siswa.tugas.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-tasks"></i>
-                        <small class="text-xs font-semibold">Tugas</small>
-                    </a>
-                @endif
-
-            </div>
-        </div>
+            {{-- <x-nav-bot :role="$role" /> --}}
+            <div id="navBotWrapper"></div>
 
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -494,9 +421,9 @@
             <i class="text-xl bi bi-arrow-up"></i>
         </button>
 
-            <!-- Script Fullscreen -->
-            <script>
-                function toggleFullscreen() {
+        <script>
+            // Script Fullscreen
+            function toggleFullscreen() {
                     let elem = document.documentElement;
                     if (!document.fullscreenElement) {
                         if (elem.requestFullscreen) {
@@ -520,71 +447,106 @@
                         }
                     }
                 }
-            </script>
 
-        <script>
-            const backToTopBtn = document.getElementById("backToTop");
-
-            window.addEventListener("scroll", () => {
-                if (window.scrollY > 100) {
-                    backToTopBtn.classList.add("show");
-                } else {
-                    backToTopBtn.classList.remove("show");
-                }
-            });
-
-            backToTopBtn.addEventListener("click", () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-            });
-
-            window.addEventListener("pageshow", function(event) {
-                if (event.persisted || window.performance.getEntriesByType("navigation")[0].type === "back_forward") {
-                    // reload halaman saat user klik back
-                    window.location.href = "/login"; // redirect ke login
-                }
-            });
-
-            // Simple Bar Loader Live
             document.addEventListener('DOMContentLoaded', function () {
+                // ============================
+                // Loader & SweetAlert Handling
+                // ============================
                 const loader = document.getElementById('minimalLoader');
                 const loaderBar = document.getElementById('loaderBar');
+                const isMobile = window.innerWidth < 768;
 
-                // Cek apakah ada SweetAlert
-                const hasSweetAlert = @json(session('alert') ? true : false);
+                const hasSweetAlert = {!! session('alert') ? 'true' : 'false' !!};
+                const alertType = {!! session('alert.type') ? "'".session('alert.type')."'" : 'null' !!};
+                const alertTitle = {!! session('alert.title') ? "'".session('alert.title')."'" : 'null' !!};
+                const alertMessage = {!! session('alert.message') ? "'".session('alert.message')."'" : 'null' !!};
 
-                if (hasSweetAlert) {
-                    // Hilangkan loader sepenuhnya
+                if (isMobile) {
+                    if (loader) loader.classList.remove('hidden');
+                    if (loaderBar) loaderBar.style.width = '0%';
+                    setTimeout(() => {
+                        if (loaderBar) loaderBar.style.width = '100%';
+                    }, 50);
+                    window.addEventListener('load', () => {
+                        if (loader) loader.classList.add('hidden');
+                    });
+                } else {
                     if (loader) loader.remove();
                     if (loaderBar) loaderBar.remove();
 
-                    Swal.fire({
-                        icon: '{{ session('alert.type') }}',
-                        title: '{{ session('alert.title') ?? ucfirst(session('alert.type')) }}',
-                        text: '{{ session('alert.message') }}',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#3085d6'
-                    });
-                } else {
-                    // Normal loader
-                    setTimeout(() => {
-                        loaderBar.style.width = '100%';
-                    }, 50);
-
-                    setTimeout(() => {
-                        loader.classList.add('hidden');
-                    }, 1600);
+                    if (hasSweetAlert && alertType) {
+                        Swal.fire({
+                            icon: alertType,
+                            title: alertTitle ?? alertType.charAt(0).toUpperCase() + alertType.slice(1),
+                            text: alertMessage,
+                            confirmButtonText: 'OK',
+                            confirmButtonColor: '#3085d6'
+                        });
+                    }
                 }
+
+                // ============================
+                // Back To Top Button
+                // ============================
+                const backToTopBtn = document.getElementById("backToTop");
+                if (backToTopBtn) {
+                    window.addEventListener("scroll", () => {
+                        if (window.scrollY > 100) {
+                            backToTopBtn.classList.add("show");
+                        } else {
+                            backToTopBtn.classList.remove("show");
+                        }
+                    });
+                    backToTopBtn.addEventListener("click", () => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    });
+                }
+
+                // ============================
+                // Nav-Bot Cache Handling
+                // ============================
+                const wrapper = document.getElementById('navBotWrapper');
+                if (wrapper) {
+                    const cacheKey = 'navBotHTML';
+                    const cachedNav = localStorage.getItem(cacheKey);
+
+                    if (cachedNav) {
+                        wrapper.innerHTML = cachedNav;
+                        console.log('NavBot: pakai cache');
+                    }
+
+                    fetch("{{ route('nav-bot') }}", { credentials: 'same-origin' })
+                        .then(res => {
+                            if (!res.ok) throw new Error('Gagal fetch NavBot: ' + res.status);
+                            return res.text();
+                        })
+                        .then(html => {
+                            wrapper.innerHTML = html;
+                            localStorage.setItem(cacheKey, html);
+                            console.log('NavBot: fetch terbaru dan cache diperbarui');
+                        })
+                        .catch(err => {
+                            console.error('NavBot fetch error:', err);
+                            if (cachedNav) wrapper.innerHTML = cachedNav;
+                        });
+                }
+
+                // ============================
+                // Redirect saat back-forward
+                // ============================
+                window.addEventListener("pageshow", function(event) {
+                    if (event.persisted || (window.performance.getEntriesByType("navigation")[0]?.type === "back_forward")) {
+                        window.location.href = "/login";
+                    }
+                });
+
+                // ============================
+                // Simpan token Sanctum
+                // ============================
+                @if (session('sanctum_token'))
+                    localStorage.setItem('sanctum_token', "{{ session('sanctum_token') }}");
+                @endif
             });
         </script>
-
-        @if (session('sanctum_token'))
-            <script>
-                // Simpan token Sanctum dari Laravel session ke localStorage browser
-                localStorage.setItem('sanctum_token', "{{ session('sanctum_token') }}");
-            </script>
-        @endif
     </body>
 </html>
