@@ -1,5 +1,5 @@
 <div
-    x-data="{ open: false, fileName: '' }"
+    x-data="{ open: false }"
     x-show="open"
     x-cloak
     @keydown.escape.window="open = false"
@@ -16,31 +16,58 @@
         @click.away="if($event.target.tagName !== 'INPUT') open = false"
         class="relative w-full max-w-md p-6 mx-4 bg-white shadow-xl rounded-xl md:mx-0"
     >
-        <h2 class="pb-2 mb-4 text-2xl font-bold text-gray-800 border-b">Upload Foto Profil</h2>
+        <h2 class="pb-2 mb-4 text-2xl font-bold text-gray-800 border-b">
+            Upload Foto Profil
+        </h2>
+
+        <!-- CLOSE BUTTON -->
+        <button
+            @click="open = false"
+            class="absolute text-gray-400 top-3 right-3 hover:text-gray-600"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
 
         <!-- FORM UPLOAD -->
-        <form action="{{ route('foto.upload') }}" method="POST" enctype="multipart/form-data" id="form-upload">
+        <form
+            action="{{ route('foto.upload') }}"
+            method="POST"
+            enctype="multipart/form-data"
+            id="form-upload"
+        >
             @csrf
-            <!-- Wrapper untuk input file -->
-            <div class="mb-4 relative">
-                <!-- Input file di atas label tapi invisible -->
-                <input type="file" name="foto" required accept="image/*"
-                       class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                       @change="fileName = $event.target.files[0]?.name || ''">
 
-                       <!-- Nama file -->
-                        <div class="mt-2 mb-2 text-xs text-gray-600">
-                            <span x-text="fileName || 'Belum ada file yang dipilih'"></span>
-                        </div>
+            <div class="mb-4">
+                <!-- Teks nama file -->
+                <div id="fileName" class="mb-2 text-sm text-gray-700 font-medium text-center"></div>
+
+                <!-- Input file -->
+                <input
+                    type="file"
+                    name="foto"
+                    id="inputFoto"
+                    required
+                    accept="image/*"
+                    class="hidden"
+                >
 
                 <!-- Label sebagai tombol -->
-                <div class="inline-flex justify-center w-full border border-gray-300 items-center px-4 py-2 text-slate-800 rounded cursor-pointer hover:border-gray-800">
-                    <i class="bi bi-upload mr-2"></i> Pilih File
-                </div>
+                <label
+                    for="inputFoto"
+                    class="inline-flex justify-center w-full border border-gray-300 items-center px-4 py-2 text-slate-800 rounded cursor-pointer hover:border-slate-800"
+                >
+                    <i class="bi bi-upload mr-2"></i>
+                    Pilih File
+                </label>
 
                 <!-- Info tambahan -->
-                <p class="mt-1 text-xs text-gray-500">
-                    Ukuran ideal foto: persegi (square), minimal 500×500 px.<br>
+                <p class="my-4 text-xs md:text-sm text-gray-500 leading-relaxed">
+                    Ukuran ideal foto: persegi
+                    <span class="md:inline-block hidden">(square)</span>,
+                    minimal 500×500 px.<br class="md:hidden block">
                     Format: JPG, PNG, JPEG, atau WebP. Max Size: 10MB.
                 </p>
             </div>
@@ -48,16 +75,25 @@
 
         <!-- BUTTON ACTION -->
         <div class="flex justify-end space-x-2">
-            <button type="submit" form="form-upload"
-                    class="px-4 py-2 text-white transition bg-blue-600 rounded shadow-sm hover:bg-blue-700">
+            <button
+                type="submit"
+                form="form-upload"
+                class="px-4 py-2 text-white transition bg-blue-600 rounded shadow-sm hover:bg-blue-700"
+            >
                 Upload
             </button>
 
-            <form id="hapusFotoForm" action="{{ route('foto.remove') }}" method="POST">
+            <form
+                id="hapusFotoForm"
+                action="{{ route('foto.remove') }}"
+                method="POST"
+            >
                 @csrf
                 @method('DELETE')
-                <button type="submit"
-                        class="px-4 py-2 text-red-600 border border-red-300 rounded hover:bg-red-50">
+                <button
+                    type="submit"
+                    class="px-4 py-2 text-red-600 border border-red-300 rounded hover:bg-red-50"
+                >
                     Remove
                 </button>
             </form>
@@ -67,25 +103,38 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const hapusForm = document.getElementById('hapusFotoForm');
-        hapusForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            Swal.fire({
-                title: 'Hapus foto profil ?',
-                text: "Foto profil akan dihapus permanen!",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    hapusForm.submit();
-                }
-            });
+document.addEventListener('DOMContentLoaded', function () {
+    // tampilkan nama file setelah dipilih
+    const inputFoto = document.getElementById('inputFoto');
+    const fileName = document.getElementById('fileName');
+
+    inputFoto.addEventListener('change', function () {
+        if (this.files && this.files[0]) {
+            fileName.textContent = this.files[0].name;
+        } else {
+            fileName.textContent = '';
+        }
+    });
+
+    // konfirmasi hapus foto
+    const hapusForm = document.getElementById('hapusFotoForm');
+    hapusForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Hapus foto profil?',
+            text: "Foto profil akan dihapus permanen!",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                hapusForm.submit();
+            }
         });
     });
+});
 </script>
 @endpush

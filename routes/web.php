@@ -26,6 +26,7 @@ use App\Http\Controllers\{
     ArtikelController,
     SuratController,
     JumlahJamController,
+    NavBotController
 };
 
 // ======================
@@ -247,6 +248,9 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/visitor/{limit?}', [VisitorController::class, 'index'])->name('visitor.index');
     Route::post('/visitor/truncate', [VisitorController::class, 'truncateData'])->name('visitor.truncate');
+    Route::get('/nav-bot', function () {
+        return view('components.nav-bot', ['role' => auth()->user()->role]);
+    })->name('nav-bot');
 });
 
 // ======================

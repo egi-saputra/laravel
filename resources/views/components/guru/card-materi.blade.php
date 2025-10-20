@@ -2,11 +2,20 @@
 <div x-data="materiList()">
     <!-- Header -->
     <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
-        <h2 class="flex items-center gap-2 text-xl font-bold text-slate-800">
-            <i class="bi bi-journal-text"></i>
-            Daftar Materi Pembelajaran
-        </h2>
+        <div>
+            <h2 class="flex items-center gap-2 text-xl font-bold text-slate-800">
+                <i class="bi bi-journal-text"></i>
+                Daftar Materi Pembelajaran
+            </h2>
+        </div>
     </div>
+
+
+    {{-- <div>
+        <p class="mt-1 text-sm text-slate-500">
+            Total Materi Pembelajaran: <span class="font-bold text-slate-700">{{ count($materis ?? []) }}</span>
+        </p>
+    </div> --}}
 
     <!-- Search -->
     <div class="relative mb-4">
@@ -15,10 +24,12 @@
         </span>
         <input type="text" x-model="search"
                placeholder="Search..."
-               class="w-full py-2.5 pl-12 pr-4 border border-slate-300 rounded-xl text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition">
+               class="w-full py-2.5 pl-12 pr-4 border border-slate-300 rounded-xl text-slate-700 placeholder-slate-400 focus:outline-none  focus:border-slate-800 transition">
     </div>
 
+    <!-- Hapus Semua -->
     <div class="flex flex-wrap items-center justify-end gap-3 mb-4">
+
         <button id="hapusSemua" type="button"
             class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition rounded-lg shadow bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800">
             <i class="bi bi-trash"></i> <span>Hapus Semua</span>
@@ -74,17 +85,22 @@
                         <h3 class="mb-3 -mt-4 text-lg font-semibold transition text-slate-800 group-hover:text-blue-700">
                             {{ $m->judul }}
                         </h3>
+                        {{-- <h3 class="-mt-4 text-lg font-semibold transition text-slate-800 group-hover:text-blue-700">
+                            {{ $m->mapel->mapel ?? '-' }}
+                        </h3> --}}
+                        <p class="-mt-2 mb-2 text-xs text-slate-500 flex items-center gap-2">
+                            <i class="bi bi-clock"></i> {{ $m->created_at->diffForHumans() }}
+                            <span>•</span>
+                            <i class="bi bi-arrow-repeat"></i> {{ $m->updated_at->diffForHumans() }}
+                        </p>
                         <p class="flex flex-wrap gap-3 mb-3 text-sm text-slate-600">
                             <span class="px-2 py-1 font-medium text-blue-700 rounded bg-slate-100">
                                 {{ $m->kelas->kelas ?? '-' }}
                             </span>
-                            <span class="px-2 py-1 font-medium text-green-700 bg-green-100 rounded">
+                            {{-- <span class="px-2 py-1 font-medium text-green-700 bg-green-100 rounded">
                                 {{ $m->mapel->mapel ?? '-' }}
-                            </span>
+                            </span> --}}
                         </p>
-                        {{-- <div class="text-sm leading-relaxed text-slate-700 line-clamp-3">
-                            {!! Str::limit(strip_tags($m->materi), 100, '...') !!}
-                        </div> --}}
                         <div class="overflow-hidden text-sm leading-relaxed break-words text-slate-700 text-ellipsis" style="
                             display: -webkit-box;
                             -webkit-line-clamp: 2;
@@ -93,7 +109,7 @@
                             overflow-wrap: break-word;
                             word-break: break-word;
                         ">
-                            {{ strip_tags($m->deskripsi) }}
+                            {{ $m->judul }}
                         </div>
                     </div>
 
@@ -118,6 +134,7 @@
                         </div>
                 </div>
             @endforeach
+
         </div>
     @else
         <div class="flex flex-col items-center justify-center w-full py-16 text-center bg-white border text-slate-500 rounded-2xl border-slate-200">

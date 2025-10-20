@@ -1,6 +1,6 @@
 <x-guest-layout>
     <x-alert />
-    <div class="flex flex-col min-h-screen md:flex-row">
+    <div class="flex flex-col h-screen md:flex-row">
         <!-- Left Panel -->
         <div class="flex flex-col justify-center items-center w-full md:w-1/2 text-center bg-[#063970] p-8">
             <img src="{{ Storage::url('logo_login/login.png') }}" alt="Logo" class="w-3/4 mt-0 mb-4 md:w-1/2">
@@ -87,13 +87,19 @@
                     </div>
 
 
-                    <!-- Forgot Password -->
-                    <div class="mb-4 text-sm text-left md:text-base">
-                        <small class="flex items-center gap-1">
-                            <i class="bi bi-lock"></i>
-                            Forgot your password?
-                            <a href="{{ route('password.request') }}" class="ml-1 font-semibold text-blue-600 hover:underline">Click Here!</a>
-                        </small>
+                    <div class="mb-4 text-sm px-2 flex justify-between">
+                        <!-- Tambahkan checkbox Remember Me -->
+                        <div class="flex items-center">
+                            <input type="checkbox" name="remember" id="remember" class="mr-2">
+                            <label for="remember" class="text-slate-700 ">Remember Me</label>
+                        </div>
+                        <!-- Forgot Password -->
+                        <div>
+                            <small class="flex items-center">
+                                <a href="{{ route('password.request') }}" class="font-semibold text-slate-700">
+                                Forgot your password ?</a>
+                            </small>
+                        </div>
                     </div>
 
                     <!-- Submit Button -->

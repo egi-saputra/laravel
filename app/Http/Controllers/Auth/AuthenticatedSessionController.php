@@ -22,18 +22,16 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
     // public function store(LoginRequest $request): RedirectResponse
     // {
     //     $request->authenticate();
     //     $request->session()->regenerate();
 
     //     $user = Auth::user();
+
     //     // 🔹 Update last_activity saat login
     //     $user->update([
-    //         'last_activity' => Carbon::now(),
+    //         'last_activity' => now(),
     //     ]);
 
     //     // ✅ Catat visit saat login berhasil
@@ -43,6 +41,11 @@ class AuthenticatedSessionController extends Controller
     //         'user_agent' => $request->userAgent(),
     //     ]);
 
+    //     // ✅ Tambahkan ini agar Sanctum token juga dibuat saat login biasa
+    //     $token = $user->createToken('web-login')->plainTextToken;
+    //     session(['sanctum_token' => $token]);
+
+    //     // 🔹 Arahkan user sesuai perannya
     //     switch ($user->role) {
     //         case 'developer':
     //             return redirect()->intended('/dev/dashboard');
@@ -59,60 +62,41 @@ class AuthenticatedSessionController extends Controller
     //             return redirect()->intended('/user/dashboard');
     //     }
     // }
+
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $remember = $request->filled('remember'); // ✅ ambil checkbox
+
+        // Auth attempt dengan remember
+        $request->authenticate($remember); // ✨ Breeze LoginRequest bisa menerima parameter
+
         $request->session()->regenerate();
 
         $user = Auth::user();
 
-        // 🔹 Update last_activity saat login
-        $user->update([
-            'last_activity' => now(),
-        ]);
+        $user->update(['last_activity' => now()]);
 
-        // ✅ Catat visit saat login berhasil
         Visitor::create([
-            'user_id'    => $user->id,
+            'user_id' => $user->id,
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
         ]);
 
-        // ✅ Tambahkan ini agar Sanctum token juga dibuat saat login biasa
+        // Buat Sanctum token juga (optional)
         $token = $user->createToken('web-login')->plainTextToken;
         session(['sanctum_token' => $token]);
 
-        // 🔹 Arahkan user sesuai perannya
+        // Redirect sesuai role
         switch ($user->role) {
-            case 'developer':
-                return redirect()->intended('/dev/dashboard');
-            case 'admin':
-                return redirect()->intended('/admin/dashboard');
-            case 'guru':
-                return redirect()->intended('/guru/dashboard');
-            case 'staff':
-                return redirect()->intended('/staff/dashboard');
-            case 'siswa':
-                return redirect()->intended('/siswa/dashboard');
+            case 'developer': return redirect()->intended('/dev/dashboard');
+            case 'admin': return redirect()->intended('/admin/dashboard');
+            case 'guru': return redirect()->intended('/guru/dashboard');
+            case 'staff': return redirect()->intended('/staff/dashboard');
+            case 'siswa': return redirect()->intended('/siswa/dashboard');
             case 'user':
-            default:
-                return redirect()->intended('/user/dashboard');
+            default: return redirect()->intended('/user/dashboard');
         }
     }
-
-    /**
-     * Destroy an authenticated session.
-     */
-    // public function destroy(Request $request): RedirectResponse
-    // {
-    //     Auth::guard('web')->logout();
-
-    //     $request->session()->forget('visitor_logged');
-    //     $request->session()->invalidate();
-    //     $request->session()->regenerateToken();
-
-    //     return redirect('/');
-    // }
 
     public function destroy(Request $request)
     {

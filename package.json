@@ -16,12 +16,23 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^41.4.2",
+        "@ckeditor/ckeditor5-vue": "^3.0.0",
         "@fontsource/poppins": "^5.2.6",
         "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^2.2.8",
         "@tailwindcss/typography": "^0.5.18",
+        "@tinymce/tinymce-vue": "^4.0.7",
+        "@tiptap/extension-image": "^3.7.2",
+        "@tiptap/extension-link": "^3.7.2",
+        "@tiptap/extension-table": "^3.7.2",
+        "@tiptap/starter-kit": "^3.7.2",
+        "@tiptap/vue-3": "^3.7.2",
         "@vitejs/plugin-vue": "^6.0.1",
+        "quill": "^2.0.3",
         "redis-server": "^1.2.2",
+        "tinymce": "^8.1.2",
+        "vue3-quill": "^0.3.1",
         "ziggy-js": "github:tightenco/ziggy"
     }
 }

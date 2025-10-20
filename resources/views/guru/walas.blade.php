@@ -313,7 +313,7 @@
         </script>
     @endif
 
-    @if(session('alert'))
+    {{-- @if(session('alert'))
         <script>
             Swal.fire({
                 icon: "{{ session('alert.type') }}",
@@ -331,7 +331,7 @@
                 }
             });
         </script>
-    @endif
+    @endif --}}
 
     <!-- Script Search & Hapus Semua -->
     <script>

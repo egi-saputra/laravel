@@ -222,7 +222,6 @@
 
         <x-head-tinymce.tinymce-config/>
 
-        {{-- <div> --}}
             @php
                 $role = auth()->user()->role;
                 $routes = [
@@ -399,8 +398,8 @@
                 {{ $slot }}
             </main>
 
-            <x-nav-bot :role="$role" />
-        {{-- </div> --}}
+            {{-- <x-nav-bot :role="$role" /> --}}
+            <div id="navBotWrapper"></div>
 
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -422,9 +421,9 @@
             <i class="text-xl bi bi-arrow-up"></i>
         </button>
 
-            <!-- Script Fullscreen -->
-            <script>
-                function toggleFullscreen() {
+        <script>
+            // Script Fullscreen
+            function toggleFullscreen() {
                     let elem = document.documentElement;
                     if (!document.fullscreenElement) {
                         if (elem.requestFullscreen) {
@@ -448,85 +447,106 @@
                         }
                     }
                 }
-            </script>
 
-        <script>
-            const backToTopBtn = document.getElementById("backToTop");
-
-            window.addEventListener("scroll", () => {
-                if (window.scrollY > 100) {
-                    backToTopBtn.classList.add("show");
-                } else {
-                    backToTopBtn.classList.remove("show");
-                }
-            });
-
-            backToTopBtn.addEventListener("click", () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-            });
-
-            window.addEventListener("pageshow", function(event) {
-                if (event.persisted || window.performance.getEntriesByType("navigation")[0].type === "back_forward") {
-                    // reload halaman saat user klik back
-                    window.location.href = "/login"; // redirect ke login
-                }
-            });
-
-            // Simple Bar Loader Live
             document.addEventListener('DOMContentLoaded', function () {
+                // ============================
+                // Loader & SweetAlert Handling
+                // ============================
                 const loader = document.getElementById('minimalLoader');
                 const loaderBar = document.getElementById('loaderBar');
-
-                // Deteksi apakah tampilan mobile
                 const isMobile = window.innerWidth < 768;
 
-                // Cek apakah ada SweetAlert dari session
-                const hasSweetAlert = @json(session('alert') ? true : false);
+                const hasSweetAlert = {!! session('alert') ? 'true' : 'false' !!};
+                const alertType = {!! session('alert.type') ? "'".session('alert.type')."'" : 'null' !!};
+                const alertTitle = {!! session('alert.title') ? "'".session('alert.title')."'" : 'null' !!};
+                const alertMessage = {!! session('alert.message') ? "'".session('alert.message')."'" : 'null' !!};
 
-                // Jika bukan mobile, hapus loader sepenuhnya
-                if (!isMobile && loader) {
-                    loader.remove();
-                    return;
-                }
-
-                if (hasSweetAlert) {
-                    // Hilangkan loader jika ada SweetAlert
+                if (isMobile) {
+                    if (loader) loader.classList.remove('hidden');
+                    if (loaderBar) loaderBar.style.width = '0%';
+                    setTimeout(() => {
+                        if (loaderBar) loaderBar.style.width = '100%';
+                    }, 50);
+                    window.addEventListener('load', () => {
+                        if (loader) loader.classList.add('hidden');
+                    });
+                } else {
                     if (loader) loader.remove();
                     if (loaderBar) loaderBar.remove();
 
-                    Swal.fire({
-                        icon: '{{ session('alert.type') }}',
-                        title: '{{ session('alert.title') ?? ucfirst(session('alert.type')) }}',
-                        text: '{{ session('alert.message') }}',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#3085d6'
-                    });
-                } else {
-                    // Jalankan animasi loader di mobile
-                    if (loaderBar) {
-                        setTimeout(() => {
-                            loaderBar.style.width = '100%';
-                        }, 50);
-                    }
-
-                    // Sembunyikan loader setelah animasi selesai
-                    if (loader) {
-                        setTimeout(() => {
-                            loader.classList.add('hidden');
-                        }, 1600);
+                    if (hasSweetAlert && alertType) {
+                        Swal.fire({
+                            icon: alertType,
+                            title: alertTitle ?? alertType.charAt(0).toUpperCase() + alertType.slice(1),
+                            text: alertMessage,
+                            confirmButtonText: 'OK',
+                            confirmButtonColor: '#3085d6'
+                        });
                     }
                 }
+
+                // ============================
+                // Back To Top Button
+                // ============================
+                const backToTopBtn = document.getElementById("backToTop");
+                if (backToTopBtn) {
+                    window.addEventListener("scroll", () => {
+                        if (window.scrollY > 100) {
+                            backToTopBtn.classList.add("show");
+                        } else {
+                            backToTopBtn.classList.remove("show");
+                        }
+                    });
+                    backToTopBtn.addEventListener("click", () => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    });
+                }
+
+                // ============================
+                // Nav-Bot Cache Handling
+                // ============================
+                const wrapper = document.getElementById('navBotWrapper');
+                if (wrapper) {
+                    const cacheKey = 'navBotHTML';
+                    const cachedNav = localStorage.getItem(cacheKey);
+
+                    if (cachedNav) {
+                        wrapper.innerHTML = cachedNav;
+                        console.log('NavBot: pakai cache');
+                    }
+
+                    fetch("{{ route('nav-bot') }}", { credentials: 'same-origin' })
+                        .then(res => {
+                            if (!res.ok) throw new Error('Gagal fetch NavBot: ' + res.status);
+                            return res.text();
+                        })
+                        .then(html => {
+                            wrapper.innerHTML = html;
+                            localStorage.setItem(cacheKey, html);
+                            console.log('NavBot: fetch terbaru dan cache diperbarui');
+                        })
+                        .catch(err => {
+                            console.error('NavBot fetch error:', err);
+                            if (cachedNav) wrapper.innerHTML = cachedNav;
+                        });
+                }
+
+                // ============================
+                // Redirect saat back-forward
+                // ============================
+                window.addEventListener("pageshow", function(event) {
+                    if (event.persisted || (window.performance.getEntriesByType("navigation")[0]?.type === "back_forward")) {
+                        window.location.href = "/login";
+                    }
+                });
+
+                // ============================
+                // Simpan token Sanctum
+                // ============================
+                @if (session('sanctum_token'))
+                    localStorage.setItem('sanctum_token', "{{ session('sanctum_token') }}");
+                @endif
             });
         </script>
-
-        @if (session('sanctum_token'))
-            <script>
-                // Simpan token Sanctum dari Laravel session ke localStorage browser
-                localStorage.setItem('sanctum_token', "{{ session('sanctum_token') }}");
-            </script>
-        @endif
     </body>
 </html>

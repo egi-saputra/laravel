@@ -1,4 +1,4 @@
-@php
+{{-- @php
     use Illuminate\Support\Facades\Auth;
     use App\Models\DataKelas;
     use App\Models\HakAkses;
@@ -16,7 +16,7 @@
         $q->where('user_id', $user->id);
     })->first();
     $isActivated = $hakAkses && $hakAkses->status === 'Activated';
-@endphp
+@endphp --}}
 
 <x-app-layout>
     <x-slot name="header">
@@ -50,15 +50,16 @@
                 <div class="grid grid-cols-3 gap-4 p-0 mb-4 text-center md:rounded-xl md:grid-cols-6">
                     <!-- Menu 1 -->
                     <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-xl md:text-3xl bi bi-person-lines-fill text-sky-600"></i>
-                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Data Guru</span>
+                        {{-- <i class="mb-2 text-xl md:text-3xl bi-bar-chart-line text-red-600"></i> --}}
+                        <i class="mb-2 text-2xl md:text-3xl bi bi-graph-up-arrow text-red-600"></i>
+                        {{-- <i class="mb-2 text-xl md:text-3xl fas fa-chart-line text-red-600"></i> --}}
+                        <span class="font-semibold text-gray-700 text-sm">Analitycs</span>
                     </a>
 
                     <!-- Menu 2 -->
-                    <a href="{{ ($role === 'guru' && $isWalas) ? route('guru.walas.index') : '#' }}"
-                    class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl text-red-600 bi bi-journal-bookmark"></i>
-                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Ruang Kelas</span>
+                    <a href="{{ route('public.jadwal_guru.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-3xl bi bi-calendar2-week text-amber-500"></i>
+                        <span class="text-sm font-semibold text-gray-700">Jadwal</span>
                     </a>
 
                     <!-- Menu 3 -->
@@ -68,22 +69,24 @@
                     </a>
 
                     <!-- Menu 4 -->
-                    <a href="{{ route('public.jadwal_guru.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl bi bi-calendar2-week text-amber-500"></i>
-                        <span class="text-sm font-semibold text-gray-700">Jadwal</span>
+                    <a href="{{ ($role === 'guru' && $isWalas) ? route('guru.walas.index') : '#' }}"
+                    class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-3xl text-sky-600 bi bi-journal-bookmark"></i>
+                        {{-- <i class="mb-2 text-3xl text-sky-600 fas fa-laptop-code"></i> --}}
+                        {{-- <i class="mb-2 text-2xl text-sky-600 fas fa-chalkboard-teacher"></i> --}}
+                        <span class="text-sm font-semibold text-gray-700 ">Kelas</span>
                     </a>
 
                     <!-- Menu 5 -->
                     <a href="{{ route('guru.daftar_materi.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl bi bi-book text-emerald-600"></i>
+                        <i class="mb-2 text-2xl fas fa-book text-emerald-600"></i>
                         <span class="text-sm font-semibold text-gray-700">Materi</span>
                     </a>
 
                     <!-- Menu 6 -->
                     <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl text-indigo-600 bi bi-journal-text"></i>
-                        {{-- <i class="mb-2 text-3xl text-indigo-600 bi bi-grid"></i> --}}
-                        {{-- <i class="mb-2 text-3xl text-indigo-600 bi bi-building"></i> --}}
+                        {{-- <i class="mb-2 text-3xl text-indigo-600 bi bi-journal-text"></i> --}}
+                        <i class="mb-2 text-2xl text-indigo-600 fas fa-file-alt"></i>
                         <span class="text-sm font-semibold text-gray-700">Nilai</span>
                     </a>
                 </div>
