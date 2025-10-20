@@ -1,6 +1,6 @@
 <x-guest-layout>
     <x-alert />
-    <div class="flex flex-col m-h-screen md:flex-row">
+    <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Left Panel -->
         <div class="flex flex-col justify-center items-center w-full md:w-1/2 text-center bg-[#063970] p-8">
             <img src="{{ Storage::url('logo_login/login.png') }}" alt="Logo" class="w-3/4 mt-0 mb-4 md:w-1/2">

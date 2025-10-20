@@ -45,7 +45,8 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
 </head>
-<body class="font-sans antialiased">
+<body class="min-h-screen font-sans antialiased">
+
     <x-alert />
     {{ $slot }}
 
