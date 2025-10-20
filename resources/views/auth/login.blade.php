@@ -1,6 +1,6 @@
 <x-guest-layout>
     <x-alert />
-    <div class="flex flex-col h-screen md:flex-row">
+    <div class="flex flex-col m-h-screen md:flex-row">
         <!-- Left Panel -->
         <div class="flex flex-col justify-center items-center w-full md:w-1/2 text-center bg-[#063970] p-8">
             <img src="{{ Storage::url('logo_login/login.png') }}" alt="Logo" class="w-3/4 mt-0 mb-4 md:w-1/2">
@@ -87,7 +87,7 @@
                     </div>
 
 
-                    <div class="mb-4 text-sm px-2 flex justify-between">
+                    <div class="flex justify-between px-2 mb-4 text-sm">
                         <!-- Tambahkan checkbox Remember Me -->
                         <div class="flex items-center">
                             <input type="checkbox" name="remember" id="remember" class="mr-2">
