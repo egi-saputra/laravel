@@ -1,23 +1,3 @@
-{{-- @php
-    use Illuminate\Support\Facades\Auth;
-    use App\Models\DataKelas;
-    use App\Models\HakAkses;
-
-    $user = Auth::user();
-    $role = $user->role;
-
-    // --- Cek Walas ---
-    $isWalas = DataKelas::whereHas('waliKelas', function($query) use ($user) {
-        $query->where('user_id', $user->id);
-    })->exists();
-
-    // --- Cek Hak Akses ---
-    $hakAkses = HakAkses::whereHas('guru', function($q) use ($user) {
-        $q->where('user_id', $user->id);
-    })->first();
-    $isActivated = $hakAkses && $hakAkses->status === 'Activated';
-@endphp --}}
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">

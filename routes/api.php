@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Http\Controllers\DeviceTokenController;
+use App\Http\Controllers\NotificationController;
 
 Route::post('/login', function(Request $request){
     $request->validate([
@@ -27,6 +29,10 @@ Route::post('/login', function(Request $request){
 Route::middleware('auth:sanctum')->get('/user', function(Request $request){
     return $request->user();
 });
+
+Route::middleware('auth:sanctum')->post('/device-token', [DeviceTokenController::class, 'store']);
+
+Route::middleware('auth:sanctum')->post('/send-notification', [NotificationController::class, 'sendToUsers']);
 
 Route::middleware('auth:sanctum')->post('/logout', function(Request $request){
     $request->user()->currentAccessToken()->delete();

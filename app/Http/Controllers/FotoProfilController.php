@@ -9,6 +9,21 @@ use Illuminate\Support\Facades\Storage;
 
 class FotoProfilController extends Controller
 {
+    // public function view()
+    // {
+    //     $user = Auth::user();
+
+    //     // Hitung foto URL di controller
+    //     $fotoUrl = $user->foto_profil
+    //         ? Storage::url($user->foto_profil->file_path)
+    //         : asset('storage/default/avatar.jpeg');
+
+    //     // Kembalikan HTML langsung
+    //     return <<<HTML
+    //         <img src="{$fotoUrl}" alt="{$user->name}" class="w-24 h-24 rounded-full -mt-14 drop-shadow-md">
+    //         HTML;
+    // }
+
     public function upload(Request $request)
     {
         // Validasi: minimal 5MB (5120 KB), maksimal 10MB (opsional)

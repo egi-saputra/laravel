@@ -66,10 +66,6 @@
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
-        <!-- Sidebar -->
-        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:h-screen md:w-auto">
-            <x-sidebar />
-        </aside>
 
         <!-- Main Content -->
         <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
@@ -133,9 +129,9 @@
 
                     <!-- Tombol kembali -->
                     <div class="mt-6">
-                        <a href="{{ route('guru.materi.index') }}"
+                        <a href="{{ route('guru.daftar_materi.index') }}"
                            class="pl-2 text-blue-600 hover:underline">
-                            ← Kembali ke Daftar Materi
+                            ← Kembali
                         </a>
                     </div>
                 </div>
@@ -143,7 +139,5 @@
         </main>
     </div>
 
-    <!-- Footer -->
-    <x-footer :profil="$profil" />
 </x-app-layout>
 

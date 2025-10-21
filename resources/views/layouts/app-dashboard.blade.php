@@ -25,7 +25,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
         <!-- Import Heroicons -->
-        <script src="https://unpkg.com/heroicons@2.0.16/24/solid/ellipsis-vertical.js"></script>
+        {{-- <script src="https://unpkg.com/heroicons@2.0.16/24/solid/ellipsis-vertical.js"></script> --}}
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -136,30 +136,6 @@
                 }
             </style>
 
-            <!-- Styling Mobile Loader -->
-            {{-- <style>
-                #mobileLoader {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 3px;
-                    background: linear-gradient(90deg, #2563eb, #3b82f6);
-                    transform: scaleX(0);
-                    transform-origin: left;
-                    transition: transform 0.3s ease;
-                    z-index: 9999;
-                }
-
-                /* Hanya tampil di mobile */
-                @media (min-width: 768px) {
-                    #mobileLoader {
-                        display: none !important;
-                    }
-                }
-            </style> --}}
-
-
             <style>
                 .swal2-popup {
                     @apply mx-6 sm:mx-6 md:mx-auto p-6 rounded-xl;
@@ -189,12 +165,8 @@
             </style>
 
     </head>
-    <body class="font-sans antialiased bg-white md:bg-gray-100">
+    <body class="font-sans antialiased bg-gray-100">
         <x-alert />
-
-        <div data-turbo-permanent>
-            <x-head-tinymce.tinymce-config/>
-        </div>
 
             @php
                 $role = auth()->user()->role;

@@ -6,13 +6,16 @@
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
-        <!-- Sidebar -->
         <aside class="hidden mt-0 mb-4 md:block md:ml-6 md:mt-6 md:h-screen md:mb-0 md:w-auto">
+            <!-- Sidebar -->
             <x-sidebar />
+
+            <!-- Footer -->
+            <x-footer :profil="$profil" />
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-0 mb-16 space-y-6 overflow-x-auto md:mb-0 md:p-6">
+        <main class="flex-1 p-0 mb-16 space-y-6 overflow-x-auto md:p-6">
             <!-- Profil Sekolah Card -->
             <div>
                 <x-public.profil-sekolah-card />
@@ -121,6 +124,4 @@
 
         </div> --}}
 
-    <!-- Footer -->
-    <x-footer :profil="$profil" />
 </x-app-layout>

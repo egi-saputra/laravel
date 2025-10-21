@@ -42,7 +42,7 @@
 
             <div class="mb-4">
                 <!-- Teks nama file -->
-                <div id="fileName" class="mb-2 text-sm text-gray-700 font-medium text-center"></div>
+                <div id="fileName" class="mb-2 text-sm font-medium text-center text-gray-700"></div>
 
                 <!-- Input file -->
                 <input
@@ -57,17 +57,17 @@
                 <!-- Label sebagai tombol -->
                 <label
                     for="inputFoto"
-                    class="inline-flex justify-center w-full border border-gray-300 items-center px-4 py-2 text-slate-800 rounded cursor-pointer hover:border-slate-800"
+                    class="inline-flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded cursor-pointer text-slate-800 hover:border-slate-800"
                 >
-                    <i class="bi bi-upload mr-2"></i>
+                    <i class="mr-2 bi bi-upload"></i>
                     Pilih File
                 </label>
 
                 <!-- Info tambahan -->
-                <p class="my-4 text-xs md:text-sm text-gray-500 leading-relaxed">
+                <p class="my-4 text-xs leading-relaxed text-gray-500 md:text-sm">
                     Ukuran ideal foto: persegi
-                    <span class="md:inline-block hidden">(square)</span>,
-                    minimal 500×500 px.<br class="md:hidden block">
+                    <span class="hidden md:inline-block">(square)</span>,
+                    minimal 500×500 px.<br class="block md:hidden">
                     Format: JPG, PNG, JPEG, atau WebP. Max Size: 10MB.
                 </p>
             </div>
@@ -101,40 +101,41 @@
     </div>
 </div>
 
+
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // tampilkan nama file setelah dipilih
+document.addEventListener('turbo:load', initFotoScript);
+document.addEventListener('turbo:frame-load', initFotoScript);
+
+function initFotoScript() {
     const inputFoto = document.getElementById('inputFoto');
     const fileName = document.getElementById('fileName');
-
-    inputFoto.addEventListener('change', function () {
-        if (this.files && this.files[0]) {
-            fileName.textContent = this.files[0].name;
-        } else {
-            fileName.textContent = '';
-        }
-    });
-
-    // konfirmasi hapus foto
     const hapusForm = document.getElementById('hapusFotoForm');
-    hapusForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        Swal.fire({
-            title: 'Hapus foto profil?',
-            text: "Foto profil akan dihapus permanen!",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                hapusForm.submit();
-            }
+
+    if (inputFoto) {
+        inputFoto.addEventListener('change', () => {
+            fileName.textContent = inputFoto.files?.[0]?.name || '';
         });
-    });
-});
+    }
+
+    if (hapusForm) {
+        hapusForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Hapus foto profil?',
+                text: "Foto profil akan dihapus permanen!",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then(result => {
+                if (result.isConfirmed) hapusForm.submit();
+            });
+        });
+    }
+}
 </script>
 @endpush
+

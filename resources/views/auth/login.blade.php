@@ -3,7 +3,7 @@
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Left Panel -->
         <div class="flex flex-col justify-center items-center w-full md:w-1/2 text-center bg-[#063970] p-8">
-            <img src="{{ Storage::url('logo_login/login.png') }}" alt="Logo" class="w-3/4 mt-0 mb-4 md:w-1/2">
+            <img src="{{ Storage::url('logo_app/login.png') }}" alt="Logo" class="w-3/4 mt-0 mb-4 md:w-1/2">
 
             <h3 class="mb-3 text-xl font-semibold text-white md:text-2xl">
                 SIMSTAL | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }}
@@ -13,9 +13,9 @@
         </div>
 
         <!-- Right Panel -->
-        <div class="flex flex-col w-full p-8 bg-white md:justify-center md:items-center md:w-1/2">
+        <div class="flex flex-col items-center justify-center w-full p-8 text-center bg-white md:w-1/2">
 
-            <div class="w-full max-w-md">
+            <div class="w-full max-w-md text-start">
                 <h4 class="mb-2 text-lg font-bold capitalize md:text-xl">Sign In</h4>
                 <p class="mb-10 text-sm capitalize text-slate-500 md:text-base">Nusantara Member Directory</p>
 
@@ -88,21 +88,22 @@
 
 
                     <div class="flex items-center justify-between px-2 mb-4">
-                        <!-- Checkbox Remember Me -->
                         <!-- Hidden auto-checked Remember Me -->
                         <input type="checkbox" name="remember" id="remember" value="1" checked hidden>
+
+                        <!-- Checkbox Remember Me Versi Normal -->
                         {{-- <div class="flex items-center">
                             <input type="checkbox" name="remember" id="remember" class="mr-2">
                             <label for="remember">Remember Me</label>
                         </div> --}}
 
                         <!-- Forgot Password -->
-                        <div>
-                            <span class="text-xs font-semibold text-slate-700 hover:underline">
+                        <div class="text-sm md:text-base">
+                            <small class="font-semibold text-slate-700">
                                 <i class="fas fa-lock"></i> Forgot your password ? <a href="{{ route('password.request') }}" class="font-semibold text-blue-700 hover:underline">
                                 Click Here!
                             </a>
-                            </span>
+                            </small>
                         </div>
                     </div>
 
@@ -121,14 +122,14 @@
                     </div>
 
                     <!-- OR Separator -->
-                    <div class="items-center hidden my-4 md:flex">
+                    <div class="flex items-center px-2 my-4">
                         <hr class="flex-grow border-gray-300">
                         <span class="mx-3 text-sm font-semibold text-black md:text-base">OR</span>
                         <hr class="flex-grow border-gray-300">
                     </div>
 
                     <!-- Google Login -->
-                    <div class="hidden mt-6 text-center md:block">
+                    <div class="mt-6 text-center">
                         <a href="{{ route('google.login') }}"
                            class="flex items-center justify-center w-full gap-2 py-2 font-semibold transition-colors border border-gray-300 rounded-full hover:bg-gray-100 hover:border-[#063970]">
                             <img src="https://img.icons8.com/color/20/000000/google-logo.png" alt="Google" />

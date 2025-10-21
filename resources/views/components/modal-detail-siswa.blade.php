@@ -51,7 +51,7 @@
     </div>
 </div>
 
-<script>
+{{-- <script>
     const buttons = document.querySelectorAll('.lihat-detail-btn');
     const modal = document.getElementById('detailModal');
     const modalOverlay = document.getElementById('modalOverlay');
@@ -112,4 +112,79 @@
     closeModal.addEventListener('click', closeModalFunc);
     closeModalFooter.addEventListener('click', closeModalFunc);
     modalOverlay.addEventListener('click', closeModalFunc);
+</script> --}}
+
+<script>
+    document.addEventListener("turbo:load", initDetailModal);
+    document.addEventListener("DOMContentLoaded", initDetailModal);
+
+    function initDetailModal() {
+        // Cegah duplikasi dalam halaman yang sama
+        const pageId = document.body.dataset.pageId || window.location.pathname;
+        if (window._initializedPages?.[pageId]) return;
+        window._initializedPages = window._initializedPages || {};
+        window._initializedPages[pageId] = true;
+
+        const buttons = document.querySelectorAll('.lihat-detail-btn');
+        const modal = document.getElementById('detailModal');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalFoto = document.getElementById('modalFoto');
+
+        const modalNama = document.getElementById('modalNama');
+        const modalAsal = document.getElementById('modalAsal');
+        const modalTtl = document.getElementById('modalTtl');
+        const modalNis = document.getElementById('modalNis');
+        const modalNisn = document.getElementById('modalNisn');
+        const modalJk = document.getElementById('modalJk');
+        const modalAgama = document.getElementById('modalAgama');
+        const modalAlamat = document.getElementById('modalAlamat');
+        const modalRtRw = document.getElementById('modalRtRw');
+        const modalKecamatan = document.getElementById('modalKecamatan');
+        const modalKota = document.getElementById('modalKota');
+        const modalKodepos = document.getElementById('modalKodepos');
+        const modalTelepon = document.getElementById('modalTelepon');
+        const modalKelas = document.getElementById('modalKelas');
+        const modalKejuruan = document.getElementById('modalKejuruan');
+        const modalEmail = document.getElementById('modalEmail');
+
+        const closeModal = document.getElementById('closeModal');
+        const closeModalFooter = document.getElementById('closeModalFooter');
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modalFoto.src = btn.dataset.foto;
+                modalNama.textContent = btn.dataset.nama || '-';
+                modalAsal.textContent = btn.dataset.asal || '-';
+                modalTtl.textContent = btn.dataset.ttl || '-';
+                modalNis.textContent = btn.dataset.nis || '-';
+                modalNisn.textContent = btn.dataset.nisn || '-';
+                modalJk.textContent = btn.dataset.jk || '-';
+                modalAgama.textContent = btn.dataset.agama || '-';
+                modalAlamat.textContent = btn.dataset.alamat || '-';
+                modalRtRw.textContent = (btn.dataset.rt || '-') + ' / ' + (btn.dataset.rw || '-');
+                modalKecamatan.textContent = btn.dataset.kecamatan || '-';
+                modalKota.textContent = btn.dataset.kota || '-';
+                modalKodepos.textContent = btn.dataset.kodepos || '-';
+                modalTelepon.innerHTML = btn.dataset.telepon
+                    ? `<a href="https://wa.me/${btn.dataset.telepon.replace(/[^0-9]/g,'')}" target="_blank" class="text-blue-600 hover:underline">${btn.dataset.telepon}</a>`
+                    : '-';
+                modalKelas.textContent = btn.dataset.kelas || '-';
+                modalKejuruan.textContent = btn.dataset.kejuruan || '-';
+                modalEmail.textContent = btn.dataset.email || '-';
+
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            });
+        });
+
+        function closeModalFunc() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        closeModal?.addEventListener('click', closeModalFunc);
+        closeModalFooter?.addEventListener('click', closeModalFunc);
+        modalOverlay?.addEventListener('click', closeModalFunc);
+    }
 </script>
+

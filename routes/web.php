@@ -46,67 +46,67 @@ Route::get('/', fn() => view('auth.login')) ->name('home');
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-Route::get('/logo-sekolah', function () {
-    $profil = \App\Models\ProfilSekolah::first();
+// Route::get('/logo-sekolah', function () {
+//     $profil = \App\Models\ProfilSekolah::first();
 
-    $filePath = $profil && $profil->file_path
-        ? storage_path('app/public/' . ltrim($profil->file_path, '/'))
-        : storage_path('app/public/logo_sekolah/default-logo.png'); // <- ubah path sini
+//     $filePath = $profil && $profil->file_path
+//         ? storage_path('app/public/' . ltrim($profil->file_path, '/'))
+//         : storage_path('app/public/logo_sekolah/default-logo.png'); // <- ubah path sini
 
-    if (!File::exists($filePath)) {
-        abort(404, 'Logo not found');
-    }
+//     if (!File::exists($filePath)) {
+//         abort(404, 'Logo not found');
+//     }
 
-    $lastModified = File::lastModified($filePath);
-    $etag = md5_file($filePath);
+//     $lastModified = File::lastModified($filePath);
+//     $etag = md5_file($filePath);
 
-    $response = Response::file($filePath, [
-        'Cache-Control' => 'public, max-age=2592000, immutable',
-    ]);
+//     $response = Response::file($filePath, [
+//         'Cache-Control' => 'public, max-age=2592000, immutable',
+//     ]);
 
-    $response->setLastModified(\Carbon\Carbon::createFromTimestamp($lastModified));
-    $response->setEtag($etag);
+//     $response->setLastModified(\Carbon\Carbon::createFromTimestamp($lastModified));
+//     $response->setEtag($etag);
 
-    if ($response->isNotModified(request())) {
-        return $response;
-    }
+//     if ($response->isNotModified(request())) {
+//         return $response;
+//     }
 
-    return $response;
-});
+//     return $response;
+// });
 
-Route::get('/foto-profil', function () {
-    $user = auth()->user();
+// Route::get('/foto-profil', function () {
+//     $user = auth()->user();
 
-    if (!$user) {
-        abort(403, 'Unauthorized');
-    }
+//     if (!$user) {
+//         abort(403, 'Unauthorized');
+//     }
 
-    // Ambil path file foto profil, fallback ke default jika tidak ada
-    $filePath = $user->foto_profil && $user->foto_profil->file_path
-        ? storage_path('app/public/' . ltrim($user->foto_profil->file_path, '/'))
-        : public_path('storage/default/avatar.jpeg');
+//     // Ambil path file foto profil, fallback ke default jika tidak ada
+//     $filePath = $user->foto_profil && $user->foto_profil->file_path
+//         ? storage_path('app/public/' . ltrim($user->foto_profil->file_path, '/'))
+//         : public_path('storage/default/avatar.jpeg');
 
-    if (!File::exists($filePath)) {
-        abort(404, 'Foto profil tidak ditemukan');
-    }
+//     if (!File::exists($filePath)) {
+//         abort(404, 'Foto profil tidak ditemukan');
+//     }
 
-    // Header cache
-    $lastModified = File::lastModified($filePath);
-    $etag = md5_file($filePath);
+//     // Header cache
+//     $lastModified = File::lastModified($filePath);
+//     $etag = md5_file($filePath);
 
-    $response = Response::file($filePath, [
-        'Cache-Control' => 'public, max-age=2592000, immutable',
-    ]);
+//     $response = Response::file($filePath, [
+//         'Cache-Control' => 'public, max-age=2592000, immutable',
+//     ]);
 
-    $response->setLastModified(Carbon::createFromTimestamp($lastModified));
-    $response->setEtag($etag);
+//     $response->setLastModified(Carbon::createFromTimestamp($lastModified));
+//     $response->setEtag($etag);
 
-    if ($response->isNotModified(request())) {
-        return $response;
-    }
+//     if ($response->isNotModified(request())) {
+//         return $response;
+//     }
 
-    return $response;
-})->name('foto-profil');
+//     return $response;
+// })->name('foto-profil');
 
 Route::middleware(['auth', 'no.cache'])->group(function () {
     Route::get('/dev/dashboard', [DevController::class, 'index']);
