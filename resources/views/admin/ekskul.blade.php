@@ -1,4 +1,4 @@
-<x-app-backtop-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
@@ -235,4 +235,4 @@
             @endif
         });
     </script>
-</x-app-backtop-layout>
+</x-app-dashboard-layout>

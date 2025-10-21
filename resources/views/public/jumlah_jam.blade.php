@@ -31,4 +31,4 @@
 
     <!-- Footer -->
     <x-footer :profil="$profil" />
-</x-app-backtop-layout>
+</x-app-layout>

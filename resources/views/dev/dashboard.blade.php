@@ -1,4 +1,4 @@
-<x-app-backtop-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
@@ -183,4 +183,4 @@
     <!-- Footer -->
     <x-footer :profil="$profil" />
 
-</x-app-backtop-layout>
+</x-app-dashboard-layout>

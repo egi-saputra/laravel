@@ -2,7 +2,7 @@
 use Carbon\Carbon;
 @endphp
 
-<x-app-backtop-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold text-gray-800">
             {{ __($pageTitle ?? 'Rekap Honor Guru') }}
@@ -146,4 +146,4 @@ use Carbon\Carbon;
 
     <!-- Footer -->
     <x-footer :profil="$profil" />
-</x-app-backtop-layout>
+</x-app-dashboard-layout>
