@@ -11,6 +11,8 @@
 !/storage/framework/.gitignore
 /file-backup
 /backup-migrasi
+# .gitignore
+storage/firebase/*.json
 
 # Public build (Vite / Mix)
 public/build
