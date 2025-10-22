@@ -61,7 +61,7 @@
     </form>
 
     {{-- Tabel List Tugas --}}
-    <div class="mb-10 overflow-x-auto md:overflow-x-visible md:mb-3" id="scrollableTable">
+    <div class="overflow-x-auto md:overflow-x-visible md:mb-3" id="scrollableTable">
             <table class="w-full mb-10 border border-collapse md:mb-0" id="tugasTable">
                 <thead>
                     <tr class="bg-gray-100">
@@ -107,7 +107,7 @@
                                         <a href="{{ route('guru.view_file_tugas', $t->id) }}"
                                         class="block w-full px-4 py-2 text-left hover:bg-gray-100">Lihat</a>
                                         <form action="{{ route('guru.tugas_siswa.destroy', $t->id) }}" method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus tugas ini?')">
+                                            onsubmit="return confirm('Hapus tugas ini ?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="w-full px-4 py-2 text-left text-red-600 hover:bg-red-100">
@@ -128,7 +128,7 @@
     </div>
 
     <!-- Script Konfirmasi Hapus Semua -->
-    <script>
+    {{-- <script>
         document.getElementById('hapusSemua').addEventListener('click', function () {
             Swal.fire({
                 title: 'Hapus semua tugas ?',
@@ -171,5 +171,57 @@
             const x = e.pageX - slider.offsetLeft;
             const walk = (x - startX) * 1; // scroll-fastness
             slider.scrollLeft = scrollLeft - walk;
+        });
+    </script> --}}
+
+    <!-- Script Konfirmasi Hapus Semua Turbo Version -->
+    <script>
+        function initHapusSemua() {
+            const btn = document.getElementById('hapusSemua');
+            if (!btn) return;
+
+            // Hapus listener lama biar tidak dobel
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+
+            newBtn.addEventListener('click', function () {
+                const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+                if (isMobile) {
+                    // Mobile: konfirmasi bawaan sistem
+                    if (confirm('Semua tugas akan dihapus! Apakah Anda yakin?')) {
+                        document.getElementById('formHapusSemua').submit();
+                    }
+                } else {
+                    // Desktop: SweetAlert
+                    Swal.fire({
+                        title: 'Hapus semua tugas?',
+                        text: "Semua tugas akan dihapus permanen!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, hapus semua!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('formHapusSemua').submit();
+                        }
+                    });
+                }
+            });
+        }
+
+        // Jalankan setiap Turbo load atau frame load
+        document.addEventListener('turbo:load', initHapusSemua);
+        document.addEventListener('turbo:frame-load', initHapusSemua);
+
+        // Bersihkan sebelum Turbo cache
+        document.addEventListener('turbo:before-cache', () => {
+            const btn = document.getElementById('hapusSemua');
+            if (btn) {
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+            }
         });
     </script>

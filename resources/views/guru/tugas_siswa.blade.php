@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? 'Kelola Tugas Siswa') }}
@@ -6,9 +6,13 @@
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
-        <!-- Sidebar -->
-        <aside class="hidden mx-0 mt-2 mb-4 md:z-30 md:block md:top-0 md:ml-6 md:mt-6 md:h-screen md:w-auto">
+
+        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
+            <!-- Sidebar -->
             <x-sidebar />
+
+            <!-- Footer -->
+            <x-footer :profil="$profil" />
         </aside>
 
         <!-- Main Content -->
@@ -30,6 +34,4 @@
         {{ $tugas->links('pagination::tailwind') }}
     </div>
 
-    <!-- Footer -->
-    <x-footer :profil="$profil" />
-</x-app-layout>
+</x-app-dashboard-layout>

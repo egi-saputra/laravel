@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __($pageTitle ?? '') }}
+            {{ __($pageTitle ?? 'Informasi Sekolah') }}
         </h2>
     </x-slot>
 
@@ -21,6 +21,11 @@
                 <x-public.profil-sekolah-card />
             </div>
 
+            <!-- Tabel Data Kejuruan -->
+            <div class="px-0 py-4 overflow-x-auto bg-transparent rounded shadow-none md:bg-white md:shadow md:px-8 md:overflow-x-visible">
+                <x-public.list-kejuruan :profil="$profil" :kejuruan="$kejuruan" />
+            </div>
+
             <!-- List/Tabel Data Struktural -->
             <div class="px-0 py-4 overflow-x-auto bg-transparent rounded shadow-none md:bg-white md:shadow md:px-8 md:overflow-x-visible">
                 <x-public.list-struktural :struktural="$struktural" :gurus="$gurus" />
@@ -30,11 +35,6 @@
             {{-- <div class="p-4 overflow-x-auto bg-white rounded shadow">
                 <x-public.list-guru :guru="$guru" :guruJam="$guruJam" />
             </div> --}}
-
-            <!-- Tabel Data Kejuruan -->
-            <div class="px-0 py-4 overflow-x-auto bg-transparent rounded shadow-none md:bg-white md:shadow md:px-8 md:overflow-x-visible">
-                <x-public.list-kejuruan :profil="$profil" :kejuruan="$kejuruan" />
-            </div>
 
             {{-- <div class="px-8 py-4 bg-white rounded shadow">
                 <h2 class="mb-2 text-base font-bold md:text-lg md:mb-4">Daftar Program Kejuruan <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2>

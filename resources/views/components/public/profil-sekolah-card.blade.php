@@ -1,7 +1,7 @@
 <!-- CARD INFORMASI SEKOLAH -->
 <div class="block ">
     <!-- Informasi Profil Sekolah -->
-    <div class="p-6 mb-6 bg-white rounded-md shadow-md md:rounded-2xl">
+    <div class="p-2 pt-4 mb-6 bg-white rounded-none shadow-none md:p-6 md:shadow-md md:rounded-2xl">
         @if($profil)
             @php
                 $profil = \App\Models\ProfilSekolah::first();
@@ -34,7 +34,7 @@
                             {{ $profil->alamat }},
                             RT {{ $profil->rt }} / RW {{ $profil->rw }},
                             Desa {{ $profil->kelurahan }}, Kec. {{ $profil->kecamatan }},
-                            Kab. {{ $profil->kabupaten_kota }}, <br>
+                            Kab. {{ $profil->kabupaten_kota }}, <br class="hidden md:block">
                             Provinsi {{ $profil->provinsi }},
                             <span class="font-semibold text-gray-800">Kode Pos: {{ $profil->kode_pos }}.</span>
                         </p>
@@ -53,13 +53,13 @@
     </div>
 
     <!-- Informasi Administratif Sekolah -->
-    <div class="pb-2 mb-6 bg-white rounded-md shadow-md md:rounded-2xl">
+    <div class="pb-2 mb-6 bg-white rounded-none shadow-none md:shadow-md md:rounded-2xl">
         @if($profil)
             <div class="flex flex-col">
                 <!-- Header -->
-                <div class="flex items-center justify-center p-6 mb-0 md:mb-4 md:justify-between">
-                    <h2 class="text-lg font-bold text-gray-800 md:text-2xl">
-                      <span class="hidden md:inline-block">🏫</span> Informasi Administratif Sekolah
+                <div class="flex items-center justify-center p-0 mb-0 md:p-6 md:mb-4 md:justify-between">
+                    <h2 class="mb-6 ml-2 text-lg font-bold text-gray-800 md:mb-0 md:ml-0 md:text-2xl">
+                      <span>🏫</span> Informasi Administratif Sekolah
                     </h2>
                     <span class="hidden px-3 py-1 text-sm font-medium rounded-full md:inline-block text-sky-700 bg-sky-100">
                         {{ $profil->nama_sekolah }}
@@ -69,7 +69,7 @@
                 {{-- <hr class="mx-4"> --}}
 
                 <!-- Cards Grid -->
-                <div class="grid gap-6 p-4 md:gap-3 md:grid-cols-3">
+                <div class="grid gap-6 p-0 md:p-4 md:gap-3 md:grid-cols-3">
                     <!-- Card 1 -->
                     <div class="p-4 transition-all border rounded-lg shadow-sm hover:shadow-md">
                         <div class="flex items-center mb-3 space-x-2">
@@ -170,7 +170,7 @@
     </div>
 
     <!-- Visi Misi Sekolah -->
-    <div class="pb-2 mb-6 bg-white rounded-md shadow-md md:rounded-2xl">
+    <div class="pb-2 mb-6 bg-white rounded-none shadow-none md:shadow-md md:rounded-2xl">
         @if($profil)
             <!-- Header -->
             <div class="flex items-center justify-center p-6 mb-0 md:mb-4 md:justify-between">
@@ -183,7 +183,7 @@
             </div>
 
             <!-- Grid Visi & Misi -->
-            <div class="grid grid-cols-1 gap-6 p-4 md:grid-cols-2">
+            <div class="grid grid-cols-1 gap-6 p-0 md:p-4 md:grid-cols-2">
                 <!-- Card Visi -->
                 <div class="p-4 transition-all border rounded-md shadow-sm md:p-6 md:rounded-xl bg-gradient-to-br from-blue-50 to-white hover:shadow-lg">
                     <div class="flex items-center mb-4 space-x-2">
@@ -239,51 +239,5 @@
             </div>
         @endif
     </div>
-
-    <!-- Menu Aplikasi -->
-    {{-- <div class="pb-6 mb-6 bg-white rounded-md shadow-md md:rounded-2xl">
-        <div class="flex items-center justify-between p-6">
-            <h2 class="text-xl font-bold text-gray-800 md:text-2xl">📱 Menu Aplikasi</h2>
-        </div>
-
-        <!-- Grid Menu -->
-        <div class="grid grid-cols-3 gap-4 p-4 text-center md:grid-cols-6">
-            <!-- Menu 1 -->
-            <a href="{{ route('public.daftar_siswa.index') }}" class="flex flex-col items-center justify-center p-4 transition-all bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                <i class="mb-2 text-xl md:text-3xl bi bi-people-fill text-sky-600"></i>
-                <span class="text-xs font-semibold text-gray-700 md:text-sm">Data Siswa</span>
-            </a>
-
-            <!-- Menu 2 -->
-            <a href="#" class="flex flex-col items-center justify-center p-4 transition-all bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                <i class="mb-2 text-3xl bi bi-journal-text text-emerald-600"></i>
-                <span class="text-sm font-semibold text-gray-700">Jurnal</span>
-            </a>
-
-            <!-- Menu 3 -->
-            <a href="#" class="flex flex-col items-center justify-center p-4 transition-all bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                <i class="mb-2 text-3xl bi bi-calendar2-week text-amber-500"></i>
-                <span class="text-sm font-semibold text-gray-700">Kegiatan</span>
-            </a>
-
-            <!-- Menu 4 -->
-            <a href="#" class="flex flex-col items-center justify-center p-4 transition-all bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                <i class="mb-2 text-3xl text-gray-700 bi bi-gear-fill"></i>
-                <span class="text-sm font-semibold text-gray-700">Pengaturan</span>
-            </a>
-
-            <!-- Menu 5 -->
-            <a href="#" class="flex flex-col items-center justify-center p-4 transition-all bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                <i class="mb-2 text-3xl text-indigo-600 bi bi-globe2"></i>
-                <span class="text-sm font-semibold text-gray-700">Website</span>
-            </a>
-
-            <!-- Menu 6 -->
-            <a href="#" class="flex flex-col items-center justify-center p-4 transition-all bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                <i class="mb-2 text-3xl text-red-600 bi bi-box-arrow-right"></i>
-                <span class="text-sm font-semibold text-gray-700">Logout</span>
-            </a>
-        </div>
-    </div> --}}
 
 </div>

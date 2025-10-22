@@ -33,9 +33,9 @@
 <!-- Card Data Struktural -->
 <div>
     <!-- Header -->
-    <div class="p-4 mb-4 text-center bg-white rounded-md shadow md:bg-none md:rounded-none md:shadow-none">
-        <h2 class="mb-4 text-lg font-bold text-gray-800 md:font-extrabold md:text-xl">
-            Struktur Internal Sekolah
+    <div class="p-0 mb-4 md:p-4 md:bg-none md:rounded-none md:shadow-none">
+        <h2 class="mb-4 ml-2 text-lg font-bold text-gray-800 text-start md:font-extrabold md:text-xl">
+            <i class="mr-2 text-2xl text-sky-700 bi bi-diagram-3"></i> Struktur Internal Sekolah
             <span class="hidden capitalize text-sky-900 md:inline-block">
                 | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |
             </span>
@@ -53,7 +53,7 @@
             </span>
             <input type="text" id="searchStruktural"
                 placeholder="Cari jabatan atau nama guru..."
-                class="w-full py-2 pl-12 border rounded focus:outline-none focus:ring focus:border-blue-300">
+                class="w-full py-2 pl-12 border rounded focus:outline-none md:focus:ring focus:ring-none focus:border-amber-600 md:focus:border-blue-300">
         </div>
     </div>
 

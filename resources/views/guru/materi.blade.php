@@ -1,7 +1,7 @@
-<x-app-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __($pageTitle ?? 'Kelola Data Siswa') }}
+            {{ __($pageTitle ?? 'Materi Pembelajaran') }}
         </h2>
     </x-slot>
 
@@ -100,4 +100,4 @@
             </div> --}}
         </main>
     </div>
-</x-app-layout>
+</x-app-dashboard-layout>

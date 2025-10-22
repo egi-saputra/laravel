@@ -12,6 +12,7 @@
         <meta name="theme-color" content="#063970">
         <!-- Warna status bar Safari iOS -->
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        {{-- <meta name="turbo-root" content="/"> --}}
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -24,9 +25,6 @@
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-        <!-- Import Heroicons -->
-        {{-- <script src="https://unpkg.com/heroicons@2.0.16/24/solid/ellipsis-vertical.js"></script> --}}
-
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -37,6 +35,9 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://unpkg.com/alpinejs" defer></script>
+
+        <!-- TinyMCE -->
+        <script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
 
             <style>
                 /* ================================== */
@@ -330,9 +331,6 @@
                 </div>
             </nav>
 
-            <!-- Top Loader / Mobile Loader -->
-            {{-- <div id="mobileLoader"></div> --}}
-
             <!-- Page Content -->
             <main>
                 {{ $slot }}
@@ -364,49 +362,6 @@
             <i class="text-xl bi bi-arrow-up"></i>
         </button>
 
-        <!-- Script Top Loader -->
-        {{-- <script>
-            // Loader logic
-            document.addEventListener("turbo:before-visit", () => {
-                const isMobile = window.matchMedia("(max-width: 768px)").matches;
-                if (!isMobile) return; // hanya untuk mobile
-
-                const loader = document.getElementById("mobileLoader");
-                if (loader) {
-                    loader.style.transform = "scaleX(0)";
-                    loader.style.display = "block";
-                    requestAnimationFrame(() => loader.style.transform = "scaleX(1)");
-                }
-            });
-
-            document.addEventListener("turbo:load", (event) => {
-                const isMobile = window.matchMedia("(max-width: 768px)").matches;
-                if (!isMobile) return;
-
-                const loader = document.getElementById("mobileLoader");
-                if (!loader) return;
-
-                // Cek apakah halaman ini sudah pernah dimuat sebelumnya
-                const url = window.location.pathname;
-                const visitedKey = "visited:" + url;
-
-                if (sessionStorage.getItem(visitedKey)) {
-                    // Sudah pernah dikunjungi → sembunyikan loader langsung
-                    loader.style.display = "none";
-                } else {
-                    // Pertama kali kunjungan
-                    sessionStorage.setItem(visitedKey, "true");
-
-                    // Sembunyikan loader setelah selesai load
-                    loader.style.transform = "scaleX(1)";
-                    setTimeout(() => {
-                        loader.style.transform = "scaleX(0)";
-                        setTimeout(() => loader.style.display = "none", 300);
-                    }, 300);
-                }
-            });
-        </script> --}}
-
         <script>
             // Script Fullscreen
             function toggleFullscreen() {
@@ -425,6 +380,34 @@
             }
 
             document.addEventListener('DOMContentLoaded', function () {
+                // ============================
+                // Sweet Alert 2
+                // ============================
+                // const isMobile = window.innerWidth < 768;
+
+                // Ambil data session alert dari Laravel
+                // const hasSweetAlert = {!! session('alert') ? 'true' : 'false' !!};
+                // const alertType = {!! session('alert.type') ? "'".session('alert.type')."'" : 'null' !!};
+                // const alertTitle = {!! session('alert.title') ? "'".session('alert.title')."'" : 'null' !!};
+                // const alertMessage = {!! session('alert.message') ? "'".session('alert.message')."'" : 'null' !!};
+
+                // Tampilkan SweetAlert hanya di desktop
+                // if (!isMobile && hasSweetAlert && alertType) {
+                //     Swal.fire({
+                //         icon: alertType,
+                //         title: alertTitle ?? alertType.charAt(0).toUpperCase() + alertType.slice(1),
+                //         text: alertMessage,
+                //         confirmButtonText: 'OK',
+                //         confirmButtonColor: '#3085d6',
+                //         width: 400,
+                //         customClass: {
+                //             popup: 'rounded-xl',
+                //             title: 'text-lg font-semibold',
+                //             content: 'text-sm text-gray-700'
+                //         }
+                //     });
+                // }
+
                 // ============================
                 // Back To Top Button
                 // ============================
@@ -457,13 +440,13 @@
         </script>
 
         <!-- Menonaktifkan Loader Turbo Hotwire -->
-        {{-- <script>
+        <script>
             // Matikan progress bar bawaan Turbo
             window.Turbo.setProgressBarDelay(999999);
-        </script> --}}
+        </script>
 
         <!-- Script Loader Turbo Hotwire Mobile Only -->
-        <script>
+        {{-- <script>
             document.addEventListener("turbo:before-visit", () => {
                 const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
@@ -484,6 +467,36 @@
             //     Turbo.navigator.delegate.adapter.progressBar.hide();
             //     }
             // });
+        </script> --}}
+
+        <!-- Script TinyMce Init -->
+        <script>
+            function initTinyMCE() {
+                if (typeof tinymce === 'undefined') return;
+
+                tinymce.remove(); // pastikan gak dobel
+
+                tinymce.init({
+                    selector: 'textarea.tinymce, textarea.tinymce-editor',
+                    plugins: 'code table lists link image media fullscreen',
+                    toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media | code fullscreen',
+                    height: 300,
+                    menubar: false,
+                    branding: false
+                });
+            }
+
+            // Untuk pertama kali load
+            document.addEventListener('DOMContentLoaded', initTinyMCE);
+
+            // Untuk navigasi Turbo (maju/mundur antar halaman)
+            document.addEventListener('turbo:load', initTinyMCE);
+            document.addEventListener('turbo:render', initTinyMCE);
+
+            // Sebelum halaman disimpan ke cache Turbo
+            document.addEventListener('turbo:before-cache', function() {
+                if (typeof tinymce !== 'undefined') tinymce.remove();
+            });
         </script>
 
     </body>

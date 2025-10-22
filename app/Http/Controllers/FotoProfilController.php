@@ -9,20 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class FotoProfilController extends Controller
 {
-    // public function view()
-    // {
-    //     $user = Auth::user();
-
-    //     // Hitung foto URL di controller
-    //     $fotoUrl = $user->foto_profil
-    //         ? Storage::url($user->foto_profil->file_path)
-    //         : asset('storage/default/avatar.jpeg');
-
-    //     // Kembalikan HTML langsung
-    //     return <<<HTML
-    //         <img src="{$fotoUrl}" alt="{$user->name}" class="w-24 h-24 rounded-full -mt-14 drop-shadow-md">
-    //         HTML;
-    // }
 
     public function upload(Request $request)
     {
@@ -62,6 +48,7 @@ class FotoProfilController extends Controller
         );
 
         return back()->with('alert', [
+            'id' => (string) \Str::uuid(),
             'type' => 'success',
             'title' => 'Berhasil',
             'message' => 'Foto berhasil disimpan!'
@@ -81,11 +68,44 @@ class FotoProfilController extends Controller
             $user->foto_profil()->delete();
         }
 
+        // return back()->with('alert', [
+        //     'type' => 'success',
+        //     'title' => 'Berhasil',
+        //     'message' => 'Foto profil berhasil dihapus.'
+        // ]);
+
         return back()->with('alert', [
+            'id' => (string) \Str::uuid(), // unique ID untuk setiap alert
             'type' => 'success',
             'title' => 'Berhasil',
-            'message' => 'Foto profil berhasil dihapus.'
+            'message' => 'Foto profil berhasil dihapus!'
         ]);
 
     }
+
+    // public function remove(Request $request)
+    // {
+    //     // Jika belum ada konfirmasi dari user
+    //     if (!$request->has('confirmed')) {
+    //         return back()->with('alert', [
+    //             'type' => 'question',
+    //             'title' => 'Hapus foto profil?',
+    //             'message' => 'Tindakan ini akan menghapus foto profil secara permanen.',
+    //             'confirm_action' => route('foto.remove', ['confirmed' => 1])
+    //         ]);
+    //     }
+
+    //     $user = auth()->user();
+
+    //     if ($user->foto_profil) {
+    //         Storage::delete($user->foto_profil->file_path);
+    //         $user->foto_profil()->delete();
+    //     }
+
+    //     return back()->with('alert', [
+    //         'type' => 'success',
+    //         'title' => 'Berhasil',
+    //         'message' => 'Foto profil berhasil dihapus.'
+    //     ]);
+    // }
 }

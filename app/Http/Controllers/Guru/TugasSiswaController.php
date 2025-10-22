@@ -97,6 +97,7 @@ class TugasSiswaController extends Controller
 
         return redirect()->route('guru.tugas_siswa.index')
             ->with('alert', [
+                'id' => (string) \Str::uuid(),
                 'message' => 'Tugas berhasil dihapus!',
                 'type'    => 'success',
                 'title'   => 'Berhasil',
@@ -124,6 +125,7 @@ class TugasSiswaController extends Controller
         }
 
         return back()->with('alert', [
+            'id' => (string) \Str::uuid(),
             'message' => 'Semua tugas milik Anda berhasil dihapus!',
             'type'    => 'success',
             'title'   => 'Berhasil',

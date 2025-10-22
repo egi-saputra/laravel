@@ -86,8 +86,7 @@
             <form
                 id="hapusFotoForm"
                 action="{{ route('foto.remove') }}"
-                method="POST"
-            >
+                method="POST" onsubmit="return confirm('Hapus Foto Profil ?')">
                 @csrf
                 @method('DELETE')
                 <button
@@ -97,45 +96,45 @@
                     Remove
                 </button>
             </form>
+
         </div>
     </div>
 </div>
 
 
-@push('scripts')
-<script>
-document.addEventListener('turbo:load', initFotoScript);
-document.addEventListener('turbo:frame-load', initFotoScript);
+{{-- @push('scripts')
+    <script>
+        document.addEventListener('turbo:load', initFotoScript);
+        document.addEventListener('turbo:frame-load', initFotoScript);
 
-function initFotoScript() {
-    const inputFoto = document.getElementById('inputFoto');
-    const fileName = document.getElementById('fileName');
-    const hapusForm = document.getElementById('hapusFotoForm');
+        function initFotoScript() {
+            const inputFoto = document.getElementById('inputFoto');
+            const fileName = document.getElementById('fileName');
+            const hapusForm = document.getElementById('hapusFotoForm');
 
-    if (inputFoto) {
-        inputFoto.addEventListener('change', () => {
-            fileName.textContent = inputFoto.files?.[0]?.name || '';
-        });
-    }
+            if (inputFoto) {
+                inputFoto.addEventListener('change', () => {
+                    fileName.textContent = inputFoto.files?.[0]?.name || '';
+                });
+            }
 
-    if (hapusForm) {
-        hapusForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            Swal.fire({
-                title: 'Hapus foto profil?',
-                text: "Foto profil akan dihapus permanen!",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then(result => {
-                if (result.isConfirmed) hapusForm.submit();
-            });
-        });
-    }
-}
-</script>
-@endpush
-
+            if (hapusForm) {
+                hapusForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'Hapus foto profil?',
+                        text: "Foto profil akan dihapus permanen!",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then(result => {
+                        if (result.isConfirmed) hapusForm.submit();
+                    });
+                });
+            }
+        }
+    </script>
+@endpush --}}

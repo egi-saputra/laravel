@@ -34,6 +34,9 @@
         <!-- HotWire -->
         <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.3/dist/turbo.es2017-umd.js"></script>
 
+        <!-- TinyMCE -->
+        <script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://unpkg.com/alpinejs" defer></script>
@@ -136,29 +139,6 @@
                 }
             </style>
 
-            <!-- Styling Mobile Loader -->
-            {{-- <style>
-                #mobileLoader {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 3px;
-                    background: linear-gradient(90deg, #2563eb, #3b82f6);
-                    transform: scaleX(0);
-                    transform-origin: left;
-                    transition: transform 0.3s ease;
-                    z-index: 9999;
-                }
-
-                /* Hanya tampil di mobile */
-                @media (min-width: 768px) {
-                    #mobileLoader {
-                        display: none !important;
-                    }
-                }
-            </style> --}}
-
 
             <style>
                 .swal2-popup {
@@ -191,10 +171,6 @@
     </head>
     <body class="font-sans antialiased bg-white md:bg-gray-100">
         <x-alert />
-
-        <div data-turbo-permanent>
-            <x-head-tinymce.tinymce-config/>
-        </div>
 
             @php
                 $role = auth()->user()->role;
@@ -358,9 +334,6 @@
                 </div>
             </nav>
 
-            <!-- Top Loader / Mobile Loader -->
-            {{-- <div id="mobileLoader"></div> --}}
-
             <!-- Page Content -->
             <main>
                 {{ $slot }}
@@ -392,49 +365,7 @@
             <i class="text-xl bi bi-arrow-up"></i>
         </button>
 
-        <!-- Script Top Loader -->
-        {{-- <script>
-            // Loader logic
-            document.addEventListener("turbo:before-visit", () => {
-                const isMobile = window.matchMedia("(max-width: 768px)").matches;
-                if (!isMobile) return; // hanya untuk mobile
-
-                const loader = document.getElementById("mobileLoader");
-                if (loader) {
-                    loader.style.transform = "scaleX(0)";
-                    loader.style.display = "block";
-                    requestAnimationFrame(() => loader.style.transform = "scaleX(1)");
-                }
-            });
-
-            document.addEventListener("turbo:load", (event) => {
-                const isMobile = window.matchMedia("(max-width: 768px)").matches;
-                if (!isMobile) return;
-
-                const loader = document.getElementById("mobileLoader");
-                if (!loader) return;
-
-                // Cek apakah halaman ini sudah pernah dimuat sebelumnya
-                const url = window.location.pathname;
-                const visitedKey = "visited:" + url;
-
-                if (sessionStorage.getItem(visitedKey)) {
-                    // Sudah pernah dikunjungi → sembunyikan loader langsung
-                    loader.style.display = "none";
-                } else {
-                    // Pertama kali kunjungan
-                    sessionStorage.setItem(visitedKey, "true");
-
-                    // Sembunyikan loader setelah selesai load
-                    loader.style.transform = "scaleX(1)";
-                    setTimeout(() => {
-                        loader.style.transform = "scaleX(0)";
-                        setTimeout(() => loader.style.display = "none", 300);
-                    }, 300);
-                }
-            });
-        </script> --}}
-
+        <!-- Custom Script -->
         <script>
             // Script Fullscreen
             function toggleFullscreen() {
@@ -485,13 +416,13 @@
         </script>
 
         <!-- Menonaktifkan Loader Turbo Hotwire -->
-        {{-- <script>
+        <script>
             // Matikan progress bar bawaan Turbo
             window.Turbo.setProgressBarDelay(999999);
-        </script> --}}
+        </script>
 
         <!-- Script Loader Turbo Hotwire Mobile Only -->
-        <script>
+        {{-- <script>
             document.addEventListener("turbo:before-visit", () => {
                 const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
@@ -512,6 +443,36 @@
             //     Turbo.navigator.delegate.adapter.progressBar.hide();
             //     }
             // });
+        </script> --}}
+
+        <!-- Script TinyMce Init -->
+        <script>
+            function initTinyMCE() {
+                if (typeof tinymce === 'undefined') return;
+
+                tinymce.remove(); // pastikan gak dobel
+
+                tinymce.init({
+                    selector: 'textarea.tinymce, textarea.tinymce-editor',
+                    plugins: 'code table lists link image media fullscreen',
+                    toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media | code fullscreen',
+                    height: 300,
+                    menubar: false,
+                    branding: false
+                });
+            }
+
+            // Untuk pertama kali load
+            document.addEventListener('DOMContentLoaded', initTinyMCE);
+
+            // Untuk navigasi Turbo (maju/mundur antar halaman)
+            document.addEventListener('turbo:load', initTinyMCE);
+            document.addEventListener('turbo:render', initTinyMCE);
+
+            // Sebelum halaman disimpan ke cache Turbo
+            document.addEventListener('turbo:before-cache', function() {
+                if (typeof tinymce !== 'undefined') tinymce.remove();
+            });
         </script>
 
     </body>

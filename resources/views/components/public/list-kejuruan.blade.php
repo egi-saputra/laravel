@@ -1,7 +1,7 @@
 <div>
-    <div class="p-4 mb-4 text-center bg-white rounded-md shadow md:bg-none md:rounded-none md:shadow-none">
-        <h2 class="mb-4 text-lg font-bold text-gray-800 md:font-extrabold md:text-xl">
-            Daftar Program Kejuruan
+    <div class="p-0 mb-4 md:p-4 md:bg-none md:rounded-none md:shadow-none">
+        <h2 class="mb-4 ml-2 text-lg font-bold text-gray-800 text-start md:font-extrabold md:text-xl">
+            <i class="mr-2 text-lg text-orange-600 bi bi-journal-bookmark"></i> Daftar Program Kejuruan
             <span class="hidden capitalize text-sky-900 md:inline-block">
                 | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |
             </span>
@@ -18,8 +18,8 @@
                 </svg>
             </span>
             <input type="text" id="searchKejuruan"
-                placeholder="Cari nama kejuruan atau kepala program..."
-                class="w-full py-2 pl-12 border rounded focus:outline-none focus:ring focus:border-blue-300">
+                placeholder="Cari program kejuruan atau kaprog..."
+                class="w-full py-2 pl-12 border rounded focus:outline-none md:focus:ring focus:ring-none focus:border-amber-600 md:focus:border-blue-300">
         </div>
     </div>
 
