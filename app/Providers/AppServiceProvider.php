@@ -22,18 +22,16 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // 🔹 Root view untuk Inertia
-        Inertia::setRootView('inertia');
 
         // 🔹 Global share untuk Inertia
-        Inertia::share([
-            'auth' => fn () => [
-                'user' => auth()->user(),
-            ],
-            'app' => fn () => [
-                'profil' => \App\Models\ProfilSekolah::first(),
-            ],
-        ]);
+        // Inertia::share([
+        //     'auth' => fn () => [
+        //         'user' => auth()->user(),
+        //     ],
+        //     'app' => fn () => [
+        //         'profil' => \App\Models\ProfilSekolah::first(),
+        //     ],
+        // ]);
 
         // 🔹 Observers
         User::observe(UserObserver::class);
