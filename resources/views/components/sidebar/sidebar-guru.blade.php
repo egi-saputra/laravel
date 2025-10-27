@@ -79,11 +79,11 @@
 
     // --- Menu lain ---
     $datas = [
-        [
-            'label' => 'Informasi Peserta Didik',
-            'route' => route('public.daftar_siswa.index'),
-            'icon'  => 'bi-people' // siswa = data personal
-        ],
+        // [
+        //     'label' => 'Informasi Peserta Didik',
+        //     'route' => route('public.daftar_siswa.index'),
+        //     'icon'  => 'bi-people'
+        // ],
         [
             'label' => 'Jumlah Jam Mengajar',
             'route' => route('public.jumlah_jam.index'),

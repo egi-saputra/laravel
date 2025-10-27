@@ -1,4 +1,4 @@
-<x-app-dashboard-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
@@ -74,6 +74,8 @@
             </div>
         </main>
 
+        {{-- ============================================================= --}}
+
         <!-- Content Desktop Version -->
         <div class="hidden p-0 space-y-2 overflow-x-auto md:block md:flex-1 md:my-2">
             <!-- Menu Aplikasi -->
@@ -123,15 +125,16 @@
 
         <div class="flex-col hidden min-h-screen md:flex md:flex-row">
 
-            <!-- Sidebar -->
-            <aside class="top-0 hidden p-0 mb-4 mr-6 md:block md:h-screen">
+            <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
+                <!-- Sidebar -->
                 <x-sidebar />
+
                 <!-- Footer -->
                 <x-footer :profil="$profil" />
             </aside>
 
             <!-- Main Content Desktop -->
-            <main class="flex-1 p-0 mb-24 overflow-x-auto md:space-y-6">
+            <main class="flex-1 hidden p-0 mb-16 space-y-2 overflow-x-auto md:block md:space-y-6 md:mb-0 md:p-6">
 
                 <x-guru.halaman-piket :guru="Auth::user()->guru" />
 
@@ -284,4 +287,4 @@
             </main>
         </div>
 
-</x-app-dashboard-layout>
+</x-app-layout>

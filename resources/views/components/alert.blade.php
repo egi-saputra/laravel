@@ -1,4 +1,4 @@
-{{-- @if (session('alert'))
+@if (session('alert'))
     <div id="toastContainer" class="fixed inset-x-0 z-50 flex justify-start ml-4 pointer-events-none"
         style="bottom: calc(env(safe-area-inset-bottom, 1rem) + 4rem);">
     </div>
@@ -90,9 +90,9 @@
         .animate-fade-in { animation: fade-in 0.3s ease forwards; }
         .animate-fade-out { animation: fade-out 0.3s ease forwards; }
     </style>
-@endif --}}
+@endif
 
-@if (session('alert'))
+{{-- @if (session('alert'))
 <script>
     window.__pendingAlert = @json(session('alert'));
 </script>
@@ -174,4 +174,4 @@ document.addEventListener('turbo:before-cache', () => {
 @keyframes fade-out { 0% { opacity: 1; } 100% { opacity: 0; } }
 .animate-fade-in { animation: fade-in 0.3s ease forwards; }
 .animate-fade-out { animation: fade-out 0.3s ease forwards; }
-</style>
+</style> --}}

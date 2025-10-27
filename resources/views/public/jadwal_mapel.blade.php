@@ -1,4 +1,4 @@
-<x-app-dashboard-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
@@ -6,13 +6,17 @@
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
-        <!-- Sidebar -->
-        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+
+        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
+            <!-- Sidebar -->
             <x-sidebar />
+
+            <!-- Footer -->
+            <x-footer :profil="$profil" />
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
+        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
             <!-- Tabel Daftar Mapel -->
             <div class="overflow-x-auto md:overflow-x-visible">
                 <x-public.list-jadwal-mapel
@@ -47,4 +51,4 @@
 
     <!-- Footer -->
     <x-footer :profil="$profil" />
-</x-app-dashboard-layout>
+</x-app-layout>

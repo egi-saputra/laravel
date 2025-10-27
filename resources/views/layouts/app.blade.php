@@ -32,7 +32,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- HotWire -->
-        <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.3/dist/turbo.es2017-umd.js"></script>
+        {{-- <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.3/dist/turbo.es2017-umd.js"></script> --}}
 
         <!-- TinyMCE -->
         <script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
@@ -178,12 +178,10 @@
                     'developer' => [
                         ['label' => 'Dashboard', 'route' => 'dev.dashboard'],
                         ['label' => 'Informasi Sekolah', 'route' => 'public.informasi_sekolah.index'],
-                        ['label' => 'Log Out', 'route' => 'logout', 'logout' => true], // tambah logout
                     ],
                     'admin' => [
                         ['label' => 'Dashboard', 'route' => 'admin.dashboard'],
                         ['label' => 'Profil Sekolah', 'route' => 'admin.profil_sekolah'],
-                        ['label' => 'Log Out', 'route' => 'logout', 'logout' => true],
                     ],
                     'guru' => [
                         ['label' => 'Dashboard', 'label_mobile' => 'Dashboard', 'route' => 'guru.dashboard'],
@@ -206,6 +204,7 @@
                     ],
                 ];
             @endphp
+
 
             <nav x-data="{ open: false }"
                 class="sticky top-0 z-30 block bg-white border-b border-gray-100 shadow-sm dark:bg-gray-800 dark:border-gray-700 md:static">
@@ -340,9 +339,7 @@
             </main>
 
             @if (!request()->is('login'))
-                <div data-turbo-permanent>
                     <x-nav-bot :role="$role" />
-                </div>
             @endif
 
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>

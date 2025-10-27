@@ -22,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // 🔹 Root view untuk Inertia
+        // Inertia::setRootView('inertia');
 
         // 🔹 Global share untuk Inertia
         // Inertia::share([

@@ -35,10 +35,10 @@
         <input type="text" name="kelas" placeholder="Filter Kelas" value="{{ request('kelas') }}" class="px-3 py-2 border rounded">
 
         <div class="flex gap-2">
-            <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+            <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded whitespace-nowrap hover:bg-blue-700">
                 <i class="bi bi-funnel"></i> Filter
             </button>
-            <a href="{{ route('public.jadwal_mapel.index') }}" class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800">
+            <a href="{{ route('public.jadwal_mapel.index') }}" class="px-4 py-2 text-white rounded whitespace-nowrap bg-slate-700 hover:bg-slate-800">
                 <i class="bi bi-arrow-clockwise"></i> Reset
             </a>
         </div>

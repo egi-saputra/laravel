@@ -52,15 +52,15 @@
             <div class="w-full h-32 rounded shadow-sm bg-sky-800"></div>
 
             @php
-                $foto = Auth::user()->foto_profil;
-                $fotoUrl = $foto
-                    ? route('foto-profil') . '?v=' . ($foto->updated_at?->timestamp ?? time())
-                    : route('foto-profil') . '?v=' . time(); // fallback default
-            @endphp
+                        $user = Auth::user(); // ambil user yang login
+                        $fotoUrl = $user->foto_profil
+                            ? Storage::url($user->foto_profil->file_path)
+                            : asset('storage/default/avatar.jpeg');
+                    @endphp
 
-            <img src="{{ $fotoUrl }}"
-                alt="Foto Profil"
-                class="w-24 h-24 rounded-full -mt-14 drop-shadow-md">
+                    <img src="{{ $fotoUrl }}"
+                        alt="{{ $user->name }}"
+                        class="w-24 h-24 rounded-full -mt-14 drop-shadow-md">
 
 
             <div class="mt-2 text-center">

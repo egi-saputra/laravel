@@ -9,7 +9,7 @@
     <!-- Header sticky -->
     <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-white border-b rounded-lg">
         <h3 class="text-lg font-semibold"><i class="bi bi-person-lines-fill"></i> Detail Data Siswa</h3>
-        <button id="closeModal" class="px-2 py-0 text-xl font-bold md:border md:rounded hover:text-slate-700 border-slate-400 text-slate-400 hover:border-slate-700">&times;</button>
+        <button id="closeModal" class="px-2 py-0 text-xl font-bold md:rounded hover:text-slate-700 text-slate-400">&times;</button>
     </div>
 
     <!-- Scrollable body -->
