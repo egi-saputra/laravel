@@ -15,18 +15,7 @@ class KelasExport implements FromCollection, WithHeadings, WithEvents
     public function collection()
     {
         return collect([
-            ['K001', 'X MP 1', '1'],
-            ['K002', 'X MP 2', '2'],
-            ['K003', 'X MP 3', '3'],
-            ['K004', 'XI MPLB 1', '4'],
-            ['K005', 'XI MPLB 2', '5'],
-            ['K006', 'XII OTKP 1', '6'],
-            ['K007', 'XII OTKP 2', '7'],
-            ['K008', 'X PM 1', '8'],
-            ['K009', 'X PM 2', '9'],
-            ['K010', 'XI BR 1', '10'],
-            ['K011', 'XI BR 2', '11'],
-            ['K012', 'XII BR', '12']
+            ['K001', 'X MP 1', '1']
         ]);
     }
 

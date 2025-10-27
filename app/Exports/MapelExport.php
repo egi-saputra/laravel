@@ -15,22 +15,7 @@ class MapelExport implements FromCollection, WithHeadings, WithEvents
     public function collection()
     {
         return collect([
-            ['Matematika', 'G000'],
-            ['Bahasa Indonesia', 'G001'],
-            ['Bahasa Inggris', 'G002'],
-            ['Sejarah Indonesia', 'G003'],
-            ['Pendidikan Pancasila', 'G004'],
-            ['IPAS', 'G005'],
-            ['PKWU', 'G006'],
-            ['Pendidikan Agama Islam', 'G007'],
-            ['Informatika', 'G008'],
-            ['PJOK', 'G009'],
-            ['Seni Rupa', 'G010'],
-            ['Bimbingan Konseling', 'G011'],
-            ['Muatan Lokal Potensi Daerah', 'G012'],
-            ['Muatan Lokal Bahasa Daerah', 'G013'],
-            ['Kecerdasan Artifisial', 'G014'],
-            ['BTQ', 'G015']
+            ['Matematika', 'G000']
         ]);
     }
 

@@ -358,7 +358,7 @@
         <!-- Back to Top -->
         <button id="backToTop"
             class="fixed items-center justify-center hidden w-12 h-12 text-white transition-all duration-300 rounded-full shadow-lg md:flex md:bottom-6 bottom-16 right-6 bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-2xl hover:scale-110"
-            title="Kembali ke atas">
+            title="Kembali ke atas !z-30">
             <i class="text-xl bi bi-arrow-up"></i>
         </button>
 

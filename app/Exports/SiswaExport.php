@@ -23,14 +23,6 @@ class SiswaExport implements FromCollection, WithHeadings, WithEvents
                 'kelas'            => 'K001',
                 'program_kejuruan' => 'Perkantoran',
             ],
-            [
-                'nama_lengkap'     => 'Siswa 2',
-                'email'            => 'siswa2@mail.com',
-                'nis'              => '23002',
-                'nisn'             => '1000000002',
-                'kelas'            => 'K002',
-                'program_kejuruan' => 'Pemasaran',
-            ],
         ]);
     }
 

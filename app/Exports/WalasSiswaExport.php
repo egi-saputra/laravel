@@ -16,25 +16,6 @@ class WalasSiswaExport implements FromCollection, WithHeadings, WithEvents
             // Template kosong dengan contoh dummy
             return collect([
         ['nama_lengkap' => 'Siswa W 1',  'email' => 'siswa1w@mail.com',  'nis' => '2000000001', 'nisn' => '1200000011'],
-        ['nama_lengkap' => 'Siswa W 2',  'email' => 'siswa2w@mail.com',  'nis' => '2000000002', 'nisn' => '1200000012'],
-        ['nama_lengkap' => 'Siswa W 3',  'email' => 'siswa3w@mail.com',  'nis' => '2000000003', 'nisn' => '1200000013'],
-        ['nama_lengkap' => 'Siswa W 4',  'email' => 'siswa4w@mail.com',  'nis' => '2000000004', 'nisn' => '1200000014'],
-        ['nama_lengkap' => 'Siswa W 5',  'email' => 'siswa5w@mail.com',  'nis' => '2000000005', 'nisn' => '1200000015'],
-        ['nama_lengkap' => 'Siswa W 6',  'email' => 'siswa6w@mail.com',  'nis' => '2000000006', 'nisn' => '1200000016'],
-        ['nama_lengkap' => 'Siswa W 7',  'email' => 'siswa7w@mail.com',  'nis' => '2000000007', 'nisn' => '1200000017'],
-        ['nama_lengkap' => 'Siswa W 8',  'email' => 'siswa8w@mail.com',  'nis' => '2000000008', 'nisn' => '1200000018'],
-        ['nama_lengkap' => 'Siswa W 9',  'email' => 'siswa9w@mail.com',  'nis' => '2000000009', 'nisn' => '1200000019'],
-        ['nama_lengkap' => 'Siswa W 10', 'email' => 'siswa10w@mail.com', 'nis' => '2000000010', 'nisn' => '1200000020'],
-        ['nama_lengkap' => 'Siswa W 11', 'email' => 'siswa11w@mail.com', 'nis' => '2000000011', 'nisn' => '1200000021'],
-        ['nama_lengkap' => 'Siswa W 12', 'email' => 'siswa12w@mail.com', 'nis' => '2000000012', 'nisn' => '1200000022'],
-        ['nama_lengkap' => 'Siswa W 13', 'email' => 'siswa13w@mail.com', 'nis' => '2000000013', 'nisn' => '1200000023'],
-        ['nama_lengkap' => 'Siswa W 14', 'email' => 'siswa14w@mail.com', 'nis' => '2000000014', 'nisn' => '1200000024'],
-        ['nama_lengkap' => 'Siswa W 15', 'email' => 'siswa15w@mail.com', 'nis' => '2000000015', 'nisn' => '1200000025'],
-        ['nama_lengkap' => 'Siswa W 16', 'email' => 'siswa16w@mail.com', 'nis' => '2000000016', 'nisn' => '1200000026'],
-        ['nama_lengkap' => 'Siswa W 17', 'email' => 'siswa17w@mail.com', 'nis' => '2000000017', 'nisn' => '1200000027'],
-        ['nama_lengkap' => 'Siswa W 18', 'email' => 'siswa18w@mail.com', 'nis' => '2000000018', 'nisn' => '1200000028'],
-        ['nama_lengkap' => 'Siswa W 19', 'email' => 'siswa19w@mail.com', 'nis' => '2000000019', 'nisn' => '1200000029'],
-        ['nama_lengkap' => 'Siswa W 20', 'email' => 'siswa20w@mail.com', 'nis' => '2000000020', 'nisn' => '1200000030'],
     ]);
     }
 

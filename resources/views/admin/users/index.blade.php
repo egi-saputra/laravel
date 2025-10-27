@@ -6,12 +6,17 @@
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
-        <!-- Sidebar -->
-        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+
+        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
+            <!-- Sidebar -->
             <x-sidebar />
+
+            <!-- Footer -->
+            <x-footer :profil="$profil" />
         </aside>
 
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
+        <!-- Main Content -->
+        <main class="flex-1 p-0 !mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
             <x-admin.user-form
                 :action="route('admin.users.store')"
                 title="Tambah User Baru"
@@ -120,7 +125,7 @@
             </div>
 
             <!-- Pagination -->
-            <div class="mt-4">
+            <div class="mt-4 !z-10">
                 {{ $allUsers->links('pagination::tailwind') }}
             </div>
         </main>
@@ -201,8 +206,5 @@
             });
         });
     </script>
-
-    <!-- Footer -->
-    <x-footer :profil="$profil" />
 
 </x-app-layout>
