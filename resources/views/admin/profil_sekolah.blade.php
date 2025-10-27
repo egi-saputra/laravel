@@ -11,8 +11,8 @@
             <x-sidebar />
         </aside>
 
-            <!-- Main Content -->
-            <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
+        <!-- Main Content -->
+        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
                 <main class="p-4 bg-white rounded shadow-md">
 
                 @if(session('success'))

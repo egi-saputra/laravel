@@ -101,7 +101,30 @@
     </div>
 </div>
 
-
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const hapusForm = document.getElementById('hapusFotoForm');
+        hapusForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Hapus foto profil ?',
+                text: "Foto profil akan dihapus permanen!",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    hapusForm.submit();
+                }
+            });
+        });
+    });
+</script>
+@endpush
 {{-- @push('scripts')
     <script>
         document.addEventListener('turbo:load', initFotoScript);

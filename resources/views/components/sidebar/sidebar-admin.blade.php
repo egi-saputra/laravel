@@ -119,9 +119,10 @@
                         </form>
                     @elseif(isset($menu['type']) && $menu['type'] === 'modal')
                         <li>
-                            <button @click="open = true" class="w-full px-2 py-2 text-left rounded hover:bg-gray-100">
-                                <i class="bi {{ $menu['icon'] ?? 'bi-dot' }} me-2"></i>{{ $menu['label'] }}
-                            </button>
+                            <button @click="$dispatch('open-modal-upload-foto')" class="w-full px-2 py-2 text-left rounded hover:bg-gray-100">
+
+                                            <i class="bi {{ $menu['icon'] ?? 'bi-dot' }} me-2"></i>{{ $menu['label'] }}
+                                        </button>
                         </li>
                     @else
                         <li>

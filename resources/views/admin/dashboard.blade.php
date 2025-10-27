@@ -31,8 +31,8 @@
                 @foreach ($stats as $stat)
                     <div class="p-6 transition bg-white shadow rounded-2xl hover:shadow-lg">
                         <div class="flex items-center">
-                            <div class="p-3 {{ $stat['bg'] }} rounded-full">
-                                <i class="text-2xl {{ $stat['text'] }} {{ $stat['icon'] }}"></i>
+                            <div class="p-2 {{ $stat['bg'] }} rounded-full">
+                                <i class="text-xl {{ $stat['text'] }} {{ $stat['icon'] }}"></i>
                             </div>
                             <div class="ml-4">
                                 <p class="text-sm font-medium text-gray-500">{{ $stat['title'] }}</p>
