@@ -139,7 +139,7 @@
                     </a>
 
                     <!-- Menu 3 -->
-                    <a href="{{ route('guru.card_jadwal_guru.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                    <a href="{{ route('public.card_jadwal_guru.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-3xl bi bi-calendar2-week text-amber-500"></i>
                         <span class="text-sm font-semibold text-gray-700">Jadwal Mengajar</span>
                     </a>
