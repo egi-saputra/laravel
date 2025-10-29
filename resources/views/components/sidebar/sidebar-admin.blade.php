@@ -49,7 +49,7 @@
 
         {{-- SIDEBAR PROFIL --}}
         <div class="flex flex-col items-center p-4 pt-4">
-            <div class="w-full h-32 rounded shadow-sm bg-sky-800"></div>
+            <div class="w-full h-28 rounded shadow-sm bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-900 animate-gradient bg-[length:200%_200%]"></div>
 
             @php
                         $user = Auth::user(); // ambil user yang login

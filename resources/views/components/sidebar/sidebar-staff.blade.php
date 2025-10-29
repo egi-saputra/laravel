@@ -11,27 +11,27 @@ $role = $user->role;
     'label' => 'Upload Foto Profil',
     'type'  => 'modal',
     'icon'  => 'bi-upload' // lebih simpel dan jelas untuk upload
-],
-// [
-//     'label' => 'Rekap Honor Guru',
-//     'route' => route('staff.rekap_honor_guru.index'),
-//     'icon'  => 'bi-person-lines-fill'
-// ],
-// [
-//     'label' => 'Rekap Honor Staff',
-//     'route' => route('staff.rekap_honor_staff.index'),
-//     'icon'  => 'bi-people-fill'
-// ],
-// [
-//     'label' => 'Rekapitulasi Keuangan',
-//     'route' => route('staff.rekap_keuangan.index'),
-//     'icon'  => 'bi-currency-dollar'
-// ],
-// [
-//     'label' => 'Data Riwayat Presensi',
-//     'route' => route('staff.riwayat_presensi.index'),
-//     'icon'  => 'bi bi-clipboard-data-fill'
-// ],
+    ],
+    [
+        'label' => 'Rekap Honor Guru',
+        'route' => route('staff.rekap_honor_guru.index'),
+        'icon'  => 'bi-person-lines-fill'
+    ],
+    [
+        'label' => 'Rekap Honor Staff',
+        'route' => route('staff.rekap_honor_staff.index'),
+        'icon'  => 'bi-people-fill'
+    ],
+    [
+        'label' => 'Data Riwayat Presensi',
+        'route' => route('staff.riwayat_presensi.index'),
+        'icon'  => 'bi bi-clipboard-data-fill'
+    ],
+    [
+        'label' => 'Rekapitulasi Keuangan',
+        'route' => route('staff.rekap_keuangan.index'),
+        'icon'  => 'bi-currency-dollar'
+    ],
         ],
     ];
 
@@ -86,17 +86,17 @@ $role = $user->role;
 
                 {{-- SIDEBAR PROFIL --}}
                 <div class="flex flex-col items-center p-4 pt-4">
-                    <div class="w-full h-32 rounded shadow-sm bg-sky-800"></div>
+                    <div class="w-full h-28 rounded shadow-sm bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-900 animate-gradient bg-[length:200%_200%]"></div>
 
                     @php
-                        $foto = Auth::user()->foto_profil;
-                        $fotoUrl = $foto
-                            ? route('foto-profil') . '?v=' . ($foto->updated_at?->timestamp ?? time())
-                            : route('foto-profil') . '?v=' . time(); // fallback default
+                        $user = Auth::user(); // ambil user yang login
+                        $fotoUrl = $user->foto_profil
+                            ? Storage::url($user->foto_profil->file_path)
+                            : asset('storage/default/avatar.jpeg');
                     @endphp
 
                     <img src="{{ $fotoUrl }}"
-                        alt="Foto Profil"
+                        alt="{{ $user->name }}"
                         class="w-24 h-24 rounded-full -mt-14 drop-shadow-md">
 
 
@@ -159,7 +159,8 @@ $role = $user->role;
                                     </form>
                                 @elseif ($type === 'modal')
                                     <li>
-                                        <button @click="open = true" class="w-full px-2 py-2 text-left rounded hover:bg-gray-100">
+                                        <button @click="$dispatch('open-modal-upload-foto')" class="w-full px-2 py-2 text-left rounded hover:bg-gray-100">
+
                                             <i class="bi {{ $menu['icon'] ?? 'bi-dot' }} me-2"></i>{{ $menu['label'] }}
                                         </button>
                                     </li>

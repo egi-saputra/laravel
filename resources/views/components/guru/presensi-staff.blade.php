@@ -55,7 +55,7 @@
 
                             <!-- Keterangan -->
                             <td class="px-4 py-2 text-center border border-gray-300 whitespace-nowrap">
-                                <select name="keterangan[{{ $staff->id }}]">
+                                <select name="keterangan[{{ $staff->id }}]" class="w-full">
                                     <option value="Hadir" {{ $lastKeterangan === 'Hadir' ? 'selected' : '' }}>Hadir</option>
                                     <option value="Tidak Hadir" {{ $lastKeterangan === 'Tidak Hadir' ? 'selected' : '' }}>Tidak Hadir</option>
                                     <option value="Sakit" {{ $lastKeterangan === 'Sakit' ? 'selected' : '' }}>Sakit</option>
@@ -66,7 +66,7 @@
 
                             <!-- Apel -->
                             <td class="px-4 py-2 text-center border border-gray-300 whitespace-nowrap">
-                                <select name="apel[{{ $staff->id }}]">
+                                <select name="apel[{{ $staff->id }}]" class="w-full">
                                     <option value="Apel" {{ $lastApel === 'Apel' ? 'selected' : '' }}>Apel</option>
                                     <option value="Tidak" {{ $lastApel === 'Tidak' ? 'selected' : '' }}>Tidak</option>
                                 </select>
@@ -74,7 +74,7 @@
 
                             <!-- Upacara -->
                             <td class="px-4 py-2 text-center border border-gray-300 whitespace-nowrap">
-                                <select name="upacara[{{ $staff->id }}]">
+                                <select name="upacara[{{ $staff->id }}]" class="w-full">
                                     <option value="Upacara" {{ $lastUpacara === 'Upacara' ? 'selected' : '' }}>Upacara</option>
                                     <option value="Tidak" {{ $lastUpacara === 'Tidak' ? 'selected' : '' }}>Tidak</option>
                                 </select>

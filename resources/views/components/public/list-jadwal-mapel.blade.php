@@ -45,7 +45,8 @@
     </form>
 
     <div class="overflow-x-auto md:overflow-x-visible">
-        <table class="w-full border border-collapse" id="jadwalGuruTable">
+        <!-- Tabel List -->
+        {{-- <table class="w-full border border-collapse" id="jadwalGuruTable">
             <thead>
                 <tr class="bg-gray-100">
                     <th class="px-4 py-2 border whitespace-nowrap">Hari</th>
@@ -68,7 +69,37 @@
                 </tr>
                 @endforelse
             </tbody>
-        </table>
+        </table> --}}
+
+        <!-- Card Grid List -->
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+
+            @forelse($paginatedJadwal as $j)
+            <div class="p-4 transition-all bg-white border rounded-xl shadow-sm hover:shadow-lg hover:scale-[1.02]">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="px-3 py-1 text-xs font-semibold text-white bg-blue-600 rounded-full">
+                        {{ $j['hari'] }}
+                    </span>
+                    <span class="text-sm font-bold text-slate-700">
+                        {{ $j['jam'] }}
+                    </span>
+                </div>
+
+                <h3 class="text-lg font-bold text-slate-800">{{ $j['mapel'] }}</h3>
+
+                <div class="mt-2 text-sm text-slate-600">
+                    <span class="font-semibold text-slate-800">Kelas:</span> {{ $j['kelas'] }}
+                </div>
+            </div>
+            @empty
+
+            <div class="p-4 text-center col-span-full text-slate-600">
+                Belum ada data jadwal mapel
+            </div>
+
+            @endforelse
+
+        </div>
     </div>
 
     <!-- Pagination -->

@@ -26,7 +26,8 @@ use App\Http\Controllers\{
     ArtikelController,
     SuratController,
     JumlahJamController,
-    NavBotController
+    NavBotController,
+    CardJadwalGuruController
 };
 
 // ======================
@@ -175,6 +176,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/daftar_siswa/search', [ListSiswaController::class, 'search'])->name('daftar_siswa.search');
 
         Route::resource('jadwal_guru', ListJadwalGuruController::class)
+                ->except(['show']);
+        // Card Jadwal Guru
+        Route::resource('card_jadwal_guru', CardJadwalGuruController::class)
                 ->except(['show']);
 
         // Jadwal Piket

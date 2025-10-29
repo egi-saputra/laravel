@@ -26,7 +26,12 @@
                 'icon'  => 'bi-cloud-upload'
             ],
             [
-                'label' => 'Kelola Materi | Tugas',
+                'label' => 'Jadwal Mengajar',
+                'route' => route('public.jadwal_guru.index'),
+                'icon'  => 'bi bi-clipboard-data'
+            ],
+            [
+                'label' => 'Kelola Pembelajaran',
                 'route' => route('guru.materi.index'),
                 'icon'  => 'bi-folder2-open'
             ],
@@ -53,62 +58,62 @@
     }
 
     // --- Menu khusus Hak Akses hanya jika Activated ---
-    if ($role === 'guru' && $isActivated) {
-        // $menus['hak_akses'][] =
-        //     [
-        //         'label' => 'Buat Pengumuman',
-        //         'route' => route('public.pengumuman.index'),
-        //         'icon'  => 'bi-chat-dots'
-        //         'icon'  => 'bi-bell'
-        //         'icon'  => 'bi-megaphone'
-        // ];
-        // $menus['hak_akses'][] =
-        //     [
-        //         'label' => 'Kelola Berkas / Surat',
-        //         'route' => route('public.surat.index'),
-        //         'icon'  => 'bi-file-earmark-text'
-        //         'icon'  => 'bi-journal-text'
-        // ];
-        // $menus['hak_akses'][] =
-        //     [
-        //         'label' => 'Upload Artikel Kegiatan',
-        //         'route' => route('public.artikel.index'),
-        //         'icon'  => 'bi-upload'
-        // ];
-    }
+    // if ($role === 'guru' && $isActivated) {
+    //     // $menus['hak_akses'][] =
+    //     //     [
+    //     //         'label' => 'Buat Pengumuman',
+    //     //         'route' => route('public.pengumuman.index'),
+    //     //         'icon'  => 'bi-chat-dots'
+    //     //         'icon'  => 'bi-bell'
+    //     //         'icon'  => 'bi-megaphone'
+    //     // ];
+    //     // $menus['hak_akses'][] =
+    //     //     [
+    //     //         'label' => 'Kelola Berkas / Surat',
+    //     //         'route' => route('public.surat.index'),
+    //     //         'icon'  => 'bi-file-earmark-text'
+    //     //         'icon'  => 'bi-journal-text'
+    //     // ];
+    //     // $menus['hak_akses'][] =
+    //     //     [
+    //     //         'label' => 'Upload Artikel Kegiatan',
+    //     //         'route' => route('public.artikel.index'),
+    //     //         'icon'  => 'bi-upload'
+    //     // ];
+    // }
 
     // --- Menu lain ---
-    $datas = [
-        // [
-        //     'label' => 'Informasi Peserta Didik',
-        //     'route' => route('public.daftar_siswa.index'),
-        //     'icon'  => 'bi-people'
-        // ],
-        [
-            'label' => 'Jumlah Jam Mengajar',
-            'route' => route('public.jumlah_jam.index'),
-            'icon'  => 'bi-clock-history'
-        ],
-        [
-            'label' => 'Jadwal Mengajar Guru',
-            'route' => route('public.jadwal_guru.index'),
-            'icon'  => 'bi bi-clipboard-data'
-        ],
-        [
-            'label' => 'Jadwal Mata Pelajaran',
-            'route' => route('public.jadwal_mapel.index'),
-            'icon'  => 'bi-journal-bookmark'
-        ],
-        // [
-        //     'label' => 'Jadwal Petugas Piket',
-        //     'route' => route('guru.jadwal_piket.index'),
-        //     'icon'  => 'bi-clipboard2-check'
-        // ],
-    ];
+    // $datas = [
+    //     [
+    //         'label' => 'Informasi Peserta Didik',
+    //         'route' => route('public.daftar_siswa.index'),
+    //         'icon'  => 'bi-people'
+    //     ],
+    //     [
+    //         'label' => 'Jumlah Jam Mengajar',
+    //         'route' => route('public.jumlah_jam.index'),
+    //         'icon'  => 'bi-clock-history'
+    //     ],
+    //     [
+    //         'label' => 'Jadwal Mengajar Guru',
+    //         'route' => route('public.jadwal_guru.index'),
+    //         'icon'  => 'bi bi-clipboard-data'
+    //     ],
+    //     [
+    //         'label' => 'Jadwal Mata Pelajaran',
+    //         'route' => route('public.jadwal_mapel.index'),
+    //         'icon'  => 'bi-journal-bookmark'
+    //     ],
+    //     [
+    //         'label' => 'Jadwal Petugas Piket',
+    //         'route' => route('guru.jadwal_piket.index'),
+    //         'icon'  => 'bi-clipboard2-check'
+    //     ],
+    // ];
 
     // --- Akun ---
     $accounts = [
-        // ['label' => 'Edit Data Profil', 'route' => route('profile.edit'), 'icon' => 'bi-person'],
+        ['label' => 'Edit Data Profil', 'route' => route('profile.edit'), 'icon' => 'bi-person'],
         ['label' => 'Ubah Password', 'route' => route('profile.password'), 'icon' => 'bi-key'],
         ['label' => 'Hapus Akun', 'route' => route('profile.delete'), 'icon' => 'bi-trash'],
         ['label' => 'Logout', 'route' => route('logout'), 'type' => 'form', 'icon' => 'bi-box-arrow-right'],
@@ -123,7 +128,8 @@
 
                 {{-- SIDEBAR PROFIL --}}
                 <div class="flex flex-col items-center p-4 pt-4">
-                    <div class="w-full h-32 rounded shadow-sm bg-[#063970]"></div>
+                    {{-- <div class="w-full h-32 rounded shadow-sm bg-[#063970]"></div> --}}
+                    <div class="w-full h-28 rounded shadow-sm bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-900 animate-gradient bg-[length:200%_200%]"></div>
 
                     {{-- @php
                         $foto = Auth::user()->foto_profil;
@@ -226,7 +232,7 @@
                 @endisset
 
                 {{-- DATA --}}
-                <small class="flex items-center justify-between mt-5">Archives Data</small>
+                {{-- <small class="flex items-center justify-between mt-5">Archives Data</small>
                 <ul class="text-slate-500">
                     @foreach ($datas as $data)
                         <li>
@@ -235,7 +241,7 @@
                             </a>
                         </li>
                     @endforeach
-                </ul>
+                </ul> --}}
 
                 {{-- ACCOUNT --}}
                 <p class="mt-5"><small>Account Setting</small></p>

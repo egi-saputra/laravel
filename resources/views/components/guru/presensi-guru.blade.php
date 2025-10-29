@@ -33,6 +33,7 @@
         </div>
 
         <!-- Tabel Presensi -->
+        {{-- <div id="scrollTable" class="overflow-x-auto cursor-grab"> --}}
         <div class="overflow-x-auto">
             <table class="min-w-full border border-gray-300">
                 <thead class="text-center bg-gray-100">
@@ -114,66 +115,121 @@
     {{ $guruHariIni->appends(request()->except('guru_page'))->links('pagination::tailwind') }}
 </div>
 
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const tbody = document.querySelector('table tbody');
+        new Sortable(tbody, {
+            animation: 200,
+            handle: 'tr',
+            ghostClass: 'bg-yellow-100',
+            dragClass: 'opacity-50',
+            onEnd: function () {
+                console.log('Baris dipindahkan!');
+            }
+        });
+
+    });
+</script> --}}
+
+{{-- Draggable Tabel --}}
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const apelSelects = document.querySelectorAll('select[name^="apel"]');
-    const upacaraSelects = document.querySelectorAll('select[name^="upacara"]');
+    document.addEventListener('DOMContentLoaded', function () {
+        const slider = document.getElementById('scrollTable');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
 
-    function validatePresensi() {
-        // cek apakah ada yang pilih Apel / Pembina Apel
-        const apelChosen = Array.from(apelSelects).some(sel => sel.value === 'Apel' || sel.value === 'Pembina Apel');
-        const pembinaApel = Array.from(apelSelects).find(sel => sel.value === 'Pembina Apel');
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('cursor-grabbing');
+            slider.classList.remove('cursor-grab');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
 
-        // cek apakah ada yang pilih Upacara / Pembina Upacara
-        const upacaraChosen = Array.from(upacaraSelects).some(sel => sel.value === 'Upacara' || sel.value === 'Pembina Upacara');
-        const pembinaUpacara = Array.from(upacaraSelects).find(sel => sel.value === 'Pembina Upacara');
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.classList.add('cursor-grab');
+            slider.classList.remove('cursor-grabbing');
+        });
 
-        // 1️⃣ kalau sudah ada yang isi Apel → semua Upacara disable
-        if (apelChosen) {
-            upacaraSelects.forEach(sel => {
-                sel.value = 'Tidak';
-                sel.disabled = true;
-            });
-        } else {
-            upacaraSelects.forEach(sel => sel.disabled = false);
-        }
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.classList.add('cursor-grab');
+            slider.classList.remove('cursor-grabbing');
+        });
 
-        // 2️⃣ kalau sudah ada yang isi Upacara → semua Apel disable
-        if (upacaraChosen) {
-            apelSelects.forEach(sel => {
-                sel.value = 'Tidak';
-                sel.disabled = true;
-            });
-        } else {
-            apelSelects.forEach(sel => sel.disabled = false);
-        }
+        slider.addEventListener('mousemove', (e) => {
+            if(!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 1.5; // geser 1.5x lebih cepat
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    });
+</script>
 
-        // 3️⃣ pastikan hanya ada satu Pembina Apel
-        if (pembinaApel) {
-            apelSelects.forEach(sel => {
-                if (sel !== pembinaApel && sel.value === 'Pembina Apel') {
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const apelSelects = document.querySelectorAll('select[name^="apel"]');
+        const upacaraSelects = document.querySelectorAll('select[name^="upacara"]');
+
+        function validatePresensi() {
+            // cek apakah ada yang pilih Apel / Pembina Apel
+            const apelChosen = Array.from(apelSelects).some(sel => sel.value === 'Apel' || sel.value === 'Pembina Apel');
+            const pembinaApel = Array.from(apelSelects).find(sel => sel.value === 'Pembina Apel');
+
+            // cek apakah ada yang pilih Upacara / Pembina Upacara
+            const upacaraChosen = Array.from(upacaraSelects).some(sel => sel.value === 'Upacara' || sel.value === 'Pembina Upacara');
+            const pembinaUpacara = Array.from(upacaraSelects).find(sel => sel.value === 'Pembina Upacara');
+
+            // 1️⃣ kalau sudah ada yang isi Apel → semua Upacara disable
+            if (apelChosen) {
+                upacaraSelects.forEach(sel => {
                     sel.value = 'Tidak';
-                }
-            });
-        }
+                    sel.disabled = true;
+                });
+            } else {
+                upacaraSelects.forEach(sel => sel.disabled = false);
+            }
 
-        // 4️⃣ pastikan hanya ada satu Pembina Upacara
-        if (pembinaUpacara) {
-            upacaraSelects.forEach(sel => {
-                if (sel !== pembinaUpacara && sel.value === 'Pembina Upacara') {
+            // 2️⃣ kalau sudah ada yang isi Upacara → semua Apel disable
+            if (upacaraChosen) {
+                apelSelects.forEach(sel => {
                     sel.value = 'Tidak';
-                }
-            });
+                    sel.disabled = true;
+                });
+            } else {
+                apelSelects.forEach(sel => sel.disabled = false);
+            }
+
+            // 3️⃣ pastikan hanya ada satu Pembina Apel
+            if (pembinaApel) {
+                apelSelects.forEach(sel => {
+                    if (sel !== pembinaApel && sel.value === 'Pembina Apel') {
+                        sel.value = 'Tidak';
+                    }
+                });
+            }
+
+            // 4️⃣ pastikan hanya ada satu Pembina Upacara
+            if (pembinaUpacara) {
+                upacaraSelects.forEach(sel => {
+                    if (sel !== pembinaUpacara && sel.value === 'Pembina Upacara') {
+                        sel.value = 'Tidak';
+                    }
+                });
+            }
         }
-    }
 
-    // Jalankan saat load
-    validatePresensi();
+        // Jalankan saat load
+        validatePresensi();
 
-    // Event listener
-    apelSelects.forEach(select => select.addEventListener('change', validatePresensi));
-    upacaraSelects.forEach(select => select.addEventListener('change', validatePresensi));
-});
+        // Event listener
+        apelSelects.forEach(select => select.addEventListener('change', validatePresensi));
+        upacaraSelects.forEach(select => select.addEventListener('change', validatePresensi));
+    });
 </script>
 
 

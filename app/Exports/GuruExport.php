@@ -15,28 +15,28 @@ class GuruExport implements FromCollection, WithHeadings, WithEvents
     public function collection()
     {
         // Contoh data template tanpa kolom password
-        // return collect([
-        //     ['G001', 'Budi Santoso', 'budi@mail.com'],
-        //     ['G002', 'Siti Aminah', 'siti@mail.com'],
-        // ]);
         return collect([
             ['G001', 'Budi Santoso', 'budi@mail.com'],
             ['G002', 'Siti Aminah', 'siti@mail.com'],
-            ['G003', 'Andi Pratama', 'andi@mail.com'],
-            ['G004', 'Dewi Lestari', 'dewi@mail.com'],
-            ['G005', 'Rizky Hidayat', 'rizky@mail.com'],
-            ['G006', 'Fitri Handayani', 'fitri@mail.com'],
-            ['G007', 'Agus Setiawan', 'agus@mail.com'],
-            ['G008', 'Nurul Aini', 'nurul@mail.com'],
-            ['G009', 'Hendra Gunawan', 'hendra@mail.com'],
-            ['G010', 'Putri Maharani', 'putri@mail.com'],
-            ['G011', 'Rudi Hartono', 'rudi@mail.com'],
-            ['G012', 'Intan Permata', 'intan@mail.com'],
-            ['G013', 'Fajar Ramadhan', 'fajar@mail.com'],
-            ['G014', 'Lina Marlina', 'lina@mail.com'],
-            ['G015', 'Doni Saputra', 'doni@mail.com']
         ]);
-    }
+    //     return collect([
+    //         ['G001', 'Budi Santoso', 'budi@mail.com'],
+    //         ['G002', 'Siti Aminah', 'siti@mail.com'],
+    //         ['G003', 'Andi Pratama', 'andi@mail.com'],
+    //         ['G004', 'Dewi Lestari', 'dewi@mail.com'],
+    //         ['G005', 'Rizky Hidayat', 'rizky@mail.com'],
+    //         ['G006', 'Fitri Handayani', 'fitri@mail.com'],
+    //         ['G007', 'Agus Setiawan', 'agus@mail.com'],
+    //         ['G008', 'Nurul Aini', 'nurul@mail.com'],
+    //         ['G009', 'Hendra Gunawan', 'hendra@mail.com'],
+    //         ['G010', 'Putri Maharani', 'putri@mail.com'],
+    //         ['G011', 'Rudi Hartono', 'rudi@mail.com'],
+    //         ['G012', 'Intan Permata', 'intan@mail.com'],
+    //         ['G013', 'Fajar Ramadhan', 'fajar@mail.com'],
+    //         ['G014', 'Lina Marlina', 'lina@mail.com'],
+    //         ['G015', 'Doni Saputra', 'doni@mail.com']
+    //     ]);
+    // }
 
     public function headings(): array
     {

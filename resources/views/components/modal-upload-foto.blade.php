@@ -125,6 +125,7 @@
     });
 </script>
 @endpush
+
 {{-- @push('scripts')
     <script>
         document.addEventListener('turbo:load', initFotoScript);

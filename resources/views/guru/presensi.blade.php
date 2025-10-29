@@ -10,20 +10,21 @@ use Carbon\Carbon;
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
-        <!-- Sidebar -->
-        <aside class="z-0 mx-4 mt-4 md:z-10 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
+
+        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
+            <!-- Sidebar -->
             <x-sidebar />
+
+            <!-- Footer -->
+            <x-footer :profil="$profil" />
         </aside>
 
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
-            <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow-md">
-                <h1 class="text-lg font-semibold">Halaman Presensi</h1>
-            </div>
-
+        <!-- Main Content -->
+        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
             {{-- Judul Presensi Guru --}}
             <div class="p-4 bg-white rounded shadow-md">
                 <div class="overflow-x-auto md:overflow-x-visible">
-                    <h2 class="mb-4 text-lg font-bold">Presensi Guru |  <span class="capitalize text-sky-900">{{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2><hr class="mb-4">
+                    <h2 class="mb-4 text-lg font-bold">Halaman Presensi Guru |  <span class="capitalize text-sky-900">{{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span></h2><hr class="mb-4">
                     <x-guru.presensi-guru
                         :hariIni="$hariIni"
                         :tanggal="$tanggal"
@@ -80,13 +81,10 @@ use Carbon\Carbon;
                     class="px-6 py-2 text-white rounded
                         {{ $presensiSelesai ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700' }}"
                     @if($presensiSelesai) disabled @endif>
-                    Selesai
+                    Selesaikan Presensi Hari Ini!
                 </button>
             </form>
 
         </main>
     </div>
-
-    <!-- Footer -->
-    <x-footer :profil="$profil" />
 </x-app-layout>

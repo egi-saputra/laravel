@@ -7,35 +7,17 @@
     </div> --}}
 
     <!-- Search & Filter -->
-    <form method="GET" class="grid grid-cols-1 gap-2 p-4 mb-6 bg-white border rounded-md shadow-sm border-slate-300 md:grid-cols-6">
+    <h2 class="mb-6 text-2xl font-bold text-gray-800">
+        <i class="mr-2 bi bi-calendar2-week text-amber-500"></i> Daftar Jadwal Mengajar
+    </h2>
 
-        <h2 class="mb-3 text-lg font-bold text-gray-800">
-            <i class="mr-2 bi bi-calendar2-week text-amber-500"></i> Jadwal Mengajar
-        </h2>
-
-        {{-- <div class="relative md:col-span-2">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-4.35-4.35m0 0A7.5 7.5 0
-                        1110.5 3a7.5 7.5 0 016.15 13.65z"/>
-                </svg>
-            </span>
-            <input type="text" name="search" placeholder="Cari nama guru / mapel"
-                value="{{ request('search') }}"
-                class="w-full py-2 pl-10 pr-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-        </div> --}}
-
-        <select name="hari" class="px-3 py-2 border rounded-lg">
+    <form method="GET" class="flex gap-3 mb-6 rounded-md">
+        <select name="hari" class="flex-1 px-3 py-2 border rounded-lg">
             <option value="">Pilih Hari</option>
             @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $h)
                 <option value="{{ $h }}" {{ request('hari')==$h ? 'selected' : '' }}>{{ $h }}</option>
             @endforeach
         </select>
-
-        {{-- <input type="text" name="sesi" placeholder="Sesi"
-            value="{{ request('sesi') }}" class="px-3 py-2 border rounded-lg"> --}}
 
         <input type="text" name="guru" placeholder="Nama Guru"
             value="{{ request('guru') }}" class="px-3 py-2 border rounded-lg">
@@ -43,27 +25,19 @@
         <input type="text" name="kelas" placeholder="Unit Kelas"
             value="{{ request('kelas') }}" class="px-3 py-2 border rounded-lg">
 
-        <div class="flex justify-end gap-2 mt-2">
             <button type="submit"
-                class="flex items-center justify-center w-1/2 px-4 py-2 text-sm font-medium text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">
+                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">
                 <i class="bi bi-funnel me-1"></i> Filter
             </button>
             <a href="{{ route('public.jadwal_guru.index') }}"
-                class="flex items-center justify-center w-1/2 px-4 py-2 text-sm font-medium text-white transition bg-gray-600 rounded-lg hover:bg-gray-700">
+                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white transition bg-gray-600 rounded-lg hover:bg-gray-700">
                 <i class="bi bi-arrow-clockwise me-1"></i> Reset
             </a>
-        </div>
     </form>
-
-    {{-- <div class="flex justify-end w-full">
-    <button id="exportPDF" type="button" class="flex items-center self-start px-4 py-2 mb-4 text-sm font-medium text-white transition bg-red-700 rounded hover:bg-red-800 md:self-auto">
-        <i class="bi bi-file-earmark-pdf-fill me-1"></i> Export PDF
-    </button>
-    </div> --}}
 
     <!-- Card List -->
     @if($paginatedJadwal->count())
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
             @foreach($paginatedJadwal as $gj)
                 <div class="p-4 transition bg-white border rounded-lg shadow hover:shadow-md">
                     <div class="flex items-center justify-between mb-2">
@@ -93,11 +67,6 @@
         {{ $paginatedJadwal->links('pagination::tailwind') }}
     </div>
 </div>
-
-<!-- Pagination Tailwind -->
-{{-- <div class="hidden mt-6 md:block">
-    {{ $paginatedJadwal->links('pagination::tailwind') }}
-</div> --}}
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

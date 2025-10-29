@@ -37,6 +37,8 @@
         <!-- TinyMCE -->
         <script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://unpkg.com/alpinejs" defer></script>
@@ -163,6 +165,21 @@
                     opacity: 1;
                     transform: scale(1);
                     pointer-events: auto;
+                }
+
+                .cursor-grabbing {
+                    cursor: grabbing;
+                    cursor: -webkit-grabbing;
+                }
+
+                @keyframes gradientMove {
+                    0% { background-position: 0% 50%; }
+                    50% { background-position: 100% 50%; }
+                    100% { background-position: 0% 50%; }
+                }
+
+                .animate-gradient {
+                    animation: gradientMove 8s ease infinite;
                 }
 
                 [x-cloak] { display: none !important; }
