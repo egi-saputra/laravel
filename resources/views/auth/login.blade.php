@@ -89,13 +89,13 @@
 
                     <div class="flex items-center justify-between px-2 mb-4">
                         <!-- Hidden auto-checked Remember Me -->
-                        {{-- <input type="checkbox" name="remember" id="remember" value="1" checked hidden> --}}
+                        <input type="checkbox" name="remember" id="remember" value="1" checked hidden>
 
                         <!-- Checkbox Remember Me Versi Normal -->
-                        <div class="flex items-center">
+                        {{-- <div class="flex items-center">
                             <input type="checkbox" name="remember" id="remember" class="mr-2">
                             <label for="remember">Remember Me</label>
-                        </div>
+                        </div> --}}
 
                         <!-- Forgot Password -->
                         <div class="text-sm md:text-base">

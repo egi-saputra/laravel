@@ -83,32 +83,11 @@ $accounts = [
                         class="w-24 h-24 rounded-full -mt-14 drop-shadow-md">
 
 
-                    <div class="mt-2 md:mb-0 mb-4 text-center">
+                    <div class="mt-2 mb-4 text-center md:mb-0">
                         <p class="text-sm font-semibold text-gray-700">{{ $user->name }}</p>
                         <p class="text-xs text-gray-500 capitalize">{{ $user->email }}</p>
                     </div>
                 </div>
-
-                <!-- TOGGLE MENU - MOBILE -->
-                {{-- <div class="flex items-center justify-between px-4 py-2 border-b md:hidden">
-                    <span class="text-sm font-semibold text-gray-600">Menu</span>
-                    <button @click="showMenu = !showMenu" class="text-gray-600 focus:outline-none">
-                        <template x-if="!showMenu">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </template>
-                        <template x-if="showMenu">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </template>
-                    </button>
-                </div> --}}
 
                 <!-- SIDEBAR MENU -->
                 <div
@@ -117,12 +96,7 @@ $accounts = [
                     class="pb-4 mx-8 hidden overflow-hidden transition-all duration-500 ease-in-out
                         md:!max-h-none md:overflow-visible md:block"
                 >
-                {{-- <div
-                    x-ref="menu"
-                    :class="showMenu ? 'opacity-100' : 'opacity-0 hidden'"
-                    class="pb-4 mx-8 transition-all duration-500 ease-in-out md:opacity-100 md:block"
-                    x-cloak
-                > --}}
+
                 {{-- USER MANAGEMENT --}}
                 @isset($menus)
                     <hr class="w-full mb-2">

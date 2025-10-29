@@ -16,7 +16,7 @@
                 </aside> --}}
 
                 <div class="flex flex-col items-center p-4 pt-4 pb-6 mb-6 border shadow-sm rounded-2xl bg-gray-50">
-                    <div class="w-full h-32 rounded-xl shadow-lg bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 animate-gradient bg-[length:200%_200%]"></div>
+                    <div class="w-full h-32 rounded shadow bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-900 animate-gradient bg-[length:200%_200%]"></div>
 
                     @php
                         $user = Auth::user(); // ambil user yang login

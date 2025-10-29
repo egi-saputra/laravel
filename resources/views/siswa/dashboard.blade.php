@@ -10,30 +10,41 @@
 
             <!-- Menu Aplikasi -->
             <div>
-                {{-- <div class="flex items-center justify-between mb-4 md:hidden">
-                    <h2 class="text-base font-semibold text-gray-600 md:text-2xl">
-                        Selamat datang, <br> <span class="ml-2 text-lg font-bold text-gray-800">{{ Auth::user()->name }}</span>
-                    </h2>
-                </div> --}}
 
                 <!-- Sidebar -->
-                <aside class="mb-4">
-                    <x-sidebar />
-                </aside>
+                <div class="flex flex-col items-center p-4 pt-4 pb-6 mb-6 border shadow-sm rounded-2xl bg-gray-50">
+                    <div class="w-full h-32 rounded shadow bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-900 animate-gradient bg-[length:200%_200%]"></div>
+
+                    @php
+                        $user = Auth::user(); // ambil user yang login
+                        $fotoUrl = $user->foto_profil
+                            ? Storage::url($user->foto_profil->file_path)
+                            : asset('storage/default/avatar.jpeg');
+                    @endphp
+
+                    <img src="{{ $fotoUrl }}"
+                        alt="{{ $user->name }}"
+                        class="w-24 h-24 rounded-full -mt-14 drop-shadow-md">
+
+                    <div class="mt-2 text-center">
+                        <p class="mb-2 text-lg font-semibold text-gray-700 md:text-sm md:mb-0">{{ $user->name }}</p>
+                        <p class="text-sm text-gray-500 capitalize md:text-xs">{{ $user->email }}</p>
+                    </div>
+                </div>
 
                 <!-- Grid Menu -->
                 <div class="grid grid-cols-3 gap-4 p-0 mb-4 text-center md:rounded-xl md:grid-cols-6">
                     <!-- Menu 1 -->
-                    <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                    <a href="{{ route('siswa.data_diri') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-xl md:text-3xl bi bi-person-lines-fill text-sky-600"></i>
-                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Data Guru</span>
+                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Data Diri</span>
                     </a>
 
                     <!-- Menu 2 -->
-                    <a href="#"
+                    <a href="{{ route('siswa.presensi.index') }}"
                     class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-3xl text-red-600 bi bi-journal-bookmark"></i>
-                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Ruang Kelas</span>
+                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Absensi</span>
                     </a>
 
                     <!-- Menu 3 -->
@@ -43,7 +54,7 @@
                     </a>
 
                     <!-- Menu 4 -->
-                    <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                    <a href="{{ route('public.jadwal_mapel.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-3xl bi bi-calendar2-week text-amber-500"></i>
                         <span class="text-sm font-semibold text-gray-700">Jadwal</span>
                     </a>
@@ -51,7 +62,7 @@
                     <!-- Menu 5 -->
                     <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-3xl bi bi-book text-emerald-600"></i>
-                        <span class="text-sm font-semibold text-gray-700">Materi</span>
+                        <span class="text-sm font-semibold text-gray-700">Ujian</span>
                     </a>
 
                     <!-- Menu 6 -->

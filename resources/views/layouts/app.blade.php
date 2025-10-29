@@ -32,7 +32,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- HotWire -->
-        {{-- <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.3/dist/turbo.es2017-umd.js"></script> --}}
+        <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.3/dist/turbo.es2017-umd.js"></script>
 
         <!-- TinyMCE -->
         <script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
@@ -140,7 +140,6 @@
                     }
                 }
             </style>
-
 
             <style>
                 .swal2-popup {
@@ -430,10 +429,10 @@
         </script>
 
         <!-- Menonaktifkan Loader Turbo Hotwire -->
-        <script>
+        {{-- <script>
             // Matikan progress bar bawaan Turbo
             window.Turbo.setProgressBarDelay(999999);
-        </script>
+        </script> --}}
 
         <!-- Script Loader Turbo Hotwire Mobile Only -->
         {{-- <script>
