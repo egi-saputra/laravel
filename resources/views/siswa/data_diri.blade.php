@@ -16,7 +16,7 @@
 
             <!-- Main Content Desktop -->
             <main class="flex-1 p-0 mb-24 overflow-x-auto md:space-y-6">
-            <div>
+            <div class="md:bg-white md:rounded-lg md:shadow">
                 <h1 class="mb-8 text-xl font-bold"><i class="mr-2 bi bi-journal-text"></i>Form Input Data Diri Siswa</h1>
 
                 <form action="{{ route('siswa.data_diri.update', $siswa->id) }}" method="POST" class="space-y-3">

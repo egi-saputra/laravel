@@ -46,7 +46,7 @@ $accounts = [
     ['label' => 'Edit Data Profil', 'route' => route('profile.edit'), 'icon' => 'bi-person'],
     ['label' => 'Ubah Password', 'route' => route('profile.password'), 'icon' => 'bi-key'],
     ['label' => 'Hapus Akun', 'route' => route('profile.delete'), 'icon' => 'bi-trash'],
-    // ['label' => 'Logout', 'route' => route('logout'), 'type'  => 'form', 'icon' => 'bi-box-arrow-right'],
+    ['label' => 'Logout', 'route' => route('logout'), 'type'  => 'form', 'icon' => 'bi-box-arrow-right'],
 ];
 @endphp
 

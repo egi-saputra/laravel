@@ -110,19 +110,24 @@
                     </a>
 
                     <!-- Menu 6 -->
-                    <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl text-red-600 bi bi-box-arrow-right"></i>
-                        <span class="text-sm font-semibold text-gray-700">Logout</span>
-                    </a>
+                    <form method="POST" action="{{ route('logout') }}" class="w-full">
+                        @csrf
+                        <button type="submit"
+                            class="flex flex-col items-center justify-center w-full p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-red-50 hover:shadow-md">
+                            <i class="mb-2 text-3xl text-red-600 bi bi-box-arrow-right"></i>
+                            <span class="text-sm font-semibold text-gray-700">Logout</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
 
         <div class="flex-col hidden min-h-screen md:flex md:flex-row">
 
-            <!-- Sidebar -->
             <aside class="top-0 hidden p-0 mb-4 mr-6 md:block md:h-screen">
+                <!-- Sidebar -->
                 <x-sidebar />
+
                 <!-- Footer -->
                 <x-footer :profil="$profil" />
             </aside>
