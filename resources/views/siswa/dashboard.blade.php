@@ -10,9 +10,8 @@
 
             <!-- Menu Aplikasi -->
             <div>
-
-                <!-- Sidebar -->
-                <div class="flex flex-col items-center p-4 pt-4 pb-6 mb-6 border shadow-sm rounded-2xl bg-gray-50">
+                <!-- Profil -->
+                <div class="flex flex-col items-center p-4 pt-4 pb-6 mb-6 border rounded shadow-sm bg-gray-50">
                     <div class="w-full h-32 rounded shadow bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-900 animate-gradient bg-[length:200%_200%]"></div>
 
                     @php

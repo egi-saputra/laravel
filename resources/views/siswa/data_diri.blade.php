@@ -6,14 +6,18 @@
     </x-slot>
 
     <div class="flex flex-col min-h-screen md:flex-row">
-        <!-- Sidebar -->
-        <aside class="mx-4 mt-4 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:mx-0 md:w-auto">
-            <x-sidebar />
-        </aside>
 
-        <main class="flex-1 p-4 space-y-6 overflow-x-auto md:p-6">
-            <div class="p-4 bg-white rounded shadow">
-                <h1 class="mb-4 text-lg font-bold">Form Input Data Diri Siswa</h1>
+            <!-- Sidebar -->
+            <aside class="top-0 hidden p-0 mb-4 mr-6 md:block md:h-screen">
+                <x-sidebar />
+                <!-- Footer -->
+                <x-footer :profil="$profil" />
+            </aside>
+
+            <!-- Main Content Desktop -->
+            <main class="flex-1 p-0 mb-24 overflow-x-auto md:space-y-6">
+            <div>
+                <h1 class="mb-8 text-xl font-bold"><i class="mr-2 bi bi-journal-text"></i>Form Input Data Diri Siswa</h1>
 
                 <form action="{{ route('siswa.data_diri.update', $siswa->id) }}" method="POST" class="space-y-3">
                     @csrf
@@ -123,7 +127,7 @@
                     </div>
 
                     <!-- Kelas & Kejuruan -->
-                    <div class="grid grid-cols-2 gap-4 md:grid-cols-2">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div>
                             <label class="block font-medium">Kelas</label>
                             <select name="kelas_id" class="w-full px-3 py-2 border rounded">
@@ -153,7 +157,7 @@
                     <!-- Tombol Submit Data -->
                     <div class="flex justify-end md:justify-start">
                         <button id="submitButton" type="submit"
-                            class="px-4 py-2 text-white bg-blue-600 rounded disabled:cursor-not-allowed"
+                            class="px-4 py-2 mt-6 text-white bg-blue-600 rounded disabled:cursor-not-allowed"
                             {{ (isset($siswa) && isset($siswa->id) && $siswa->status === 'Valid') ? 'disabled' : '' }}>
                             <i class="bi bi-save"></i> Simpan Data
                         </button>
