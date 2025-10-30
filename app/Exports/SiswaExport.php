@@ -12,24 +12,23 @@ use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 class SiswaExport implements FromCollection, WithHeadings, WithEvents
 {
     public function collection()
-    {
-        // Template dummy untuk import siswa
-        return collect([
-            [
-                'nama_lengkap'     => 'Siswa 1',
-                'email'            => 'siswa1@mail.com',
-                'nis'              => '23001',
-                'nisn'             => '1000000001',
-                'kelas'            => 'K001',
-                'program_kejuruan' => 'Perkantoran',
-            ],
-        ]);
-    }
+{
+    return collect([
+        [
+            'nama_lengkap' => 'Siswa 1',
+            'email'        => 'siswa1@mail.com',
+            'nis'          => '23001',
+            'nisn'         => '1000000001',
+            'kelas'        => 'K001',
+            'kejuruan'     => 'Perkantoran',
+        ],
+    ]);
+}
 
-    public function headings(): array
-    {
-        return ['Nama Lengkap', 'Email', 'NIS', 'NISN', 'Kelas', 'Program Kejuruan'];
-    }
+public function headings(): array
+{
+    return ['Nama Lengkap', 'Email', 'NIS', 'NISN', 'Kelas', 'Kejuruan'];
+}
 
     public function registerEvents(): array
     {

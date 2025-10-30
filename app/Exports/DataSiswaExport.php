@@ -11,6 +11,14 @@ use PhpOffice\PhpSpreadsheet\Cell\Cell;
 
 class DataSiswaExport extends DefaultValueBinder implements FromCollection, WithHeadings, WithCustomValueBinder
 {
+    protected $kelasId;
+
+    // Konstruktor opsional untuk menerima filter kelas
+    public function __construct($kelasId = null)
+    {
+        $this->kelasId = $kelasId;
+    }
+
     public function bindValue(Cell $cell, $value)
     {
         // Paksa NIS/NISN jadi string biar Excel tidak ubah ke format scientific
@@ -23,19 +31,27 @@ class DataSiswaExport extends DefaultValueBinder implements FromCollection, With
 
     public function collection()
     {
-        return DataSiswa::with(['kelas', 'kejuruan', 'user'])
-            ->get()
-            ->map(function ($s, $index) {
-                return [
-                    'No' => $index + 1,
-                    'Nama Lengkap' => $s->nama_lengkap,
-                    'NIS' => $s->nis,
-                    'NISN' => $s->nisn,
-                    'Kelas' => $s->kelas->kelas ?? '-',
-                    'Kejuruan' => $s->kejuruan->nama_kejuruan ?? '-',
-                    'Email' => $s->user->email ?? '-',
-                ];
-            });
+        $query = DataSiswa::with(['kelas', 'kejuruan', 'user']);
+
+        // Jika ada kelas_id, filter sesuai kelas
+        if ($this->kelasId) {
+            $query->where('kelas_id', $this->kelasId);
+        }
+
+        $siswa = $query->get();
+
+        return $siswa->map(function ($s, $index) {
+            return [
+                'No'             => $index + 1,
+                'Nama Lengkap'   => $s->nama_lengkap,
+                'NIS'            => $s->nis,
+                'NISN'           => $s->nisn,
+                'Kelas'          => $s->kelas->kelas ?? '-',
+                // 'Kejuruan'       => $s->kejuruan->nama_kejuruan ?? '-',
+                // 'Email'          => $s->user->email ?? '-',
+                // 'Jabatan Siswa'  => $s->jabatan_siswa ?? '-',
+            ];
+        });
     }
 
     public function headings(): array
@@ -46,8 +62,9 @@ class DataSiswaExport extends DefaultValueBinder implements FromCollection, With
             'NIS',
             'NISN',
             'Kelas',
-            'Kejuruan',
-            'Email',
+            // 'Kejuruan',
+            // 'Email',
+            // 'Jabatan Siswa',
         ];
     }
 }

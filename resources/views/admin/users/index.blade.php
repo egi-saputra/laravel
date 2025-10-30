@@ -134,25 +134,17 @@
     <x-admin.user-edit-modal />
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('turbo:load', function() {
             // Kembalikan posisi scroll window
             const scrollPos = localStorage.getItem('scrollY');
             if (scrollPos) {
                 window.scrollTo(0, parseInt(scrollPos));
             }
 
-            // Simpan posisi scroll window setiap ada scroll
             window.addEventListener('scroll', function() {
                 localStorage.setItem('scrollY', window.scrollY);
             });
 
-            // Optional: hapus posisi scroll saat pindah halaman tertentu
-            window.addEventListener('beforeunload', function() {
-                // localStorage.removeItem('scrollY'); // opsional, kalau mau reset
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
             // DELETE USER
             document.querySelectorAll('.delete-form').forEach(form => {
                 form.addEventListener('submit', function(e) {
@@ -181,8 +173,8 @@
                 modal.querySelector('[name="role"]').value = role;
 
                 const row = document.querySelector(`form[action$='${userId}']`).closest('tr');
-                modal.querySelector('[name="name"]').value = row.children[0].innerText;
-                modal.querySelector('[name="email"]').value = row.children[1].innerText;
+                modal.querySelector('[name="name"]').value = row.children[1].innerText;
+                modal.querySelector('[name="email"]').value = row.children[2].innerText;
 
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
@@ -198,12 +190,15 @@
             });
 
             // Tutup modal kalau klik area luar
-            document.getElementById('userEditModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('flex');
-                    this.classList.add('hidden');
-                }
-            });
+            const modal = document.getElementById('userEditModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('flex');
+                        this.classList.add('hidden');
+                    }
+                });
+            }
         });
     </script>
 

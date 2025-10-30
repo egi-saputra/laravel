@@ -19,21 +19,35 @@ class SiswaImport implements ToModel, WithHeadingRow
 
     public function model(array $row)
     {
-        // Skip jika kolom wajib kosong
-        if (empty($row['nama_lengkap']) || empty($row['email']) || empty($row['kelas']) || empty($row['kejuruan'])) {
-            $this->failedRows[] = [
-                'nama_lengkap' => $row['nama_lengkap'] ?? null,
-                'email'        => $row['email'] ?? null,
-                'nis'          => $row['nis'] ?? null,
-                'nisn'         => $row['nisn'] ?? null,
-                'kelas'        => $row['kelas'] ?? null,
-                'kejuruan'     => $row['kejuruan'] ?? null,
-                'reason'       => 'Kolom wajib kosong',
-            ];
-            return null;
-        }
+        // Trim semua nilai agar tidak ada spasi tersembunyi
+        // Normalisasi key heading
+    $normalized = [];
+    foreach ($row as $key => $value) {
+        $key = strtolower(trim($key)); // hilangkan spasi, huruf kecil semua
+        $normalized[$key] = is_string($value) ? trim($value) : $value;
+    }
+    $row = $normalized;
 
-        // Cek duplikat siswa berdasarkan email, nis, atau nisn
+    // Validasi kolom wajib
+    if (
+        empty($row['nama_lengkap']) ||
+        empty($row['email']) ||
+        empty($row['kelas']) ||
+        empty($row['kejuruan'])
+    ) {
+        $this->failedRows[] = [
+            'nama_lengkap' => $row['nama_lengkap'] ?? null,
+            'email'        => $row['email'] ?? null,
+            'nis'          => $row['nis'] ?? null,
+            'nisn'         => $row['nisn'] ?? null,
+            'kelas'        => $row['kelas'] ?? null,
+            'kejuruan'     => $row['kejuruan'] ?? null,
+            'reason'       => 'Kolom wajib kosong',
+        ];
+        return null;
+    }
+
+        // Cek duplikat email / nis / nisn
         if (
             User::where('email', $row['email'])->exists() ||
             (!empty($row['nis']) && DataSiswa::where('nis', $row['nis'])->exists()) ||
@@ -85,7 +99,7 @@ class SiswaImport implements ToModel, WithHeadingRow
             return null;
         }
 
-        // Buat user siswa
+        // Buat user akun siswa
         $user = User::create([
             'name'     => $row['nama_lengkap'],
             'email'    => $row['email'],
@@ -93,6 +107,7 @@ class SiswaImport implements ToModel, WithHeadingRow
             'role'     => 'siswa',
         ]);
 
+        // Simpan data siswa
         return new DataSiswa([
             'user_id'       => $user->id,
             'nama_lengkap'  => $row['nama_lengkap'],
@@ -100,6 +115,7 @@ class SiswaImport implements ToModel, WithHeadingRow
             'nisn'          => $row['nisn'] ?? null,
             'kelas_id'      => $kelas->id,
             'kejuruan_id'   => $kejuruan->id,
+            'jabatan_siswa' => null, // 🔹 otomatis dikosongkan
             'jenis_kelamin' => $row['jenis_kelamin'] ?? 'Laki-laki',
             'agama'         => $row['agama'] ?? 'Islam',
             'status'        => 'Aktif',

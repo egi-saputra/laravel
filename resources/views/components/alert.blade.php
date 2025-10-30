@@ -153,10 +153,23 @@
             Swal.fire({
                 icon: alertData.type,
                 title: alertData.title || alertData.type.charAt(0).toUpperCase() + alertData.type.slice(1),
-                text: alertData.message,
+                html: alertData.html ? alertData.message : DOMPurify.sanitize(alertData.message),
                 confirmButtonText: 'OK',
                 confirmButtonColor: '#3085d6',
-                width: '400px'
+                width: 'auto',
+                maxWidth: '90%',
+                customClass: {
+                    popup: 'rounded-xl',
+                    title: 'text-lg font-semibold',
+                    htmlContainer: 'text-sm text-gray-700 text-center'
+                },
+                didOpen: (popup) => {
+                    const content = popup.querySelector('.swal2-html-container');
+                    if (content) {
+                        content.style.maxHeight = '300px';
+                        content.style.overflowY = 'auto';
+                    }
+                }
             });
         }
     }

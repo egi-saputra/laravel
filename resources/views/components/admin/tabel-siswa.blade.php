@@ -70,7 +70,7 @@
     </a>
 </div>
 
-<div class="mb-4 overflow-x-auto md:overflow-x-visible">
+<div class="mb-4 overflow-x-auto">
     <table class="w-full border border-collapse" id="siswaTable">
         <thead>
             <tr class="bg-gray-100">
@@ -79,8 +79,8 @@
                 <th class="px-4 py-2 border whitespace-nowrap">NIS</th>
                 <th class="px-4 py-2 border whitespace-nowrap">NISN</th>
                 <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Unit Kelas</th>
-                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap"> Program Kejuruan</th>
-                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Email Address</th>
+                {{-- <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap"> Program Kejuruan</th> --}}
+                {{-- <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Email Address</th> --}}
                 <th class="w-24 px-4 py-2 text-center border"></th>
             </tr>
         </thead>
@@ -92,8 +92,8 @@
                     <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $s->nis ?? '-' }}</td>
                     <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $s->nisn ?? '-' }}</td>
                     <td class="px-4 py-2 border whitespace-nowrap">{{ $s->kelas->kelas ?? '-' }}</td>
-                    <td class="px-4 py-2 border whitespace-nowrap">{{ $s->kejuruan->nama_kejuruan ?? '-' }}</td>
-                    <td class="px-4 py-2 border whitespace-nowrap">{{ $s->user->email ?? '-' }}</td>
+                    {{-- <td class="px-4 py-2 border whitespace-nowrap">{{ $s->kejuruan->nama_kejuruan ?? '-' }}</td> --}}
+                    {{-- <td class="px-4 py-2 border whitespace-nowrap">{{ $s->user->email ?? '-' }}</td> --}}
                     <td class="px-4 py-2 text-center border">
                         <div class="relative inline-block">
                             <!-- Tombol ⋮ -->
@@ -199,13 +199,6 @@
     </table>
 </div>
 
-<div class="justify-end hidden mb-3 md:flex">
-    <a href="{{ route('admin.daftar_siswa.export') }}"
-       class="px-4 py-2 text-white bg-green-800 rounded hover:bg-green-900">
-        <i class="bi bi-file-earmark-excel-fill me-1"></i> Export Excel
-    </a>
-</div>
-
 @if(session('alert'))
     <script>
         Swal.fire({
@@ -213,11 +206,11 @@
             title: "{{ session('alert.title') }}",
             confirmButtonText: 'OK',
             confirmButtonColor: '#3085d6',
-            html: {!! json_encode(session('alert.message'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!},
+            html: `{!! str_replace(["\n", '"'], [' ', "'"], session('alert.message')) !!}`,
             width: '90%',
             didOpen: (popup) => {
                 const content = popup.querySelector('.swal2-html-container');
-                if(content) {
+                if (content) {
                     content.style.maxHeight = '300px';
                     content.style.overflowY = 'auto';
                 }

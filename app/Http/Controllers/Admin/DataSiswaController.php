@@ -22,91 +22,66 @@ class DataSiswaController extends Controller
     {
         $role = auth()->user()->role;
 
-        // Ambil parameter filter/search dari query string
-        $search      = $request->query('search', '');
-        $filterKelas = $request->query('kelas_id', '');
-        $filterKejur = $request->query('kejuruan_id', '');
+        // Ambil parameter filter
+        $search        = $request->query('search', '');
+        $filterKelas   = $request->query('kelas_id', '');
+        $filterKejur   = $request->query('kejuruan_id', '');
 
-        // Query siswa dengan relasi
-        $query = DataSiswa::with(['kelas','kejuruan','user'])
-            ->when($filterKelas, fn($q) => $q->where('kelas_id', $filterKelas))
-            ->when($filterKejur, fn($q) => $q->where('kejuruan_id', $filterKejur))
-            ->when($search, function($q) use ($search) {
-                $q->where(function($q2) use ($search) {
-                    $q2->where('nama_lengkap', 'like', "%{$search}%")
-                       ->orWhere('nis', 'like', "%{$search}%")
-                       ->orWhere('nisn', 'like', "%{$search}%")
-                       ->orWhereHas('user', fn($u) => $u->where('email', 'like', "%{$search}%"));
-                });
-            })
-            // ->orderBy('nama_lengkap', 'asc');
-            ->orderByRaw("CAST(SUBSTRING_INDEX(nama_lengkap, ' ', -1) AS UNSIGNED) ASC")
-            ->orderByRaw('TRIM(LOWER(nama_lengkap)) asc');
-
-        // Pagination
-        $perPage = 10;
-        $siswa = $query->paginate($perPage)->withQueryString();
-
-        // Data filter list
+        // Data dasar untuk dropdown
         $kelasList    = DataKelas::all();
         $kejuruanList = DataKejuruan::all();
 
+        // Query dasar
+        $query = DataSiswa::with(['kelas', 'kejuruan', 'user'])
+            ->when($filterKelas, fn($q) => $q->where('kelas_id', $filterKelas))
+            ->when($filterKejur, fn($q) => $q->where('kejuruan_id', $filterKejur))
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($q2) use ($search) {
+                    $q2->where('nama_lengkap', 'like', "%{$search}%")
+                        ->orWhere('nis', 'like', "%{$search}%")
+                        ->orWhere('nisn', 'like', "%{$search}%")
+                        ->orWhereHas('user', fn($u) => $u->where('email', 'like', "%{$search}%"));
+                });
+            })
+            ->orderByRaw("CAST(SUBSTRING_INDEX(nama_lengkap, ' ', -1) AS UNSIGNED) ASC")
+            ->orderByRaw('TRIM(LOWER(nama_lengkap)) ASC');
+
+        // ⚡ Jika belum pilih kelas, jangan tampilkan data apapun
+        if (!$filterKelas) {
+            $siswa = collect(); // kosongkan hasil agar tabel tidak tampil
+        } else {
+            // Tampilkan semua siswa di kelas itu tanpa pagination
+            $siswa = $query->get();
+        }
+
         // Data sekolah default
-        $sekolah = DB::table('profil_sekolah')->first() ?? (object)[
+        $sekolah = DB::table('profil_sekolah')->first() ?? (object) [
             'nama_sekolah' => 'SMA Negeri 1 Contoh',
             'alamat'       => 'Jl. Pendidikan No. 123, Kota Contoh',
             'telepon'      => '(021) 123456',
             'email'        => 'info@smanc1contoh.sch.id'
         ];
 
-        // Mapping role ke view
+        // Tentukan view berdasarkan role
         $views = [
             'admin' => 'admin.siswa',
             'guru'  => 'guru.walas',
         ];
-        if (!array_key_exists($role, $views)) abort(403, 'Akses ditolak.');
+
+        if (!array_key_exists($role, $views)) {
+            abort(403, 'Akses ditolak.');
+        }
 
         return view($views[$role], compact(
-            'siswa','kelasList','kejuruanList','sekolah'
+            'siswa',
+            'kelasList',
+            'kejuruanList',
+            'sekolah',
+            'filterKelas',
+            'filterKejur',
+            'search'
         ));
     }
-
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'nama_lengkap' => 'required|string|max:255',
-    //         'email'        => 'required|email|unique:users,email',
-    //         'nisn'         => 'required|string|max:10|unique:data_siswa,nisn',
-    //         'kelas_id'     => 'required|exists:data_kelas,id',
-    //         'kejuruan_id' => 'required|exists:program_kejuruan,id',
-    //     ]);
-
-    //     // Buat user login
-    //     $user = User::create([
-    //         'name'     => $request->nama_lengkap,
-    //         'email'    => $request->email,
-    //         'password' => Hash::make(env('DEFAULT_SISWA_PASSWORD', 'password')),
-    //         'role'     => 'siswa',
-    //     ]);
-
-    //     // Buat data siswa
-    //     DataSiswa::create([
-    //         'user_id'       => $user->id,
-    //         'nama_lengkap'  => $request->nama_lengkap,
-    //         'nisn'          => $request->nisn,
-    //         'kelas_id'      => $request->kelas_id,
-    //         'kejuruan_id'   => $request->kejuruan_id,
-    //         'jenis_kelamin' => $request->jenis_kelamin ?? 'Laki-laki',
-    //         'agama'         => $request->agama ?? 'Islam',
-    //         'status'        => 'Aktif',
-    //     ]);
-
-    //     return back()->with('alert', [
-    //         'message' => 'Data siswa berhasil ditambahkan!',
-    //         'type'    => 'success',
-    //         'title'   => 'Berhasil',
-    //     ]);
-    // }
 
     public function store(Request $request)
     {
@@ -277,8 +252,12 @@ class DataSiswaController extends Controller
         ]);
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new DataSiswaExport, 'daftar_siswa.xlsx');
+        $kelasId = $request->get('kelas_id'); // ambil dari URL ?kelas_id=
+        $kelasName = optional(\App\Models\DataKelas::find($kelasId))->kelas ?? 'Semua';
+        $filename = 'Data_Siswa_' . $kelasName . '.xlsx';
+
+        return Excel::download(new DataSiswaExport($kelasId), $filename);
     }
 }
