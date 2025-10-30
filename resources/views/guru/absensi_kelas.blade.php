@@ -21,18 +21,18 @@ use Carbon\Carbon;
 
         <!-- Main Content -->
         <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
-            <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
+            {{-- <div class="flex items-center justify-center w-full p-10 bg-white rounded shadow">
                 <h2 class="mb-0 text-lg font-bold">
                     Halaman Rekap Absensi Siswa
                     <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
                 </h2>
                 <hr class="mb-4">
-            </div>
+            </div> --}}
 
             <div class="overflow-x-auto md:overflow-x-visible">
                 {{-- Form Filter Periode --}}
-                <div class="p-6 mb-6 bg-white rounded shadow-md">
-                    <h2 class="mb-4 text-lg font-bold">Detail Riwayat Presensi <span class="hidden md:inline-block">Periode Tertentu</span></h2>
+                <div class="mb-4">
+                    <h2 class="mb-4 text-lg font-bold">Riwayat Presensi Siswa <span class="hidden md:inline-block">Periode Tertentu</span></h2>
 
                     <form action="{{ route('guru.absensi_kelas.index') }}" method="GET" class="space-y-4">
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -77,7 +77,7 @@ use Carbon\Carbon;
                 </div>
 
                 {{-- Hasil --}}
-                <div class="p-6 mb-6 bg-white rounded shadow-md">
+                <div>
                     @if($isGenerated)
                         <x-guru.absensi-kelas
                             :rekap="$rekap"

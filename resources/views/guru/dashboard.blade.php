@@ -81,7 +81,7 @@
                     </a>
 
                     <!-- Menu 2 -->
-                    <a href="{{ route('public.jadwal_guru.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                    <a href="{{ route('public.card_jadwal_guru.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-3xl bi bi-calendar2-week text-amber-500"></i>
                         <span class="text-sm font-semibold text-gray-700">Jadwal</span>
                     </a>
@@ -109,10 +109,10 @@
                     </a>
 
                     <!-- Menu 6 -->
-                    <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                    <a href="{{ route('guru.absensi_kelas.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-3xl text-red-600 bi bi-file-earmark-text"></i>
                         {{-- <i class="mb-2 text-2xl text-indigo-600 fas fa-file-alt"></i> --}}
-                        <span class="text-sm font-semibold text-gray-700">Nilai</span>
+                        <span class="text-sm font-semibold text-gray-700">Absensi</span>
                     </a>
                 </div>
             </div>

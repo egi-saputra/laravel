@@ -22,10 +22,10 @@
         </main>
 
         <!-- Card Daftar Mapel -->
-        <main class="flex-1 p-0 mb-16 space-y-6 overflow-x-auto md:hidden md:mb-0 md:p-6">
+        {{-- <main class="flex-1 p-0 mb-16 space-y-6 overflow-x-auto md:hidden md:mb-0 md:p-6">
             <!-- Card Daftar Mapel -->
             <x-public.card-jadwal-guru :paginatedJadwal="$paginatedJadwal" :sekolah="$sekolah" :pageTitle="$pageTitle" :logoBase64="$logoBase64" :logoMime="$logoMime" />
-        </main>
+        </main> --}}
     </div>
 
     <!-- Script Search -->
