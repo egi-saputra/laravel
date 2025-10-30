@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
     @foreach($siswa as $s)
         <div class="flex flex-col items-center p-4 transition bg-white rounded-lg shadow hover:shadow-lg">
             {{-- Header --}}
@@ -17,7 +17,7 @@
             </p>
 
             {{-- Tombol Lihat Detail --}}
-            <button class="flex items-center gap-2 px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-600 rounded-lg lihat-detail-btn hover:bg-blue-700"
+            <button data-turbo="false" class="flex items-center gap-2 px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-600 rounded-lg lihat-detail-btn hover:bg-blue-700"
                     data-name="{{ $s->dataSiswa->nama_lengkap ?? '-' }}"
                     data-tempat-tanggal-lahir="{{ $s->dataSiswa->tempat_tanggal_lahir ?? '-' }}"
                     data-jenis-kelamin="{{ $s->dataSiswa->jenis_kelamin ?? '-' }}"

@@ -7,9 +7,9 @@
 
     <div class="flex flex-col min-h-screen md:flex-row">
         <!-- Sidebar -->
-        <aside class="hidden mt-0 mb-4 md:ml-6 md:block md:mt-6 md:h-screen md:mb-0 md:w-auto">
+        {{-- <aside class="hidden mt-0 mb-4 md:ml-6 md:block md:mt-6 md:h-screen md:mb-0 md:w-auto">
             <x-sidebar />
-        </aside>
+        </aside> --}}
 
         {{-- Main Content --}}
         <main class="flex-1 p-0 mb-10 space-y-6 overflow-x-auto md:mb-0 md:p-6">
@@ -80,7 +80,4 @@
             </div>
         </main>
     </div>
-
-    <!-- Footer -->
-    <x-footer :profil="$profil" />
 </x-app-layout>

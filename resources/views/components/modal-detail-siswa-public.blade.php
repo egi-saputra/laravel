@@ -1,8 +1,8 @@
 <!-- Modal -->
-<div id="detailModal" class="fixed inset-0 z-50 items-center justify-center hidden p-4">
+<div data-turbo="false" id="detailModal" class="fixed inset-0 z-50 items-center justify-center hidden p-4">
     <div id="modalOverlay" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
 
-    <div class="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl flex flex-col max-h-[80vh] overflow-auto">
+    <div data-turbo="false" class="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl flex flex-col max-h-[80vh] overflow-auto">
         <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-white border-b">
             <h3 class="flex items-center gap-2 text-xl font-bold text-sky-700">
                 <i class="bi bi-person-lines-fill"></i> Detail Siswa
@@ -117,21 +117,11 @@
 </script> --}}
 
 <script>
-    document.addEventListener("turbo:load", initDetailModal);
-    document.addEventListener("DOMContentLoaded", initDetailModal);
-
-    function initDetailModal() {
-        // Gunakan flag khusus per halaman agar bisa re-initialize setelah navigasi
-        const pageId = document.body.dataset.pageId || window.location.pathname;
-        window._initializedPages = window._initializedPages || {};
-        if (window._initializedPages[pageId]) return;
-        window._initializedPages[pageId] = true;
-
-        const buttons = document.querySelectorAll('.lihat-detail-btn');
+    document.addEventListener("turbo:load", function () {
+        // Ambil elemen modal hanya sekali
         const modal = document.getElementById('detailModal');
         const modalOverlay = document.getElementById('modalOverlay');
         const modalFoto = document.getElementById('modalFoto');
-
         const modalName = document.getElementById('modalName');
         const modalTempatTanggalLahir = document.getElementById('modalTempatTanggalLahir');
         const modalJenisKelamin = document.getElementById('modalJenisKelamin');
@@ -143,35 +133,39 @@
         const modalAsalSekolah = document.getElementById('modalAsalSekolah');
         const modalEmail = document.getElementById('modalEmail');
 
-        if (!buttons.length || !modal) return; // keamanan tambahan
+        // Delegasi klik dari document
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.lihat-detail-btn');
+            if (!btn) return;
 
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                modalFoto.src = btn.dataset.foto || '{{ asset("storage/default/avatar.jpeg") }}';
-                modalName.textContent = btn.dataset.name || '-';
-                modalTempatTanggalLahir.textContent = btn.dataset.tempatTanggalLahir || '-';
-                modalJenisKelamin.textContent = btn.dataset.jenisKelamin || '-';
-                modalAgama.textContent = btn.dataset.agama || '-';
-                modalKelas.textContent = btn.dataset.kelas || '-';
-                modalKejuruan.textContent = btn.dataset.kejuruan || '-';
-                modalNIS.textContent = btn.dataset.nis || '-';
-                modalNISN.textContent = btn.dataset.nisn || '-';
-                modalAsalSekolah.textContent = btn.dataset.asalSekolah || '-';
-                modalEmail.textContent = btn.dataset.email || '-';
+            // Isi data modal dari dataset tombol
+            modalFoto.src = btn.dataset.foto || '{{ asset("storage/default/avatar.jpeg") }}';
+            modalName.textContent = btn.dataset.name || '-';
+            modalTempatTanggalLahir.textContent = btn.dataset.tempatTanggalLahir || '-';
+            modalJenisKelamin.textContent = btn.dataset.jenisKelamin || '-';
+            modalAgama.textContent = btn.dataset.agama || '-';
+            modalKelas.textContent = btn.dataset.kelas || '-';
+            modalKejuruan.textContent = btn.dataset.kejuruan || '-';
+            modalNIS.textContent = btn.dataset.nis || '-';
+            modalNISN.textContent = btn.dataset.nisn || '-';
+            modalAsalSekolah.textContent = btn.dataset.asalSekolah || '-';
+            modalEmail.textContent = btn.dataset.email || '-';
 
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            });
+            // Tampilkan modal
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         });
 
+        // Fungsi menutup modal
         function closeModalFunc() {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
 
-        document.getElementById('closeModal')?.addEventListener('click', closeModalFunc);
-        document.getElementById('closeModalFooter')?.addEventListener('click', closeModalFunc);
-        modalOverlay?.addEventListener('click', closeModalFunc);
-    }
+        document.addEventListener('click', function (e) {
+            if (e.target.id === 'closeModal' || e.target.id === 'closeModalFooter' || e.target.id === 'modalOverlay') {
+                closeModalFunc();
+            }
+        });
+    });
 </script>
-
