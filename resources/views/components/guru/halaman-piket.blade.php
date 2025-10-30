@@ -3,7 +3,7 @@
 @endphp
 
 @if($guru && $guru->jadwalPiket()->where('hari', $hariIni)->exists())
-    <div class="flex flex-col items-center justify-center w-full p-6 rounded-2xl shadow-lg border border-slate-200 bg-gradient-to-br from-slate-50 to-white relative overflow-hidden">
+    <div class="flex flex-col items-center justify-center w-full p-6 rounded-lg shadow mb-6 border border-slate-200 bg-gradient-to-br from-slate-50 to-white relative overflow-hidden">
         {{-- Background Accent --}}
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,0,0,0.1),transparent_70%)] pointer-events-none"></div>
 

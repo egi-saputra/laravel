@@ -15,7 +15,7 @@
                     <x-sidebar />
                 </aside> --}}
 
-                <div class="flex flex-col items-center p-4 pt-4 pb-6 mb-6 border shadow-sm rounded-2xl bg-gray-50">
+                <div class="flex flex-col items-center p-4 pt-4 pb-6 mb-6 border shadow-sm rounded-lg bg-gray-50">
                     <div class="w-full h-32 rounded shadow bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-900 animate-gradient bg-[length:200%_200%]"></div>
 
                     @php
@@ -39,36 +39,6 @@
                     <!-- Halaman Guru Piket -->
                     <x-guru.halaman-piket :guru="Auth::user()->guru" />
                 </div>
-
-                {{-- <div class="flex items-center w-full p-4 mb-4 bg-white bg-opacity-50 border border-gray-200 rounded-2xl backdrop-blur">
-                    <div class="relative mr-4">
-                        @php
-                            $user = Auth::user();
-                            $fotoUrl = $user->foto_profil
-                                ? Storage::url($user->foto_profil->file_path)
-                                : asset('storage/default/avatar.jpeg');
-                        @endphp
-
-                        <img src="{{ $fotoUrl }}"
-                            alt="{{ $user->name }}"
-                            class="object-cover w-20 h-20 border-4 border-white rounded-full shadow-md">
-
-                        <!-- Icon status kecil -->
-                        <span class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
-                    </div>
-
-                    <div class="flex flex-col justify-center">
-                        <h3 class="text-lg font-bold text-gray-900">{{ $user->name }}</h3>
-                        <p class="text-xs tracking-wide text-gray-600 uppercase">{{ $user->email }}</p>
-
-                        <!-- Badge jabatan -->
-                        @if(isset($user->role))
-                        <span class="px-2 py-1 mt-2 text-[10px] font-semibold tracking-wide text-white bg-blue-600 rounded-full shadow">
-                            {{ strtoupper($user->role) }}
-                        </span>
-                        @endif
-                    </div>
-                </div> --}}
 
                 <!-- Grid Menu -->
                 <div class="grid grid-cols-3 gap-4 p-0 mb-4 text-center md:rounded-xl md:grid-cols-6">

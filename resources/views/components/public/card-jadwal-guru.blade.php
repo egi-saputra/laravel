@@ -1,39 +1,37 @@
 <!-- CARD -->
 <div>
-    {{-- <div class="flex justify-center p-4 mb-4 bg-white rounded-md">
-        <h2 class="text-lg font-bold text-gray-800">
-            Jadwal Mengajar Guru
-        </h2>
-    </div> --}}
-
     <!-- Search & Filter -->
-    <h2 class="mb-6 text-2xl font-bold text-gray-800">
-        <i class="mr-2 bi bi-calendar2-week text-amber-500"></i> Daftar Jadwal Mengajar
-    </h2>
+        <h2 class="mb-6 px-1 text-2xl font-bold text-gray-800">
+            <i class="mr-2 bi bi-calendar2-week text-amber-500"></i> Daftar Jadwal Mengajar
+        </h2>
 
-    <form method="GET" class="flex gap-3 mb-6 rounded-md">
-        <select name="hari" class="flex-1 px-3 py-2 border rounded-lg">
-            <option value="">Pilih Hari</option>
-            @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $h)
-                <option value="{{ $h }}" {{ request('hari')==$h ? 'selected' : '' }}>{{ $h }}</option>
-            @endforeach
-        </select>
+        <div class="mb-10">
+            <form method="GET" class="flex flex-col gap-3 mb-6 rounded-md">
+                <select name="hari" class="flex-1 px-3 py-2 border rounded-lg">
+                    <option value="">Pilih Hari</option>
+                    @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $h)
+                        <option value="{{ $h }}" {{ request('hari')==$h ? 'selected' : '' }}>{{ $h }}</option>
+                    @endforeach
+                </select>
 
-        <input type="text" name="guru" placeholder="Nama Guru"
-            value="{{ request('guru') }}" class="px-3 py-2 border rounded-lg">
+                <input type="text" name="guru" placeholder="Nama Guru"
+                    value="{{ request('guru') }}" class="px-3 py-2 border rounded-lg">
 
-        <input type="text" name="kelas" placeholder="Unit Kelas"
-            value="{{ request('kelas') }}" class="px-3 py-2 border rounded-lg">
+                <input type="text" name="kelas" placeholder="Unit Kelas"
+                    value="{{ request('kelas') }}" class="px-3 py-2 border rounded-lg">
 
-            <button type="submit"
-                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">
-                <i class="bi bi-funnel me-1"></i> Filter
-            </button>
-            <a href="{{ route('public.jadwal_guru.index') }}"
-                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white transition bg-gray-600 rounded-lg hover:bg-gray-700">
-                <i class="bi bi-arrow-clockwise me-1"></i> Reset
-            </a>
-    </form>
+                    <div class="flex justify-center w-full gap-3">
+                        <button type="submit"
+                            class="flex w-full items-center justify-center px-4 py-2 text-sm font-medium text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">
+                            <i class="bi bi-funnel me-1"></i> Filter
+                        </button>
+                        <a href="{{ route('public.jadwal_guru.index') }}"
+                            class="flex w-full items-center justify-center px-4 py-2 text-sm font-medium text-white transition bg-gray-600 rounded-lg hover:bg-gray-700">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Reset
+                        </a>
+                    </div>
+            </form>
+        </div>
 
     <!-- Card List -->
     @if($paginatedJadwal->count())
