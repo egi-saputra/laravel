@@ -15,9 +15,10 @@ class PresensiSiswaController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $dataSiswa = $user->dataSiswa;
 
-        // 🚫 Batasi hanya sekretaris yang boleh akses
-        if ($user->jabatan !== 'Sekretaris') {
+        // 🚫 Batasi hanya siswa yang punya jabatan_siswa = 'Sekretaris'
+        if (!$dataSiswa || $dataSiswa->jabatan_siswa !== 'Sekretaris') {
             abort(403, 'Hanya sekretaris kelas yang dapat mengakses halaman presensi.');
         }
 
@@ -26,15 +27,13 @@ class PresensiSiswaController extends Controller
         $bulan    = Carbon::now('Asia/Jakarta')->month;
         $tahun    = Carbon::now('Asia/Jakarta')->year;
 
-        // Ambil kelas_id dari data_siswa milik user login
-        $userKelasId = $user->dataSiswa->kelas_id ?? null;
+        // Ambil kelas_id dari data_siswa
+        $userKelasId = $dataSiswa->kelas_id ?? null;
 
-        // Ambil objek kelas dari database
-        $kelas = $userKelasId
-            ? DataKelas::find($userKelasId)
-            : null;
+        // Ambil objek kelas
+        $kelas = $userKelasId ? DataKelas::find($userKelasId) : null;
 
-        // Ambil semua siswa di kelas yang sama (hanya jika kelas_id tersedia)
+        // Ambil semua siswa di kelas yang sama
         $siswaKelas = $userKelasId
             ? DataSiswa::with('user')
                 ->where('kelas_id', $userKelasId)
@@ -42,13 +41,13 @@ class PresensiSiswaController extends Controller
                 ->get()
             : collect();
 
-        // Ambil presensi siswa hari ini dan keyBy siswa_id
+        // Ambil presensi siswa hari ini
         $presensiHariIni = PresensiSiswa::whereIn('siswa_id', $siswaKelas->pluck('id'))
             ->whereDate('created_at', Carbon::today())
             ->get()
             ->keyBy('siswa_id');
 
-        // Cek apakah presensi sudah ditandai selesai oleh sekretaris hari ini
+        // Cek apakah sekretaris sudah menandai presensi selesai
         $presensiSelesai = PresensiSiswa::where('user_id', $user->id)
             ->whereDate('created_at', Carbon::today())
             ->where('is_selesai', true)
@@ -63,14 +62,15 @@ class PresensiSiswaController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
+        $dataSiswa = $user->dataSiswa;
 
         // 🚫 Batasi hanya sekretaris
-        if ($user->jabatan !== 'Sekretaris') {
+        if (!$dataSiswa || $dataSiswa->jabatan_siswa !== 'Sekretaris') {
             abort(403, 'Anda tidak memiliki izin untuk menyimpan presensi.');
         }
 
         $keterangan = $request->input('keterangan', []);
-        $userId = Auth::id();
+        $userId = $user->id;
         $today = Carbon::today();
 
         foreach ($keterangan as $siswaId => $value) {
@@ -106,9 +106,10 @@ class PresensiSiswaController extends Controller
     public function selesai()
     {
         $user = Auth::user();
+        $dataSiswa = $user->dataSiswa;
 
         // 🚫 Batasi hanya sekretaris
-        if ($user->jabatan !== 'Sekretaris') {
+        if (!$dataSiswa || $dataSiswa->jabatan_siswa !== 'Sekretaris') {
             abort(403, 'Anda tidak memiliki izin untuk menandai presensi selesai.');
         }
 
@@ -123,5 +124,10 @@ class PresensiSiswaController extends Controller
             'type' => 'success',
             'title' => 'Berhasil'
         ]);
+    }
+
+    public function export()
+    {
+        return Excel::download(new PresensiHariIniExport, 'presensi_hari_ini.xlsx');
     }
 }

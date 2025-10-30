@@ -15,21 +15,21 @@ class PresensiSiswa extends Model
         'user_id',
         'siswa_id',
         'keterangan',
-        'is_selesai', // tambahkan ini
+        'is_selesai',
     ];
 
     protected $casts = [
-        'is_selesai' => 'boolean', // agar 0/1 otomatis jadi false/true
+        'is_selesai' => 'boolean',
     ];
 
-    // Relasi ke user (guru/walas yang melakukan presensi)
+    // Relasi ke user (guru/walas/sekretaris yang melakukan presensi)
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Relasi ke siswa
-    public function siswa()
+    // 🔗 Relasi ke data_siswa
+    public function dataSiswa()
     {
         return $this->belongsTo(DataSiswa::class, 'siswa_id');
     }

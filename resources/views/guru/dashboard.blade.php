@@ -73,7 +73,7 @@
                 <!-- Grid Menu -->
                 <div class="grid grid-cols-3 gap-4 p-0 mb-4 text-center md:rounded-xl md:grid-cols-6">
                     <!-- Menu 1 -->
-                    <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                    <a href="{{ route('public.analitycs.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         {{-- <i class="mb-2 text-xl text-red-600 md:text-3xl bi-bar-chart-line"></i> --}}
                         <i class="mb-2 text-2xl text-red-600 md:text-3xl bi bi-graph-up-arrow"></i>
                         {{-- <i class="mb-2 text-xl text-red-600 md:text-3xl fas fa-chart-line"></i> --}}
@@ -288,13 +288,19 @@
                         <div class="flex items-center justify-between mb-3">
                             <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung <span class="hidden sm:inline">Semua User</span></p>
                             <form method="GET" action="{{ url()->current() }}">
-                                <select name="limit" onchange="this.form.submit()"
+                                {{-- <select name="limit" onchange="this.form.submit()"
                                         class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     <option value="">Semua</option>
                                     <option value="10" {{ request('limit') == 10 ? 'selected' : '' }}>10</option>
                                     <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
                                     <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
-                                </select>
+                                </select> --}}
+                                <select name="limit" onchange="this.form.submit()" class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="all" {{ request('limit') === 'all' ? 'selected' : '' }}>Semua</option>
+                                <option value="10" {{ request('limit', 10) == 10 ? 'selected' : '' }}>10</option>
+                                <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
+                            </select>
                             </form>
                         </div>
 

@@ -8,7 +8,8 @@ use App\Http\Controllers\Guru\{
     MateriController,
     DaftarMateriController,
     TugasSiswaController,
-    RekapAbsenSiswaController
+    RekapAbsenSiswaController,
+    AbsensiController
 };
 
 // Semua route guru, pakai auth, verified dan role guru
@@ -96,5 +97,8 @@ Route::middleware(['auth', 'verified', 'role:guru'])->prefix('guru')->name('guru
         Route::resource('tugas_siswa', TugasSiswaController::class)
             ->except(['show']);
         Route::get('tugas/{id}/download', [TugasSiswaController::class, 'download'])->name('tugas.download');
+
+        Route::get('/absensi-hari-ini', [AbsensiController::class, 'index'])->name('absensi_hari_ini');
+        Route::get('/absensi-export', [AbsensiController::class, 'export'])->name('absensi_hari_ini.export');
 
     });

@@ -12,7 +12,6 @@
         <meta name="theme-color" content="#063970">
         <!-- Warna status bar Safari iOS -->
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        {{-- <meta name="turbo-root" content="/"> --}}
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -25,6 +24,9 @@
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
+        <!-- Import Heroicons -->
+        <script src="https://unpkg.com/heroicons@2.0.16/24/solid/ellipsis-vertical.js"></script>
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -32,12 +34,14 @@
         <!-- HotWire -->
         <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.3/dist/turbo.es2017-umd.js"></script>
 
+        <!-- TinyMCE -->
+        <script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://unpkg.com/alpinejs" defer></script>
-
-        <!-- TinyMCE -->
-        <script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
 
             <style>
                 /* ================================== */
@@ -162,11 +166,26 @@
                     pointer-events: auto;
                 }
 
+                .cursor-grabbing {
+                    cursor: grabbing;
+                    cursor: -webkit-grabbing;
+                }
+
+                @keyframes gradientMove {
+                    0% { background-position: 0% 50%; }
+                    50% { background-position: 100% 50%; }
+                    100% { background-position: 0% 50%; }
+                }
+
+                .animate-gradient {
+                    animation: gradientMove 8s ease infinite;
+                }
+
                 [x-cloak] { display: none !important; }
             </style>
 
     </head>
-    <body class="font-sans antialiased bg-gray-100">
+    <body class="font-sans antialiased bg-white md:bg-gray-100">
         <x-alert />
 
             @php
@@ -175,12 +194,10 @@
                     'developer' => [
                         ['label' => 'Dashboard', 'route' => 'dev.dashboard'],
                         ['label' => 'Informasi Sekolah', 'route' => 'public.informasi_sekolah.index'],
-                        ['label' => 'Log Out', 'route' => 'logout', 'logout' => true], // tambah logout
                     ],
                     'admin' => [
                         ['label' => 'Dashboard', 'route' => 'admin.dashboard'],
                         ['label' => 'Profil Sekolah', 'route' => 'admin.profil_sekolah'],
-                        ['label' => 'Log Out', 'route' => 'logout', 'logout' => true],
                     ],
                     'guru' => [
                         ['label' => 'Dashboard', 'label_mobile' => 'Dashboard', 'route' => 'guru.dashboard'],
@@ -203,6 +220,7 @@
                     ],
                 ];
             @endphp
+
 
             <nav x-data="{ open: false }"
                 class="sticky top-0 z-30 block bg-white border-b border-gray-100 shadow-sm dark:bg-gray-800 dark:border-gray-700 md:static">
@@ -336,11 +354,9 @@
                 {{ $slot }}
             </main>
 
-            @if (!request()->is('login'))
-                <div data-turbo-permanent>
+            {{-- @if (!request()->is('login'))
                     <x-nav-bot :role="$role" />
-                </div>
-            @endif
+            @endif --}}
 
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -358,10 +374,11 @@
         <!-- Back to Top -->
         <button id="backToTop"
             class="fixed items-center justify-center hidden w-12 h-12 text-white transition-all duration-300 rounded-full shadow-lg md:flex md:bottom-6 bottom-16 right-6 bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-2xl hover:scale-110"
-            title="Kembali ke atas">
+            title="Kembali ke atas !z-30">
             <i class="text-xl bi bi-arrow-up"></i>
         </button>
 
+        <!-- Custom Script -->
         <script>
             // Script Fullscreen
             function toggleFullscreen() {
@@ -380,34 +397,6 @@
             }
 
             document.addEventListener('DOMContentLoaded', function () {
-                // ============================
-                // Sweet Alert 2
-                // ============================
-                // const isMobile = window.innerWidth < 768;
-
-                // Ambil data session alert dari Laravel
-                // const hasSweetAlert = {!! session('alert') ? 'true' : 'false' !!};
-                // const alertType = {!! session('alert.type') ? "'".session('alert.type')."'" : 'null' !!};
-                // const alertTitle = {!! session('alert.title') ? "'".session('alert.title')."'" : 'null' !!};
-                // const alertMessage = {!! session('alert.message') ? "'".session('alert.message')."'" : 'null' !!};
-
-                // Tampilkan SweetAlert hanya di desktop
-                // if (!isMobile && hasSweetAlert && alertType) {
-                //     Swal.fire({
-                //         icon: alertType,
-                //         title: alertTitle ?? alertType.charAt(0).toUpperCase() + alertType.slice(1),
-                //         text: alertMessage,
-                //         confirmButtonText: 'OK',
-                //         confirmButtonColor: '#3085d6',
-                //         width: 400,
-                //         customClass: {
-                //             popup: 'rounded-xl',
-                //             title: 'text-lg font-semibold',
-                //             content: 'text-sm text-gray-700'
-                //         }
-                //     });
-                // }
-
                 // ============================
                 // Back To Top Button
                 // ============================
@@ -440,10 +429,10 @@
         </script>
 
         <!-- Menonaktifkan Loader Turbo Hotwire -->
-        <script>
+        {{-- <script>
             // Matikan progress bar bawaan Turbo
             window.Turbo.setProgressBarDelay(999999);
-        </script>
+        </script> --}}
 
         <!-- Script Loader Turbo Hotwire Mobile Only -->
         {{-- <script>

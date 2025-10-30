@@ -27,7 +27,8 @@ use App\Http\Controllers\{
     SuratController,
     JumlahJamController,
     NavBotController,
-    CardJadwalGuruController
+    CardJadwalGuruController,
+    AnalitycsController
 };
 
 // ======================
@@ -195,6 +196,10 @@ Route::middleware(['auth'])->group(function () {
 
         // Surat
         Route::resource('surat', SuratController::class)
+                ->except(['show']);
+
+        // Analitycs
+        Route::resource('analitycs', AnalitycsController::class)
                 ->except(['show']);
 
     });

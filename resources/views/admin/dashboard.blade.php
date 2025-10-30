@@ -1,11 +1,43 @@
-<x-app-layout>
+<x-app-dashboard-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
         </h2>
     </x-slot>
 
-    <div class="flex flex-col min-h-screen md:flex-row">
+    <div class="md:hidden flex flex-col rounded-lg shadow-lg justify-center items-center h-screen bg-gradient-to-br p-3 from-indigo-500 via-blue-500 to-cyan-400 relative overflow-hidden">
+
+        <!-- efek blur melayang -->
+        <div class="absolute inset-0 backdrop-blur-xl bg-white/10"></div>
+
+        <!-- konten utama -->
+        <div class="relative z-10 flex flex-col items-center justify-center text-center p-8 rounded-2xl bg-white/20 backdrop-blur-lg shadow-2xl border border-white/30 max-w-sm mx-auto animate-fadeIn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white mb-4 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m9-9H3" />
+            </svg>
+
+            <h2 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">Akses dari Desktop</h2>
+            <p class="text-white/90 text-base mb-5">Fitur ini hanya dapat digunakan melalui situs versi desktop.</p>
+
+            <a href="https://simstal.site" target="_blank"
+            class="px-5 py-2.5 bg-white text-indigo-600 font-semibold rounded-full shadow-lg hover:scale-105 hover:bg-indigo-100 transition-all duration-300">
+            🚀 Buka Situs
+            </a>
+        </div>
+
+        <!-- animasi pelan masuk -->
+        <style>
+            @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+            }
+        </style>
+    </div>
+
+    <div class="md:flex hidden flex-col min-h-screen md:flex-row">
 
         <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
             <!-- Sidebar -->
@@ -189,4 +221,4 @@
         });
     </script>
 
-</x-app-layout>
+</x-app-dashboard-layout>

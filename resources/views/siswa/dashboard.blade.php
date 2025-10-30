@@ -35,21 +35,23 @@
                 <div class="grid grid-cols-3 gap-4 p-0 mb-4 text-center md:rounded-xl md:grid-cols-6">
                     <!-- Menu 1 -->
                     <a href="{{ route('siswa.data_diri') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-xl md:text-3xl bi bi-person-lines-fill text-sky-600"></i>
+                        <i class="mb-2 text-xl md:text-3xl bi bi-person-lines-fill text-gray-600"></i>
                         <span class="text-xs font-semibold text-gray-700 md:text-sm">Data Diri</span>
                     </a>
 
                     <!-- Menu 2 -->
-                    <a href="{{ route('siswa.presensi.index') }}"
-                    class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl text-red-600 bi bi-journal-bookmark"></i>
-                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Absensi</span>
+                    <a href="{{ route('public.analitycs.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        {{-- <i class="mb-2 text-xl text-red-600 md:text-3xl bi-bar-chart-line"></i> --}}
+                        <i class="mb-2 text-2xl text-red-600 md:text-3xl bi bi-graph-up-arrow"></i>
+                        {{-- <i class="mb-2 text-xl text-red-600 md:text-3xl fas fa-chart-line"></i> --}}
+                        <span class="text-sm font-semibold text-gray-700">Analitycs</span>
                     </a>
 
                     <!-- Menu 3 -->
-                    <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl text-gray-700 bi bi-clock"></i>
-                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Jumlah Jam</span>
+                    <a href="{{ route('siswa.presensi.index') }}"
+                    class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-3xl text-sky-600 bi bi-journal-bookmark"></i>
+                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Absensi</span>
                     </a>
 
                     <!-- Menu 4 -->
