@@ -373,7 +373,7 @@
         <x-modal-upload-foto />
 
         <!-- Back to Top -->
-        <button id="backToTop"
+        <button data-turbo="false" id="backToTop"
             class="fixed items-center justify-center hidden w-12 h-12 text-white transition-all duration-300 rounded-full shadow-lg md:flex md:bottom-6 bottom-16 right-6 bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-2xl hover:scale-110"
             title="Kembali ke atas !z-30">
             <i class="text-xl bi bi-arrow-up"></i>
@@ -381,53 +381,46 @@
 
         <!-- Custom Script -->
         <script>
-            // Script Fullscreen
-            function toggleFullscreen() {
-                let elem = document.documentElement;
-                if (!document.fullscreenElement) {
-                    if (elem.requestFullscreen) elem.requestFullscreen();
-                    else if (elem.mozRequestFullScreen) elem.mozRequestFullScreen();
-                    else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-                    else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
-                } else {
-                    if (document.exitFullscreen) document.exitFullscreen();
-                    else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
-                    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-                    else if (document.msExitFullscreen) document.msExitFullscreen();
-                }
+            function initBackToTop() {
+                const backToTopBtn = document.getElementById("backToTop");
+                if (!backToTopBtn) return;
+
+                // Hapus event listener lama biar gak dobel
+                const newBtn = backToTopBtn.cloneNode(true);
+                backToTopBtn.parentNode.replaceChild(newBtn, backToTopBtn);
+
+                // Tampilkan tombol saat scroll
+                window.addEventListener("scroll", () => {
+                    newBtn.classList.toggle("show", window.scrollY > 100);
+                });
+
+                // Klik tombol scroll ke atas
+                newBtn.addEventListener("click", () => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                });
             }
 
-            document.addEventListener('DOMContentLoaded', function () {
-                // ============================
-                // Back To Top Button
-                // ============================
-                const backToTopBtn = document.getElementById("backToTop");
-                if (backToTopBtn) {
-                    window.addEventListener("scroll", () => {
-                        backToTopBtn.classList.toggle("show", window.scrollY > 100);
-                    });
-                    backToTopBtn.addEventListener("click", () => {
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                    });
-                }
+            // Jalankan saat pertama kali halaman dimuat
+            document.addEventListener('DOMContentLoaded', () => {
+                initBackToTop();
 
-                // ============================
-                // Redirect saat back-forward
-                // ============================
+                // Redirect saat back/forward
                 window.addEventListener("pageshow", function(event) {
                     if (event.persisted || (window.performance.getEntriesByType("navigation")[0]?.type === "back_forward")) {
                         window.location.href = "/login";
                     }
                 });
 
-                // ============================
                 // Simpan token Sanctum
-                // ============================
                 @if (session('sanctum_token'))
                     localStorage.setItem('sanctum_token', "{{ session('sanctum_token') }}");
                 @endif
             });
+
+            // Jalankan ulang setiap kali Turbo memuat halaman baru
+            document.addEventListener('turbo:load', initBackToTop);
         </script>
+
 
         <!-- Menonaktifkan Loader Turbo Hotwire -->
         {{-- <script>
