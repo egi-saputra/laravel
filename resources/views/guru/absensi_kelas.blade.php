@@ -32,7 +32,9 @@ use Carbon\Carbon;
             <div class="overflow-x-auto md:overflow-x-visible">
                 {{-- Form Filter Periode --}}
                 <div class="mb-4">
-                    <h2 class="mb-4 text-lg font-bold">Riwayat Presensi Siswa <span class="hidden md:inline-block">Periode Tertentu</span></h2>
+                    <h2 class="mb-6 text-xl font-bold text-gray-800">
+                        <i class="mr-2 bi bi-journal-text text-indigo-700"></i> Riwayat Presensi Siswa <span class="hidden md:inline-block">Periode Tertentu</span>
+                    </h2>
 
                     <form action="{{ route('guru.absensi_kelas.index') }}" method="GET" class="space-y-4">
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
