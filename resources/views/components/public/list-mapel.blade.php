@@ -69,81 +69,11 @@
 
 {{-- ========================================================= --}}
 
-{{-- <div class="p-6 mb-6 bg-white shadow-md rounded-2xl">
-    <!-- Header -->
-    <div class="flex flex-col items-center justify-between mb-4 space-y-2 md:flex-row md:space-y-0">
-        <h2 class="text-lg font-extrabold text-gray-800 md:text-xl">
-            Daftar Mata Pelajaran
-            <span class="hidden font-medium text-gray-600 md:inline-block">dan Guru Pengampu</span>
-            <span class="hidden text-sky-900 md:inline-block">
-                | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |
-            </span>
-        </h2>
-    </div>
-
-    <!-- Search Box -->
-    <div class="relative w-full mx-auto mb-4 md:w-1/2">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pr-3 text-gray-500 border-r">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M21 21l-4.35-4.35m0 0A7.5 7.5 0
-                         1110.5 3a7.5 7.5 0 016.15 13.65z"/>
-            </svg>
-        </span>
-        <input type="text" id="searchMapel" placeholder="Cari nama guru atau nama mapel..."
-            class="w-full py-2 pl-12 transition border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400">
-    </div>
-
-    <!-- Tabel -->
-    <div class="overflow-x-auto">
-        <table class="w-full text-sm border-collapse md:text-base" id="mapelTable">
-            <thead>
-                <tr class="text-white bg-sky-700">
-                    <th class="px-4 py-2 text-center border border-sky-600">No</th>
-                    <th class="px-4 py-2 text-left border border-sky-600 md:text-center">Nama Mapel</th>
-                    <th class="px-4 py-2 text-left border border-sky-600 md:text-center">Guru Pengampu</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($mapel ?? [] as $index => $m)
-                    <tr class="transition hover:bg-sky-50">
-                        <td class="px-4 py-2 text-center border border-gray-200">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2 border border-gray-200">{{ $m->mapel }}</td>
-                        <td class="px-4 py-2 border border-gray-200">{{ $m->guru->user->name ?? '-' }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="3" class="py-3 text-center text-gray-500 border border-gray-200">Belum ada data mapel</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-</div> --}}
-
-<!-- Script Search -->
-{{-- <script>
-    document.getElementById('searchMapel').addEventListener('keyup', function () {
-        const filter = this.value.toLowerCase();
-        const rows = document.querySelectorAll("#mapelTable tbody tr");
-
-        rows.forEach(row => {
-            const mapel = row.cells[1]?.textContent.toLowerCase() || "";
-            const guru = row.cells[2]?.textContent.toLowerCase() || "";
-
-            row.style.display = (mapel.includes(filter) || guru.includes(filter)) ? "" : "none";
-        });
-    });
-</script> --}}
-
-{{-- ========================================================= --}}
-
 <div>
     <!-- Header -->
-    <div class="p-4 mb-4 text-center bg-white rounded-md shadow md:bg-none md:rounded-none md:shadow-none">
-        <h2 class="mb-4 text-lg font-bold text-gray-800 md:font-extrabold md:text-xl">
-            Daftar Mata Pelajaran
+    <div class="mb-4">
+        <h2 class="mb-4 ml-2 text-lg font-bold text-gray-800 text-start md:font-extrabold md:text-xl">
+           <i class="mr-2 text-2xl text-gray-600 bi bi-book"></i> Daftar Mata Pelajaran
             <span class="hidden font-medium text-gray-600 md:inline-block">dan Guru Pengampu</span>
             <span class="hidden text-sky-900 md:inline-block">
                 | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |
@@ -162,7 +92,7 @@
             </span>
             <input type="text" id="searchMapel"
                 placeholder="Cari nama guru atau nama mapel..."
-                class="w-full py-2 pl-12 transition border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400">
+                class="w-full py-2 pl-12 transition border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-slate-800">
         </div>
     </div>
 

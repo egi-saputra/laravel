@@ -73,9 +73,9 @@
 {{-- CARD --}}
 
 <div>
-    <div class="p-4 mb-4 text-center bg-white rounded-md shadow md:bg-none md:rounded-none md:shadow-none">
-        <h2 class="mb-4 text-lg font-bold text-gray-800 md:font-extrabold md:text-xl">
-            Daftar Ekstrakurikuler
+    <div class="mb-4">
+        <h2 class="mb-4 ml-2 text-lg font-bold text-gray-800 text-start md:font-extrabold md:text-xl">
+            <i class="mr-2 text-2xl text-amber-600 bi bi-trophy"></i> Daftar Ekstrakurikuler
             <span class="hidden capitalize text-sky-900 md:inline-block">
                 | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |
             </span>
@@ -94,7 +94,7 @@
             </span>
             <input type="text" id="searchEkskul"
                    placeholder="Cari ekskul atau pembina ..."
-                   class="w-full py-2 pl-12 transition border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400">
+                   class="w-full py-2 pl-12 transition border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-gray-800">
         </div>
     </div>
 

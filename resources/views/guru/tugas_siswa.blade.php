@@ -1,4 +1,4 @@
-<x-app-dashboard-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? 'Kelola Tugas Siswa') }}
@@ -34,4 +34,4 @@
         {{ $tugas->links('pagination::tailwind') }}
     </div>
 
-</x-app-dashboard-layout>
+</x-app-layout>

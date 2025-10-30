@@ -6,7 +6,7 @@
         </h2>
 
         <div class="mb-10">
-            <form method="GET" class="flex flex-col gap-3 mb-6 rounded-md">
+            <form method="GET" class="flex md:flex-row flex-col gap-3 mb-6 rounded-md">
                 <select name="hari" class="flex-1 px-3 py-2 border rounded-lg">
                     <option value="">Pilih Hari</option>
                     @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $h)

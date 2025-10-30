@@ -72,11 +72,10 @@
 </script> --}}
 
 <div>
-    <div class="p-4 mb-4 text-center bg-white rounded-md shadow md:bg-none md:rounded-none md:shadow-none">
-        <h2 class="mb-4 text-lg font-bold text-gray-800 md:font-extrabold md:text-xl">
-            Daftar Unit Kelas
-            <span class="hidden font-medium text-gray-600 md:inline-block">dan Wali Kelas</span>
-            <span class="hidden text-sky-900 md:inline-block">
+    <div class="mb-4">
+        <h2 class="mb-4 ml-2 text-lg font-bold text-gray-800 text-start md:font-extrabold md:text-xl">
+            <i class="mr-2 text-xl text-indigo-600 fas fa-laptop-code"></i>Daftar Unit Kelas
+            <span class="hidden capitalize text-sky-900 md:inline-block">
                 | {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |
             </span>
         </h2>
@@ -93,7 +92,7 @@
             </span>
             <input type="text" id="searchKelas"
                 placeholder="Cari nama kelas atau wali kelas..."
-                class="w-full py-2 pl-12 border rounded focus:outline-none focus:ring focus:border-blue-300">
+                class="w-full py-2 pl-12 border rounded focus:border-blue-600 focus:outline-none">
         </div>
     </div>
 

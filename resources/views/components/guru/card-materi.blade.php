@@ -109,7 +109,8 @@
                             overflow-wrap: break-word;
                             word-break: break-word;
                         ">
-                            {{ $m->judul }}
+                            {!! $m->deskripsi !!}
+                            {{-- {{ dd($m->deskripsi) }} --}}
                         </div>
                     </div>
 
@@ -148,7 +149,6 @@
     <template x-if="showModal">
         <div class="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
             <div class="relative w-full max-w-2xl mx-4 overflow-hidden bg-white shadow-xl rounded-xl">
-
                 <!-- Header -->
                 <div class="sticky top-0 z-10 px-6 py-4 bg-white shadow-sm">
                     <h2 class="text-lg font-bold text-center text-slate-800">
@@ -158,7 +158,7 @@
 
                 <!-- Body -->
                 <div class="max-h-[70vh] overflow-y-auto px-6 py-4 space-y-4">
-                    <form id="editForm" :action="editAction" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    <form id="editForm" :action="editAction" method="POST" enctype="multipart/form-data" class="space-y-4" data-turbo="false">
                         @csrf
                         @method('PUT')
 
@@ -194,7 +194,8 @@
 
                         <div>
                             <label>Isi Materi</label>
-                            <x-forms-tinymce.tinymce-editor name="materi" class="tinymce-editor bg-gray-50" x-model="editData.materi" />
+                            <!-- Tambahkan id="materi" agar tinymce.get('materi') pasti bekerja -->
+                            <x-forms-tinymce.tinymce-editor id="materi" name="materi" class="tinymce-editor bg-gray-50" x-model="editData.materi" />
                         </div>
 
                         <div>
@@ -210,70 +211,82 @@
                     <button type="button" @click="closeModal()" class="px-4 py-2 border rounded-md">Batal</button>
                     <button type="submit" form="editForm" class="px-4 py-2 text-white bg-blue-600 rounded-md">Simpan</button>
                 </div>
-
             </div>
         </div>
     </template>
+</div>
+
 
 </div>
 
 <script>
-    function materiList() {
-        return {
-            search: '',
-            showModal: false,
-            editAction: '',
-            editData: { id: '', judul: '', kelas_id: '', mapel_id: '', deskripsi: '', materi: '' },
+function materiList() {
+    return {
+        search: '',
+        showModal: false,
+        editAction: '',
+        editData: { id: '', judul: '', kelas_id: '', mapel_id: '', deskripsi: '', materi: '' },
 
-            match(text) {
-                return text.toLowerCase().includes(this.search.toLowerCase());
-            },
+        match(text) {
+            return text.toLowerCase().includes(this.search.toLowerCase());
+        },
 
-            openEditModal(id, judul, kelas_id, mapel_id, deskripsi, materi) {
-                this.editData = { id, judul, kelas_id, mapel_id, deskripsi, materi };
-                this.editAction = `/guru/materi/${id}`;
-                this.showModal = true;
+        openEditModal(id, judul, kelas_id, mapel_id, deskripsi, materi) {
+            this.editData = { id, judul, kelas_id, mapel_id, deskripsi, materi };
+            this.editAction = `/guru/materi/${id}`;
+            this.showModal = true;
 
-                this.$nextTick(() => {
-                    if (tinymce.get('materi')) tinymce.get('materi').remove();
-                    tinymce.init({
-                        selector: 'textarea.tinymce-editor',
-                        plugins: 'code table lists',
-                        toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table',
-                        height: window.innerWidth < 640 ? 250 : 350,
-                        menubar: false,
-                        statusbar: false,
-                        resize: false,
-                        setup: (editor) => {
-                            editor.on('init', () => {
-                                editor.setContent(this.editData.materi || '');
-                            });
-                        },
-                        content_style: "body { overflow: visible; }"
-                    });
-                });
-            },
-
-            closeModal() {
-                this.showModal = false;
+            this.$nextTick(() => {
+                // Hapus editor lama jika ada
                 if (tinymce.get('materi')) tinymce.get('materi').remove();
-            }
+
+                // Inisialisasi TinyMCE
+                tinymce.init({
+                    selector: '#materi', // pakai id
+                    plugins: 'code table lists',
+                    toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table',
+                    height: window.innerWidth < 640 ? 250 : 350,
+                    menubar: false,
+                    statusbar: false,
+                    resize: false,
+                    setup: (editor) => {
+                        editor.on('init', () => {
+                            editor.setContent(this.editData.materi || '');
+                        });
+                    },
+                    content_style: "body { overflow: visible; }"
+                });
+
+                // Pastikan submit form tersinkronisasi
+                const form = document.getElementById('editForm');
+                if (form) {
+                    form.onsubmit = () => {
+                        tinymce.get('materi')?.save(); // simpan konten ke textarea
+                    };
+                }
+            });
+        },
+
+        closeModal() {
+            this.showModal = false;
+            if (tinymce.get('materi')) tinymce.get('materi').remove();
         }
     }
+}
 
-    // Hapus Semua
-    document.getElementById('hapusSemua').addEventListener('click', function () {
-        Swal.fire({
-            title: 'Hapus Semua Materi?',
-            text: "Semua data akan terhapus permanen!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, hapus semua!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) document.getElementById('formHapusSemua').submit();
-        });
+// Hapus Semua
+document.getElementById('hapusSemua').addEventListener('click', function () {
+    Swal.fire({
+        title: 'Hapus Semua Materi?',
+        text: "Semua data akan terhapus permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, hapus semua!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) document.getElementById('formHapusSemua').submit();
     });
+});
 </script>

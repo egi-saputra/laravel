@@ -1,4 +1,4 @@
-<x-app-dashboard-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? 'Materi Pembelajaran') }}
@@ -88,16 +88,6 @@
                     </div>
                 </form>
             </div>
-
-            <!-- Versi Mobile: Card -->
-            {{-- <div class="block md:hidden">
-                <x-guru.card-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
-            </div> --}}
-
-            <!-- Versi Desktop: Tabel -->
-            {{-- <div class="hidden md:block">
-                <x-guru.tabel-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
-            </div> --}}
         </main>
     </div>
-</x-app-dashboard-layout>
+</x-app-layout>

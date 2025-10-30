@@ -1,8 +1,8 @@
 <div class="p-4 bg-white rounded shadow">
     <div class="flex items-center justify-between mb-4">
         <h2 class="mb-6 text-2xl font-bold text-gray-800">
-        <i class="bi bi-calendar2-week text-amber-500"></i> Daftar Jadwal Pelajaran
-    </h2>
+            <i class="bi bi-calendar2-week text-amber-500"></i> Daftar Jadwal Pelajaran
+        </h2>
         <div class="flex gap-2">
             <button id="exportPDF" type="button" class="items-center hidden px-3 py-2 text-white bg-red-800 rounded md:flex hover:bg-red-900">
                 <i class="bi bi-file-earmark-pdf-fill me-1"></i> Export

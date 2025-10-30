@@ -37,6 +37,7 @@ class MateriController extends Controller
             'kelas_id' => 'required|exists:data_kelas,id',
             'mapel_id' => 'required|exists:data_mapel,id',
             'judul'    => 'required|string|max:255',
+            'deskripsi'=> 'nullable|string', // ✅ tambahkan ini
             'materi'   => 'nullable|string',
             'file'     => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,webp,png|max:10240',
         ]);
@@ -46,6 +47,7 @@ class MateriController extends Controller
             'kelas_id' => $validated['kelas_id'],
             'mapel_id' => $validated['mapel_id'],
             'judul'    => $validated['judul'],
+            'deskripsi'=> $validated['deskripsi'] ?? null, // ✅ tambahkan ini
             'materi'   => $validated['materi'] ?? null,
         ];
 
@@ -83,6 +85,7 @@ class MateriController extends Controller
             'kelas_id' => 'required|exists:data_kelas,id',
             'mapel_id' => 'required|exists:data_mapel,id',
             'judul'    => 'required|string|max:255',
+            'deskripsi'=> 'nullable|string', // ✅ tambahkan ini
             'materi'   => 'nullable|string',
             'file'     => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,png|max:10240',
         ]);
@@ -91,6 +94,7 @@ class MateriController extends Controller
             'kelas_id' => $validated['kelas_id'],
             'mapel_id' => $validated['mapel_id'],
             'judul'    => $validated['judul'],
+            'deskripsi'=> $validated['deskripsi'] ?? null, // ✅ tambahkan ini
             'materi'   => $validated['materi'] ?? null,
         ];
 

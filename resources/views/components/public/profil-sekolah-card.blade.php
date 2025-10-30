@@ -86,11 +86,11 @@
                                 <span class="text-right">:</span>
                                 <span class="pl-2">{{ $profil->nama_sekolah }}</span>
                             </div>
-                            <div class="grid grid-cols-[120px_10px_1fr] items-center">
+                            {{-- <div class="grid grid-cols-[120px_10px_1fr] items-center">
                                 <span class="font-semibold">Kepala Yayasan</span>
                                 <span class="text-right">:</span>
                                 <span class="pl-2">{{ $profil->kepala_yayasan ?? '-' }}</span>
-                            </div>
+                            </div> --}}
                             <div class="grid grid-cols-[120px_10px_1fr] items-center">
                                 <span class="font-semibold">Kepala Sekolah</span>
                                 <span class="text-right">:</span>

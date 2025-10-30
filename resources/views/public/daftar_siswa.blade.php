@@ -12,7 +12,7 @@
         </aside> --}}
 
         {{-- Main Content --}}
-        <main class="flex-1 p-0 mb-10 space-y-6 overflow-x-auto md:mb-0 md:p-6">
+        <main class="flex-1 p-0 !mb-16 space-y-6 overflow-x-auto md:mb-0 md:p-6">
 
             {{-- Search & Filter Form --}}
             <form method="GET" action="{{ route('public.daftar_siswa.index') }}"

@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
     @foreach($siswa as $s)
         <div class="flex flex-col items-center p-4 transition bg-white rounded-lg shadow hover:shadow-lg">
             {{-- Header & Foto --}}
