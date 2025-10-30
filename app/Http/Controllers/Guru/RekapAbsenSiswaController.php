@@ -114,7 +114,7 @@ class RekapAbsenSiswaController extends Controller
                 $rekap->where('nama_lengkap', 'like', "%{$q}%");
             }
 
-            $rekap = $rekap->paginate(15)
+            $rekap = $rekap->paginate(40)
                 ->appends($request->only(['periode_mulai','periode_akhir','q']));
 
             $isGenerated = true;
