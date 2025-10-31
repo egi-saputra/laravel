@@ -27,7 +27,7 @@
                     <tr class="transition-colors duration-200 even:bg-slate-50 hover:bg-sky-50">
                         <td class="px-4 py-3 font-medium text-center text-slate-800">{{ $loop->iteration }}</td>
                         <td class="px-4 py-3 text-center">{{ $j->hari }}</td>
-                        <td class="px-4 py-3 font-semibold text-center text-sky-700">{{ $j->user->name ?? '-' }}</td>
+                        <td class="px-4 py-3 font-semibold text-left md:text-center text-sky-700">{{ $j->user->name ?? '-' }}</td>
                     </tr>
                 @empty
                     <tr>

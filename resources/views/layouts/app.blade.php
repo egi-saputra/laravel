@@ -142,6 +142,69 @@
                 }
             </style>
 
+            {{-- <style>
+                /* ================================== */
+                /* System Dark Mode Support */
+                /* ================================== */
+                :root {
+                    color-scheme: light dark;
+                }
+
+                /* Mode terang (default) */
+                body {
+                    background-color: #ffffff;
+                    color: #111827;
+                }
+
+                /* Mode gelap (otomatis) */
+                @media (prefers-color-scheme: dark) {
+                    body {
+                        background-color: #0f172a;
+                        color: #f1f5f9;
+                    }
+
+                    nav {
+                        background-color: #1e293b !important;
+                        border-color: #334155 !important;
+                        color: #f8fafc;
+                    }
+
+                    main {
+                        background-color: #0f172a;
+                    }
+
+                    footer {
+                        background-color: #1e293b;
+                        color: #e2e8f0;
+                    }
+
+                    #navhp {
+                        background: rgba(15, 23, 42, 0.95) !important;
+                        border-top: 1px solid #334155 !important;
+                    }
+
+                    .nav-icon {
+                        color: #94a3b8;
+                    }
+
+                    .nav-icon.active,
+                    .nav-icon.active i {
+                        color: #38bdf8;
+                    }
+
+                    /* SweetAlert2 Dark Mode */
+                    .swal2-popup {
+                        background-color: #1e293b !important;
+                        color: #e2e8f0 !important;
+                    }
+
+                    /* Tombol Back to Top di dark mode */
+                    #backToTop {
+                        background: linear-gradient(to right, #2563eb, #0ea5e9);
+                    }
+                }
+            </style> --}}
+
             <style>
                 .swal2-popup {
                     @apply mx-6 sm:mx-6 md:mx-auto p-6 rounded-xl;
@@ -368,6 +431,8 @@
         <!-- jsPDF + AutoTable -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1/locale/id.js"></script>
 
         @stack('scripts')
 

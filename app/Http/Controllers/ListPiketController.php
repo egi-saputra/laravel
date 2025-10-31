@@ -13,7 +13,13 @@ class ListPiketController extends Controller
         $guru = DataGuru::with('user')->get();
         $jadwalPiket = JadwalPiket::with('user')->get();
 
-        $hariList = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+        // Urutan hari yang benar
+        $hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+        // Sort jadwal piket berdasarkan urutan hari di atas
+        $jadwalPiket = $jadwalPiket->sortBy(function ($item) use ($hariList) {
+            return array_search($item->hari, $hariList);
+        });
 
         return view('public.jadwal_piket', [
             'guru' => $guru,

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\DataGuru;
+use App\Models\User;
 
 class DataStruktural extends Model
 {
@@ -14,15 +14,15 @@ class DataStruktural extends Model
 
     protected $fillable = [
         'jabatan',
-        'nama_gtk', // kolom yang merujuk ke DataGuru.id
+        'nama_gtk', // kolom ini akan berisi user_id
     ];
 
     /**
-     * Relasi ke tabel DataGuru
-     * kolom nama_gtk merujuk ke id di DataGuru
+     * Relasi ke tabel users
+     * kolom nama_gtk merujuk ke id di tabel users
      */
-    public function guru()
+    public function user()
     {
-        return $this->belongsTo(DataGuru::class, 'nama_gtk', 'id');
+        return $this->belongsTo(User::class, 'nama_gtk', 'id');
     }
 }

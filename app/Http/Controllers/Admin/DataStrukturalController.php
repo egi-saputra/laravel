@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DataStruktural;
-use App\Models\DataGuru;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DataStrukturalController extends Controller
@@ -14,9 +14,14 @@ class DataStrukturalController extends Controller
      */
     public function index()
     {
-        $struktural = DataStruktural::with('guru')->get(); // ambil semua data struktural + relasi guru
-        $gurus = DataGuru::with('user')->get(); // untuk dropdown pilih guru
+        $struktural = DataStruktural::with('user')->get();
         $pageTitle = 'Data Struktural';
+
+        // Ambil semua user dengan role guru, staff, atau admin
+        $gurus = User::whereIn('role', ['guru', 'staff', 'admin'])
+            ->orderBy('name')
+            ->get();
+
         return view('admin.struktural', compact('struktural', 'gurus', 'pageTitle'));
     }
 
@@ -27,10 +32,13 @@ class DataStrukturalController extends Controller
     {
         $request->validate([
             'jabatan'  => 'required|string|max:255',
-            'nama_gtk' => 'nullable|exists:data_guru,id',
+            'nama_gtk' => 'required|exists:users,id',
         ]);
 
-        DataStruktural::create($request->only('jabatan', 'nama_gtk'));
+        DataStruktural::create([
+            'jabatan'  => $request->jabatan,
+            'nama_gtk' => $request->nama_gtk,
+        ]);
 
         return back()->with('alert', [
             'message' => 'Data struktural berhasil ditambahkan!',
@@ -44,7 +52,10 @@ class DataStrukturalController extends Controller
      */
     public function edit(DataStruktural $struktural)
     {
-        $gurus = DataGuru::all(); // dropdown guru
+        $gurus = User::whereIn('role', ['guru', 'staff', 'admin'])
+            ->orderBy('name')
+            ->get();
+
         return view('admin.struktural.edit', compact('struktural', 'gurus'));
     }
 
@@ -55,10 +66,13 @@ class DataStrukturalController extends Controller
     {
         $request->validate([
             'jabatan'  => 'required|string|max:255',
-            'nama_gtk' => 'nullable|exists:data_guru,id',
+            'nama_gtk' => 'required|exists:users,id',
         ]);
 
-        $struktural->update($request->only('jabatan', 'nama_gtk'));
+        $struktural->update([
+            'jabatan'  => $request->jabatan,
+            'nama_gtk' => $request->nama_gtk,
+        ]);
 
         return back()->with('alert', [
             'message' => 'Data struktural berhasil diperbarui!',

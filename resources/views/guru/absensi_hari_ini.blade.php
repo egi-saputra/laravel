@@ -1,28 +1,28 @@
 {{-- <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
-            <i class="bi bi-calendar-check text-blue-600"></i>
+        <h2 class="flex items-center gap-2 text-xl font-semibold leading-tight text-gray-800">
+            <i class="text-blue-600 bi bi-calendar-check"></i>
             {{ __('Absensi Siswa Hari Ini') }}
         </h2>
     </x-slot>
 
     <div class="py-10">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-xl rounded-xl p-6 border border-gray-100">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="p-6 bg-white border border-gray-100 shadow-xl rounded-xl">
 
-                <div class="mb-6 flex items-center justify-between">
+                <div class="flex items-center justify-between mb-6">
                     <h3 class="text-lg font-semibold text-gray-700">
                         Tanggal: <span class="text-blue-600">{{ $today->translatedFormat('l, d F Y') }}</span>
                     </h3>
                     <a href="{{ route('dashboard') }}"
-                       class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition">
+                       class="text-sm font-semibold text-blue-600 transition hover:text-blue-800">
                         ← Kembali ke Dashboard
                     </a>
                 </div>
 
                 <div class="overflow-x-auto">
                     <table class="min-w-full text-sm text-gray-700 border border-gray-200 rounded-lg">
-                        <thead class="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+                        <thead class="text-white bg-gradient-to-r from-blue-600 to-blue-800">
                             <tr>
                                 <th class="px-4 py-3 text-left">#</th>
                                 <th class="px-4 py-3 text-left">Nama Siswa</th>
@@ -33,7 +33,7 @@
                         </thead>
                         <tbody>
                             @forelse($presensi as $index => $p)
-                                <tr class="border-b hover:bg-blue-50 transition">
+                                <tr class="transition border-b hover:bg-blue-50">
                                     <td class="px-4 py-3">{{ $index + 1 }}</td>
                                     <td class="px-4 py-3 font-semibold">{{ $p->user->name ?? '-' }}</td>
                                     <td class="px-4 py-3">{{ $p->dataSiswa->kelas->kelas ?? '-' }}</td>
@@ -57,7 +57,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center py-6 text-gray-500">
+                                    <td colspan="5" class="py-6 text-center text-gray-500">
                                         Tidak ada data presensi untuk hari ini.
                                     </td>
                                 </tr>
@@ -74,10 +74,10 @@
 <x-app-layout>
 
     {{-- Mobile Version --}}
-    <div class="md:hidden block">
+    <div class="block md:hidden">
         <x-slot name="header">
-            <h2 class="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
-                <i class="bi bi-calendar-check text-blue-600"></i>
+            <h2 class="flex items-center gap-2 text-xl font-semibold leading-tight text-gray-800">
+                <i class="text-blue-600 bi bi-calendar-check"></i>
                 {{ __('Absensi Siswa Hari Ini') }}
             </h2>
         </x-slot>
@@ -88,18 +88,18 @@
         <main class="flex-1 p-0 mb-16 overflow-x-auto md:mb-0 md:p-6">
 
                     {{-- Header --}}
-                    <div class="mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="flex flex-col items-center justify-between gap-4 mb-6 md:flex-row">
                         <div>
                             <h3 class="text-lg font-semibold text-gray-700">
                                 Tanggal: <span class="text-blue-600">{{ $today->translatedFormat('l, d F Y') }}</span>
                             </h3>
                         </div>
 
-                        <div class="flex flex-col p-2 w-full gap-3">
+                        <div class="flex flex-col w-full gap-3 p-2">
                             {{-- Filter Kelas --}}
                             <form method="GET" action="{{ route('guru.absensi_hari_ini') }}" class="flex items-center">
                                 <select name="kelas" onchange="this.form.submit()"
-                                    class="border text-center w-full border-gray-300 rounded-lg text-sm px-3 py-2 focus:ring focus:ring-blue-200">
+                                    class="w-full px-3 py-2 text-sm text-center border border-gray-300 rounded-lg focus:ring focus:ring-blue-200">
                                     <option value="">Semua Kelas</option>
                                     @foreach($kelasList as $k)
                                         <option value="{{ $k->id }}" {{ request('kelas') == $k->id ? 'selected' : '' }}>
@@ -109,10 +109,10 @@
                                 </select>
                             </form>
 
-                            <div class="flex w-full gap-4 justify-center items-center">
+                            <div class="flex items-center justify-center w-full gap-4">
                                 {{-- Back --}}
                                 <a href="{{ route('dashboard') }}"
-                                class="px-4 text-center py-2 text-sm font-semibold text-blue-600 border border-blue-500 rounded-lg hover:bg-blue-50 w-full transition">
+                                class="w-full px-4 py-2 text-sm font-semibold text-center text-blue-600 transition border border-blue-500 rounded-lg hover:bg-blue-50">
                                     ← Kembali
                                 </a>
 
@@ -129,15 +129,15 @@
 
                     {{-- Cards --}}
                     @if(!$kelasId)
-                        <div class="text-center text-gray-500 py-10">
+                        <div class="py-10 text-center text-gray-500">
                             Silakan pilih kelas terlebih dahulu untuk melihat data absensi hari ini.
                         </div>
                     @elseif($presensi->isEmpty())
-                        <div class="text-center text-gray-500 py-10">
+                        <div class="py-10 text-center text-gray-500">
                             Tidak ada data presensi untuk hari ini di kelas yang dipilih.
                         </div>
                     @else
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                             @foreach($presensi as $p)
                                 @php
                                     $color = match($p->keterangan) {
@@ -148,20 +148,20 @@
                                         default => 'bg-gray-100 text-gray-800 border-gray-300',
                                     };
                                 @endphp
-                                <div class="p-5 bg-white border rounded-xl shadow-sm hover:shadow-md transition duration-200">
+                                <div class="p-5 transition duration-200 bg-white border shadow-sm rounded-xl hover:shadow-md">
                                     <div class="flex items-center justify-between mb-3">
-                                        <h4 class="font-semibold text-gray-800 text-lg line-clamp-1">
+                                        <h4 class="text-lg font-semibold text-gray-800 line-clamp-1">
                                             {{ $p->user->name ?? '-' }}
                                         </h4>
                                         <span class="px-3 py-1 text-xs font-medium rounded-full border {{ $color }}">
                                             {{ $p->keterangan }}
                                         </span>
                                     </div>
-                                    <p class="text-gray-600 text-sm">
-                                        <i class="bi bi-building text-blue-600"></i>
+                                    <p class="text-sm text-gray-600">
+                                        <i class="text-blue-600 bi bi-building"></i>
                                         Kelas: <strong>{{ $p->dataSiswa->kelas->kelas ?? '-' }}</strong>
                                     </p>
-                                    <p class="text-gray-500 text-sm mt-1">
+                                    <p class="mt-1 text-sm text-gray-500">
                                         <i class="bi bi-clock"></i>
                                         Jam Presensi: <strong>{{ $p->created_at->format('H:i') }}</strong>
                                     </p>
@@ -175,20 +175,20 @@
     </div>
 
     {{-- Desktop Version --}}
-    <div class="md:block hidden">
+    <div class="hidden md:block">
         <x-slot name="header">
-            <h2 class="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
-                <i class="bi bi-table text-blue-600"></i>
+            <h2 class="flex items-center gap-2 text-xl font-semibold leading-tight text-gray-800">
+                <i class="text-blue-600 bi bi-table"></i>
                 {{ __('Absensi Siswa Hari Ini') }}
             </h2>
         </x-slot>
 
         <div class="py-10 md:mb-16">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white shadow-xl rounded-xl p-6 border border-gray-100">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="p-6 bg-white border border-gray-100 shadow-xl rounded-xl">
 
                     {{-- Header --}}
-                    <div class="mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="flex flex-col items-center justify-between gap-4 mb-6 md:flex-row">
                         <div>
                             <h3 class="text-lg font-semibold text-gray-700">
                                 Tanggal: <span class="text-blue-600">{{ $today->translatedFormat('l, d F Y') }}</span>
@@ -199,7 +199,7 @@
                             {{-- Filter Kelas --}}
                             <form method="GET" action="{{ route('guru.absensi_hari_ini') }}" class="flex items-center gap-2">
                                 <select name="kelas" onchange="this.form.submit()"
-                                    class="border border-gray-300 rounded-lg text-sm px-3 py-2 focus:ring focus:ring-blue-200">
+                                    class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring focus:ring-blue-200">
                                     <option value="">Pilih Kelas</option>
                                     @foreach($kelasList as $k)
                                         <option value="{{ $k->id }}" {{ request('kelas') == $k->id ? 'selected' : '' }}>
@@ -217,9 +217,13 @@
                                 <i class="bi bi-file-earmark-excel"></i> Export Excel
                             </a>
 
+                            <button id="printAbsensi" class="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+                                <i class="bi bi-printer"></i> Print Absensi
+                            </button>
+
                             {{-- Back --}}
                             <a href="{{ route('dashboard') }}"
-                            class="px-4 py-2 text-sm font-semibold text-blue-600 border border-blue-500 rounded-lg hover:bg-blue-50 transition">
+                            class="px-4 py-2 text-sm font-semibold text-blue-600 transition border border-blue-500 rounded-lg hover:bg-blue-50">
                                 ← Kembali
                             </a>
                         </div>
@@ -227,19 +231,19 @@
 
                     {{-- Tabel --}}
                     @if(!$kelasId)
-                        <div class="text-center text-gray-500 py-10">
+                        <div class="py-10 text-center text-gray-500">
                             Silakan pilih kelas terlebih dahulu untuk melihat data absensi hari ini.
                         </div>
                     @elseif($presensi->isEmpty())
-                        <div class="text-center text-gray-500 py-10">
+                        <div class="py-10 text-center text-gray-500">
                             Tidak ada data presensi untuk hari ini di kelas yang dipilih.
                         </div>
                     @else
                         <div class="overflow-x-auto">
-                            <table class="min-w-full text-sm text-gray-700 border border-gray-200 rounded-lg overflow-hidden shadow-sm">
-                                <thead class="bg-gradient-to-r from-blue-600 to-blue-800 text-white text-left">
+                            <table class="min-w-full overflow-hidden text-sm text-gray-700 border border-gray-200 rounded-lg shadow-sm">
+                                <thead class="text-left text-white bg-gradient-to-r from-blue-600 to-blue-800">
                                     <tr>
-                                        <th class="px-4 py-3">#</th>
+                                        <th class="px-4 py-3">No</th>
                                         <th class="px-4 py-3">Nama Siswa</th>
                                         <th class="px-4 py-3">Kelas</th>
                                         <th class="px-4 py-3">Keterangan</th>
@@ -279,5 +283,62 @@
             </div>
         </div>
     </div>
+
+<script>
+document.getElementById('printAbsensi').addEventListener('click', async () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('landscape');
+
+    // Set locale Indonesia
+    dayjs.locale('id');
+    const today = dayjs(); // tanggal sekarang
+    const judul = "Laporan Absensi Siswa Hari Ini — " + today.format('dddd, DD MMMM YYYY');
+
+    // Ambil tabel
+    const table = document.querySelector('table');
+    const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText);
+    const rows = Array.from(table.querySelectorAll('tbody tr')).map(tr =>
+        Array.from(tr.querySelectorAll('td')).map(td => td.innerText)
+    );
+
+    doc.autoTable({
+        head: [headers],
+        body: rows,
+        startY: 20,
+        margin: { top: 20 },
+        styles: {
+            fontSize: 10,
+            cellPadding: 3,
+            lineColor: [0, 0, 0],
+            lineWidth: 0.3,
+            font: "helvetica"
+        },
+        headStyles: {
+            fillColor: [0, 112, 192],
+            textColor: 255,
+            lineColor: [0, 0, 0],
+            lineWidth: 0.3
+        },
+        alternateRowStyles: { fillColor: [240, 240, 240] },
+        tableLineWidth: 0.3,
+        tableLineColor: [0, 0, 0],
+        didDrawPage: (data) => {
+            // Judul di atas semua halaman
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const textWidth = doc.getTextWidth(judul);
+            doc.text(judul, (pageWidth - textWidth) / 2, 12);
+        }
+    });
+
+    doc.autoPrint({ variant: 'non-conform' });
+    const printIframe = document.createElement('iframe');
+    printIframe.style.display = 'none';
+    document.body.appendChild(printIframe);
+    printIframe.src = doc.output('bloburl');
+});
+</script>
+
 </x-app-layout>
 
