@@ -437,7 +437,7 @@
         // Set locale Indonesia
         dayjs.locale('id');
         const today = dayjs();
-        const judul = "Laporan Absensi Siswa Hari Ini — " + today.format('dddd, DD MMMM YYYY');
+        const judul = "Laporan Absensi Siswa Hari " + today.format('dddd, DD MMMM YYYY');
         const generated = "Generated from Simstal Query App on: " + today.format('DD/MM/YYYY');
 
         // Ambil tabel
@@ -481,7 +481,7 @@
 
                 // Header
                 doc.setFontSize(14);
-                doc.setFont('helvetica', 'bold');
+                doc.setFont('helvetica', 'semibold');
                 const titleWidth = doc.getTextWidth(judul);
                 doc.text(judul, (pageWidth - titleWidth) / 2, 12);
 
