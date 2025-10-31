@@ -22,11 +22,6 @@
             <div>
                 <x-guru.card-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
             </div>
-
-            <!-- Versi Desktop: Tabel -->
-            {{-- <div class="hidden md:block">
-                <x-guru.tabel-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
-            </div> --}}
         </main>
     </div>
 </x-app-layout>

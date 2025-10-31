@@ -16,10 +16,10 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
+        <main class="flex-1 p-0 !mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
 
             <!-- Form Tambah Materi -->
-            <div class="p-4 mb-0 bg-white border rounded-lg shadow-sm md:mb-16 backdrop-blur border-slate-200">
+            <div class="p-4 mb-0 bg-white border rounded-lg shadow-sm backdrop-blur border-slate-200">
                 <h2 class="flex items-center gap-2 mb-4 text-xl font-bold text-slate-800">
                     <i class="text-lg text-blue-600 bi bi-journal-text"></i>
                     Buat Materi Pembelajaran
@@ -87,6 +87,10 @@
                         </button>
                     </div>
                 </form>
+            </div>
+
+            <div>
+                <x-guru.tabel-materi :kelas="$kelas" :mapel="$mapel" :materis="$materis" />
             </div>
         </main>
     </div>

@@ -1,9 +1,9 @@
-<div class="p-4 bg-white rounded-lg shadow">
+<div class="p-4 mt-6 bg-white rounded-lg shadow md:mt-0">
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
         <h2 class="flex items-center gap-2 text-xl font-bold text-slate-800">
             <i class="text-lg text-blue-600 bi bi-journal-text"></i>
-            Daftar Materi Pembelajaran
+            Daftar Materi <span class="hidden md:inline-block">Pembelajaran</span>
         </h2>
 
         <!-- Tombol Hapus Semua -->
