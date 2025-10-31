@@ -43,7 +43,7 @@
 
     <!-- Table -->
     <div class="pb-10 overflow-x-auto">
-        <table class="w-full border border-collapse md:mb-0" id="materiTable">
+        <table class="w-full border border-collapse" id="materiTable">
             <thead>
                 <tr class="bg-gray-100">
                     <th class="w-12 px-4 py-2 text-center border">No</th>
