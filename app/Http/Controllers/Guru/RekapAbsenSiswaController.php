@@ -12,61 +12,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class RekapAbsenSiswaController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     $pageTitle   = "Rekap Presensi Siswa";
-    //     $profil      = \App\Models\ProfilSekolah::first();
-    //     $rekap       = collect();
-    //     $isGenerated = false;
-    //     $hasPresensi = false;
-
-    //     $guruUserId  = auth()->user()->id;
-
-    //     $dataGuruId = DB::table('data_guru')
-    //         ->where('user_id', $guruUserId)
-    //         ->value('id');
-
-    //     $kelas_id = DB::table('data_kelas')
-    //         ->where('walas_id', $dataGuruId)
-    //         ->value('id');
-
-    //     $periode_mulai = $request->query('periode_mulai');
-    //     $periode_akhir = $request->query('periode_akhir');
-
-    //     if ($periode_mulai && $periode_akhir) {
-    //         $periode_mulai_carbon = Carbon::parse($periode_mulai)->startOfDay();
-    //         $periode_akhir_carbon = Carbon::parse($periode_akhir)->endOfDay();
-
-    //         $rekap = DataSiswa::withCount([
-    //             'presensi as hadir_count' => fn($q) =>
-    //                 $q->whereBetween('created_at', [$periode_mulai_carbon, $periode_akhir_carbon])
-    //                 ->where('keterangan', 'Hadir'),
-    //             'presensi as sakit_count' => fn($q) =>
-    //                 $q->whereBetween('created_at', [$periode_mulai_carbon, $periode_akhir_carbon])
-    //                 ->where('keterangan', 'Sakit'),
-    //             'presensi as izin_count'  => fn($q) =>
-    //                 $q->whereBetween('created_at', [$periode_mulai_carbon, $periode_akhir_carbon])
-    //                 ->where('keterangan', 'Izin'),
-    //             'presensi as alpa_count'  => fn($q) =>
-    //                 $q->whereBetween('created_at', [$periode_mulai_carbon, $periode_akhir_carbon])
-    //                 ->where('keterangan', 'Alpa'),
-    //         ])
-    //         ->where('kelas_id', $kelas_id)
-    //         ->paginate(15)
-    //         ->appends($request->only(['periode_mulai','periode_akhir']));
-
-    //         $isGenerated = true;
-    //         $hasPresensi = $rekap->sum(fn($s) =>
-    //             $s->hadir_count + $s->sakit_count + $s->izin_count + $s->alpa_count
-    //         ) > 0;
-    //     }
-
-    //     return view('guru.absensi_kelas', compact(
-    //         'pageTitle', 'profil', 'rekap', 'isGenerated',
-    //         'kelas_id', 'periode_mulai', 'periode_akhir', 'hasPresensi'
-    //     ));
-    // }
-
     public function index(Request $request)
     {
         $pageTitle   = "Rekap Presensi Siswa";
@@ -75,7 +20,7 @@ class RekapAbsenSiswaController extends Controller
         $isGenerated = false;
         $hasPresensi = false;
 
-        $guruUserId  = auth()->user()->id;
+        $guruUserId = auth()->user()->id;
 
         $dataGuruId = DB::table('data_guru')
             ->where('user_id', $guruUserId)
@@ -84,6 +29,10 @@ class RekapAbsenSiswaController extends Controller
         $kelas_id = DB::table('data_kelas')
             ->where('walas_id', $dataGuruId)
             ->value('id');
+
+        if (!$kelas_id) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini (bukan wali kelas).');
+        }
 
         $periode_mulai = $request->query('periode_mulai');
         $periode_akhir = $request->query('periode_akhir');

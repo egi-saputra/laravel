@@ -16,17 +16,40 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class WalasController extends Controller
 {
+    // public function index()
+    // {
+    //     $user = Auth::user();
+    //     $guru = $user->guru;
+    //     $kelas = DataKelas::where('walas_id', $guru->id)->first();
+
+    //     $siswa = $kelas
+    //         ? DataSiswa::where('kelas_id', $kelas->id)
+    //             ->with(['user','kelas'])
+    //             ->get()
+    //         : collect();
+
+    //     return view('guru.walas', compact('kelas', 'siswa'));
+    // }
+
     public function index()
     {
         $user = Auth::user();
         $guru = $user->guru;
+
+        if (!$guru) {
+            abort(403, 'Anda tidak terdaftar sebagai guru.');
+        }
+
         $kelas = DataKelas::where('walas_id', $guru->id)->first();
 
-        $siswa = $kelas
-            ? DataSiswa::where('kelas_id', $kelas->id)
-                ->with(['user','kelas'])
-                ->get()
-            : collect();
+        // Jika bukan wali kelas, tolak akses
+        if (!$kelas) {
+            abort(403, 'Anda tidak memiliki akses ke halaman ini (bukan wali kelas).');
+        }
+
+        $siswa = DataSiswa::where('kelas_id', $kelas->id)
+            ->with(['user', 'kelas'])
+            ->get();
 
         return view('guru.walas', compact('kelas', 'siswa'));
     }

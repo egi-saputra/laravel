@@ -63,17 +63,16 @@
                     </a>
 
                     <!-- Menu 4 -->
-                    <a href="{{ ($role === 'guru' && $isWalas) ? route('guru.walas.index') : '#' }}"
+                    {{-- <a href="{{ ($role === 'guru' && $isWalas) ? route('guru.walas.index') : '#' }}"
+                    class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md"> --}}
+                    <a href="{{ route('guru.walas.index') }}"
                     class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        {{-- <i class="mb-2 text-3xl text-sky-600 bi bi-journal-text"></i> --}}
-                        {{-- <i class="mb-1 text-3xl text-sky-600 fas fa-laptop-code"></i> --}}
                         <i class="mb-1 text-3xl text-sky-600 fas fa-chalkboard-teacher"></i>
                         <span class="text-sm font-semibold text-gray-700 ">Kelas</span>
                     </a>
 
                     <!-- Menu 5 -->
                     <a href="{{ route('guru.daftar_materi.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        {{-- <i class="mb-2 text-3xl text-indigo-600 fas fa-book"></i> --}}
                         <i class="mb-2 text-3xl text-indigo-600 bi bi-journal-bookmark"></i>
                         <span class="text-sm font-semibold text-gray-700">Materi</span>
                     </a>
@@ -81,7 +80,6 @@
                     <!-- Menu 6 -->
                     <a href="{{ route('guru.absensi_kelas.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-3xl text-red-600 bi bi-file-earmark-text"></i>
-                        {{-- <i class="mb-2 text-2xl text-indigo-600 fas fa-file-alt"></i> --}}
                         <span class="text-sm font-semibold text-gray-700">Absensi</span>
                     </a>
                 </div>
