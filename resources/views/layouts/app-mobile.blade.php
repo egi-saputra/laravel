@@ -20,9 +20,7 @@
 
         <!-- SweetAlert2 CDN -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        <!-- Lottie Player -->
-        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.3/dist/purify.min.js"></script>
 
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -33,6 +31,14 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+        <!-- HotWire -->
+        <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.3/dist/turbo.es2017-umd.js"></script>
+
+        <!-- TinyMCE -->
+        <script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -86,45 +92,24 @@
                 /* Mobile Bottom Navigation */
                 /* ================================== */
                 @media (max-width: 768px) {
-                    #navhp {
-                        position: fixed;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        z-index: 40;
-                        display: flex;
-                        justify-content: space-around;
-                        padding: 0.5rem 0;
-                        background: rgba(255, 255, 255, 1);
-                        backdrop-filter: blur(8px);
-                        border-top: 1px solid #e5e7eb;
-                        /* box-shadow: 0 -2px 6px rgba(0,0,0,0.1); */
-                        padding-bottom: calc(0.5rem + env(safe-area-inset-bottom)); /* aman untuk iPhone */
-                    }
-
                     .nav-icon {
-                        flex: 1;
-                        text-align: center;
-                        color: #9ca3af;
-                        font-size: 1.5rem;
-                        transition: all 0.25s ease;
+                        color: #9ca3af; /* text-gray-400 */
+                        transition: all 0.3s ease;
                     }
-
-                    .nav-icon i {
-                        transition: transform 0.25s ease, color 0.25s ease;
+                    .nav-icon.active i,
+                    .nav-icon.active span {
+                        color: #f97316; /* text-orange-500 */
                     }
-
-                    .nav-icon:hover i {
-                        transform: scale(1.15);
+                    .nav-icon:hover {
+                        transform: scale(1.1);
                     }
-
-                    .nav-icon.active {
-                        color: #063970;
-                    }
-
-                    .nav-icon.active i {
-                        transform: scale(1.25);
-                        color: #063970;
+                    #navhp {
+                        backdrop-filter: blur(12px);
+                        -webkit-backdrop-filter: blur(12px);
+                        width: 95%;
+                        padding: 0.5rem 0;
+                        margin: 0 0;
+                        padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
                     }
                 }
 
@@ -133,58 +118,6 @@
                     #navhp {
                         display: none;
                     }
-                }
-            </style>
-
-            <style>
-                #minimalLoader {
-                    position: fixed;
-                    top: 0; left: 0;
-                    width: 100%; height: 100%;
-                    background-color: #ffffff;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    z-index: 9999;
-                    transition: opacity 0.3s ease;
-                }
-
-                #minimalLoader.hidden {
-                    opacity: 0;
-                    pointer-events: none;
-                }
-
-                .loader-text {
-                    font-weight: bold;
-                    font-size: 1.4rem;
-                    background: linear-gradient(90deg, #2563eb, #3b82f6, #2563eb);
-                    background-clip: text;
-                    -webkit-background-clip: text;
-                    color: transparent;
-                    animation: shine 2s linear infinite;
-                    margin-bottom: 20px;
-                }
-
-                @keyframes shine {
-                    0% { background-position: 200% center; }
-                    100% { background-position: -200% center; }
-                }
-
-                .loader-bar-wrapper {
-                    overflow: hidden;
-                    border-radius: 9999px;
-                    background-color: #e5e7eb;
-                    width: 300px;
-                    height: 14px;
-                }
-
-                .loader-bar {
-                    width: 0%;
-                    height: 100%;
-                    background: linear-gradient(90deg, #2563eb, #3b82f6);
-                    border-radius: 9999px;
-                    transition: width 1.5s cubic-bezier(0.77, 0, 0.175, 1); /* smooth live feel */
                 }
             </style>
 
@@ -213,14 +146,27 @@
                     pointer-events: auto;
                 }
 
+                .cursor-grabbing {
+                    cursor: grabbing;
+                    cursor: -webkit-grabbing;
+                }
+
+                @keyframes gradientMove {
+                    0% { background-position: 0% 50%; }
+                    50% { background-position: 100% 50%; }
+                    100% { background-position: 0% 50%; }
+                }
+
+                .animate-gradient {
+                    animation: gradientMove 8s ease infinite;
+                }
+
                 [x-cloak] { display: none !important; }
             </style>
 
     </head>
-    <body class="font-sans antialiased bg-white">
+    <body class="font-sans antialiased bg-white md:bg-gray-100">
         <x-alert />
-
-        <x-head-tinymce.tinymce-config/>
 
             @php
                 $role = auth()->user()->role;
@@ -228,12 +174,10 @@
                     'developer' => [
                         ['label' => 'Dashboard', 'route' => 'dev.dashboard'],
                         ['label' => 'Informasi Sekolah', 'route' => 'public.informasi_sekolah.index'],
-                        ['label' => 'Log Out', 'route' => 'logout', 'logout' => true], // tambah logout
                     ],
                     'admin' => [
                         ['label' => 'Dashboard', 'route' => 'admin.dashboard'],
                         ['label' => 'Profil Sekolah', 'route' => 'admin.profil_sekolah'],
-                        ['label' => 'Log Out', 'route' => 'logout', 'logout' => true],
                     ],
                     'guru' => [
                         ['label' => 'Dashboard', 'label_mobile' => 'Dashboard', 'route' => 'guru.dashboard'],
@@ -256,6 +200,7 @@
                     ],
                 ];
             @endphp
+
 
             <nav x-data="{ open: false }"
                 class="sticky top-0 z-30 block bg-white border-b border-gray-100 shadow-sm dark:bg-gray-800 dark:border-gray-700 md:static">
@@ -384,22 +329,16 @@
                 </div>
             </nav>
 
-            @if (!session('alert'))
-                <div id="minimalLoader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white md:hidden">
-                    <div class="mb-4 text-lg text-gray-600 loader-text">Loading...</div>
-                    <div class="w-3/4 h-2 bg-gray-200 rounded-full loader-bar-wrapper">
-                        <div class="h-2 bg-blue-500 rounded-full loader-bar" id="loaderBar"></div>
-                    </div>
-                </div>
-            @endif
-
             <!-- Page Content -->
             <main>
                 {{ $slot }}
             </main>
 
-            {{-- <x-nav-bot :role="$role" /> --}}
-            <div id="navBotWrapper"></div>
+            @if (!request()->is('login'))
+                <div data-turbo="false">
+                    <x-navbot :role="$role" />
+                </div>
+            @endif
 
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -415,138 +354,114 @@
         <x-modal-upload-foto />
 
         <!-- Back to Top -->
-        <button id="backToTop"
+        <button data-turbo="false" id="backToTop"
             class="fixed items-center justify-center hidden w-12 h-12 text-white transition-all duration-300 rounded-full shadow-lg md:flex md:bottom-6 bottom-16 right-6 bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-2xl hover:scale-110"
-            title="Kembali ke atas">
+            title="Kembali ke atas !z-30">
             <i class="text-xl bi bi-arrow-up"></i>
         </button>
 
+        <!-- Custom Script -->
         <script>
-            // Script Fullscreen
-            function toggleFullscreen() {
-                    let elem = document.documentElement;
-                    if (!document.fullscreenElement) {
-                        if (elem.requestFullscreen) {
-                            elem.requestFullscreen();
-                        } else if (elem.mozRequestFullScreen) {
-                            elem.mozRequestFullScreen();
-                        } else if (elem.webkitRequestFullscreen) {
-                            elem.webkitRequestFullscreen();
-                        } else if (elem.msRequestFullscreen) {
-                            elem.msRequestFullscreen();
-                        }
-                    } else {
-                        if (document.exitFullscreen) {
-                            document.exitFullscreen();
-                        } else if (document.mozCancelFullScreen) {
-                            document.mozCancelFullScreen();
-                        } else if (document.webkitExitFullscreen) {
-                            document.webkitExitFullscreen();
-                        } else if (document.msExitFullscreen) {
-                            document.msExitFullscreen();
-                        }
-                    }
-                }
-
-            document.addEventListener('DOMContentLoaded', function () {
-                // ============================
-                // Loader & SweetAlert Handling
-                // ============================
-                const loader = document.getElementById('minimalLoader');
-                const loaderBar = document.getElementById('loaderBar');
-                const isMobile = window.innerWidth < 768;
-
-                const hasSweetAlert = {!! session('alert') ? 'true' : 'false' !!};
-                const alertType = {!! session('alert.type') ? "'".session('alert.type')."'" : 'null' !!};
-                const alertTitle = {!! session('alert.title') ? "'".session('alert.title')."'" : 'null' !!};
-                const alertMessage = {!! session('alert.message') ? "'".session('alert.message')."'" : 'null' !!};
-
-                if (isMobile) {
-                    if (loader) loader.classList.remove('hidden');
-                    if (loaderBar) loaderBar.style.width = '0%';
-                    setTimeout(() => {
-                        if (loaderBar) loaderBar.style.width = '100%';
-                    }, 50);
-                    window.addEventListener('load', () => {
-                        if (loader) loader.classList.add('hidden');
-                    });
-                } else {
-                    if (loader) loader.remove();
-                    if (loaderBar) loaderBar.remove();
-
-                    if (hasSweetAlert && alertType) {
-                        Swal.fire({
-                            icon: alertType,
-                            title: alertTitle ?? alertType.charAt(0).toUpperCase() + alertType.slice(1),
-                            text: alertMessage,
-                            confirmButtonText: 'OK',
-                            confirmButtonColor: '#3085d6'
-                        });
-                    }
-                }
-
-                // ============================
-                // Back To Top Button
-                // ============================
+            function initBackToTop() {
                 const backToTopBtn = document.getElementById("backToTop");
-                if (backToTopBtn) {
-                    window.addEventListener("scroll", () => {
-                        if (window.scrollY > 100) {
-                            backToTopBtn.classList.add("show");
-                        } else {
-                            backToTopBtn.classList.remove("show");
-                        }
-                    });
-                    backToTopBtn.addEventListener("click", () => {
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                    });
-                }
+                if (!backToTopBtn) return;
 
-                // ============================
-                // Nav-Bot Cache Handling
-                // ============================
-                const wrapper = document.getElementById('navBotWrapper');
-                if (wrapper) {
-                    const cacheKey = 'navBotHTML';
-                    const cachedNav = localStorage.getItem(cacheKey);
+                // Hapus event listener lama biar gak dobel
+                const newBtn = backToTopBtn.cloneNode(true);
+                backToTopBtn.parentNode.replaceChild(newBtn, backToTopBtn);
 
-                    if (cachedNav) {
-                        wrapper.innerHTML = cachedNav;
-                        console.log('NavBot: pakai cache');
-                    }
+                // Tampilkan tombol saat scroll
+                window.addEventListener("scroll", () => {
+                    newBtn.classList.toggle("show", window.scrollY > 100);
+                });
 
-                    fetch("{{ route('nav-bot') }}", { credentials: 'same-origin' })
-                        .then(res => {
-                            if (!res.ok) throw new Error('Gagal fetch NavBot: ' + res.status);
-                            return res.text();
-                        })
-                        .then(html => {
-                            wrapper.innerHTML = html;
-                            localStorage.setItem(cacheKey, html);
-                            console.log('NavBot: fetch terbaru dan cache diperbarui');
-                        })
-                        .catch(err => {
-                            console.error('NavBot fetch error:', err);
-                            if (cachedNav) wrapper.innerHTML = cachedNav;
-                        });
-                }
+                // Klik tombol scroll ke atas
+                newBtn.addEventListener("click", () => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                });
+            }
 
-                // ============================
-                // Redirect saat back-forward
-                // ============================
+            // Jalankan saat pertama kali halaman dimuat
+            document.addEventListener('DOMContentLoaded', () => {
+                initBackToTop();
+
+                // Redirect saat back/forward
                 window.addEventListener("pageshow", function(event) {
                     if (event.persisted || (window.performance.getEntriesByType("navigation")[0]?.type === "back_forward")) {
                         window.location.href = "/login";
                     }
                 });
 
-                // ============================
                 // Simpan token Sanctum
-                // ============================
                 @if (session('sanctum_token'))
                     localStorage.setItem('sanctum_token', "{{ session('sanctum_token') }}");
                 @endif
             });
+
+            // Jalankan ulang setiap kali Turbo memuat halaman baru
+            document.addEventListener('turbo:load', initBackToTop);
         </script>
+
+
+        <!-- Menonaktifkan Loader Turbo Hotwire -->
+        {{-- <script>
+            // Matikan progress bar bawaan Turbo
+            window.Turbo.setProgressBarDelay(999999);
+        </script> --}}
+
+        <!-- Script Loader Turbo Hotwire Mobile Only -->
+        {{-- <script>
+            document.addEventListener("turbo:before-visit", () => {
+                const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+                // Jika desktop, sembunyikan progress bar Turbo
+                if (!isMobile) {
+                Turbo.navigator.delegate.adapter.progressBar.hide();
+                window.Turbo.setProgressBarDelay(999999); // tunda tampilnya agar tidak muncul sama sekali
+                } else {
+                // Jika mobile, tampilkan dengan delay default (100ms)
+                window.Turbo.setProgressBarDelay(100);
+                }
+            });
+
+            // Optional: pastikan setelah load pertama, bar disembunyikan lagi di desktop
+            // document.addEventListener("turbo:load", () => {
+            //     const isMobile = window.matchMedia("(max-width: 768px)").matches;
+            //     if (!isMobile) {
+            //     Turbo.navigator.delegate.adapter.progressBar.hide();
+            //     }
+            // });
+        </script> --}}
+
+        <!-- Script TinyMce Init -->
+        <script>
+            function initTinyMCE() {
+                if (typeof tinymce === 'undefined') return;
+
+                tinymce.remove(); // pastikan gak dobel
+
+                tinymce.init({
+                    selector: 'textarea.tinymce, textarea.tinymce-editor',
+                    plugins: 'code table lists link image media fullscreen',
+                    toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media | code fullscreen',
+                    height: 300,
+                    menubar: false,
+                    branding: false
+                });
+            }
+
+            // Untuk pertama kali load
+            document.addEventListener('DOMContentLoaded', initTinyMCE);
+
+            // Untuk navigasi Turbo (maju/mundur antar halaman)
+            document.addEventListener('turbo:load', initTinyMCE);
+            document.addEventListener('turbo:render', initTinyMCE);
+
+            // Sebelum halaman disimpan ke cache Turbo
+            document.addEventListener('turbo:before-cache', function() {
+                if (typeof tinymce !== 'undefined') tinymce.remove();
+            });
+        </script>
+
     </body>
 </html>

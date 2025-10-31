@@ -2,21 +2,26 @@
 use Carbon\Carbon;
 @endphp
 
-<x-app-dashboard-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold text-gray-800">
             {{ __($pageTitle ?? 'Rekap Honor Guru') }}
         </h2>
     </x-slot>
 
-    <div class="flex flex-col min-h-screen md:flex-row">
-        <!-- Sidebar -->
-        <aside class="mt-2 mb-4 top-16 md:top-0 md:ml-6 md:mt-6 md:h-screen md:w-auto">
+    <div class="flex flex-col min-h-screen md:!flex-row">
+
+        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
+            <!-- Sidebar -->
             <x-sidebar />
+
+            <!-- Footer -->
+            <x-footer :profil="$profil" />
         </aside>
 
-        <main class="flex-1 p-0 mb-10 space-y-6 overflow-x-auto md:mb-0 md:p-6">
-            <div class="flex items-center justify-center w-full p-4 bg-white rounded shadow md:p-10">
+        <!-- Main Content -->
+        <main class="!flex-1 p-0 !mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
+            <div class="items-center justify-center hidden w-full p-4 bg-white rounded shadow md:flex md:p-10">
                 <h2 class="text-lg font-bold">
                     Rekapitulasi Honor Guru <span class="hidden capitalize text-sky-900 md:inline-block">| {{ $profil->nama_sekolah ?? 'Nama Sekolah Belum Diset' }} |</span>
                 </h2>
@@ -24,8 +29,8 @@ use Carbon\Carbon;
             </div>
 
             <div class="overflow-x-auto md:overflow-x-visible">
-                <div class="p-6 mb-6 bg-white rounded shadow-md">
-                    <h2 class="mb-4 text-lg font-bold">Buat Rekap Honor Guru!</h2>
+                <div class="mb-6 md:p-6 md:bg-white md:rounded md:shadow-md">
+                    <h2 class="mb-4 text-lg font-bold">Mulai Rekap Honor Guru!</h2>
 
                     <form action="{{ route('staff.rekap_honor_guru.generate') }}" method="POST" class="space-y-4">
                         @csrf
@@ -97,7 +102,7 @@ use Carbon\Carbon;
                         </div>
 
                         {{-- Tombol Generate --}}
-                        <div class="pt-4">
+                        <div class="flex justify-end pt-4 md:justify-start">
                             <button type="submit" class="flex items-center px-6 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -111,7 +116,7 @@ use Carbon\Carbon;
                 </div>
 
                 {{-- hasil rekap --}}
-                <div class="p-6 mb-6 bg-white rounded shadow-md">
+                <div class="mb-6 md:p-6 md:bg-white md:rounded md:shadow-md">
                     @if(isset($rekap) && $rekap->count() > 0)
                         <x-staff.rekap-honor-guru :rekap="$rekap" />
                     @elseif($isGenerated && $rekap->count() == 0)
@@ -143,7 +148,4 @@ use Carbon\Carbon;
             });
         });
     </script>
-
-    <!-- Footer -->
-    <x-footer :profil="$profil" />
-</x-app-dashboard-layout>
+</x-app-layout>

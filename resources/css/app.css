@@ -79,7 +79,7 @@
     }
 
     .swal2-popup {
-        @apply mx-6 sm:mx-6 md:mx-auto p-6 rounded-xl;
+        @apply p-6 mx-6 sm:mx-6 md:mx-auto rounded-xl;
     }
 
     .swal2-title {

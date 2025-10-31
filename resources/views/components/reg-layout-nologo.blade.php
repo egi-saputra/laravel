@@ -20,10 +20,10 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
-    <div class="flex flex-col items-center justify-center min-h-screen px-4 py-6 sm:py-12">
+<body class="font-sans antialiased bg-white md:bg-gray-100 dark:bg-gray-900">
+    <div class="flex flex-col items-center justify-center h-screen px-4 py-10 sm:py-12">
         {{-- Kontainer form --}}
-        <div class="w-full p-6 bg-white rounded-lg shadow-md sm:max-w-md dark:bg-gray-800 sm:p-8">
+        <div class="w-full rounded-lg shadow-md md:p-6 md:bg-white sm:max-w-md dark:bg-gray-800 sm:p-8">
             {{ $slot }}
         </div>
         {{-- Footer opsional --}}

@@ -5,6 +5,129 @@
         </h2>
     </x-slot>
 
+    <!-- Main Content Mobile Version -->
+        <main class="flex-1 md:hidden block p-0 !mb-14 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
+
+            <!-- Menu Aplikasi -->
+            <div>
+                <!-- Sidebar -->
+                {{-- <aside class="mb-4">
+                    <x-sidebar />
+                </aside> --}}
+
+                <div class="flex flex-col items-center p-4 pt-4 pb-6 mb-6 border rounded-lg shadow-sm bg-gray-50">
+                    <div class="w-full h-32 rounded shadow bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-900 animate-gradient bg-[length:200%_200%]"></div>
+
+                    @php
+                        $user = Auth::user(); // ambil user yang login
+                        $fotoUrl = $user->foto_profil
+                            ? Storage::url($user->foto_profil->file_path)
+                            : asset('storage/default/avatar.jpeg');
+                    @endphp
+
+                    <img src="{{ $fotoUrl }}"
+                        alt="{{ $user->name }}"
+                        class="w-24 h-24 rounded-full -mt-14 drop-shadow-md">
+
+                    <div class="mt-2 text-center">
+                        <p class="mb-2 text-lg font-semibold text-gray-700 md:text-sm md:mb-0">{{ $user->name }}</p>
+                        <p class="text-sm text-gray-500 capitalize md:text-xs">{{ $user->email }}</p>
+                    </div>
+                </div>
+
+                <div class="block mb-4 md:hidden">
+                    <!-- Halaman Guru Piket -->
+                    <x-guru.halaman-piket :guru="Auth::user()->guru" />
+                </div>
+
+                <!-- Grid Menu -->
+                {{-- <div class="grid grid-cols-3 gap-4 p-0 mb-4 text-center md:rounded-xl md:grid-cols-6">
+                    <!-- Menu 1 -->
+                    <a href="{{ route('public.analitycs.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-2xl text-red-600 md:text-3xl bi bi-graph-up-arrow"></i>
+                        <span class="text-sm font-semibold text-gray-700">Analitycs</span>
+                    </a>
+
+                    <!-- Menu 2 -->
+                    <a href="{{ route('staff.rekap_honor_guru.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-xl fas fa-user-tie text-sky-600"></i>
+                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Honor Guru</span>
+                    </a>
+
+                    <!-- Menu 3 -->
+                    <a href="{{ route('staff.rekap_honor_staff.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-2xl text-slate-600 bi bi-people-fill"></i>
+                        <span class="text-xs font-semibold text-gray-700 md:text-sm">Honor Staff</span>
+                    </a>
+
+                    <!-- Menu 4 -->
+                    <a href="{{ route('staff.rekap_keuangan.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-2xl text-green-700 bi bi-currency-dollar"></i>
+                        <span class="text-sm font-semibold text-gray-700">Keuangan</span>
+                    </a>
+
+                    <!-- Menu 5 -->
+                    <a href="{{ route('staff.riwayat_presensi.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-3xl text-indigo-600 bi-clipboard2-check"></i>
+                        <span class="text-sm font-semibold text-gray-700">Presensi</span>
+                    </a>
+
+                    <!-- Menu 6 -->
+                    <a href="{{ route('public.jadwal_piket.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-3xl bi bi-calendar2-week text-amber-500"></i>
+                        <span class="text-xs font-semibold text-gray-700">Guru Piket</span>
+                    </a>
+                </div> --}}
+                <div class="grid grid-cols-3 gap-4 p-1 mb-4 text-center sm:grid-cols-4 md:grid-cols-6 lg:gap-5">
+
+                    <!-- Menu 1 -->
+                    <a href="{{ route('public.analitycs.index') }}"
+                    class="flex flex-col items-center justify-center p-4 duration-300 border border-transparent rounded-lg shadow group bg-gradient-to-br from-orange-50 to-white hover:border-orange-300 backdrop-blur-sm">
+                        <i class="mb-2 text-2xl text-orange-600 bi bi-graph-up-arrow"></i>
+                        <span class="text-xs font-semibold text-gray-700 sm:text-sm">Analitycs</span>
+                    </a>
+
+                    <!-- Menu 2 -->
+                    <a href="{{ route('staff.rekap_honor_guru.index') }}"
+                    class="flex flex-col items-center justify-center p-4 duration-300 border border-transparent rounded-lg shadow group bg-gradient-to-br from-sky-50 to-white hover:border-sky-300 backdrop-blur-sm">
+                        <i class="mb-2 text-2xl text-sky-600 fas fa-user-tie"></i>
+                        <span class="text-xs font-semibold text-gray-700 sm:text-sm">Honor Guru</span>
+                    </a>
+
+                    <!-- Menu 3 -->
+                    <a href="{{ route('staff.rekap_honor_staff.index') }}"
+                    class="flex flex-col items-center justify-center p-4 duration-300 border border-transparent rounded-lg shadow group bg-gradient-to-br from-slate-50 to-white hover:border-slate-300 backdrop-blur-sm">
+                        <i class="mb-2 text-2xl bi bi-people-fill"></i>
+                        <span class="text-xs font-semibold text-gray-700 sm:text-sm">Honor Staff</span>
+                    </a>
+
+                    <!-- Menu 4 -->
+                    <a href="{{ route('staff.rekap_keuangan.index') }}"
+                    class="flex flex-col items-center justify-center p-4 duration-300 border border-transparent rounded-lg shadow group bg-gradient-to-br from-green-50 to-white hover:border-green-300 backdrop-blur-sm">
+                        <i class="mb-2 text-2xl text-green-700 bi bi-currency-dollar"></i>
+                        <span class="text-xs font-semibold text-gray-700 sm:text-sm">Keuangan</span>
+                    </a>
+
+                    <!-- Menu 5 -->
+                    <a href="{{ route('staff.riwayat_presensi.index') }}"
+                    class="flex flex-col items-center justify-center p-4 duration-300 border border-transparent rounded-lg shadow group bg-gradient-to-br from-indigo-50 to-white hover:border-indigo-300 backdrop-blur-sm">
+                        <i class="mb-2 text-3xl text-indigo-600 bi bi-clipboard2-check"></i>
+                        <span class="text-xs font-semibold text-gray-700 sm:text-sm">Presensi</span>
+                    </a>
+
+                    <!-- Menu 6 -->
+                    <a href="{{ route('public.jadwal_piket.index') }}"
+                    class="flex flex-col items-center justify-center p-4 duration-300 border border-transparent rounded-lg shadow group bg-gradient-to-br from-amber-50 to-white hover:border-amber-300 backdrop-blur-sm">
+                        <i class="mb-2 text-3xl text-amber-500 bi bi-calendar2-week"></i>
+                        <span class="text-xs font-semibold text-gray-700 sm:text-sm">Guru Piket</span>
+                    </a>
+
+                </div>
+            </div>
+        </main>
+
+{{-- =================================================================== --}}
+
     <!-- Content Desktop Version -->
         <div class="hidden p-0 space-y-2 overflow-x-auto md:block md:flex-1 md:my-2">
             <!-- Menu Aplikasi -->
@@ -22,10 +145,7 @@
                         <i class="mb-2 text-3xl bi bi-journal-text text-emerald-600"></i>
                         <span class="text-sm font-semibold text-gray-700">Daftar Materi</span>
                     </a> --}}
-                    <a href="#" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-3xl bi bi-journal-text text-emerald-600"></i>
-                        <span class="text-sm font-semibold text-gray-700">Daftar Materi</span>
-                    </a>
+
 
                     <!-- Menu 3 -->
                     <a href="{{ route('public.card_jadwal_guru.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
@@ -41,6 +161,11 @@
                     </a>
 
                     <!-- Menu 5 -->
+                    <a href="{{ route('public.jadwal_piket.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                        <i class="mb-2 text-3xl bi bi-journal-text text-emerald-600"></i>
+                        <span class="text-sm font-semibold text-gray-700">Petugas Piket</span>
+                    </a>
+
                     <a href="{{ route('public.jumlah_jam.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-2 text-3xl text-gray-700 bi bi-clock"></i>
                         <span class="text-sm font-semibold text-gray-700">Jumlah Jam</span>
@@ -175,13 +300,12 @@
                         <div class="flex items-center justify-between mb-3">
                             <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung <span class="hidden sm:inline">Semua User</span></p>
                             <form method="GET" action="{{ url()->current() }}">
-                                <select name="limit" onchange="this.form.submit()"
-                                        class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option value="">Semua</option>
-                                    <option value="10" {{ request('limit') == 10 ? 'selected' : '' }}>10</option>
-                                    <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
-                                    <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
-                                </select>
+                                <select name="limit" onchange="this.form.submit()" class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="all" {{ request('limit') === 'all' ? 'selected' : '' }}>Semua</option>
+                                <option value="10" {{ request('limit', 10) == 10 ? 'selected' : '' }}>10</option>
+                                <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
+                            </select>
                             </form>
                         </div>
 

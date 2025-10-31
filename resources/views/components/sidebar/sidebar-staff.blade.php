@@ -35,33 +35,33 @@ $role = $user->role;
         ],
     ];
 
-    $datas = [
-        [
-            'label' => 'Informasi Peserta Didik',
-            'route' => route('public.daftar_siswa.index'),
-            'icon'  => 'bi-people'
-        ],
-        [
-            'label' => 'Jadwal Mengajar Guru',
-            'route' => route('public.jadwal_guru.index'),
-            'icon'  => 'bi bi-clipboard-data'
-        ],
-        [
-            'label' => 'Jumlah Jam Mengajar',
-            'route' => route('public.jumlah_jam.index'),
-            'icon'  => 'bi-clock-history'
-        ],
-        // [
-        //     'label' => 'Jadwal Mata Pelajaran',
-        //     'route' => route('public.jadwal_mapel.index'),
-        //     'icon'  => 'bi-journal-bookmark'
-        // ],
-        // [
-        //     'label' => 'Jadwal Petugas Piket',
-        //     'route' => route('public.jadwal_piket.index'),
-        //     'icon'  => 'bi-clipboard2-check'
-        // ],
-    ];
+    // $datas = [
+    //     [
+    //         'label' => 'Informasi Peserta Didik',
+    //         'route' => route('public.daftar_siswa.index'),
+    //         'icon'  => 'bi-people'
+    //     ],
+    //     [
+    //         'label' => 'Jadwal Mengajar Guru',
+    //         'route' => route('public.jadwal_guru.index'),
+    //         'icon'  => 'bi bi-clipboard-data'
+    //     ],
+    //     [
+    //         'label' => 'Jumlah Jam Mengajar',
+    //         'route' => route('public.jumlah_jam.index'),
+    //         'icon'  => 'bi-clock-history'
+    //     ],
+    //     [
+    //         'label' => 'Jadwal Mata Pelajaran',
+    //         'route' => route('public.jadwal_mapel.index'),
+    //         'icon'  => 'bi-journal-bookmark'
+    //     ],
+    //     [
+    //         'label' => 'Jadwal Petugas Piket',
+    //         'route' => route('public.jadwal_piket.index'),
+    //         'icon'  => 'bi-clipboard2-check'
+    //     ],
+    // ];
 
     $accounts = [
             ['label' => 'Edit Data Profil', 'route' => route('profile.edit'), 'icon' => 'bi-person'],
@@ -177,7 +177,7 @@ $role = $user->role;
                 @endisset
 
                 {{-- DATA --}}
-                <small class="flex items-center justify-between mt-5">Informasi Umum</small>
+                {{-- <small class="flex items-center justify-between mt-5">Informasi Umum</small>
                 <ul class="text-slate-500">
                     @foreach ($datas as $data)
                         <li>
@@ -186,7 +186,7 @@ $role = $user->role;
                             </a>
                         </li>
                     @endforeach
-                </ul>
+                </ul> --}}
 
                 {{-- ACCOUNT --}}
                 <p class="mt-5"><small>Pengaturan Akun</small></p>

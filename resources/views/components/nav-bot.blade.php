@@ -11,21 +11,21 @@
                 <small class="text-xs font-semibold">Beranda</small>
                 </a>
 
-                @if(auth()->user()->role === 'staff')
+                {{-- @if(auth()->user()->role === 'staff')
                     <!-- Riwayat Presensi untuk Staff -->
                     <a href="{{ route('staff.riwayat_presensi.index') }}"
                     class="flex flex-col items-center nav-icon {{ request()->routeIs('staff.riwayat_presensi.*') ? 'active' : '' }}">
                         <i class="text-lg fas fa-calendar-check"></i>
                         <small class="text-xs font-semibold">Presensi</small>
                     </a>
-                @else
+                @else --}}
                     <!-- Siswa untuk semua selain staff -->
                     <a href="{{ route('public.daftar_siswa.index') }}"
                     class="flex flex-col items-center nav-icon {{ request()->routeIs('public.daftar_siswa.*') ? 'active' : '' }}">
                         <i class="text-lg fas fa-user-graduate"></i>
                         <small class="text-xs font-semibold">Siswa</small>
                     </a>
-                @endif
+                {{-- @endif --}}
 
                 <!-- Informasi Sekolah -->
                 <a href="{{ route('public.informasi_sekolah.index') }}" class="flex flex-col items-center nav-icon {{ request()->routeIs('public.informasi_sekolah.*') ? 'active' : '' }}">
@@ -49,17 +49,17 @@
                     </a>
                 @elseif(auth()->user()->role === 'staff')
                     <!-- Rekap Honor Guru -->
-                    <a href="{{ route('staff.rekap_honor_guru.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('staff.rekap_honor_guru.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-user-tie"></i>
-                        <small class="text-xs font-semibold">Honor Guru</small>
+                    <a href="{{ route('public.card_jadwal_guru.index') }}"
+                    class="flex flex-col items-center nav-icon {{ request()->routeIs('public.card_jadwal_guru.*') ? 'active' : '' }}">
+                        <i class="text-lg bi bi-calendar2-week-fill"></i>
+                        <small class="text-xs font-semibold">Jadwal</small>
                     </a>
 
                     <!-- Rekap Honor Staff -->
-                    <a href="{{ route('staff.rekap_honor_staff.index') }}"
-                    class="flex flex-col items-center nav-icon {{ request()->routeIs('staff.rekap_honor_staff.*') ? 'active' : '' }}">
-                        <i class="text-lg fas fa-users"></i>
-                        <small class="text-xs font-semibold">Honor Staff</small>
+                    <a href="{{ route('public.jumlah_jam.index') }}"
+                    class="flex flex-col items-center nav-icon {{ request()->routeIs('public.jumlah_jam.*') ? 'active' : '' }}">
+                        <i class="text-lg bi bi-clock-fill"></i>
+                        <small class="text-xs font-semibold">Jam</small>
                     </a>
                 @else
                     <!-- Siswa: Materi -->

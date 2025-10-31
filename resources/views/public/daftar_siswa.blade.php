@@ -61,13 +61,38 @@
             </form>
 
             {{-- Grid Siswa --}}
-            @php
+            {{-- @php
                 $guru = \App\Models\DataGuru::where('user_id', auth()->id())->first();
                 $hakAkses = $guru ? $guru->hakAkses : null;
             @endphp
 
             <div id="siswaGrid">
                 @if($hakAkses && $hakAkses->status === 'Activated')
+                    <x-public.siswa-grid :siswa="$siswa" />
+                @else
+                    <x-public.siswa-grid-public :siswa="$siswa" />
+                @endif
+            </div> --}}
+
+            @php
+                $guru = \App\Models\DataGuru::where('user_id', auth()->id())->first();
+                $user = auth()->user(); // ambil user yang login
+
+                $bolehAkses = false;
+
+                // Guru dengan hak akses aktif
+                if ($guru && $guru->hakAkses && $guru->hakAkses->status === 'Activated') {
+                    $bolehAkses = true;
+                }
+
+                // Semua staff boleh
+                if ($user->role === 'staff') {
+                    $bolehAkses = true;
+                }
+            @endphp
+
+            <div id="siswaGrid">
+                @if($bolehAkses)
                     <x-public.siswa-grid :siswa="$siswa" />
                 @else
                     <x-public.siswa-grid-public :siswa="$siswa" />

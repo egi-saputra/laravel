@@ -20,6 +20,7 @@
 
         <!-- SweetAlert2 CDN -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.3/dist/purify.min.js"></script>
 
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -91,45 +92,24 @@
                 /* Mobile Bottom Navigation */
                 /* ================================== */
                 @media (max-width: 768px) {
-                    #navhp {
-                        position: fixed;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        z-index: 40;
-                        display: flex;
-                        justify-content: space-around;
-                        padding: 0.5rem 0;
-                        background: rgba(255, 255, 255, 1);
-                        backdrop-filter: blur(8px);
-                        border-top: 1px solid #e5e7eb;
-                        /* box-shadow: 0 -2px 6px rgba(0,0,0,0.1); */
-                        padding-bottom: calc(0.5rem + env(safe-area-inset-bottom)); /* aman untuk iPhone */
-                    }
-
                     .nav-icon {
-                        flex: 1;
-                        text-align: center;
-                        color: #9ca3af;
-                        font-size: 1.5rem;
-                        transition: all 0.25s ease;
+                        color: #9ca3af; /* text-gray-400 */
+                        transition: all 0.3s ease;
                     }
-
-                    .nav-icon i {
-                        transition: transform 0.25s ease, color 0.25s ease;
+                    .nav-icon.active i,
+                    .nav-icon.active span {
+                        color: #f97316; /* text-orange-500 */
                     }
-
-                    .nav-icon:hover i {
-                        transform: scale(1.15);
+                    .nav-icon:hover {
+                        transform: scale(1.1);
                     }
-
-                    .nav-icon.active {
-                        color: #063970;
-                    }
-
-                    .nav-icon.active i {
-                        transform: scale(1.25);
-                        color: #063970;
+                    #navhp {
+                        backdrop-filter: blur(12px);
+                        -webkit-backdrop-filter: blur(12px);
+                        width: 95%;
+                        padding: 0.5rem 0;
+                        margin: 0 0;
+                        padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
                     }
                 }
 
@@ -354,9 +334,9 @@
                 {{ $slot }}
             </main>
 
-            {{-- @if (!request()->is('login'))
-                    <x-nav-bot :role="$role" />
-            @endif --}}
+            @if (!request()->is('login'))
+                    <x-navbot :role="$role" />
+            @endif
 
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -372,7 +352,7 @@
         <x-modal-upload-foto />
 
         <!-- Back to Top -->
-        <button id="backToTop"
+        <button data-turbo="false" id="backToTop"
             class="fixed items-center justify-center hidden w-12 h-12 text-white transition-all duration-300 rounded-full shadow-lg md:flex md:bottom-6 bottom-16 right-6 bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-2xl hover:scale-110"
             title="Kembali ke atas !z-30">
             <i class="text-xl bi bi-arrow-up"></i>
@@ -380,53 +360,46 @@
 
         <!-- Custom Script -->
         <script>
-            // Script Fullscreen
-            function toggleFullscreen() {
-                let elem = document.documentElement;
-                if (!document.fullscreenElement) {
-                    if (elem.requestFullscreen) elem.requestFullscreen();
-                    else if (elem.mozRequestFullScreen) elem.mozRequestFullScreen();
-                    else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-                    else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
-                } else {
-                    if (document.exitFullscreen) document.exitFullscreen();
-                    else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
-                    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-                    else if (document.msExitFullscreen) document.msExitFullscreen();
-                }
+            function initBackToTop() {
+                const backToTopBtn = document.getElementById("backToTop");
+                if (!backToTopBtn) return;
+
+                // Hapus event listener lama biar gak dobel
+                const newBtn = backToTopBtn.cloneNode(true);
+                backToTopBtn.parentNode.replaceChild(newBtn, backToTopBtn);
+
+                // Tampilkan tombol saat scroll
+                window.addEventListener("scroll", () => {
+                    newBtn.classList.toggle("show", window.scrollY > 100);
+                });
+
+                // Klik tombol scroll ke atas
+                newBtn.addEventListener("click", () => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                });
             }
 
-            document.addEventListener('DOMContentLoaded', function () {
-                // ============================
-                // Back To Top Button
-                // ============================
-                const backToTopBtn = document.getElementById("backToTop");
-                if (backToTopBtn) {
-                    window.addEventListener("scroll", () => {
-                        backToTopBtn.classList.toggle("show", window.scrollY > 100);
-                    });
-                    backToTopBtn.addEventListener("click", () => {
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                    });
-                }
+            // Jalankan saat pertama kali halaman dimuat
+            document.addEventListener('DOMContentLoaded', () => {
+                initBackToTop();
 
-                // ============================
-                // Redirect saat back-forward
-                // ============================
+                // Redirect saat back/forward
                 window.addEventListener("pageshow", function(event) {
                     if (event.persisted || (window.performance.getEntriesByType("navigation")[0]?.type === "back_forward")) {
                         window.location.href = "/login";
                     }
                 });
 
-                // ============================
                 // Simpan token Sanctum
-                // ============================
                 @if (session('sanctum_token'))
                     localStorage.setItem('sanctum_token', "{{ session('sanctum_token') }}");
                 @endif
             });
+
+            // Jalankan ulang setiap kali Turbo memuat halaman baru
+            document.addEventListener('turbo:load', initBackToTop);
         </script>
+
 
         <!-- Menonaktifkan Loader Turbo Hotwire -->
         {{-- <script>
