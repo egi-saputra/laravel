@@ -65,6 +65,11 @@
       --text-light: #e2e8f0;
     }
 
+    html {
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
     body {
       background: var(--dark-bg);
       color: var(--text-light);
