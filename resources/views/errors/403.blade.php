@@ -65,7 +65,7 @@
       --text-light: #e2e8f0;
     }
 
-    html, body {
+    body {
       background: var(--dark-bg);
       color: var(--text-light);
       display: flex;
@@ -183,7 +183,8 @@
     <div class="error-message">
       {{ $exception->getMessage() ?: 'Anda tidak memiliki izin untuk mengakses halaman ini.' }}
     </div>
-    <a href="{{ route(auth()->user()->role . '.dashboard') }}" class="btn btn-home">⇽ Back</a>
+    {{-- <a href="{{ url()->previous() }}" class="btn btn-home" data-turbo="false">⇽ Back</a> --}}
+    <a href="{{ route(auth()->user()->role . '.dashboard') }}" class="btn btn-home" data-turbo="false">⇽ Back</a>
   </div>
 </body>
 </html>
