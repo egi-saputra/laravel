@@ -32,7 +32,7 @@ use Carbon\Carbon;
                 <div class="mb-6 md:p-6 md:bg-white md:rounded md:shadow-md">
                     <h2 class="mb-4 text-lg font-bold">Mulai Rekap Honor Guru!</h2>
 
-                    <form action="{{ route('staff.rekap_honor_guru.generate') }}" method="POST" class="space-y-4">
+                    <form action="{{ route('staff.rekap_honor_guru.generate') }}" method="POST" class="space-y-4" data-turbo="false">
                         @csrf
 
                         {{-- Periode --}}
@@ -103,7 +103,7 @@ use Carbon\Carbon;
 
                         {{-- Tombol Generate --}}
                         <div class="flex justify-end pt-4 md:justify-start">
-                            <button type="submit" class="flex items-center px-6 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                            <button type="submit" class="flex items-center px-6 py-2 text-white bg-blue-600 rounded hover:bg-blue-700" data-turbo="false">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -134,7 +134,7 @@ use Carbon\Carbon;
     </div>
 
     {{-- JS untuk format Rupiah --}}
-    <script>
+    {{-- <script>
         document.querySelectorAll('.money-input').forEach(function(input) {
             input.addEventListener('input', function(e) {
                 let value = e.target.value.replace(/\D/g, "");
@@ -146,6 +146,33 @@ use Carbon\Carbon;
             document.querySelectorAll('.money-input').forEach(function(input) {
                 input.value = input.value.replace(/\./g, "");
             });
+        });
+    </script> --}}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Format otomatis ke Rupiah setiap kali user mengetik
+            document.querySelectorAll('.money-input').forEach(function(input) {
+                input.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, ""); // hanya ambil angka
+                    if (value) {
+                        e.target.value = new Intl.NumberFormat('id-ID').format(value);
+                    } else {
+                        e.target.value = "";
+                    }
+                });
+            });
+
+            // Pastikan form hanya dikirim dengan angka mentah (tanpa format)
+            const form = document.querySelector('form[data-turbo="false"]');
+            if (form) {
+                form.addEventListener('submit', function() {
+                    document.querySelectorAll('.money-input').forEach(function(input) {
+                        // Hapus semua karakter non-angka sebelum kirim
+                        input.value = input.value.replace(/\D/g, "");
+                    });
+                });
+            }
         });
     </script>
 </x-app-layout>

@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between mb-4">
         <h2 class="text-lg font-bold">Hasil Rekap Honor Guru</h2>
         <div class="space-x-2">
-            <button id="printGuruBtn" class="px-4 py-2 text-white bg-blue-700 rounded hover:bg-blue-800">
+            <button id="printGuruBtn" class="px-4 py-2 text-white bg-blue-700 rounded hover:bg-blue-800" data-turbo="false">
                 <i class="bi bi-printer"></i> Print Out
             </button>
             {{-- <button id="exportPdfGuruBtn" class="px-4 py-2 text-white bg-red-700 rounded hover:bg-red-800">

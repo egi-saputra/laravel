@@ -31,7 +31,7 @@ use Carbon\Carbon;
                     <div class="mb-6 md:p-6 md:bg-white md:rounded md:shadow-md">
                         <h2 class="mb-4 text-lg font-bold">Mulai Rekap Honor Staff!</h2>
 
-                        <form action="{{ route('staff.rekap_honor_staff.generate') }}" method="POST" class="space-y-6">
+                        <form action="{{ route('staff.rekap_honor_staff.generate') }}" method="POST" class="space-y-6" data-turbo="false">
                         @csrf
 
                         {{-- Periode Waktu & Uang Honor --}}
@@ -73,7 +73,7 @@ use Carbon\Carbon;
 
                         {{-- Tombol Generate --}}
                         <div class="flex justify-end pt-4 md:justify-start">
-                            <button type="submit"
+                            <button type="submit" data-turbo="false"
                                     class="flex items-center px-6 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                     class="w-5 h-5 mr-2" fill="none"
@@ -109,8 +109,9 @@ use Carbon\Carbon;
                         @endif
                     </div>
                 </div>
+
             {{-- Script Format Rupiah --}}
-            <script>
+            {{-- <script>
                 document.querySelectorAll('.uang-format').forEach(function(input) {
                     input.addEventListener('input', function(e) {
                         let value = this.value.replace(/\D/g, ''); // hanya angka
@@ -121,7 +122,35 @@ use Carbon\Carbon;
                         }
                     });
                 });
+            </script> --}}
+
+            {{-- Script Format Rupiah (Aman dari Turbo) --}}
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Format angka menjadi Rupiah saat diketik
+                    document.querySelectorAll('.uang-format').forEach(function (input) {
+                        input.addEventListener('input', function (e) {
+                            let value = this.value.replace(/\D/g, ''); // hanya angka
+                            if (value) {
+                                this.value = new Intl.NumberFormat('id-ID').format(value);
+                            } else {
+                                this.value = '';
+                            }
+                        });
+                    });
+
+                    // Hapus format sebelum form dikirim
+                    const form = document.querySelector('form[data-turbo="false"]');
+                    if (form) {
+                        form.addEventListener('submit', function () {
+                            document.querySelectorAll('.uang-format').forEach(function (input) {
+                                input.value = input.value.replace(/\D/g, ''); // kirim angka mentah
+                            });
+                        });
+                    }
+                });
             </script>
+
         </main>
     </div>
 </x-app-layout>
