@@ -249,6 +249,7 @@
                                 <thead class="text-left text-white bg-gradient-to-r from-blue-600 to-blue-800">
                                     <tr>
                                         <th class="px-4 py-3">No</th>
+                                        <th class="px-4 py-3">Petugas</th>
                                         <th class="px-4 py-3">Nama Siswa</th>
                                         <th class="px-4 py-3">Kelas</th>
                                         <th class="px-4 py-3">Keterangan</th>
@@ -269,13 +270,24 @@
                                         @endphp
                                         <tr class="{{ $bg }} hover:bg-blue-50 transition">
                                             <td class="px-4 py-3 font-medium text-gray-600">{{ $index + 1 }}</td>
+
+                                            {{-- Petugas (user_id) --}}
                                             <td class="px-4 py-3 font-semibold">{{ $p->user->name ?? '-' }}</td>
+
+                                            {{-- Nama Siswa (siswa_id -> dataSiswa->nama_lengkap) --}}
+                                            <td class="px-4 py-3 font-semibold">{{ $p->dataSiswa->nama_lengkap ?? '-' }}</td>
+
+                                            {{-- Kelas --}}
                                             <td class="px-4 py-3">{{ $p->dataSiswa->kelas->kelas ?? '-' }}</td>
+
+                                            {{-- Keterangan --}}
                                             <td class="px-4 py-3">
                                                 <span class="px-3 py-1 rounded-full text-xs font-semibold border {{ $color }}">
                                                     {{ $p->keterangan }}
                                                 </span>
                                             </td>
+
+                                            {{-- Jam Presensi --}}
                                             <td class="px-4 py-3 text-gray-500">{{ $p->created_at->format('H:i') }}</td>
                                         </tr>
                                     @endforeach
@@ -289,235 +301,234 @@
         </div>
     </div>
 
-{{-- <script>
-    document.getElementById('printAbsensi').addEventListener('click', async () => {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('landscape');
+    {{-- <script>
+        document.getElementById('printAbsensi').addEventListener('click', async () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
 
-        // Set locale Indonesia
-        dayjs.locale('id');
-        const today = dayjs(); // tanggal sekarang
-        const judul = "Laporan Absensi Siswa Hari Ini — " + today.format('dddd, DD MMMM YYYY');
+            // Set locale Indonesia
+            dayjs.locale('id');
+            const today = dayjs(); // tanggal sekarang
+            const judul = "Laporan Absensi Siswa Hari Ini — " + today.format('dddd, DD MMMM YYYY');
 
-        // Ambil tabel
-        const table = document.querySelector('table');
-        const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText);
-        const rows = Array.from(table.querySelectorAll('tbody tr')).map(tr =>
-            Array.from(tr.querySelectorAll('td')).map(td => td.innerText)
-        );
+            // Ambil tabel
+            const table = document.querySelector('table');
+            const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText);
+            const rows = Array.from(table.querySelectorAll('tbody tr')).map(tr =>
+                Array.from(tr.querySelectorAll('td')).map(td => td.innerText)
+            );
 
-        doc.autoTable({
-            head: [headers],
-            body: rows,
-            startY: 20,
-            margin: { top: 20 },
-            styles: {
-                fontSize: 10,
-                cellPadding: 3,
-                lineColor: [150, 150, 150],
-                lineWidth: 0.1,
-                font: "helvetica"
-            },
-            headStyles: {
-                fillColor: [0, 112, 192],
-                textColor: 255,
-                lineColor: [150, 150, 150],
-                lineWidth: 0.1,
-                halign: 'center' // <-- ini yang bikin teks header center
-            },
-            bodyStyles: {
-                halign: 'center' // opsional, kalau mau body tetap rata kiri
-            },
-            columnStyles: {
-                1: { halign: 'left' } // kolom kedua (index 1) kiri
-            },
-            alternateRowStyles: { fillColor: [240, 240, 240] },
-            tableLineWidth: 0.1,
-            tableLineColor: [150, 150, 150],
-            didDrawPage: (data) => {
-                doc.setFontSize(14);
-                doc.setFont('helvetica', 'bold');
-                const pageWidth = doc.internal.pageSize.getWidth();
-                const textWidth = doc.getTextWidth(judul);
-                doc.text(judul, (pageWidth - textWidth) / 2, 12);
-            }
+            doc.autoTable({
+                head: [headers],
+                body: rows,
+                startY: 20,
+                margin: { top: 20 },
+                styles: {
+                    fontSize: 10,
+                    cellPadding: 3,
+                    lineColor: [150, 150, 150],
+                    lineWidth: 0.1,
+                    font: "helvetica"
+                },
+                headStyles: {
+                    fillColor: [0, 112, 192],
+                    textColor: 255,
+                    lineColor: [150, 150, 150],
+                    lineWidth: 0.1,
+                    halign: 'center' // <-- ini yang bikin teks header center
+                },
+                bodyStyles: {
+                    halign: 'center' // opsional, kalau mau body tetap rata kiri
+                },
+                columnStyles: {
+                    1: { halign: 'left' } // kolom kedua (index 1) kiri
+                },
+                alternateRowStyles: { fillColor: [240, 240, 240] },
+                tableLineWidth: 0.1,
+                tableLineColor: [150, 150, 150],
+                didDrawPage: (data) => {
+                    doc.setFontSize(14);
+                    doc.setFont('helvetica', 'bold');
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    const textWidth = doc.getTextWidth(judul);
+                    doc.text(judul, (pageWidth - textWidth) / 2, 12);
+                }
+            });
+
+            doc.autoPrint({ variant: 'non-conform' });
+            const printIframe = document.createElement('iframe');
+            printIframe.style.display = 'none';
+            document.body.appendChild(printIframe);
+            printIframe.src = doc.output('bloburl');
         });
+    </script> --}}
 
-        doc.autoPrint({ variant: 'non-conform' });
-        const printIframe = document.createElement('iframe');
-        printIframe.style.display = 'none';
-        document.body.appendChild(printIframe);
-        printIframe.src = doc.output('bloburl');
-    });
-</script> --}}
+    {{-- <script>
+        document.getElementById('printAbsensi').addEventListener('click', async () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
 
-{{-- <script>
-    document.getElementById('printAbsensi').addEventListener('click', async () => {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('landscape');
+            // Set locale Indonesia
+            dayjs.locale('id');
+            const today = dayjs(); // tanggal sekarang
+            const judul = "Laporan Absensi Siswa Hari Ini — " + today.format('dddd, DD MMMM YYYY');
+            const generated = "Generated from Simstal Query App on: " + today.format('DD/MM/YYYY');
 
-        // Set locale Indonesia
-        dayjs.locale('id');
-        const today = dayjs(); // tanggal sekarang
-        const judul = "Laporan Absensi Siswa Hari Ini — " + today.format('dddd, DD MMMM YYYY');
-        const generated = "Generated from Simstal Query App on: " + today.format('DD/MM/YYYY');
+            // Ambil tabel
+            const table = document.querySelector('table');
+            const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText);
+            const rows = Array.from(table.querySelectorAll('tbody tr')).map(tr =>
+                Array.from(tr.querySelectorAll('td')).map(td => td.innerText)
+            );
 
-        // Ambil tabel
-        const table = document.querySelector('table');
-        const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText);
-        const rows = Array.from(table.querySelectorAll('tbody tr')).map(tr =>
-            Array.from(tr.querySelectorAll('td')).map(td => td.innerText)
-        );
+            doc.autoTable({
+                head: [headers],
+                body: rows,
+                startY: 20,
+                margin: { top: 20, bottom: 15 },
+                styles: {
+                    fontSize: 10,
+                    cellPadding: 3,
+                    lineColor: [150, 150, 150],
+                    lineWidth: 0.1,
+                    font: "helvetica"
+                },
+                headStyles: {
+                    fillColor: [0, 112, 192],
+                    textColor: 255,
+                    lineColor: [150, 150, 150],
+                    lineWidth: 0.1,
+                    halign: 'center'
+                },
+                bodyStyles: {
+                    halign: 'center'
+                },
+                columnStyles: {
+                    1: { halign: 'left' } // kolom kedua rata kiri
+                },
+                alternateRowStyles: { fillColor: [240, 240, 240] },
+                tableLineWidth: 0.1,
+                tableLineColor: [150, 150, 150],
+                didDrawPage: (data) => {
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    const pageHeight = doc.internal.pageSize.getHeight();
 
-        doc.autoTable({
-            head: [headers],
-            body: rows,
-            startY: 20,
-            margin: { top: 20, bottom: 15 },
-            styles: {
-                fontSize: 10,
-                cellPadding: 3,
-                lineColor: [150, 150, 150],
-                lineWidth: 0.1,
-                font: "helvetica"
-            },
-            headStyles: {
-                fillColor: [0, 112, 192],
-                textColor: 255,
-                lineColor: [150, 150, 150],
-                lineWidth: 0.1,
-                halign: 'center'
-            },
-            bodyStyles: {
-                halign: 'center'
-            },
-            columnStyles: {
-                1: { halign: 'left' } // kolom kedua rata kiri
-            },
-            alternateRowStyles: { fillColor: [240, 240, 240] },
-            tableLineWidth: 0.1,
-            tableLineColor: [150, 150, 150],
-            didDrawPage: (data) => {
-                const pageWidth = doc.internal.pageSize.getWidth();
-                const pageHeight = doc.internal.pageSize.getHeight();
+                    // Header (judul)
+                    doc.setFontSize(14);
+                    doc.setFont('helvetica', 'bold');
+                    const textWidth = doc.getTextWidth(judul);
+                    doc.text(judul, (pageWidth - textWidth) / 2, 12);
 
-                // Header (judul)
-                doc.setFontSize(14);
-                doc.setFont('helvetica', 'bold');
-                const textWidth = doc.getTextWidth(judul);
-                doc.text(judul, (pageWidth - textWidth) / 2, 12);
+                    // Footer
+                    doc.setFontSize(9);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(100);
+                    // kiri: tanggal generate
+                    doc.text(generated, data.settings.margin.left, pageHeight - 5);
+                    // kanan: nomor halaman
+                    const pageNumber = "Page " + doc.internal.getNumberOfPages();
+                    const pageWidthText = doc.getTextWidth(pageNumber);
+                    doc.text(pageNumber, pageWidth - data.settings.margin.right - pageWidthText, pageHeight - 5);
+                }
+            });
 
-                // Footer
-                doc.setFontSize(9);
-                doc.setFont('helvetica', 'normal');
-                doc.setTextColor(100);
-                // kiri: tanggal generate
-                doc.text(generated, data.settings.margin.left, pageHeight - 5);
-                // kanan: nomor halaman
-                const pageNumber = "Page " + doc.internal.getNumberOfPages();
-                const pageWidthText = doc.getTextWidth(pageNumber);
-                doc.text(pageNumber, pageWidth - data.settings.margin.right - pageWidthText, pageHeight - 5);
-            }
+            // Print langsung
+            doc.autoPrint({ variant: 'non-conform' });
+            const printIframe = document.createElement('iframe');
+            printIframe.style.display = 'none';
+            document.body.appendChild(printIframe);
+            printIframe.src = doc.output('bloburl');
         });
+    </script> --}}
 
-        // Print langsung
-        doc.autoPrint({ variant: 'non-conform' });
-        const printIframe = document.createElement('iframe');
-        printIframe.style.display = 'none';
-        document.body.appendChild(printIframe);
-        printIframe.src = doc.output('bloburl');
-    });
-</script> --}}
+    <script>
+        document.getElementById('printAbsensi').addEventListener('click', async () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
 
-<script>
-    document.getElementById('printAbsensi').addEventListener('click', async () => {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('landscape');
+            // Set locale Indonesia
+            dayjs.locale('id');
+            const today = dayjs();
+            const judul = "Laporan Absensi Siswa Hari " + today.format('dddd, DD MMMM YYYY');
+            const generated = "Generated from Simstal Query App on: " + today.format('DD/MM/YYYY');
 
-        // Set locale Indonesia
-        dayjs.locale('id');
-        const today = dayjs();
-        const judul = "Laporan Absensi Siswa Hari " + today.format('dddd, DD MMMM YYYY');
-        const generated = "Generated from Simstal Query App on: " + today.format('DD/MM/YYYY');
+            // Ambil tabel
+            const table = document.querySelector('table');
+            const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText);
+            const rows = Array.from(table.querySelectorAll('tbody tr')).map(tr =>
+                Array.from(tr.querySelectorAll('td')).map(td => td.innerText)
+            );
 
-        // Ambil tabel
-        const table = document.querySelector('table');
-        const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText);
-        const rows = Array.from(table.querySelectorAll('tbody tr')).map(tr =>
-            Array.from(tr.querySelectorAll('td')).map(td => td.innerText)
-        );
+            doc.autoTable({
+                head: [headers],
+                body: rows,
+                startY: 20,
+                margin: { top: 20, bottom: 30 },
+                styles: {
+                    fontSize: 10,
+                    cellPadding: 3,
+                    lineColor: [150, 150, 150],
+                    lineWidth: 0.1,
+                    font: "helvetica"
+                },
+                headStyles: {
+                    fillColor: [0, 112, 192],
+                    textColor: 255,
+                    lineColor: [150, 150, 150],
+                    lineWidth: 0.1,
+                    halign: 'center'
+                },
+                bodyStyles: {
+                    halign: 'center'
+                },
+                columnStyles: {
+                    1: { halign: 'left' }
+                },
+                alternateRowStyles: { fillColor: [240, 240, 240] },
+                tableLineWidth: 0.1,
+                tableLineColor: [150, 150, 150],
+                didDrawPage: (data) => {
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    const pageHeight = doc.internal.pageSize.getHeight();
 
-        doc.autoTable({
-            head: [headers],
-            body: rows,
-            startY: 20,
-            margin: { top: 20, bottom: 30 },
-            styles: {
-                fontSize: 10,
-                cellPadding: 3,
-                lineColor: [150, 150, 150],
-                lineWidth: 0.1,
-                font: "helvetica"
-            },
-            headStyles: {
-                fillColor: [0, 112, 192],
-                textColor: 255,
-                lineColor: [150, 150, 150],
-                lineWidth: 0.1,
-                halign: 'center'
-            },
-            bodyStyles: {
-                halign: 'center'
-            },
-            columnStyles: {
-                1: { halign: 'left' }
-            },
-            alternateRowStyles: { fillColor: [240, 240, 240] },
-            tableLineWidth: 0.1,
-            tableLineColor: [150, 150, 150],
-            didDrawPage: (data) => {
-                const pageWidth = doc.internal.pageSize.getWidth();
-                const pageHeight = doc.internal.pageSize.getHeight();
+                    // Header
+                    doc.setFontSize(14);
+                    doc.setFont('helvetica', 'semibold');
+                    const titleWidth = doc.getTextWidth(judul);
+                    doc.text(judul, (pageWidth - titleWidth) / 2, 12);
 
-                // Header
-                doc.setFontSize(14);
-                doc.setFont('helvetica', 'semibold');
-                const titleWidth = doc.getTextWidth(judul);
-                doc.text(judul, (pageWidth - titleWidth) / 2, 12);
+                    // Footer
+                    const footerY = pageHeight - 30;
+                    doc.setFontSize(10);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(0);
 
-                // Footer
-                const footerY = pageHeight - 30;
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'normal');
-                doc.setTextColor(0);
+                    // Kiri: tanggal generate
+                    doc.text(generated, data.settings.margin.left, footerY + 20);
 
-                // Kiri: tanggal generate
-                doc.text(generated, data.settings.margin.left, footerY + 20);
+                    // Kanan: tanda tangan petugas piket
+                    const ttdWidth = 50; // panjang garis
+                    const tandaTanganX = pageWidth - data.settings.margin.right - ttdWidth;
 
-                // Kanan: tanda tangan petugas piket
-                const ttdWidth = 50; // panjang garis
-                const tandaTanganX = pageWidth - data.settings.margin.right - ttdWidth;
+                    // teks di atas garis, di tengah
+                    const text = "Petugas Piket";
+                    const textWidth = doc.getTextWidth(text);
+                    const textX = tandaTanganX + (ttdWidth - textWidth) / 2;
+                    doc.text(text, textX, footerY);
 
-                // teks di atas garis, di tengah
-                const text = "Petugas Piket";
-                const textWidth = doc.getTextWidth(text);
-                const textX = tandaTanganX + (ttdWidth - textWidth) / 2;
-                doc.text(text, textX, footerY);
+                    // garis tanda tangan
+                    doc.line(tandaTanganX, footerY + 20, tandaTanganX + ttdWidth, footerY + 20);
+                }
+            });
 
-                // garis tanda tangan
-                doc.line(tandaTanganX, footerY + 20, tandaTanganX + ttdWidth, footerY + 20);
-            }
+            // Print langsung
+            doc.autoPrint({ variant: 'non-conform' });
+            const printIframe = document.createElement('iframe');
+            printIframe.style.display = 'none';
+            document.body.appendChild(printIframe);
+            printIframe.src = doc.output('bloburl');
         });
-
-        // Print langsung
-        doc.autoPrint({ variant: 'non-conform' });
-        const printIframe = document.createElement('iframe');
-        printIframe.style.display = 'none';
-        document.body.appendChild(printIframe);
-        printIframe.src = doc.output('bloburl');
-    });
-</script>
-
+    </script>
 
 </x-app-layout>
 
