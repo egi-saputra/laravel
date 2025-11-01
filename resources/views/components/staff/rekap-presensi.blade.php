@@ -48,7 +48,6 @@
                 <th class="px-4 py-2 text-sm font-semibold text-left text-gray-700">
                     {{ $jenis === 'staff' ? 'Nama Staff' : 'Nama Guru' }}
                 </th>
-                <th class="px-4 py-2 text-sm font-semibold text-left text-gray-700">Jam Ke</th>
                 <th class="px-4 py-2 text-sm font-semibold text-left text-gray-700">Kehadiran</th>
                 <th class="px-4 py-2 text-sm font-semibold text-left text-gray-700">Apel</th>
                 <th class="px-4 py-2 text-sm font-semibold text-left text-gray-700">Upacara</th>
@@ -64,7 +63,6 @@
                     <td class="px-4 py-2 text-sm text-gray-600">
                         {{ $row->nama_guru ?? $row->nama_staff ?? '-' }}
                     </td>
-                    <td class="px-4 py-2 text-sm text-gray-600">{{ $row->sesi ?? '-' }}</td>
                     <td class="px-4 py-2 text-sm text-gray-600">{{ $row->keterangan ?? '-' }}</td>
                     <td class="px-4 py-2 text-sm text-gray-600">{{ $row->apel ?? '-' }}</td>
                     <td class="px-4 py-2 text-sm text-gray-600">{{ $row->upacara ?? '-' }}</td>
