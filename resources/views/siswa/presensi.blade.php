@@ -58,9 +58,10 @@ use Carbon\Carbon;
                 @endphp
 
                 @if($presensiSelesaiBadge)
+                <div class="flex justify-center w-full mt-4" data-turbo="false">
                     <span class="inline-block px-3 py-1 text-sm font-semibold text-white bg-green-600 rounded">
-                        Presensi Hari Ini Telah Dilakukan
-                    </span>
+                       ✔ Presensi hari ini berhasil disimpan!
+                    </span></div>
                 @endif
 
             </div>

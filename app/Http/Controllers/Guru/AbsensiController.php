@@ -21,9 +21,16 @@ class AbsensiController extends Controller
         $presensi = collect(); // default kosong agar view tidak error
 
         if ($kelasId) {
+            // $presensi = PresensiSiswa::with(['user:id,name', 'dataSiswa.kelas:id,kelas'])
+            //     ->whereDate('created_at', $today)
+            //     ->whereHas('dataSiswa', fn($q) => $q->where('kelas_id', $kelasId))
+            //     ->orderBy('created_at')
+            //     ->get()
+            //     ->sortBy(fn($item) => strtolower($item->dataSiswa->nama_lengkap ?? ''));
+
             $presensi = PresensiSiswa::with(['user:id,name', 'dataSiswa.kelas:id,kelas'])
                 ->whereDate('created_at', $today)
-                ->whereHas('dataSiswa', fn($q) => $q->where('kelas_id', $kelasId))
+                ->when($kelasId, fn($q) => $q->whereHas('dataSiswa', fn($q2) => $q2->where('kelas_id', $kelasId)))
                 ->orderBy('created_at')
                 ->get()
                 ->sortBy(fn($item) => strtolower($item->dataSiswa->nama_lengkap ?? ''));

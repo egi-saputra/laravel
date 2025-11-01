@@ -66,12 +66,12 @@
 
 {{-- =================================================== --}}
 
-@php
-    $userLoginId = $user->id;
-@endphp
-
 <div class="space-y-4">
-    <form action="{{ route('siswa.presensi.store') }}" method="POST">
+    @php
+        $userLoginId = $user->id;
+    @endphp
+
+    <form action="{{ route('siswa.presensi.store') }}" method="POST" data-turbo="false">
         @csrf
 
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -120,7 +120,7 @@
         </div>
 
         <div class="flex justify-center mt-6 md:justify-start">
-            <button type="submit"
+            <button type="submit" data-turbo="false"
                 class="w-full px-5 py-3 text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700 md:w-auto disabled:bg-gray-400 disabled:cursor-not-allowed"
                 {{ $presensiSelesai ? 'disabled' : '' }}>
                 🚀 Submit / Update Presensi
@@ -128,13 +128,13 @@
         </div>
     </form>
 
-    <form action="{{ route('siswa.presensi.selesai') }}" method="POST" class="mt-2">
+    <form action="{{ route('siswa.presensi.selesai') }}" method="POST" class="mt-2" data-turbo="false">
         @csrf
         <div class="flex justify-center md:justify-start">
-            <button type="submit"
-                class="px-6 py-3 text-white rounded-lg shadow bg-slate-600 hover:bg-slate-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            <button type="submit" data-turbo="false"
+                class="px-6 py-3 text-white bg-green-600 rounded-lg shadow hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
                 {{ $presensiSelesai ? 'disabled' : '' }}>
-                ✅ Tandai Presensi Selesai
+                🔑 Simpan Data Presensi
             </button>
         </div>
     </form>

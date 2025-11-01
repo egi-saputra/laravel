@@ -75,7 +75,7 @@ class PresensiSiswaController extends Controller
 
         foreach ($keterangan as $siswaId => $value) {
             $presensi = PresensiSiswa::where('siswa_id', $siswaId)
-                ->where('user_id', $userId)
+                // ->where('user_id', $userId)
                 ->whereDate('created_at', $today)
                 ->first();
 
