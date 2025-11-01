@@ -170,7 +170,7 @@
     });
 </script>
 
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function () {
         const apelSelects = document.querySelectorAll('select[name^="apel"]');
         const upacaraSelects = document.querySelectorAll('select[name^="upacara"]');
@@ -230,8 +230,42 @@
         apelSelects.forEach(select => select.addEventListener('change', validatePresensi));
         upacaraSelects.forEach(select => select.addEventListener('change', validatePresensi));
     });
+</script> --}}
+
+<script>
+document.addEventListener('turbo:load', function () {
+    const apelSelects = document.querySelectorAll('select[name^="apel"]');
+    const upacaraSelects = document.querySelectorAll('select[name^="upacara"]');
+
+    function validatePresensi() {
+        const apelChosen = Array.from(apelSelects).some(sel => sel.value === 'Apel' || sel.value === 'Pembina Apel');
+        const pembinaApel = Array.from(apelSelects).find(sel => sel.value === 'Pembina Apel');
+        const upacaraChosen = Array.from(upacaraSelects).some(sel => sel.value === 'Upacara' || sel.value === 'Pembina Upacara');
+        const pembinaUpacara = Array.from(upacaraSelects).find(sel => sel.value === 'Pembina Upacara');
+
+        if (apelChosen) {
+            upacaraSelects.forEach(sel => { sel.value = 'Tidak'; sel.disabled = true; });
+        } else upacaraSelects.forEach(sel => sel.disabled = false);
+
+        if (upacaraChosen) {
+            apelSelects.forEach(sel => { sel.value = 'Tidak'; sel.disabled = true; });
+        } else apelSelects.forEach(sel => sel.disabled = false);
+
+        if (pembinaApel) {
+            apelSelects.forEach(sel => {
+                if (sel !== pembinaApel && sel.value === 'Pembina Apel') sel.value = 'Tidak';
+            });
+        }
+
+        if (pembinaUpacara) {
+            upacaraSelects.forEach(sel => {
+                if (sel !== pembinaUpacara && sel.value === 'Pembina Upacara') sel.value = 'Tidak';
+            });
+        }
+    }
+
+    validatePresensi();
+    apelSelects.forEach(select => select.addEventListener('change', validatePresensi));
+    upacaraSelects.forEach(select => select.addEventListener('change', validatePresensi));
+});
 </script>
-
-
-
-

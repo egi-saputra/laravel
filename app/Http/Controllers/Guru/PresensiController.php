@@ -64,7 +64,105 @@ class PresensiController extends Controller
     /**
      * Menyimpan presensi guru.
      */
-   public function storeGuru(Request $request)
+//    public function storeGuru(Request $request)
+//     {
+//         $tanggal = $request->input('tanggal', Carbon::now('Asia/Jakarta')->day);
+//         $bulan   = $request->input('bulan', Carbon::now('Asia/Jakarta')->month);
+//         $tahun   = $request->input('tahun', Carbon::now('Asia/Jakarta')->year);
+
+//         $keterangan = $request->input('keterangan', []);
+//         $apel       = $request->input('apel', []);
+//         $upacara    = $request->input('upacara', []);
+
+//         // simpan status guru per hari
+//         $stateGuru = [];
+
+//         foreach ($keterangan as $jadwalId => $value) {
+//             $jadwal = JadwalGuru::find($jadwalId);
+//             if (!$jadwal) continue;
+
+//             $guruId = $jadwal->guru_id;
+
+//             // input baru
+//             $apelValue    = $apel[$jadwalId] ?? 'Tidak';
+//             $upacaraValue = $upacara[$jadwalId] ?? 'Tidak';
+
+//             // cek apakah guru ini sudah punya status di hari yg sama
+//             if (!isset($stateGuru[$guruId])) {
+//                 $existing = PresensiGuru::where('guru_id', $guruId)
+//                     ->where('tanggal', $tanggal)
+//                     ->where('bulan', $bulan)
+//                     ->where('tahun', $tahun)
+//                     ->first();
+
+//                 $stateGuru[$guruId] = [
+//                     'apel'    => $existing->apel    ?? 'Tidak',
+//                     'upacara' => $existing->upacara ?? 'Tidak',
+//                 ];
+//             }
+
+//             $state = $stateGuru[$guruId];
+
+//             // ===== HIERARKI =====
+//             // Jika guru sudah Pembina Apel -> lock semua
+//             if ($state['apel'] === 'Pembina Apel') {
+//                 $apelValue = 'Tidak';
+//                 $upacaraValue = 'Tidak';
+//             }
+//             // Jika guru sudah Apel -> tidak boleh lagi Apel/Upacara
+//             elseif ($state['apel'] === 'Apel') {
+//                 $apelValue = 'Tidak';
+//                 $upacaraValue = 'Tidak';
+//             }
+//             // Jika guru sudah Pembina Upacara -> lock semua
+//             elseif ($state['upacara'] === 'Pembina Upacara') {
+//                 $apelValue = 'Tidak';
+//                 $upacaraValue = 'Tidak';
+//             }
+//             // Jika guru sudah Upacara -> tidak boleh Apel lagi
+//             elseif ($state['upacara'] === 'Upacara') {
+//                 $apelValue = 'Tidak';
+//                 $upacaraValue = 'Tidak';
+//             }
+
+//             // Kalau belum ada status, baru boleh isi
+//             if ($state['apel'] === 'Tidak' && $state['upacara'] === 'Tidak') {
+//                 if ($apelValue === 'Pembina Apel') {
+//                     $stateGuru[$guruId] = ['apel' => 'Pembina Apel', 'upacara' => 'Tidak'];
+//                 } elseif ($apelValue === 'Apel') {
+//                     $stateGuru[$guruId] = ['apel' => 'Apel', 'upacara' => 'Tidak'];
+//                 } elseif ($upacaraValue === 'Pembina Upacara') {
+//                     $stateGuru[$guruId] = ['apel' => 'Tidak', 'upacara' => 'Pembina Upacara'];
+//                 } elseif ($upacaraValue === 'Upacara') {
+//                     $stateGuru[$guruId] = ['apel' => 'Tidak', 'upacara' => 'Upacara'];
+//                 }
+//             }
+
+//             PresensiGuru::updateOrCreate(
+//                 [
+//                     'jadwal_id' => $jadwal->id,
+//                     'guru_id'   => $guruId,
+//                     'tanggal'   => $tanggal,
+//                     'bulan'     => $bulan,
+//                     'tahun'     => $tahun,
+//                 ],
+//                 [
+//                     'user_id'    => auth()->id(),
+//                     'keterangan' => $value,
+//                     'apel'       => $apelValue,
+//                     'upacara'    => $upacaraValue,
+//                 ]
+//             );
+//         }
+
+//         return redirect()->back()->with('alert', [
+//             'message' => 'Presensi guru berhasil disimpan!',
+//             'type' => 'success',
+//             'title' => 'Berhasil',
+//         ]);
+//     }
+
+    public function storeGuru(Request $request)
     {
         $tanggal = $request->input('tanggal', Carbon::now('Asia/Jakarta')->day);
         $bulan   = $request->input('bulan', Carbon::now('Asia/Jakarta')->month);
@@ -74,7 +172,20 @@ class PresensiController extends Controller
         $apel       = $request->input('apel', []);
         $upacara    = $request->input('upacara', []);
 
-        // simpan status guru per hari
+        // 🔒 Cek apakah sudah ada Pembina Apel / Upacara di tanggal ini
+        $pembinaApelHariIni = PresensiGuru::where('tanggal', $tanggal)
+            ->where('bulan', $bulan)
+            ->where('tahun', $tahun)
+            ->where('apel', 'Pembina Apel')
+            ->exists();
+
+        $pembinaUpacaraHariIni = PresensiGuru::where('tanggal', $tanggal)
+            ->where('bulan', $bulan)
+            ->where('tahun', $tahun)
+            ->where('upacara', 'Pembina Upacara')
+            ->exists();
+
+        // Simpan status guru per hari (cache lokal untuk mencegah double input per guru)
         $stateGuru = [];
 
         foreach ($keterangan as $jadwalId => $value) {
@@ -83,11 +194,19 @@ class PresensiController extends Controller
 
             $guruId = $jadwal->guru_id;
 
-            // input baru
+            // Input baru dari form
             $apelValue    = $apel[$jadwalId] ?? 'Tidak';
             $upacaraValue = $upacara[$jadwalId] ?? 'Tidak';
 
-            // cek apakah guru ini sudah punya status di hari yg sama
+            // 🧩 Cegah Pembina Apel/Upacara ganda lintas guru
+            if ($apelValue === 'Pembina Apel' && $pembinaApelHariIni) {
+                $apelValue = 'Tidak';
+            }
+            if ($upacaraValue === 'Pembina Upacara' && $pembinaUpacaraHariIni) {
+                $upacaraValue = 'Tidak';
+            }
+
+            // 🧱 Cegah duplikasi per guru
             if (!isset($stateGuru[$guruId])) {
                 $existing = PresensiGuru::where('guru_id', $guruId)
                     ->where('tanggal', $tanggal)
@@ -103,41 +222,31 @@ class PresensiController extends Controller
 
             $state = $stateGuru[$guruId];
 
-            // ===== HIERARKI =====
-            // Jika guru sudah Pembina Apel -> lock semua
-            if ($state['apel'] === 'Pembina Apel') {
+            // ===== HIERARKI KEAMANAN =====
+            if (in_array($state['apel'], ['Pembina Apel', 'Apel'])) {
                 $apelValue = 'Tidak';
                 $upacaraValue = 'Tidak';
-            }
-            // Jika guru sudah Apel -> tidak boleh lagi Apel/Upacara
-            elseif ($state['apel'] === 'Apel') {
-                $apelValue = 'Tidak';
-                $upacaraValue = 'Tidak';
-            }
-            // Jika guru sudah Pembina Upacara -> lock semua
-            elseif ($state['upacara'] === 'Pembina Upacara') {
-                $apelValue = 'Tidak';
-                $upacaraValue = 'Tidak';
-            }
-            // Jika guru sudah Upacara -> tidak boleh Apel lagi
-            elseif ($state['upacara'] === 'Upacara') {
+            } elseif (in_array($state['upacara'], ['Pembina Upacara', 'Upacara'])) {
                 $apelValue = 'Tidak';
                 $upacaraValue = 'Tidak';
             }
 
-            // Kalau belum ada status, baru boleh isi
+            // 🧩 Hanya boleh isi baru kalau belum punya status sebelumnya
             if ($state['apel'] === 'Tidak' && $state['upacara'] === 'Tidak') {
                 if ($apelValue === 'Pembina Apel') {
                     $stateGuru[$guruId] = ['apel' => 'Pembina Apel', 'upacara' => 'Tidak'];
+                    $pembinaApelHariIni = true;
                 } elseif ($apelValue === 'Apel') {
                     $stateGuru[$guruId] = ['apel' => 'Apel', 'upacara' => 'Tidak'];
                 } elseif ($upacaraValue === 'Pembina Upacara') {
                     $stateGuru[$guruId] = ['apel' => 'Tidak', 'upacara' => 'Pembina Upacara'];
+                    $pembinaUpacaraHariIni = true;
                 } elseif ($upacaraValue === 'Upacara') {
                     $stateGuru[$guruId] = ['apel' => 'Tidak', 'upacara' => 'Upacara'];
                 }
             }
 
+            // ✅ Simpan atau update presensi guru hari ini
             PresensiGuru::updateOrCreate(
                 [
                     'jadwal_id' => $jadwal->id,
@@ -156,7 +265,7 @@ class PresensiController extends Controller
         }
 
         return redirect()->back()->with('alert', [
-            'message' => 'Presensi guru berhasil disimpan!',
+            'message' => 'Presensi guru berhasil disimpan! Duplikasi apel/upacara dicegah otomatis.',
             'type' => 'success',
             'title' => 'Berhasil',
         ]);

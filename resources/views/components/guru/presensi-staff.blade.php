@@ -104,3 +104,44 @@
 <div class="mt-4">
     {{ $staffHariIni->appends(request()->except('staff_page'))->links('pagination::tailwind') }}
 </div>
+
+<script>
+document.addEventListener('turbo:load', function () {
+    const apelSelects = document.querySelectorAll('select[name^="apel"]');
+    const upacaraSelects = document.querySelectorAll('select[name^="upacara"]');
+
+    function validatePresensi() {
+        // Cek apakah ada yang memilih Apel
+        const apelChosen = Array.from(apelSelects).some(sel => sel.value === 'Apel');
+        // Cek apakah ada yang memilih Upacara
+        const upacaraChosen = Array.from(upacaraSelects).some(sel => sel.value === 'Upacara');
+
+        // 1️⃣ Jika ada yang pilih Apel → semua Upacara nonaktif & reset ke "Tidak"
+        if (apelChosen) {
+            upacaraSelects.forEach(sel => {
+                sel.value = 'Tidak';
+                sel.disabled = true;
+            });
+        } else {
+            upacaraSelects.forEach(sel => sel.disabled = false);
+        }
+
+        // 2️⃣ Jika ada yang pilih Upacara → semua Apel nonaktif & reset ke "Tidak"
+        if (upacaraChosen) {
+            apelSelects.forEach(sel => {
+                sel.value = 'Tidak';
+                sel.disabled = true;
+            });
+        } else {
+            apelSelects.forEach(sel => sel.disabled = false);
+        }
+    }
+
+    // Jalankan validasi pertama kali
+    validatePresensi();
+
+    // Jalankan validasi setiap kali pilihan berubah
+    apelSelects.forEach(select => select.addEventListener('change', validatePresensi));
+    upacaraSelects.forEach(select => select.addEventListener('change', validatePresensi));
+});
+</script>
