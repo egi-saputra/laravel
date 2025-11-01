@@ -56,8 +56,11 @@
         <tbody class="divide-y divide-gray-200">
             @forelse($rekap as $row)
                 <tr>
-                    <td class="px-4 py-2 text-sm text-gray-600">
+                    {{-- <td class="px-4 py-2 text-sm text-gray-600">
                         {{ \Carbon\Carbon::parse($row->created_at)->format('d/m/Y') }}
+                    </td> --}}
+                    <td class="px-4 py-2 text-sm text-gray-600">
+                        {{ \Carbon\Carbon::parse($row->created_at)->format('d/m/Y H:i') }}
                     </td>
                     <td class="px-4 py-2 text-sm text-gray-600">{{ $row->nama_petugas ?? '-' }}</td>
                     <td class="px-4 py-2 text-sm text-gray-600">
