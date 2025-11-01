@@ -33,10 +33,10 @@ use Carbon\Carbon;
                 {{-- Form Filter Periode --}}
                 <div class="mb-4">
                     <h2 class="mb-6 text-xl font-bold text-gray-800">
-                        <i class="mr-2 bi bi-journal-text text-indigo-700"></i> Riwayat Presensi Siswa <span class="hidden md:inline-block">Periode Tertentu</span>
+                        <i class="mr-2 text-indigo-700 bi bi-journal-text"></i> Riwayat Presensi Siswa <span class="hidden md:inline-block">Periode Tertentu</span>
                     </h2>
 
-                    <form action="{{ route('guru.absensi_kelas.index') }}" method="GET" class="space-y-4">
+                    <form action="{{ route('guru.absensi_kelas.index') }}" method="GET" class="space-y-4" data-turbo="false">
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div>
                                 <label class="block mb-2 font-semibold">Periode Mulai</label>
@@ -65,7 +65,7 @@ use Carbon\Carbon;
                     <hr class="mt-6 mb-3">
 
                     {{-- Restore Backup --}}
-                    <form action="{{ route('guru.absensi_kelas.restore') }}" method="POST" enctype="multipart/form-data" class="inline space-y-4">
+                    <form action="{{ route('guru.absensi_kelas.restore') }}" method="POST" enctype="multipart/form-data" class="inline space-y-4" data-turbo="false">
                         @csrf
                         <label class="block mb-2 text-sm font-medium text-gray-700">Upload File Backup (Format JSON)</label>
                         <input type="file" name="backup_file" accept=".json,application/json" class="p-2 w-full md:w-auto text-sm text-gray-700 border rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#063970]" required>

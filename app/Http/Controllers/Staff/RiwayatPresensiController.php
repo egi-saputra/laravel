@@ -33,6 +33,7 @@ class RiwayatPresensiController extends Controller
                     ->select(
                         'p.id',
                         'p.created_at',
+                        'p.sesi',
                         'p.keterangan',
                         'p.apel',
                         'p.upacara',
@@ -49,6 +50,7 @@ class RiwayatPresensiController extends Controller
                     ->select(
                         'p.id',
                         'p.created_at',
+                        'p.keterangan',
                         'p.keterangan',
                         'p.apel',
                         'p.upacara',
