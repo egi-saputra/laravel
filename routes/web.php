@@ -41,9 +41,9 @@ Route::get('/', fn() => view('auth.login')) ->name('home');
 
 
 // Verifikasi Email
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware(['auth'])->name('verification.notice');
+// Route::get('/email/verify', function () {
+//     return view('auth.verify-email');
+// })->middleware(['auth'])->name('verification.notice');
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
