@@ -74,7 +74,7 @@
 
                 <div class="mt-1 text-sm text-gray-700">
                     <span class="font-medium text-gray-800">Nama:</span><br>
-                    {{ $s->guru->user->name ?? '-' }}
+                    {{ $s->user->name ?? '-' }}
                 </div>
 
                 <div class="mt-3 text-xs text-gray-400">
