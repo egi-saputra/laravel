@@ -311,7 +311,7 @@
                             <div
                                 class="hidden space-x-8 border-b border-gray-100 sm:-my-px sm:ms-4 sm:flex dark:bg-gray-800 dark:border-gray-700">
                                 @foreach ($routes[$role] as $menu)
-                                    <x-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])">
+                                    <x-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])" data-turbo="false">
                                         {{ __($menu['label']) }}
                                     </x-nav-link>
                                 @endforeach

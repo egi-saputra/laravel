@@ -40,7 +40,7 @@
                     </a>
 
                     <!-- Menu 2 -->
-                    <a href="{{ route('public.analitycs.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
+                    <a href="{{ route('public.analitycs.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md" data-turbo="false">
                         {{-- <i class="mb-2 text-xl text-red-600 md:text-3xl bi-bar-chart-line"></i> --}}
                         <i class="mb-2 text-2xl text-red-600 md:text-3xl bi bi-graph-up-arrow"></i>
                         {{-- <i class="mb-2 text-xl text-red-600 md:text-3xl fas fa-chart-line"></i> --}}
