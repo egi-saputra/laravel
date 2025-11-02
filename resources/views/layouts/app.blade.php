@@ -14,6 +14,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <!-- Memastikan Turbo tidak menggunakan cache lama halaman (yang bikin JS kadang tidak jalan) -->
         <meta name="turbo-cache-control" content="no-preview">
+        <meta name="turbo-cache-control" content="no-cache">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
