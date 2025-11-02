@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-// use App\Traits\Cachable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     // use HasApiTokens, HasFactory, Notifiable, Cachable;
     use HasApiTokens, HasFactory, Notifiable;
@@ -31,6 +31,17 @@ class User extends Authenticatable
         'password' => 'hashed',
         'last_activity' => 'datetime',
     ];
+
+    // Tambahkan di class User
+    public function setEmailAttribute($value)
+    {
+        if (($this->attributes['email'] ?? null) !== $value) {
+            $this->attributes['email'] = $value;
+            $this->attributes['email_verified_at'] = null; // reset status verifikasi
+        } else {
+            $this->attributes['email'] = $value;
+        }
+    }
 
     // ✅ Flexible role check
     public function hasRole(string $role): bool
