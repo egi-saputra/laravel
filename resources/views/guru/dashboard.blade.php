@@ -15,7 +15,7 @@
                     <x-sidebar />
                 </aside> --}}
 
-                <div class="flex flex-col items-center p-4 pt-4 pb-6 mb-6 border shadow-sm rounded-lg bg-gray-50">
+                <div class="flex flex-col items-center p-4 pt-4 pb-6 mb-6 border rounded-lg shadow-sm bg-gray-50">
                     <div class="w-full h-32 rounded shadow bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-900 animate-gradient bg-[length:200%_200%]"></div>
 
                     @php
@@ -233,7 +233,7 @@
                     </div>
 
                     {{-- ===== Grid Online Users ===== --}}
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer" data-turbo="false">
                         @forelse ($onlineUsers as $user)
                             <div class="flex items-center p-4 space-x-4 transition bg-white shadow rounded-xl hover:shadow-lg user-card"
                                 data-role="{{ $user->role }}">
@@ -255,7 +255,7 @@
                     <div class="p-4 mt-4 bg-white rounded-lg shadow-sm">
                         <div class="flex items-center justify-between mb-3">
                             <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung <span class="hidden sm:inline">Semua User</span></p>
-                            <form method="GET" action="{{ url()->current() }}">
+                            <form method="GET" action="{{ url()->current() }}" data-turbo="false">
                                 {{-- <select name="limit" onchange="this.form.submit()"
                                         class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     <option value="">Semua</option>

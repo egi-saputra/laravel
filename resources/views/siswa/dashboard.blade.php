@@ -35,7 +35,7 @@
                 <div class="grid grid-cols-3 gap-4 p-0 mb-4 text-center md:rounded-xl md:grid-cols-6">
                     <!-- Menu 1 -->
                     <a href="{{ route('siswa.data_diri') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        <i class="mb-2 text-xl md:text-3xl bi bi-person-lines-fill text-gray-600"></i>
+                        <i class="mb-2 text-xl text-gray-600 md:text-3xl bi bi-person-lines-fill"></i>
                         <span class="text-xs font-semibold text-gray-700 md:text-sm">Data Diri</span>
                     </a>
 
@@ -215,7 +215,7 @@
                 </div>
 
                 {{-- ===== Grid Online Users ===== --}}
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer" data-turbo="false">
                     @forelse ($onlineUsers as $user)
                         <div class="flex items-center p-4 space-x-4 transition bg-white shadow rounded-xl hover:shadow-lg user-card"
                             data-role="{{ $user->role }}">
@@ -237,7 +237,7 @@
                 <div class="p-4 mt-4 bg-white rounded-lg shadow-sm">
                     <div class="flex items-center justify-between mb-3">
                         <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung <span class="hidden sm:inline">Semua User</span></p>
-                        <form method="GET" action="{{ url()->current() }}">
+                        <form method="GET" action="{{ url()->current() }}" data-turbo="false">
                             <select name="limit" onchange="this.form.submit()"
                                     class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Semua</option>

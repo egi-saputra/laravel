@@ -5,19 +5,19 @@
         </h2>
     </x-slot>
 
-    <div class="md:hidden flex flex-col rounded-lg shadow-lg justify-center items-center h-screen bg-gradient-to-br p-3 from-indigo-500 via-blue-500 to-cyan-400 relative overflow-hidden">
+    <div class="relative flex flex-col items-center justify-center h-screen p-3 overflow-hidden rounded-lg shadow-lg md:hidden bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-400">
 
         <!-- efek blur melayang -->
         <div class="absolute inset-0 backdrop-blur-xl bg-white/10"></div>
 
         <!-- konten utama -->
-        <div class="relative z-10 flex flex-col items-center justify-center text-center p-8 rounded-2xl bg-white/20 backdrop-blur-lg shadow-2xl border border-white/30 max-w-sm mx-auto animate-fadeIn">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white mb-4 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <div class="relative z-10 flex flex-col items-center justify-center max-w-sm p-8 mx-auto text-center border shadow-2xl rounded-2xl bg-white/20 backdrop-blur-lg border-white/30 animate-fadeIn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mb-4 text-white drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m9-9H3" />
             </svg>
 
-            <h2 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">Akses dari Desktop</h2>
-            <p class="text-white/90 text-base mb-5">Fitur ini hanya dapat digunakan melalui situs versi desktop.</p>
+            <h2 class="mb-2 text-2xl font-bold text-white drop-shadow-lg">Akses dari Desktop</h2>
+            <p class="mb-5 text-base text-white/90">Fitur ini hanya dapat digunakan melalui situs versi desktop.</p>
 
             <a href="https://simstal.site" target="_blank"
             class="px-5 py-2.5 bg-white text-indigo-600 font-semibold rounded-full shadow-lg hover:scale-105 hover:bg-indigo-100 transition-all duration-300">
@@ -37,7 +37,7 @@
         </style>
     </div>
 
-    <div class="md:flex hidden flex-col min-h-screen md:flex-row">
+    <div class="flex-col hidden min-h-screen md:flex md:flex-row">
 
         <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
             <!-- Sidebar -->
@@ -105,7 +105,7 @@
             </div>
 
             {{-- ===== Grid Online Users ===== --}}
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="onlineUsersContainer" data-turbo="false">
                 @forelse ($onlineUsers as $user)
                     <div class="flex items-center p-4 space-x-4 transition bg-white shadow rounded-xl hover:shadow-lg user-card"
                          data-role="{{ $user->role }}">
@@ -126,7 +126,7 @@
             <div class="p-4 mt-4 bg-white shadow-sm rounded-2xl">
                 <div class="flex items-center justify-between mb-4">
                     <p class="pl-2 text-sm font-medium text-gray-500 md:text-base">Statistik Pengunjung <span class="hidden sm:inline">Semua User</span></p>
-                    <form method="GET" action="{{ url()->current() }}">
+                    <form method="GET" action="{{ url()->current() }}" data-turbo="false">
                         {{-- <select name="limit" onchange="this.form.submit()"
                                 class="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Semua</option>
@@ -180,7 +180,7 @@
         </main>
     </div>
 
-    <script>
+    {{-- <script>
         // SweetAlert Hapus Visitor
         document.getElementById('truncateVisitorBtn').addEventListener('click', function() {
             Swal.fire({
@@ -218,6 +218,56 @@
             });
 
             noUsersMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        });
+    </script> --}}
+
+    <script>
+        document.addEventListener('turbo:load', () => {
+            // Pastikan elemen tersedia dulu
+            const truncateBtn = document.getElementById('truncateVisitorBtn');
+            const truncateForm = document.getElementById('truncateVisitorForm');
+            const filterSelect = document.getElementById('roleFilter');
+            const userCards = document.querySelectorAll('.user-card');
+            const noUsersMsg = document.querySelector('#onlineUsersContainer .no-users:last-of-type');
+
+            // 🔹 SweetAlert Hapus Visitor
+            if (truncateBtn && truncateForm) {
+                truncateBtn.addEventListener('click', function() {
+                    Swal.fire({
+                        title: '⚠️ Hapus Semua Data Visitor?',
+                        text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            truncateForm.submit();
+                        }
+                    });
+                });
+            }
+
+            // 🔹 Filter role online users
+            if (filterSelect && userCards.length > 0 && noUsersMsg) {
+                filterSelect.addEventListener('change', function() {
+                    const role = this.value;
+                    let visibleCount = 0;
+
+                    userCards.forEach(card => {
+                        if (role === 'all' || card.dataset.role === role) {
+                            card.style.display = 'flex';
+                            visibleCount++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    noUsersMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+                });
+            }
         });
     </script>
 
