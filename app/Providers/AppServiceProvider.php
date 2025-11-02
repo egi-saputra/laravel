@@ -11,7 +11,6 @@ use Carbon\Carbon;
 use App\Observers\UserObserver;
 use App\Observers\DataSiswaObserver;
 use App\Models\DataSiswa;
-use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
