@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl font-bold leading-tight text-gray-800 flex items-center gap-2">
-            <i class="bi bi-speedometer2 text-blue-600"></i>
+        <h2 class="flex items-center gap-2 text-2xl font-bold leading-tight text-gray-800">
+            <i class="text-blue-600 bi bi-speedometer2"></i>
             {{ __($pageTitle ?? 'Dashboard') }}
         </h2>
     </x-slot>
@@ -9,7 +9,7 @@
     <div class="flex flex-col min-h-screen md:flex-row">
 
         {{-- ===== Sidebar + Footer (Desktop) ===== --}}
-        <aside class="hidden md:flex md:flex-col md:w-64 lg:w-72 xl:w-80 p-4 h-screen">
+        <aside class="hidden h-screen p-4 md:flex md:flex-col md:w-64 lg:w-72 xl:w-80">
             <x-sidebar />
             <div class="mt-auto">
                 <x-footer :profil="$profil" />
@@ -17,17 +17,17 @@
         </aside>
 
         {{-- ===== Main Content ===== --}}
-        <main class="flex-1 px-4 md:mt-4 shadow-sm mb-16 py-6 md:px-8 md:py-10 overflow-x-hidden rounded-lg border bg-gradient-to-br from-slate-50 via-white to-slate-100">
+        <main class="flex-1 px-4 py-6 mb-16 overflow-x-hidden border rounded-lg shadow-sm md:mt-4 md:px-8 md:py-10 bg-gradient-to-br from-slate-50 via-white to-slate-100">
 
             {{-- ===== Filter & Online Users ===== --}}
             <section class="mb-10">
-                <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
-                    <h3 class="text-lg font-semibold text-gray-700 flex items-center gap-2">
-                        <i class="bi bi-wifi text-green-600"></i> User Online
+                <div class="flex flex-col gap-4 mb-6 md:flex-row md:justify-between md:items-center">
+                    <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-700">
+                        <i class="text-green-600 bi bi-wifi"></i> User Online
                     </h3>
                     <div>
                         <select id="roleFilter"
-                            class="px-4 py-2 border border-gray-300 rounded-xl text-sm shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition">
+                            class="px-4 py-2 text-sm transition border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
                             <option value="all">Semua Role</option>
                             <option value="guru">Guru</option>
                             <option value="staff">Staff</option>
@@ -37,17 +37,17 @@
                     </div>
                 </div>
 
-                <div id="onlineUsersContainer"
-                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                <div id="onlineUsersContainer" data-turbo="false"
+                    class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     @forelse ($onlineUsers as $user)
                         <div data-role="{{ $user->role }}"
-                            class="user-card flex items-center gap-4 p-5 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300">
-                            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-green-100">
-                                <i class="bi bi-person-fill text-green-600 text-xl"></i>
+                            class="flex items-center gap-4 p-5 transition duration-300 bg-white border border-gray-100 shadow-sm user-card rounded-xl hover:shadow-lg hover:-translate-y-1">
+                            <div class="flex items-center justify-center w-10 h-10 bg-green-100 rounded-full">
+                                <i class="text-xl text-green-600 bi bi-person-fill"></i>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-800">{{ $user->name }}</h4>
-                                <p class="text-xs text-green-600 font-medium">Online</p>
+                                <p class="text-xs font-medium text-green-600">Online</p>
                                 <p class="text-xs text-gray-500 capitalize">Role: {{ $user->role }}</p>
                             </div>
                         </div>
@@ -59,11 +59,11 @@
 
             {{-- ===== Statistik Pengguna ===== --}}
             <section class="mb-10">
-                <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
-                    <i class="bi bi-people text-indigo-600"></i> Statistik Pengguna
+                <h3 class="flex items-center gap-2 mb-4 text-lg font-semibold text-gray-700">
+                    <i class="text-indigo-600 bi bi-people"></i> Statistik Pengguna
                 </h3>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
                     @php
                         $stats = [
                             ['title'=>'Guru', 'count'=>$guruCount, 'color'=>'blue', 'icon'=>'fas fa-chalkboard-teacher'],
@@ -77,7 +77,7 @@
 
                     @foreach ($stats as $stat)
                         <div
-                            class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                            class="p-6 transition duration-300 bg-white border border-gray-100 shadow-sm rounded-2xl hover:shadow-lg hover:-translate-y-1">
                             <div class="flex items-center gap-4">
                                 <div
                                     class="p-3 bg-{{ $stat['color'] }}-100 text-{{ $stat['color'] }}-600 rounded-full">
@@ -97,16 +97,16 @@
 
             {{-- ===== Statistik Pengunjung ===== --}}
             <section>
-                <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
-                    <i class="bi bi-graph-up text-blue-600"></i> Statistik Pengunjung
+                <h3 class="flex items-center gap-2 mb-4 text-lg font-semibold text-gray-700">
+                    <i class="text-blue-600 bi bi-graph-up"></i> Statistik Pengunjung
                 </h3>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div class="p-6 bg-white border border-gray-100 shadow-sm rounded-2xl">
                     <div class="flex items-center justify-between mb-5">
-                        <p class="text-sm md:text-base font-medium text-gray-600">Statistik Pengunjung Semua Role</p>
-                        <form method="GET" action="{{ url()->current() }}">
+                        <p class="text-sm font-medium text-gray-600 md:text-base">Statistik Pengunjung Semua Role</p>
+                        <form method="GET" action="{{ url()->current() }}" data-turbo="false">
                             <select name="limit" onchange="this.form.submit()"
-                                class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 transition">
+                                class="px-3 py-2 text-sm transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400">
                                 <option value="all" {{ request('limit') === 'all' ? 'selected' : '' }}>Semua</option>
                                 <option value="10" {{ request('limit', 10) == 10 ? 'selected' : '' }}>10</option>
                                 <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
@@ -133,7 +133,7 @@
                                 $color = $roleColors[$user->role] ?? 'gray';
                             @endphp
                             <li
-                                class="flex flex-col bg-gradient-to-br from-gray-50 to-white border border-gray-100 rounded-xl p-4 hover:shadow-md transition">
+                                class="flex flex-col p-4 transition border border-gray-100 bg-gradient-to-br from-gray-50 to-white rounded-xl hover:shadow-md">
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="font-semibold text-gray-700">{{ $user->name ?? 'User #' . $user->id }}</span>
                                     <span
@@ -141,7 +141,7 @@
                                         {{ $user->total_visits }}
                                     </span>
                                 </div>
-                                <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="w-full h-2 overflow-hidden bg-gray-200 rounded-full">
                                     <div class="h-2 bg-{{ $color }}-600 rounded-full transition-all duration-500"
                                         style="width: {{ $percent }}%"></div>
                                 </div>
