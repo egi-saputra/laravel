@@ -61,8 +61,8 @@
     <div id="strukturalList" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         @forelse ($struktural ?? [] as $s)
             <div class="p-4 transition-shadow bg-white border rounded-lg shadow-sm hover:shadow-md"
-                 data-jabatan="{{ strtolower($s->jabatan ?? '') }}"
-                 data-nama="{{ strtolower($s->guru->user->name ?? '') }}">
+                data-jabatan="{{ strtolower($s->jabatan ?? '') }}"
+                data-nama="{{ strtolower($s->user->name ?? '') }}">
                 <div class="flex items-center justify-between mb-2">
                     <h3 class="text-lg font-semibold text-gray-800">
                         {{ $s->jabatan }}
