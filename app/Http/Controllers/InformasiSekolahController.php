@@ -22,7 +22,7 @@ class InformasiSekolahController extends Controller
         // Profil sekolah
         $profil = ProfilSekolah::first();
 
-        $struktural = DataStruktural::with('guru')->get(); // ambil semua data struktural + relasi guru
+        $struktural = DataStruktural::with('user')->get(); // ambil semua data struktural + relasi guru
         $gurus = DataGuru::with('user')->get(); // untuk dropdown pilih guru
 
         // Data ekskul + relasi pembina
