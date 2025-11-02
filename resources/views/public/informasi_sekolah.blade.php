@@ -18,7 +18,7 @@
         <main class="flex-1 p-0 mb-16 space-y-6 overflow-x-auto md:p-6">
             <!-- Profil Sekolah Card -->
             <div>
-                <x-public.profil-sekolah-card />
+                <x-public.profil-sekolah-card :profil="$profil" />
             </div>
 
             <!-- Tabel Data Kejuruan -->
