@@ -13,8 +13,8 @@
         <!-- Warna status bar Safari iOS -->
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <!-- Memastikan Turbo tidak menggunakan cache lama halaman (yang bikin JS kadang tidak jalan) -->
-        <meta name="turbo-cache-control" content="no-preview">
-        <meta name="turbo-cache-control" content="no-cache">
+        {{-- <meta name="turbo-cache-control" content="no-preview"> --}}
+        {{-- <meta name="turbo-cache-control" content="no-cache"> --}}
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -311,7 +311,7 @@
                             <div
                                 class="hidden space-x-8 border-b border-gray-100 sm:-my-px sm:ms-4 sm:flex dark:bg-gray-800 dark:border-gray-700">
                                 @foreach ($routes[$role] as $menu)
-                                    <x-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])" data-turbo="false">
+                                    <x-nav-link :href="route($menu['route'])" :active="request()->routeIs($menu['route'])">
                                         {{ __($menu['label']) }}
                                     </x-nav-link>
                                 @endforeach

@@ -308,4 +308,34 @@
             </main>
         </div>
 
+        <script>
+            document.addEventListener('turbo:load', () => {
+                // Pastikan elemen tersedia dulu
+                const truncateBtn = document.getElementById('truncateVisitorBtn');
+                const truncateForm = document.getElementById('truncateVisitorForm');
+                const filterSelect = document.getElementById('roleFilter');
+                const userCards = document.querySelectorAll('.user-card');
+                const noUsersMsg = document.querySelector('#onlineUsersContainer .no-users:last-of-type');
+
+                // 🔹 Filter role online users
+                if (filterSelect && userCards.length > 0 && noUsersMsg) {
+                    filterSelect.addEventListener('change', function() {
+                        const role = this.value;
+                        let visibleCount = 0;
+
+                        userCards.forEach(card => {
+                            if (role === 'all' || card.dataset.role === role) {
+                                card.style.display = 'flex';
+                                visibleCount++;
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+
+                        noUsersMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+                    });
+                }
+            });
+    </script>
+
 </x-app-layout>
