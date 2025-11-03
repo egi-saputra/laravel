@@ -25,26 +25,29 @@ class ProfileController extends Controller
         return view('profile.change-password');
     }
 
-    // public function updatePassword(Request $request)
+    // public function update(Request $request)
     // {
     //     $request->validate([
-    //         'current_password' => ['required', 'string'],
-    //         'password' => ['required', 'string', 'min:8', 'confirmed'], // cek password_confirmation otomatis
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'email' => ['required','string','email','max:255', Rule::unique('users')->ignore($request->user()->id)],
     //     ]);
 
-    //     $user = $request->user();
+    //     $request->user()->update($request->only('name', 'email'));
 
-    //     if (!Hash::check($request->current_password, $user->password)) {
-    //         return back()->withErrors([
-    //             'current_password' => 'Password lama salah!'
-    //         ])->withInput();
-    //     }
+    //     $role = $request->user()->role;
+    //     $dashboardRoute = match($role) {
+    //         'admin' => 'admin.dashboard',
+    //         'guru'  => 'guru.dashboard',
+    //         'staff' => 'staff.dashboard',
+    //         'siswa' => 'siswa.dashboard',
+    //         default => 'user.dashboard',
+    //     };
 
-    //     $user->update([
-    //         'password' => Hash::make($request->password),
+    //     return redirect()->route($dashboardRoute)->with('alert', [
+    //         'type' => 'success',
+    //         'title' => 'Profile Updated!',
+    //         'message' => 'Profil berhasil diperbarui!'
     //     ]);
-
-    //     return redirect()->route('profile.password')->with('status', 'password-updated');
     // }
 
     public function update(Request $request)
@@ -54,9 +57,23 @@ class ProfileController extends Controller
             'email' => ['required','string','email','max:255', Rule::unique('users')->ignore($request->user()->id)],
         ]);
 
-        $request->user()->update($request->only('name', 'email'));
+        $user = $request->user();
+        $emailChanged = $user->email !== $request->email;
 
-        $role = $request->user()->role;
+        // Update name & email
+        $user->update($request->only('name', 'email'));
+
+        // Jika email berubah, kirim email verifikasi baru
+        if ($emailChanged) {
+            $user->sendEmailVerificationNotification();
+            return redirect()->route('profile.edit')->with('alert', [
+                'type' => 'success',
+                'title' => 'Profile Updated!',
+                'message' => 'Profil berhasil diperbarui. Silakan verifikasi email baru kamu.'
+            ]);
+        }
+
+        $role = $user->role;
         $dashboardRoute = match($role) {
             'admin' => 'admin.dashboard',
             'guru'  => 'guru.dashboard',

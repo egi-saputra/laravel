@@ -5,15 +5,18 @@
         </h2>
     </x-slot>
 
-    <div class="flex flex-col min-h-screen md:flex-row">
-        <!-- Sidebar -->
-        <aside class="hidden mt-0 mb-4 md:block md:ml-6 md:mt-6 md:h-screen md:mb-0 md:w-auto">
+    <div class="flex flex-col min-h-screen md:!flex-row">
+
+        <aside class="hidden mx-0 mt-2 mb-4 md:block md:top-0 md:ml-6 md:mt-6 md:w-auto">
+            <!-- Sidebar -->
             <x-sidebar />
+
+            <!-- Footer -->
+            <x-footer :profil="$profil" />
         </aside>
 
         <!-- Main Content -->
-        <!-- Card Daftar Jadwal Guru -->
-        <main class="flex-1 p-0 mb-16 space-y-6 overflow-x-auto md:mb-0 md:p-6">
+        <main class="!flex-1 p-0 !mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
             <!-- Card Daftar Mapel -->
             <x-public.card-jadwal-guru :paginatedJadwal="$paginatedJadwal" :sekolah="$sekolah" :pageTitle="$pageTitle" :logoBase64="$logoBase64" :logoMime="$logoMime" />
         </main>
@@ -39,6 +42,4 @@
         });
     </script>
 
-    <!-- Footer -->
-    <x-footer :profil="$profil" />
 </x-app-layout>

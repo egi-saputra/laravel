@@ -303,7 +303,7 @@
                                 </a>
                                 <div
                                     class="px-4 text-[#063970] text-lg py-6 mx-auto font-bold sm:hidden max-w-7xl sm:px-6 lg:px-8">
-                                    {{ $profil?->nama_sekolah ?? 'Nama Sekolah Default' }}
+                                    {{ $profil?->nama_sekolah ?? 'Simstal' }}
                                 </div>
                             </div>
 
