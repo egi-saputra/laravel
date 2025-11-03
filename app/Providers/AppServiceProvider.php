@@ -97,7 +97,35 @@ class AppServiceProvider extends ServiceProvider
             /**
              * Visitors
              */
-            $userIds = User::whereIn('role',$allowedRoles)->pluck('id');
+            // $userIds = User::whereIn('role',$allowedRoles)->pluck('id');
+
+            // $totalVisitors  = Visitor::whereIn('user_id', $userIds)->count();
+            // $uniqueVisitors = Visitor::whereIn('user_id', $userIds)
+            //     ->distinct('user_id')
+            //     ->count('user_id');
+
+            // ambil limit dari request, default 10
+            // $limit = request()->get('limit', 10);
+            // $query = User::withCount('visitors as total_visits')
+            //     ->whereIn('role', $allowedRoles)
+            //     ->orderByDesc('total_visits');
+
+            // if ($limit !== 'all') {
+            //     $query->take((int) $limit);
+            // }
+
+            // $visitsByUser = $query->get();
+
+            /**
+             * Visitors (global tapi sembunyikan developer & admin dari role lain)
+             */
+            if ($currentUser && $currentUser->role === 'developer') {
+                // Developer bisa lihat semua
+                $userIds = User::pluck('id');
+            } else {
+                // Role lain tidak bisa lihat admin & developer
+                $userIds = User::whereNotIn('role', ['developer', 'admin'])->pluck('id');
+            }
 
             $totalVisitors  = Visitor::whereIn('user_id', $userIds)->count();
             $uniqueVisitors = Visitor::whereIn('user_id', $userIds)
@@ -105,17 +133,10 @@ class AppServiceProvider extends ServiceProvider
                 ->count('user_id');
 
             // ambil limit dari request, default 10
-            // $limit = request()->get('limit', 10);
-            // $visitsByUser = User::withCount('visitors as total_visits')
-            //     ->whereIn('role', $allowedRoles)
-            //     ->orderByDesc('total_visits')
-            //     ->take($limit)
-            //     ->get();
-
-            // ambil limit dari request, default 10
             $limit = request()->get('limit', 10);
+
             $query = User::withCount('visitors as total_visits')
-                ->whereIn('role', $allowedRoles)
+                ->whereIn('id', $userIds) // <- PENTING: gunakan filter userIds yang sudah difilter
                 ->orderByDesc('total_visits');
 
             if ($limit !== 'all') {
