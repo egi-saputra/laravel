@@ -10,12 +10,12 @@ use App\Http\Controllers\{
     ProfileController,
     FotoProfilController,
     StaffController,
-    SiswaController,
+    // SiswaController,
     UserController,
     GoogleController,
     VisitorController,
     InformasiSekolahController,
-    StrukturalController,
+    // StrukturalController,
     PiketController,
     JadwalMapelController,
     ProfilSekolahController,
@@ -115,7 +115,7 @@ Route::middleware(['auth', 'no.cache'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index']);
     Route::get('/guru/dashboard', [GuruController::class, 'index']);
     Route::get('/staff/dashboard', [StaffController::class, 'index']);
-    Route::get('/siswa/dashboard', [SiswaController::class, 'index']);
+    // Route::get('/siswa/dashboard', [SiswaController::class, 'index']);
     Route::get('/user/dashboard', [UserController::class, 'index']);
 });
 
@@ -141,12 +141,12 @@ Route::middleware(['auth'])->group(function () {
         ->except(['show']);
 
         // Struktural Sekolah
-        Route::resource('struktural', StrukturalController::class)
-            ->except(['show']);
+        // Route::resource('struktural', StrukturalController::class)
+        //     ->except(['show']);
 
         // Daftar GTK
-        Route::resource('guru', ListGuruController::class)
-            ->except(['show']);
+        // Route::resource('guru', ListGuruController::class)
+        //     ->except(['show']);
 
         // Daftar Kelas
         // Route::resource('kelas', ListKelasController::class)
@@ -157,12 +157,12 @@ Route::middleware(['auth'])->group(function () {
             ->except(['show']);
 
         // Daftar Ekskul
-        Route::resource('ekskul', ListEkskulController::class)
-            ->except(['show']);
+        // Route::resource('ekskul', ListEkskulController::class)
+        //     ->except(['show']);
 
         // Daftar Program Kejuruan
-        Route::resource('kejuruan', ListKejuruanController::class)
-            ->except(['show']);
+        // Route::resource('kejuruan', ListKejuruanController::class)
+        //     ->except(['show']);
 
         // Daftar Informasi Sekolah
         Route::resource('informasi_sekolah', InformasiSekolahController::class)
@@ -210,14 +210,6 @@ Route::middleware(['auth'])->group(function () {
 // Routes dengan Auth + Verified
 // ======================
 Route::middleware(['auth', 'verified'])->group(function () {
-    // ----------------------
-    // Siswa
-    // ----------------------
-    Route::prefix('siswa')->name('siswa.')->middleware('role:siswa')->group(function () {
-        Route::get('/dashboard', [SiswaController::class, 'dashboard'])->name('dashboard');
-        Route::get('/agenda', [SiswaController::class, 'agenda'])->name('agenda');
-    });
-
     // ----------------------
     // User
     // ----------------------
