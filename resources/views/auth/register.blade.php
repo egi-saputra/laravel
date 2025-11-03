@@ -3,12 +3,12 @@
 
     <div class="flex flex-col min-h-screen mx-6 md:mx-0 md:flex-row">
         <!-- Left Panel -->
-        <div class="relative flex-col items-center justify-center hidden w-full p-8 text-center md:flex bg-slate-50 md:w-1/2">
+        <div class="relative flex-col items-center justify-center hidden w-full p-8 text-center bg-white md:flex md:w-1/2">
 
             <!-- Logo & App Name di pojok kanan atas -->
             <div class="absolute flex items-center gap-2 top-4 left-4">
                 <img src="{{ Storage::url('logo_app/logo.png') }}" alt="Logo App" class="w-8 h-8">
-                <span class="font-semibold capitalize font-poppins text-slate-600">{{ env('APP_NAME', 'MyApp') }} Tech</span>
+                <span class="font-semibold capitalize font-poppins text-slate-600">{{ env('APP_NAME', 'MyApp') }}</span>
             </div>
 
             <img src="{{ Storage::url('logo_app/register.png') }}" alt="Logo" class="w-3/4 mt-4 mb-4 md:w-2/3 md:mt-0">
