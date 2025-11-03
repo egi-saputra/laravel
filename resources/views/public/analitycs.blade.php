@@ -104,8 +104,17 @@
                 <div class="p-6 bg-white border border-gray-100 shadow-sm rounded-2xl">
                     <div class="flex items-center justify-between mb-5">
                         <p class="text-sm font-medium text-gray-600 md:text-base">Statistik Pengunjung Semua Role</p>
-                        <form method="GET" action="{{ url()->current() }}" data-turbo="false">
+                        {{-- <form method="GET" action="{{ url()->current() }}" data-turbo="false">
                             <select name="limit" onchange="this.form.submit()"
+                                class="px-3 py-2 text-sm transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400">
+                                <option value="all" {{ request('limit') === 'all' ? 'selected' : '' }}>Semua</option>
+                                <option value="10" {{ request('limit', 10) == 10 ? 'selected' : '' }}>10</option>
+                                <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
+                            </select>
+                        </form> --}}
+                        <form method="GET" action="{{ url()->current() }}">
+                            <select name="limit" onchange="window.location.href='{{ url()->current() }}?limit='+this.value"
                                 class="px-3 py-2 text-sm transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400">
                                 <option value="all" {{ request('limit') === 'all' ? 'selected' : '' }}>Semua</option>
                                 <option value="10" {{ request('limit', 10) == 10 ? 'selected' : '' }}>10</option>
