@@ -7,11 +7,10 @@ use Illuminate\Support\Facades\View;
 use App\Models\User;
 use App\Models\Visitor;
 use App\Models\ProfilSekolah;
-use App\Models\DataSiswa;
+use Carbon\Carbon;
 use App\Observers\UserObserver;
 use App\Observers\DataSiswaObserver;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
+use App\Models\DataSiswa;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,28 +21,30 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        /**
-         * 🔹 Daftarkan observer
-         */
+        // 🔹 Root view untuk Inertia
+        // Inertia::setRootView('inertia');
+
+        // 🔹 Global share untuk Inertia
+        // Inertia::share([
+        //     'auth' => fn () => [
+        //         'user' => auth()->user(),
+        //     ],
+        //     'app' => fn () => [
+        //         'profil' => \App\Models\ProfilSekolah::first(),
+        //     ],
+        // ]);
+
+        // 🔹 Observers
         User::observe(UserObserver::class);
         DataSiswa::observe(DataSiswaObserver::class);
 
-        /**
-         * 🔹 View Composer hanya untuk halaman tertentu
-         * (hindari semua view dengan wildcard *)
-         */
+        // 🔹 View composer tetap jalan untuk Blade
         View::composer('*', function ($view) {
-            $profil = Cache::remember('profil_sekolah', now()->addMinutes(5), fn() => ProfilSekolah::first());
+            $profil = ProfilSekolah::first();
             $currentUser = auth()->user();
 
-            if (! $currentUser) {
-                // Jika belum login, kirim data minimal
-                $view->with(['profil' => $profil]);
-                return;
-            }
-
             /**
-             * Role visibility
+             * Role Visibility Mapping
              */
             $roleVisibility = [
                 'developer' => ['developer','admin','guru','staff','siswa','user'],
@@ -54,105 +55,138 @@ class AppServiceProvider extends ServiceProvider
                 'user'      => ['guru','staff','siswa','user'],
             ];
 
-            $allowedRoles = $roleVisibility[$currentUser->role] ?? [$currentUser->role];
+            $allowedRoles = $currentUser
+                ? ($roleVisibility[$currentUser->role] ?? [$currentUser->role])
+                : [];
 
             /**
-             * 🔹 Cache data berat agar tidak hit database tiap reload
+             * Users & Online Status
              */
-            $cacheKey = 'dashboard_data_' . $currentUser->id;
-            $data = Cache::remember($cacheKey, now()->addSeconds(60), function () use ($allowedRoles, $currentUser) {
-                $users = User::whereIn('role', $allowedRoles)->get();
+            $users = User::whereIn('role', $allowedRoles)->get();
 
-                // Hitung online users
-                $onlineUsers = $users->filter(function ($user) {
-                    return $user->last_activity &&
-                        Carbon::parse($user->last_activity)->gt(now()->subMinutes(1));
-                });
+            $onlineUsers = $users->map(function ($user) {
+                $user->is_online = $user->last_activity
+                    && Carbon::parse($user->last_activity)->gt(now()->subMinutes(1));
+                return $user;
+            })->filter(fn($u) => $u->is_online);
 
-                // Role-based limit (admin hanya lihat 5 per kategori)
-                $limit = $currentUser->role === 'admin' ? 5 : null;
+            $onlineGuru  = $onlineUsers->where('role','guru');
+            $onlineStaff = $onlineUsers->where('role','staff');
+            $onlineSiswa = $onlineUsers->where('role','siswa');
+            $onlineUser  = $onlineUsers->where('role','user');
 
-                $grouped = [
-                    'onlineGuru'  => $onlineUsers->where('role', 'guru')->take($limit),
-                    'onlineStaff' => $onlineUsers->where('role', 'staff')->take($limit),
-                    'onlineSiswa' => $onlineUsers->where('role', 'siswa')->take($limit),
-                    'onlineUser'  => $onlineUsers->where('role', 'user')->take($limit),
-                ];
-
-                // Statistik
-                $counts = [
-                    'adminCount' => in_array('admin', $allowedRoles) ? User::where('role','admin')->count() : 0,
-                    'guruCount'  => in_array('guru', $allowedRoles) ? User::where('role','guru')->count() : 0,
-                    'staffCount' => in_array('staff', $allowedRoles) ? User::where('role','staff')->count() : 0,
-                    'siswaCount' => in_array('siswa', $allowedRoles) ? User::where('role','siswa')->count() : 0,
-                    'userCount'  => in_array('user', $allowedRoles) ? User::where('role','user')->count() : 0,
-                ];
-
-                $userIds = User::whereIn('role',$allowedRoles)->pluck('id');
-                $visitors = [
-                    'totalVisitors'  => Visitor::whereIn('user_id', $userIds)->count(),
-                    'uniqueVisitors' => Visitor::whereIn('user_id', $userIds)
-                        ->distinct('user_id')
-                        ->count('user_id'),
-                ];
-
-                $limitVisitors = request()->get('limit', 10);
-                $visitsByUser = User::withCount('visitors as total_visits')
-                    ->whereIn('role', $allowedRoles)
-                    ->orderByDesc('total_visits')
-                    ->when($limitVisitors !== 'all', fn($q) => $q->take((int) $limitVisitors))
-                    ->get();
-
-                return array_merge(
-                    compact('users', 'onlineUsers', 'grouped', 'counts', 'visitors', 'visitsByUser'),
-                    ['totalUsers' => $users->count()]
-                );
-            });
+            // Admin hanya lihat max 5 online per kategori
+            if ($currentUser && $currentUser->role === 'admin') {
+                $onlineGuru  = $onlineGuru->take(5);
+                $onlineStaff = $onlineStaff->take(5);
+                $onlineSiswa = $onlineSiswa->take(5);
+                $onlineUser  = $onlineUser->take(5);
+            }
 
             /**
-             * 🔹 Page title dari route name
+             * Statistik User
+             */
+            $adminCount = in_array('admin',$allowedRoles) ? User::where('role','admin')->count() : 0;
+            $guruCount  = in_array('guru',$allowedRoles) ? User::where('role','guru')->count() : 0;
+            $staffCount = in_array('staff',$allowedRoles) ? User::where('role','staff')->count() : 0;
+            $siswaCount = in_array('siswa',$allowedRoles) ? User::where('role','siswa')->count() : 0;
+            $userCount  = in_array('user',$allowedRoles) ? User::where('role','user')->count() : 0;
+
+            $totalUsers = $users->count();
+
+            /**
+             * Visitors
+             */
+            $userIds = User::whereIn('role',$allowedRoles)->pluck('id');
+
+            $totalVisitors  = Visitor::whereIn('user_id', $userIds)->count();
+            $uniqueVisitors = Visitor::whereIn('user_id', $userIds)
+                ->distinct('user_id')
+                ->count('user_id');
+
+            // ambil limit dari request, default 10
+            $limit = request()->get('limit', 10);
+            $query = User::withCount('visitors as total_visits')
+                ->whereIn('role', $allowedRoles)
+                ->orderByDesc('total_visits');
+
+            if ($limit !== 'all') {
+                $query->take((int) $limit);
+            }
+
+            $visitsByUser = $query->get();
+
+
+
+            /**
+             * Routes (menu + title)
              */
             $routes = [
                 'admin' => [
                     ['route' => 'admin.dashboard', 'label' => 'Dashboard Admin'],
                     ['route' => 'admin.user.index', 'label' => 'Kelola Data Pengguna'],
                     ['route' => 'admin.profil_sekolah', 'label' => 'Profil Sekolah'],
+                    ['route' => 'admin.struktural.index', 'label' => 'Struktural Sekolah'],
+                    ['route' => 'admin.kejuruan', 'label' => 'Program Kejuruan'],
+                    ['route' => 'admin.guru.index', 'label' => 'Kelola Data Guru'],
+                    ['route' => 'admin.mapel.index', 'label' => 'Kelola Data Mapel'],
+                    ['route' => 'admin.kelas.index', 'label' => 'Kelola Data Kelas'],
+                    ['route' => 'admin.ekskul.index', 'label' => 'Kelola Data Ekskul'],
+                    ['route' => 'admin.siswa.index', 'label' => 'Kelola Data Siswa'],
                 ],
                 'guru' => [
                     ['route' => 'guru.dashboard', 'label' => 'Dashboard Guru'],
                     ['route' => 'guru.jadwal_piket.index', 'label' => 'Jadwal Guru Piket'],
+                    ['route' => 'public.informasi_sekolah.index', 'label' => 'Informasi Umum Sekolah'],
+                    ['route' => 'public.jadwal_mapel.index', 'label' => 'Daftar Jadwal Pelajaran'],
+                ],
+                'staff' => [
+                    ['route' => 'staff.dashboard', 'label' => 'Dashboard Staff'],
+                    ['route' => 'staff.agenda', 'label' => 'Agenda Staff'],
                 ],
                 'siswa' => [
                     ['route' => 'siswa.dashboard', 'label' => 'Dashboard Siswa'],
+                    ['route' => 'siswa.agenda', 'label' => 'Agenda Siswa'],
+                ],
+                'user' => [
+                    ['route' => 'user.dashboard', 'label' => 'Dashboard User'],
+                    ['route' => 'user.activities', 'label' => 'Kegiatan User'],
                 ],
             ];
 
-            $currentRoute = request()->route()?->getName();
-            $pageTitle = collect($routes)->flatten(1)
-                ->firstWhere('route', $currentRoute)['label'] ?? null;
+            $currentRouteName = request()->route()?->getName();
+            $pageTitle = null;
+            foreach ($routes as $role => $menus) {
+                foreach ($menus as $menu) {
+                    if ($menu['route'] === $currentRouteName) {
+                        $pageTitle = $menu['label'];
+                        break 2;
+                    }
+                }
+            }
 
             /**
-             * 🔹 Kirim ke view
+             * Pass data ke semua view
              */
             $view->with([
-                'profil'         => $profil,
-                'users'          => $data['users'],
-                'onlineUsers'    => $data['onlineUsers'],
-                'onlineGuru'     => $data['grouped']['onlineGuru'],
-                'onlineStaff'    => $data['grouped']['onlineStaff'],
-                'onlineSiswa'    => $data['grouped']['onlineSiswa'],
-                'onlineUser'     => $data['grouped']['onlineUser'],
-                'adminCount'     => $data['counts']['adminCount'],
-                'guruCount'      => $data['counts']['guruCount'],
-                'staffCount'     => $data['counts']['staffCount'],
-                'siswaCount'     => $data['counts']['siswaCount'],
-                'userCount'      => $data['counts']['userCount'],
-                'totalUsers'     => $data['totalUsers'],
-                'visitsByUser'   => $data['visitsByUser'],
-                'totalVisitors'  => $data['visitors']['totalVisitors'],
-                'uniqueVisitors' => $data['visitors']['uniqueVisitors'],
+                'users'          => $users,
+                'onlineUsers'    => $onlineUsers,
+                'onlineGuru'     => $onlineGuru,
+                'onlineStaff'    => $onlineStaff,
+                'onlineSiswa'    => $onlineSiswa,
+                'onlineUser'     => $onlineUser,
+                'adminCount'     => $adminCount,
+                'guruCount'      => $guruCount,
+                'staffCount'     => $staffCount,
+                'siswaCount'     => $siswaCount,
+                'userCount'      => $userCount,
+                'totalUsers'     => $totalUsers,
+                'visitsByUser'   => $visitsByUser,
+                'totalVisitors'  => $totalVisitors,
+                'uniqueVisitors' => $uniqueVisitors,
                 'routes'         => $routes,
                 'pageTitle'      => $pageTitle,
+                'profil'         => $profil,
             ]);
         });
     }
