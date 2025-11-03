@@ -43,7 +43,7 @@
                 <!-- Grid Menu -->
                 <div class="grid grid-cols-3 gap-4 p-0 mb-4 text-center md:rounded-xl md:grid-cols-6">
                     <!-- Menu 1 -->
-                    <a href="{{ route('public.analitycs.index') }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md" data-turbo="false">
+                    <a href="{{ route('public.analitycs.index') }}?t={{ now()->timestamp }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         {{-- <i class="mb-2 text-xl text-red-600 md:text-3xl bi-bar-chart-line"></i> --}}
                         <i class="mb-2 text-2xl text-red-600 md:text-3xl bi bi-graph-up-arrow"></i>
                         {{-- <i class="mb-2 text-xl text-red-600 md:text-3xl fas fa-chart-line"></i> --}}
@@ -336,6 +336,6 @@
                     });
                 }
             });
-    </script>
+        </script>
 
 </x-app-layout>
