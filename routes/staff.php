@@ -9,7 +9,7 @@ use App\Http\Controllers\Staff\{
     RiwayatPresensiController
 };
 
-Route::middleware(['auth', 'verified', 'role:staff'])->prefix('staff')->name('staff.')->group(function () {
+Route::middleware(['auth', 'verified', 'role:staff', 'log.visitor'])->prefix('staff')->name('staff.')->group(function () {
         // Dashboard
         Route::get('/dashboard', [StaffController::class, 'dashboard'])->name('dashboard');
 

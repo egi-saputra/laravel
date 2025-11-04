@@ -13,7 +13,7 @@ use App\Http\Controllers\Guru\{
 };
 
 // Semua route guru, pakai auth, verified dan role guru
-Route::middleware(['auth', 'verified', 'role:guru'])->prefix('guru')->name('guru.')->group(function () {
+Route::middleware(['auth', 'verified', 'role:guru', 'log.visitor'])->prefix('guru')->name('guru.')->group(function () {
         // Dashboard
         Route::get('/dashboard', [GuruController::class, 'dashboard'])->name('dashboard');
 

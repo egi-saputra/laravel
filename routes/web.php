@@ -110,13 +110,12 @@ Route::get('/logo-sekolah', function () {
 //     return $response;
 // })->name('foto-profil');
 
-Route::middleware(['auth', 'no.cache'])->group(function () {
-    Route::get('/dev/dashboard', [DevController::class, 'index']);
-    Route::get('/admin/dashboard', [AdminController::class, 'index']);
-    Route::get('/guru/dashboard', [GuruController::class, 'index']);
-    Route::get('/staff/dashboard', [StaffController::class, 'index']);
-    // Route::get('/siswa/dashboard', [SiswaController::class, 'index']);
-    Route::get('/user/dashboard', [UserController::class, 'index']);
+Route::middleware(['auth', 'no.cache', 'log.visitor'])->group(function () {
+    Route::get('/dev/dashboard', [DevController::class, 'index'])->name('dev.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/guru/dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
+    Route::get('/staff/dashboard', [StaffController::class, 'index'])->name('staff.dashboard');
+    Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
 });
 
 // ======================
@@ -213,7 +212,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ----------------------
     // User
     // ----------------------
-    Route::prefix('user')->name('user.')->middleware('role:user')->group(function () {
+    Route::prefix('user')->name('user.')->middleware(['role:user', 'log.visitor'])->group(function () {
         Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
         Route::get('/activities', [UserController::class, 'activities'])->name('activities');
         Route::get('/kegiatan', [UserController::class, 'kegiatan'])->name('kegiatan');

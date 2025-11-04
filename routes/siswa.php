@@ -8,7 +8,7 @@ use App\Http\Controllers\Siswa\{
     PresensiSiswaController
 };
 
-Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
+Route::middleware(['auth', 'verified', 'role:siswa', 'log.visitor'])->prefix('siswa')->name('siswa.')->group(function () {
         // Dashboard
         Route::get('/dashboard', [SiswaController::class, 'dashboard'])->name('dashboard');
         Route::resource('data_diri', SiswaController::class)
