@@ -34,7 +34,10 @@ use App\Http\Controllers\{
 // ======================
 // Homepage & Google Login
 // ======================
-Route::get('/', fn() => view('auth.login')) ->name('home');
+// Route::get('/', fn() => view('auth.login')) ->name('home');
+Route::get('/', fn() => view('auth.login'))
+    ->name('home')
+    ->middleware('log.visitor');
 // Route::get('/', [HomeController::class, 'home'])->name('home');
 // Route::get('/about', [HomeController::class, 'about'])->name('about');
 // Route::get('/contact', [HomeController::class, 'contact'])->name('contact');

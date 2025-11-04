@@ -10,24 +10,31 @@ class LogVisitor
 {
     public function handle(Request $request, Closure $next)
     {
-        // Skip logging untuk route truncate
+        // Skip logging untuk truncate
         if ($request->routeIs('visitor.truncate')) {
             return $next($request);
         }
 
-        // Catat hanya kalau user login DAN di halaman utama ("/")
-        if (auth()->check() && $request->is('/')) {
-            // Kalau belum pernah dihitung di sesi ini
-            if (!session()->has('visitor_logged')) {
-                Visitor::create([
-                    'user_id'    => auth()->id(),
-                    'ip_address' => $request->ip(),
-                    'user_agent' => $request->userAgent(),
-                ]);
+        // Catat jika user membuka halaman login ("/")
+        if ($request->is('/') && !session()->has('login_page_visited')) {
+            Visitor::create([
+                'user_id'    => null, // belum login
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
 
-                // Tandai di session supaya tidak dihitung lagi
-                session(['visitor_logged' => true]);
-            }
+            session(['login_page_visited' => true]);
+        }
+
+        // Catat jika user baru saja login
+        if (auth()->check() && !session()->has('user_logged_recorded')) {
+            Visitor::create([
+                'user_id'    => auth()->id(),
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+
+            session(['user_logged_recorded' => true]);
         }
 
         return $next($request);
