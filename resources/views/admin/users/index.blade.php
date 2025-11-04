@@ -100,7 +100,14 @@
                                     <td class="px-4 py-2 border">
                                         <div class="flex justify-center gap-2">
                                             <button
-                                                onclick="openModal({{ $user->id }}, '{{ $user->role }}', '{{ route('admin.users.update', $user->id) }}')"
+                                                onclick="openModal(
+                                                    {{ $user->id }},
+                                                    '{{ $user->name }}',
+                                                    '{{ $user->email }}',
+                                                    '{{ $user->role }}',
+                                                    '{{ route('admin.users.update', $user->id) }}'
+                                                )"
+                                                data-turbo="false"
                                                 class="px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
@@ -167,15 +174,22 @@
             });
 
             // MODAL EDIT USER
-            window.openModal = function(userId, role, actionUrl) {
+            window.openModal = function (id, name, email, role, actionUrl) {
                 const modal = document.getElementById('userEditModal');
-                modal.querySelector('form').action = actionUrl;
-                modal.querySelector('[name="role"]').value = role;
+                const form = modal.querySelector('#editForm');
 
-                const row = document.querySelector(`form[action$='${userId}']`).closest('tr');
-                modal.querySelector('[name="name"]').value = row.children[1].innerText;
-                modal.querySelector('[name="email"]').value = row.children[2].innerText;
+                // Set action ke route update user
+                form.action = actionUrl;
 
+                // Isi nilai input sesuai user yang diklik
+                form.querySelector('[name="name"]').value = name;
+                form.querySelector('[name="email"]').value = email;
+                form.querySelector('[name="role"]').value = role;
+
+                // Kosongkan password (jangan pernah prefill)
+                form.querySelector('[name="new_password"]').value = '';
+
+                // Tampilkan modal
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
             };

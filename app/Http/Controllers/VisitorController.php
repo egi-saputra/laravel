@@ -63,6 +63,7 @@ class VisitorController extends Controller
             'staff'     => 'staff.dashboard',
             'user'      => 'user.dashboard',
             'developer' => 'developer.dashboard',
+            'public' => 'public.analitycs',
         ];
 
         // Default fallback kalau role tidak ada di mapping

@@ -45,7 +45,7 @@ class AdminUserController extends Controller
 
         $allUsers = $query->orderBy('role')
                     ->orderBy('name')
-                    ->paginate(10)
+                    ->paginate(20)
                     ->withQueryString();
 
         return view('admin.users.index', ['allUsers' => $allUsers]);
@@ -94,21 +94,26 @@ class AdminUserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'role' => ['required','in:user,siswa,guru,staff,admin'],
-            'new_password' => ['nullable','string','min:6']
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'role' => ['required', 'in:user,siswa,guru,staff,admin'],
+            'new_password' => ['nullable', 'string', 'min:6']
         ]);
 
+        // Update data dasar
+        $user->email = $request->email;
         $user->role = $request->role;
+
         if ($request->filled('new_password')) {
             $user->password = Hash::make($request->new_password);
-            $message = 'Role dan password pengguna berhasil diperbarui!';
+            $message = 'Role, email, dan password pengguna berhasil diperbarui!';
         } else {
-            $message = 'Role pengguna berhasil diperbarui!';
+            $message = 'Role dan email pengguna berhasil diperbarui!';
         }
+
         $user->save();
 
-        // Buat data siswa/guru jika belum ada
-        if ($user->role === 'siswa' && !DataSiswa::where('user_id',$user->id)->exists()) {
+        // Otomatis buat data siswa/guru jika belum ada
+        if ($user->role === 'siswa' && !DataSiswa::where('user_id', $user->id)->exists()) {
             DataSiswa::create([
                 'user_id' => $user->id,
                 'nama_lengkap' => $user->name,
@@ -116,11 +121,11 @@ class AdminUserController extends Controller
             ]);
         }
 
-        if ($user->role === 'guru' && !DataGuru::where('user_id',$user->id)->exists()) {
+        if ($user->role === 'guru' && !DataGuru::where('user_id', $user->id)->exists()) {
             DataGuru::create([
                 'user_id' => $user->id,
                 'nama' => $user->name,
-                'kode' => 'G'.str_pad($user->id, 3, '0', STR_PAD_LEFT),
+                'kode' => 'G' . str_pad($user->id, 3, '0', STR_PAD_LEFT),
             ]);
         }
 
@@ -130,27 +135,6 @@ class AdminUserController extends Controller
             'title' => 'Berhasil',
         ]);
     }
-
-    // public function destroy($id)
-    // {
-    //     $user = User::findOrFail($id);
-
-    //     if ($user->role === 'admin' && $user->id == 1) {
-    //         return back()->with('alert', [
-    //             'message' => 'Super Admin tidak boleh dihapus!',
-    //             'type' => 'success',
-    //             'title' => 'Berhasil'
-    //         ]);
-    //     }
-
-    //     $user->delete();
-
-    //     return redirect()->route('admin.users.index')->with('alert', [
-    //         'message' => 'User berhasil dihapus!',
-    //         'type' => 'success',
-    //         'title' => 'Berhasil'
-    //     ]);
-    // }
 
     public function destroy($id)
     {

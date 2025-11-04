@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'log.visitor' => \App\Http\Middleware\LogVisitor::class,
         'role' => \App\Http\Middleware\RoleMiddleware::class,
         'guru.presensi.hari' => \App\Http\Middleware\GuruPiketHariMiddleware::class,
         'walas' => \App\Http\Middleware\WalasMiddleware::class,

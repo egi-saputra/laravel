@@ -3,7 +3,7 @@
     <div class="w-full max-w-md p-6 mx-4 bg-white rounded-lg shadow-xl md:mx-0">
         <h3 class="mb-4 text-lg font-semibold">Edit User</h3>
 
-        <form id="editForm" method="POST">
+        <form id="editForm" method="POST" action="">
             @csrf
             @method('PUT')
 

@@ -44,9 +44,7 @@
                 <div class="grid grid-cols-3 gap-4 p-0 mb-4 text-center md:rounded-xl md:grid-cols-6">
                     <!-- Menu 1 -->
                     <a href="{{ route('public.analitycs.index') }}?t={{ now()->timestamp }}" class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
-                        {{-- <i class="mb-2 text-xl text-red-600 md:text-3xl bi-bar-chart-line"></i> --}}
                         <i class="mb-2 text-2xl text-red-600 md:text-3xl bi bi-graph-up-arrow"></i>
-                        {{-- <i class="mb-2 text-xl text-red-600 md:text-3xl fas fa-chart-line"></i> --}}
                         <span class="text-sm font-semibold text-gray-700">Analitycs</span>
                     </a>
 
@@ -62,9 +60,6 @@
                         <span class="text-xs font-semibold text-gray-700 md:text-sm">Jumlah Jam</span>
                     </a>
 
-                    <!-- Menu 4 -->
-                    {{-- <a href="{{ ($role === 'guru' && $isWalas) ? route('guru.walas.index') : '#' }}"
-                    class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md"> --}}
                     <a href="{{ route('guru.walas.index') }}"
                     class="flex flex-col items-center justify-center p-4 transition-all shadow backdrop-blur bg-gray-50 rounded-xl hover:bg-sky-50 hover:shadow-md">
                         <i class="mb-1 text-3xl text-sky-600 fas fa-chalkboard-teacher"></i>
