@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <div id="onlineUsersContainer" data-turbo="false"
+                <div id="onlineUsersContainer"
                     class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     @forelse ($onlineUsers as $user)
                         <div data-role="{{ $user->role }}"
@@ -52,9 +52,23 @@
                             </div>
                         </div>
                     @empty
-                        <p class="text-center text-gray-500 col-span-full no-users">Tidak ada user online</p>
+                        <p class="text-center text-gray-500 col-span-full no-users">
+                            Tidak ada user online saat ini
+                        </p>
                     @endforelse
+
+                    {{-- Fallback untuk filter JS --}}
+                    <p id="noFilteredUsers" class="hidden text-center text-gray-500 col-span-full">
+                        Tidak ada user online untuk role ini
+                    </p>
                 </div>
+
+                {{-- Pagination --}}
+                @if ($onlineUsers instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                    <div class="mt-6 pagination-wrapper">
+                        {{ $onlineUsers->appends(request()->except('page'))->links('pagination::tailwind') }}
+                    </div>
+                @endif
             </section>
 
             {{-- ===== Statistik Pengguna ===== --}}
@@ -164,33 +178,88 @@
     </div>
 
     <script>
-            document.addEventListener('turbo:load', () => {
-                // Pastikan elemen tersedia dulu
-                const truncateBtn = document.getElementById('truncateVisitorBtn');
-                const truncateForm = document.getElementById('truncateVisitorForm');
-                const filterSelect = document.getElementById('roleFilter');
-                const userCards = document.querySelectorAll('.user-card');
-                const noUsersMsg = document.querySelector('#onlineUsersContainer .no-users:last-of-type');
+        function initOnlineUserFilter() {
+            const container = document.getElementById('onlineUsersContainer');
+            const roleFilter = document.getElementById('roleFilter');
+            const noUsers = container.querySelector('.no-users');
 
-                // 🔹 Filter role online users
-                if (filterSelect && userCards.length > 0 && noUsersMsg) {
-                    filterSelect.addEventListener('change', function() {
-                        const role = this.value;
-                        let visibleCount = 0;
+            // 🔹 Tambahkan elemen fallback untuk filter kosong
+            let noFiltered = document.getElementById('noFilteredUsers');
+            if (!noFiltered) {
+                noFiltered = document.createElement('p');
+                noFiltered.id = 'noFilteredUsers';
+                noFiltered.className = 'text-center text-gray-500 col-span-full hidden';
+                noFiltered.textContent = 'Tidak ada user online untuk role ini';
+                container.appendChild(noFiltered);
+            }
 
-                        userCards.forEach(card => {
-                            if (role === 'all' || card.dataset.role === role) {
-                                card.style.display = 'flex';
-                                visibleCount++;
-                            } else {
-                                card.style.display = 'none';
-                            }
-                        });
+            // 🔹 Fungsi untuk menerapkan filter
+            const applyFilter = () => {
+                const selectedRole = roleFilter?.value || 'all';
+                const userCards = container.querySelectorAll('.user-card');
+                let visibleCount = 0;
 
-                        noUsersMsg.style.display = visibleCount === 0 ? 'block' : 'none';
-                    });
-                }
+                userCards.forEach(card => {
+                    const role = card.dataset.role;
+                    if (selectedRole === 'all' || role === selectedRole) {
+                        card.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                noFiltered.style.display = (visibleCount === 0 && selectedRole !== 'all') ? 'block' : 'none';
+                if (noUsers) noUsers.style.display = (visibleCount === 0 && selectedRole === 'all') ? 'block' : 'none';
+            };
+
+            // Jalankan pertama kali
+            applyFilter();
+            roleFilter?.addEventListener('change', applyFilter);
+
+            // 🔹 Pagination AJAX
+            document.querySelectorAll('.pagination a').forEach(link => {
+                link.addEventListener('click', async function (e) {
+                    e.preventDefault();
+
+                    const url = this.href + (this.href.includes('?') ? '&' : '?') + 'ajax=1';
+                    const selectedRole = roleFilter?.value || 'all';
+
+                    try {
+                        const res = await fetch(url);
+                        const html = await res.text();
+
+                        // Ambil ulang hanya bagian container online users
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = html;
+                        const newContainer = tempDiv.querySelector('#onlineUsersContainer');
+                        const newPagination = tempDiv.querySelector('.pagination');
+
+                        if (newContainer) {
+                            container.innerHTML = newContainer.innerHTML;
+                        }
+
+                        // Update pagination di bawahnya
+                        const paginationWrapper = document.querySelector('.pagination-wrapper');
+                        if (paginationWrapper && newPagination) {
+                            paginationWrapper.innerHTML = newPagination.outerHTML;
+                        }
+
+                        // Re-init filter setelah pagination berubah
+                        initOnlineUserFilter();
+                        roleFilter.value = selectedRole;
+                        applyFilter();
+
+                    } catch (error) {
+                        console.error('Gagal memuat halaman:', error);
+                    }
+                });
             });
+        }
+
+        // 🔹 Jalankan di event Turbo & DOM
+        document.addEventListener('DOMContentLoaded', initOnlineUserFilter);
+        document.addEventListener('turbo:load', initOnlineUserFilter);
     </script>
 
 </x-app-layout>

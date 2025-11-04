@@ -60,20 +60,28 @@ class AppServiceProvider extends ServiceProvider
                 : [];
 
             /**
-             * Users & Online Status
+             * Users & Online Status (Pagination Ready)
              */
-            $users = User::whereIn('role', $allowedRoles)->get();
+            $limit = (int) request()->get('limit', 10);
+            $page  = (int) request()->get('page', 1);
 
-            $onlineUsers = $users->map(function ($user) {
-                $user->is_online = $user->last_activity
-                    && Carbon::parse($user->last_activity)->gt(now()->subMinutes(1));
-                return $user;
-            })->filter(fn($u) => $u->is_online);
+            // Query dasar
+            $usersQuery = User::whereIn('role', $allowedRoles);
 
-            $onlineGuru  = $onlineUsers->where('role','guru');
-            $onlineStaff = $onlineUsers->where('role','staff');
-            $onlineSiswa = $onlineUsers->where('role','siswa');
-            $onlineUser  = $onlineUsers->where('role','user');
+            // Ambil semua user sesuai role untuk statistik global
+            $users = $usersQuery->get();
+
+            // Ambil user online dengan pagination
+            $onlineUsers = (clone $usersQuery)
+                ->where('last_activity', '>', now()->subMinutes(5))
+                ->orderByDesc('last_activity')
+                ->paginate($limit, ['*'], 'page', $page);
+
+            // Kelompokkan user online per role (tanpa pagination per kategori)
+            $onlineGuru  = $onlineUsers->filter(fn($u) => $u->role === 'guru');
+            $onlineStaff = $onlineUsers->filter(fn($u) => $u->role === 'staff');
+            $onlineSiswa = $onlineUsers->filter(fn($u) => $u->role === 'siswa');
+            $onlineUser  = $onlineUsers->filter(fn($u) => $u->role === 'user');
 
             // Admin hanya lihat max 5 online per kategori
             if ($currentUser && $currentUser->role === 'admin') {
@@ -86,11 +94,11 @@ class AppServiceProvider extends ServiceProvider
             /**
              * Statistik User
              */
-            $adminCount = in_array('admin',$allowedRoles) ? User::where('role','admin')->count() : 0;
-            $guruCount  = in_array('guru',$allowedRoles) ? User::where('role','guru')->count() : 0;
-            $staffCount = in_array('staff',$allowedRoles) ? User::where('role','staff')->count() : 0;
-            $siswaCount = in_array('siswa',$allowedRoles) ? User::where('role','siswa')->count() : 0;
-            $userCount  = in_array('user',$allowedRoles) ? User::where('role','user')->count() : 0;
+            $adminCount = in_array('admin', $allowedRoles) ? User::where('role', 'admin')->count() : 0;
+            $guruCount  = in_array('guru', $allowedRoles) ? User::where('role', 'guru')->count() : 0;
+            $staffCount = in_array('staff', $allowedRoles) ? User::where('role', 'staff')->count() : 0;
+            $siswaCount = in_array('siswa', $allowedRoles) ? User::where('role', 'siswa')->count() : 0;
+            $userCount  = in_array('user', $allowedRoles) ? User::where('role', 'user')->count() : 0;
 
             $totalUsers = $users->count();
 
