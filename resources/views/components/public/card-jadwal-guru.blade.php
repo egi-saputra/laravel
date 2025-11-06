@@ -1,12 +1,12 @@
 <!-- CARD -->
 <div>
     <!-- Search & Filter -->
-        <h2 class="mb-6 px-1 text-2xl font-bold text-gray-800">
+        <h2 class="px-1 mb-6 text-2xl font-bold text-gray-800">
             <i class="mr-2 bi bi-calendar2-week text-amber-500"></i> Daftar Jadwal Mengajar
         </h2>
 
         <div class="mb-10">
-            <form method="GET" class="flex md:flex-row flex-col gap-3 mb-6 rounded-md">
+            <form method="GET" class="flex flex-col gap-3 mb-6 rounded-md md:flex-row">
                 <select name="hari" class="flex-1 px-3 py-2 border rounded-lg">
                     <option value="">Pilih Hari</option>
                     @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $h)
@@ -22,11 +22,11 @@
 
                     <div class="flex justify-center w-full gap-3">
                         <button type="submit"
-                            class="flex w-full items-center justify-center px-4 py-2 text-sm font-medium text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">
+                            class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">
                             <i class="bi bi-funnel me-1"></i> Filter
                         </button>
-                        <a href="{{ route('public.jadwal_guru.index') }}"
-                            class="flex w-full items-center justify-center px-4 py-2 text-sm font-medium text-white transition bg-gray-600 rounded-lg hover:bg-gray-700">
+                        <a href="{{ route('public.card_jadwal_guru.index') }}"
+                            class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white transition bg-gray-600 rounded-lg hover:bg-gray-700">
                             <i class="bi bi-arrow-clockwise me-1"></i> Reset
                         </a>
                     </div>

@@ -34,7 +34,7 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
             </button>
         </div>
 
-        <form id="formHapusSemua" action="{{ route('admin.jadwal_guru.destroyAll') }}" method="POST" class="hidden">
+        <form id="formHapusSemua" action="{{ route('admin.jadwal_guru.destroyAll') }}" method="POST" class="hidden" data-turbo="false">
             @csrf
             @method('DELETE')
         </form>
@@ -74,9 +74,9 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
 
         {{-- <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">Filter</button> --}}
         <div class="flex justify-end gap-2 md:justify-start">
-            <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"><i class="bi bi-funnel"></i> Filter</button>
+            <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"><i class="bi bi-funnel" data-turbo="false"></i> Filter</button>
             <a href="{{ route('admin.jadwal_guru.index') }}"
-            class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800"><i class="bi bi-arrow-clockwise"></i> Reset</a>
+            class="px-4 py-2 text-white rounded bg-slate-700 hover:bg-slate-800"><i class="bi bi-arrow-clockwise" data-turbo="false"></i> Reset</a>
         </div>
     </form>
 
@@ -120,7 +120,7 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="w-full px-4 py-2 text-left text-red-600 hover:bg-red-100 delete-btn">
+                                        class="w-full px-4 py-2 text-left text-red-600 hover:bg-red-100 delete-btn" data-turbo="false">
                                         Delete
                                     </button>
                                 </form>
@@ -208,7 +208,7 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
     </div>
 </div>
 
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         // ============================
         // DELETE INDIVIDUAL
@@ -334,6 +334,144 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
             });
         @endif
     });
-</script>
+</script> --}}
 
+<script>
+    function initJadwalGuruPage() {
+        // ============================
+        // DELETE INDIVIDUAL
+        // ============================
+        document.querySelectorAll('.delete-form').forEach(form => {
+            // hindari event ganda
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Yakin hapus?',
+                    text: "Data jadwal guru ini akan dihapus permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then(result => {
+                    if (result.isConfirmed) form.submit();
+                });
+            }, { once: true });
+        });
+
+        // ============================
+        // DELETE ALL
+        // ============================
+        const hapusSemuaBtn = document.getElementById('hapusSemua');
+        if (hapusSemuaBtn) {
+            hapusSemuaBtn.addEventListener('click', function() {
+                Swal.fire({
+                    title: 'Yakin?',
+                    text: "Semua data jadwal guru akan dihapus!",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus semua!',
+                    cancelButtonText: 'Batal'
+                }).then(result => {
+                    if (result.isConfirmed) document.getElementById('formHapusSemua').submit();
+                });
+            }, { once: true });
+        }
+
+        // ============================
+        // EXPORT PDF
+        // ============================
+        const exportBtn = document.getElementById('exportPDF');
+        if (exportBtn) {
+            const sekolah = {!! json_encode($sekolah, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP) !!};
+            sekolah.logo_base64 = '{{ $logoBase64 }}';
+
+            exportBtn.addEventListener('click', () => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                const margin = 14;
+                const pageWidth = doc.internal.pageSize.getWidth();
+
+                // Logo
+                if (sekolah.logo_base64) {
+                    doc.addImage("data:image/png;base64," + sekolah.logo_base64, 'PNG', margin, 13, 22, 22);
+                }
+
+                // Nama & Alamat
+                doc.setFontSize(14);
+                doc.setFont('times new roman', 'bold');
+                doc.text(sekolah.nama_sekolah, pageWidth / 2, 20, { align: 'center' });
+
+                doc.setFontSize(11);
+                doc.setFont('times new roman', 'normal');
+                doc.text(sekolah.alamat, pageWidth / 2, 26, { align: 'center' });
+                doc.text(`Telp: ${sekolah.telepon} | Email: ${sekolah.email}`, pageWidth / 2, 32, { align: 'center' });
+
+                // Garis
+                doc.setLineWidth(0.5);
+                doc.line(margin, 36, pageWidth - margin, 36);
+
+                // Judul tabel
+                doc.setFontSize(12);
+                doc.setFont('times', 'bold');
+                doc.text("DAFTAR JADWAL MENGAJAR GURU", pageWidth / 2, 45, { align: 'center' });
+
+                // Ambil data dari table HTML
+                const table = document.getElementById('jadwalGuruTable');
+                const headers = ["Hari", "Sesi", "Jam", "Guru", "Ruang Kelas"];
+                const rows = [];
+                table.querySelectorAll('tbody tr').forEach(tr => {
+                    const cells = tr.querySelectorAll('td');
+                    if (cells.length < 5) return;
+                    rows.push([
+                        cells[0].textContent.trim(),
+                        cells[1].textContent.trim(),
+                        cells[2].textContent.trim(),
+                        cells[3].textContent.trim(),
+                        cells[4].textContent.trim()
+                    ]);
+                });
+
+                doc.autoTable({
+                    head: [headers],
+                    body: rows,
+                    startY: 50,
+                    theme: 'grid',
+                    headStyles: { fillColor: [100, 149, 237], textColor: 255, halign: 'center', valign: 'middle' },
+                    styles: { fontSize: 10, halign: 'center', valign: 'middle' },
+                    columnStyles: {
+                        3: { halign: 'left' },
+                        4: { halign: 'left' }
+                    }
+                });
+
+                doc.save('jadwal-guru.pdf');
+            }, { once: true });
+        }
+
+        // ============================
+        // ALERT SESSION
+        // ============================
+        @if(session('alert'))
+            Swal.fire({
+                icon: '{{ session('alert.type') }}',
+                title: '{{ session('alert.title') ?? ucfirst(session('alert.type')) }}',
+                @if(session('alert.html'))
+                    html: `{!! session('alert.message') !!}`,
+                @else
+                    text: '{{ session('alert.message') }}',
+                @endif
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#3085d6'
+            });
+        @endif
+    }
+
+    // 🔥 Inisialisasi dengan Turbo dan DOM normal
+    document.addEventListener('turbo:load', initJadwalGuruPage);
+    document.addEventListener('DOMContentLoaded', initJadwalGuruPage);
+</script>
 
