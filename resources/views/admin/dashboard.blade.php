@@ -180,7 +180,7 @@
         </main>
     </div>
 
-    {{-- <script>
+    <script>
         // SweetAlert Hapus Visitor
         document.getElementById('truncateVisitorBtn').addEventListener('click', function() {
             Swal.fire({
@@ -219,9 +219,9 @@
 
             noUsersMsg.style.display = visibleCount === 0 ? 'block' : 'none';
         });
-    </script> --}}
+    </script>
 
-    <script>
+    {{-- <script>
         document.addEventListener('turbo:load', () => {
             // Pastikan elemen tersedia dulu
             const truncateBtn = document.getElementById('truncateVisitorBtn');
@@ -269,6 +269,6 @@
                 });
             }
         });
-    </script>
+    </script> --}}
 
 </x-app-admin-layout>

@@ -237,25 +237,35 @@
         </main>
     </div>
 
-    @if(session('alert'))
+    <!-- ALERT SESSION -->
+    {{-- @if(session('alert'))
         <script>
             Swal.fire({
                 icon: "{{ session('alert.type') }}",
                 title: "{{ session('alert.title') }}",
                 confirmButtonText: 'OK',
                 confirmButtonColor: '#3085d6',
-                html: {!! json_encode(session('alert.message'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!},
-                width: '90%', // Lebar SweetAlert responsif
-                didOpen: (popup) => {
-                    const content = popup.querySelector('.swal2-html-container');
-                    if(content) {
-                        content.style.maxHeight = '300px'; // Maksimal tinggi
-                        content.style.overflowY = 'auto';   // Scroll jika lebih tinggi
-                    }
-                }
+                html: {!! json_encode(session('alert.message'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
             });
         </script>
-    @endif
+    @endif --}}
+
+    <!-- ALERT SESSION -->
+    {{-- @if(session('alert'))
+        <script>
+            Swal.fire({
+                icon: '{{ session('alert.type') }}',
+                title: '{{ session('alert.title') ?? ucfirst(session('alert.type')) }}',
+                @if(session('alert.html'))
+                    html: `{!! session('alert.message') !!}`,
+                @else
+                    text: '{{ session('alert.message') }}',
+                @endif
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#3085d6'
+            });
+        </script>
+    @endif --}}
 
     <!-- Script Search -->
     <script>

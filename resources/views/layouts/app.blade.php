@@ -209,17 +209,6 @@
             </style> --}}
 
             <style>
-                .swal2-popup {
-                    @apply mx-6 sm:mx-6 md:mx-auto p-6 rounded-xl;
-                }
-
-                .swal2-title {
-                    @apply text-lg font-semibold;
-                }
-
-                .swal2-content {
-                    @apply text-sm text-gray-700;
-                }
                 #backToTop {
                     opacity: 0;
                     transform: scale(0.8);

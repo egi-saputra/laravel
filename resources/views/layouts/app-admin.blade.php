@@ -87,17 +87,6 @@
             </style>
 
             <style>
-                .swal2-popup {
-                    @apply mx-6 sm:mx-6 md:mx-auto p-6 rounded-xl;
-                }
-
-                .swal2-title {
-                    @apply text-lg font-semibold;
-                }
-
-                .swal2-content {
-                    @apply text-sm text-gray-700;
-                }
                 #backToTop {
                     opacity: 0;
                     transform: scale(0.8);
@@ -387,6 +376,23 @@
             // Untuk pertama kali load
             document.addEventListener('DOMContentLoaded', initTinyMCE);
         </script>
+
+        <!-- ALERT SESSION -->
+        @if(session('alert'))
+            <script>
+                Swal.fire({
+                    icon: '{{ session('alert.type') }}',
+                    title: '{{ session('alert.title') ?? ucfirst(session('alert.type')) }}',
+                    @if(session('alert.html'))
+                        html: `{!! session('alert.message') !!}`,
+                    @else
+                        text: '{{ session('alert.message') }}',
+                    @endif
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3085d6'
+                });
+            </script>
+        @endif
 
     </body>
 </html>

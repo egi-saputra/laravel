@@ -140,7 +140,7 @@
 
     <x-admin.user-edit-modal />
 
-    <script>
+    {{-- <script>
         document.addEventListener('turbo:load', function() {
             // Kembalikan posisi scroll window
             const scrollPos = localStorage.getItem('scrollY');
@@ -158,6 +158,82 @@
                     e.preventDefault();
                     Swal.fire({
                         title: 'Hapus user ini ?',
+                        text: "User akan dihapus secara permanen!",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+
+            // MODAL EDIT USER
+            window.openModal = function (id, name, email, role, actionUrl) {
+                const modal = document.getElementById('userEditModal');
+                const form = modal.querySelector('#editForm');
+
+                // Set action ke route update user
+                form.action = actionUrl;
+
+                // Isi nilai input sesuai user yang diklik
+                form.querySelector('[name="name"]').value = name;
+                form.querySelector('[name="email"]').value = email;
+                form.querySelector('[name="role"]').value = role;
+
+                // Kosongkan password (jangan pernah prefill)
+                form.querySelector('[name="new_password"]').value = '';
+
+                // Tampilkan modal
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            };
+
+            // CLOSE MODAL
+            document.querySelectorAll('.modal-close').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modal = document.getElementById('userEditModal');
+                    modal.classList.remove('flex');
+                    modal.classList.add('hidden');
+                });
+            });
+
+            // Tutup modal kalau klik area luar
+            const modal = document.getElementById('userEditModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('flex');
+                        this.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script> --}}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kembalikan posisi scroll window
+            const scrollPos = localStorage.getItem('scrollY');
+            if (scrollPos) {
+                window.scrollTo(0, parseInt(scrollPos));
+            }
+
+            window.addEventListener('scroll', function() {
+                localStorage.setItem('scrollY', window.scrollY);
+            });
+
+            // DELETE USER
+            document.querySelectorAll('.delete-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'Hapus user ini?',
                         text: "User akan dihapus secara permanen!",
                         icon: 'question',
                         showCancelButton: true,
