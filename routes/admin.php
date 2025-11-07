@@ -98,6 +98,8 @@ Route::middleware(['auth', 'verified', 'log.visitor'])->group(function () {
             ->name('jadwal_guru.import');
         Route::get('/jadwal_guru/export', [JadwalGuruController::class, 'export'])
             ->name('jadwal_guru.export');
+        Route::get('/get-mapel-by-guru/{id}', [JadwalGuruController::class, 'getMapelByGuru']);
+        Route::get('/jadwal_guru/tbody', [JadwalGuruController::class, 'tbody'])->name('jadwal_guru.tbody');
 
         // Jadwal Piket (CRUD)
         Route::delete('/jadwal/destroyAll', [JadwalPiketController::class, 'destroyAll'])->name('jadwal.destroyAll');

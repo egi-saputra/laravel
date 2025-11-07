@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-admin-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
@@ -16,7 +16,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
+        <main class="flex-1 p-0 !mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
             <!-- Form Tambah Jadwal Piket -->
             <div class="p-4 bg-white rounded shadow">
                 <h2 class="mb-4 text-lg font-bold">Tambahkan Jadwal Piket</h2>
@@ -67,4 +67,4 @@
         </main>
     </div>
 
-</x-app-layout>
+</x-app-admin-layout>

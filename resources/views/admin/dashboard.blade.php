@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-admin-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
@@ -48,7 +48,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
+        <main class="flex-1 p-0 !mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
             {{-- ===== Statistik User ===== --}}
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @php
@@ -271,4 +271,4 @@
         });
     </script>
 
-</x-app-layout>
+</x-app-admin-layout>

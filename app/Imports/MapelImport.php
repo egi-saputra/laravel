@@ -16,12 +16,23 @@ class MapelImport implements ToModel, WithHeadingRow
 
     public function model(array $row)
     {
-        // Validasi kolom mapel
+        // Validasi kolom kode & mapel
+        if (empty($row['kode'])) {
+            $this->failedRows[] = [
+                'kode'     => $row['kode'] ?? null,
+                'mapel'    => $row['mapel'] ?? null,
+                'pengampu' => $row['pengampu'] ?? null,
+                'reason'   => 'Kolom kode kosong',
+            ];
+            return null;
+        }
+
         if (empty($row['mapel'])) {
             $this->failedRows[] = [
-                'mapel'   => $row['mapel'] ?? null,
+                'kode'     => $row['kode'] ?? null,
+                'mapel'    => $row['mapel'] ?? null,
                 'pengampu' => $row['pengampu'] ?? null,
-                'reason'  => 'Kolom mapel kosong',
+                'reason'   => 'Kolom mapel kosong',
             ];
             return null;
         }
@@ -32,22 +43,23 @@ class MapelImport implements ToModel, WithHeadingRow
         if (!empty($row['pengampu'])) {
             $pengampuInput = trim($row['pengampu']);
 
-            // Cari berdasarkan kode di data_guru
+            // Cari berdasarkan kode guru lebih dulu
             $guru = DataGuru::where('kode', $pengampuInput)->first();
 
-            // Kalau tidak ketemu di kode, cari nama di relasi user
+            // Jika tidak ketemu, cari berdasarkan nama user
             if (!$guru) {
                 $guru = DataGuru::whereHas('user', function($query) use ($pengampuInput) {
                     $query->where('name', $pengampuInput);
                 })->first();
             }
 
+            // Jika tetap tidak ketemu, tandai gagal import
             if (!$guru) {
-                // Simpan ke failedRows kalau tidak ditemukan
                 $this->failedRows[] = [
-                    'mapel'   => $row['mapel'],
+                    'kode'     => $row['kode'],
+                    'mapel'    => $row['mapel'],
                     'pengampu' => $row['pengampu'],
-                    'reason'  => 'Guru pengampu tidak ditemukan',
+                    'reason'   => 'Guru pengampu tidak ditemukan',
                 ];
                 return null;
             }
@@ -55,10 +67,13 @@ class MapelImport implements ToModel, WithHeadingRow
             $pengampuId = $guru->id;
         }
 
-        // Simpan atau update mapel
+        // Simpan atau update berdasarkan KODE mapel (bukan nama)
         return DataMapel::updateOrCreate(
-            ['mapel' => $row['mapel']],
-            ['guru_id' => $pengampuId]
+            ['kode' => $row['kode']], // primary key unik
+            [
+                'mapel'   => $row['mapel'],
+                'guru_id' => $pengampuId,
+            ]
         );
     }
 }

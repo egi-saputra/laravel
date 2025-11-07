@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-admin-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
@@ -16,15 +16,52 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
+        <main class="flex-1 p-0 !mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
 
             <!-- Form Tambah Mapel + Upload Excel -->
             <div class="p-4 bg-white rounded shadow">
                 <h1 class="mb-4 text-lg font-bold">Tambah Mata Pelajaran</h1>
 
                 <!-- Form Input Manual -->
+                {{-- <form action="{{ route('admin.mapel.store') }}" method="POST" enctype="multipart/form-data" class="space-y-3">
+                    @csrf
+                    <!-- Input Nama Mapel -->
+                    <div>
+                        <label class="block font-medium">Nama Mapel</label>
+                        <input type="text" name="mapel" class="w-full px-3 py-2 border rounded" required>
+                    </div>
+
+                    <!-- Pilih Guru -->
+                    <div>
+                        <label class="block font-medium">Guru Pengajar</label>
+                        <select name="guru_id" class="w-full px-3 py-2 border rounded" required>
+                            <option value="">-- Pilih Guru --</option>
+                            @foreach(\App\Models\DataGuru::with('user')->get()->sortBy(fn($g) => $g->user->name) as $guru)
+                                <option value="{{ $guru->id }}">
+                                    {{ $guru->user->name ?? '-' }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Tombol Simpan -->
+                    <div class="flex justify-end md:justify-start sm:block">
+                        <button type="submit" class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                            <i class="bi bi-check2-square"></i> Simpan
+                        </button>
+                    </div>
+                </form> --}}
+
+                <!-- Form Input Manual -->
                 <form action="{{ route('admin.mapel.store') }}" method="POST" enctype="multipart/form-data" class="space-y-3">
                     @csrf
+
+                    <!-- Input Kode Mapel -->
+                    <div>
+                        <label class="block font-medium">Kode Mapel</label>
+                        <input type="text" name="kode" class="w-full px-3 py-2 border rounded" required>
+                    </div>
+
                     <!-- Input Nama Mapel -->
                     <div>
                         <label class="block font-medium">Nama Mapel</label>
@@ -108,6 +145,7 @@
                         <thead>
                             <tr class="bg-gray-100">
                                 <th class="px-4 py-2 text-center border whitespace-nowrap">No</th>
+                                <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Kode Mapel</th>
                                 <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Mapel</th>
                                 <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Guru Pengampu</th>
                                 <th class="px-4 py-2 text-center border whitespace-nowrap"></th>
@@ -117,6 +155,7 @@
                             @forelse ($mapel ?? [] as $index => $m)
                             <tr>
                                 <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $loop->iteration }}</td>
+                                <td class="px-4 py-2 border whitespace-nowrap">{{ $m->kode }}</td>
                                 <td class="px-4 py-2 border whitespace-nowrap">{{ $m->mapel }}</td>
                                 <td class="px-4 py-2 border whitespace-nowrap">{{ $m->guru->user->name ?? '-' }}</td>
                                 <td class="px-4 py-2 text-center border">
@@ -148,6 +187,18 @@
                                                     @csrf
                                                     @method('PUT')
 
+                                                    <!-- Kode Mapel -->
+                                                    <div>
+                                                        <label class="block font-medium text-left">Kode Mapel</label>
+                                                        <input type="text" name="kode" value="{{ $m->kode }}" class="w-full px-3 py-2 border rounded" required>
+                                                    </div>
+
+                                                    <!-- Nama Mapel -->
+                                                    <div>
+                                                        <label class="block font-medium text-left">Nama Mapel</label>
+                                                        <input type="text" name="mapel" value="{{ $m->mapel }}" class="w-full px-3 py-2 border rounded" required>
+                                                    </div>
+
                                                     <!-- Pilih Guru -->
                                                     <div>
                                                         <label class="block font-medium text-left">Guru Pengampu</label>
@@ -161,12 +212,6 @@
                                                         </select>
                                                     </div>
 
-                                                    <!-- Nama Mapel -->
-                                                    <div>
-                                                        <label class="block font-medium text-left">Nama Mapel</label>
-                                                        <input type="text" name="mapel" value="{{ $m->mapel }}" class="w-full px-3 py-2 border rounded" required>
-                                                    </div>
-
                                                     <div class="flex justify-end gap-2">
                                                         <button type="button" @click="showModal = false"
                                                             class="px-4 py-2 text-gray-700 bg-gray-200 rounded hover:bg-gray-300">Batal</button>
@@ -176,13 +221,12 @@
                                                 </form>
                                             </div>
                                         </div>
-
                                     </div>
                                 </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="4" class="py-2 text-center">Belum ada data mapel</td>
+                                <td colspan="5" class="py-2 text-center">Belum ada data mapel</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -250,4 +294,4 @@
         });
     </script>
 
-</x-app-layout>
+</x-app-admin-layout>

@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-admin-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
@@ -16,7 +16,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
+        <main class="flex-1 p-0 !mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
                 <main class="p-4 bg-white rounded shadow-md md:p-8">
 
                 @if(session('success'))

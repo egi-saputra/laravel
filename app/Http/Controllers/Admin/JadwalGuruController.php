@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\JadwalGuru;
 use App\Models\DataGuru;
 use App\Models\DataKelas;
+use App\Models\DataMapel;
 use App\Models\JamMengajar;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\JadwalGuruImport;
@@ -25,23 +26,29 @@ class JadwalGuruController extends Controller
         $daysOrder = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
         // Ambil parameter filter/search dari query string
-        $search = $request->query('search', '');
-        $filterHari = $request->query('hari', '');
-        $filterSesi = $request->query('sesi', '');
-        $filterGuru = $request->query('guru', '');
+        $search      = $request->query('search', '');
+        $filterHari  = $request->query('hari', '');
+        $filterSesi  = $request->query('sesi', '');
+        $filterGuru  = $request->query('guru', '');
         $filterKelas = $request->query('kelas', '');
+        $filterMapel = $request->query('mapel', '');
 
         // Query jadwal dengan filter
         $jadwalQuery = JadwalGuru::with(['guru.user','kelas','mapel'])
             ->when($filterHari, fn($q) => $q->where('hari', $filterHari))
             ->when($filterSesi, fn($q) => $q->where('sesi','like',"%$filterSesi%"))
-            ->when($filterGuru, fn($q) => $q->whereHas('guru.user', fn($q2) => $q2->where('name','like',"%$filterGuru%")))
-            ->when($filterKelas, fn($q) => $q->whereHas('kelas', fn($q2) => $q2->where('kelas','like',"%$filterKelas%")))
+            ->when($filterGuru, fn($q) => $q->whereHas('guru.user', fn($q2) =>
+                $q2->where('name','like',"%$filterGuru%")))
+            ->when($filterKelas, fn($q) => $q->whereHas('kelas', fn($q2) =>
+                $q2->where('kelas','like',"%$filterKelas%")))
+            ->when($filterMapel, fn($q) => $q->whereHas('mapel', fn($q2) =>
+                $q2->where('mapel','like',"%$filterMapel%"))) // ✅ FIXED
             ->when($search, fn($q) => $q->where(function($q2) use ($search){
                 $q2->where('sesi','like',"%$search%")
-                ->orWhereHas('guru.user', fn($q3) => $q3->where('name','like',"%$search%"))
-                ->orWhereHas('kelas', fn($q3) => $q3->where('kelas','like',"%$search%"))
-                ->orWhere('hari','like',"%$search%");
+                    ->orWhere('hari','like',"%$search%")
+                    ->orWhereHas('guru.user', fn($q3) => $q3->where('name','like',"%$search%"))
+                    ->orWhereHas('kelas', fn($q3) => $q3->where('kelas','like',"%$search%"))
+                    ->orWhereHas('mapel', fn($q3) => $q3->where('mapel','like',"%$search%")); // ✅ FIXED
             }))
             ->orderByRaw("FIELD(hari,'".implode("','",$daysOrder)."')")
             ->orderBy('jam_mulai');
@@ -50,8 +57,10 @@ class JadwalGuruController extends Controller
         $perPage = 12;
         $jadwal = $jadwalQuery->paginate($perPage)->withQueryString();
 
-        $guru   = DataGuru::all();
+        // Ambil data referensi
+        $guru   = DataGuru::with('user')->get();
         $kelas  = DataKelas::all();
+        $mapel  = DataMapel::all();
 
         // Data sekolah default
         $sekolah = DB::table('profil_sekolah')->first() ?? (object)[
@@ -61,14 +70,13 @@ class JadwalGuruController extends Controller
             'email'        => 'info@smanc1contoh.sch.id'
         ];
 
-        // Mapping role ke view
         $views = [
             'admin' => 'admin.jadwal_guru',
         ];
         if (!array_key_exists($role, $views)) abort(403, 'Akses ditolak.');
 
         return view($views[$role], compact(
-            'jadwal','guru','kelas','daysOrder','sekolah'
+            'jadwal','guru','kelas','mapel','daysOrder','sekolah'
         ));
     }
 
@@ -78,36 +86,46 @@ class JadwalGuruController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'hari'       => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
-            'sesi'       => 'required|string|max:50',
-            'jam_mulai'  => ['required','string','regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
-            'jam_selesai'=> ['required','string','regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
-            'guru_id'    => 'required|exists:data_guru,id',
-            'kelas_id'   => 'required|exists:data_kelas,id',
+            'hari'        => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
+            'sesi'        => 'required|string|max:50',
+            'jam_mulai'   => ['required','string','regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+            'jam_selesai' => ['required','string','regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+            'guru_id'     => 'required|exists:data_guru,id',
+            'kelas_id'    => 'required|exists:data_kelas,id',
+            'mapel_id'    => 'required|exists:data_mapel,id',
         ], [
             'jam_mulai.regex'   => 'Format jam mulai harus HH:MM (contoh: 07:00)',
             'jam_selesai.regex' => 'Format jam selesai harus HH:MM (contoh: 08:30)',
         ]);
 
+        // Cek duplikat jadwal
         $exists = JadwalGuru::where('hari', $request->hari)
             ->where('sesi', $request->sesi)
             ->where('jam_mulai', $request->jam_mulai)
             ->where('jam_selesai', $request->jam_selesai)
             ->where('guru_id', $request->guru_id)
             ->where('kelas_id', $request->kelas_id)
+            ->where('mapel_id', $request->mapel_id)
             ->exists();
 
         if ($exists) {
             return back()->with('alert', [
                 'type' => 'error',
                 'title' => 'Duplikat Ditemukan',
-                'message' => 'Jadwal untuk guru, kelas, hari, dan sesi ini sudah ada.'
+                'message' => 'Jadwal untuk guru, mapel, kelas, hari, dan sesi ini sudah ada.'
             ]);
         }
 
-        JadwalGuru::create(array_merge($request->all(), [
-            'jumlah_jam' => 1
-        ]));
+        JadwalGuru::create([
+            'hari'        => $request->hari,
+            'sesi'        => $request->sesi,
+            'jam_mulai'   => $request->jam_mulai,
+            'jam_selesai' => $request->jam_selesai,
+            'guru_id'     => $request->guru_id,
+            'kelas_id'    => $request->kelas_id,
+            'mapel_id'    => $request->mapel_id,
+            'jumlah_jam'  => 1,
+        ]);
 
         return back()->with('alert', [
             'type' => 'success',
@@ -119,41 +137,104 @@ class JadwalGuruController extends Controller
     /**
      * Update data jadwal
      */
+    // public function update(Request $request, $id)
+    // {
+    //     $jadwal = JadwalGuru::findOrFail($id);
+
+    //     $request->validate([
+    //         'hari'        => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
+    //         'sesi'        => 'required|string|max:50',
+    //         'jam_mulai'   => ['required','string','regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+    //         'jam_selesai' => ['required','string','regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+    //         'guru_id'     => 'required|exists:data_guru,id',
+    //         'kelas_id'    => 'required|exists:data_kelas,id',
+    //         'mapel_id'    => 'required|exists:data_mapel,id',
+    //     ]);
+
+    //     // Validasi duplikat (kecuali dirinya sendiri)
+    //     $exists = JadwalGuru::where('hari', $request->hari)
+    //         ->where('sesi', $request->sesi)
+    //         ->where('jam_mulai', $request->jam_mulai)
+    //         ->where('jam_selesai', $request->jam_selesai)
+    //         ->where('guru_id', $request->guru_id)
+    //         ->where('kelas_id', $request->kelas_id)
+    //         ->where('mapel_id', $request->mapel_id)
+    //         ->where('id', '!=', $jadwal->id)
+    //         ->exists();
+
+    //     if ($exists) {
+    //         return back()->with('alert', [
+    //             'type' => 'error',
+    //             'title' => 'Duplikat Ditemukan',
+    //             'message' => 'Jadwal untuk guru, mapel, kelas, hari, dan sesi ini sudah ada.'
+    //         ]);
+    //     }
+
+    //     $jadwal->update([
+    //         'hari'        => $request->hari,
+    //         'sesi'        => $request->sesi,
+    //         'jam_mulai'   => $request->jam_mulai,
+    //         'jam_selesai' => $request->jam_selesai,
+    //         'guru_id'     => $request->guru_id,
+    //         'kelas_id'    => $request->kelas_id,
+    //         'mapel_id'    => $request->mapel_id,
+    //     ]);
+
+    //     return back()->with('alert', [
+    //         'type' => 'success',
+    //         'title' => 'Berhasil',
+    //         'message' => 'Jadwal guru berhasil diperbarui!'
+    //     ]);
+    // }
     public function update(Request $request, $id)
     {
         $jadwal = JadwalGuru::findOrFail($id);
 
         $request->validate([
-            'hari'       => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
-            'sesi'       => 'required|string|max:50',
-            'jam_mulai'  => ['required','string','regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
-            'jam_selesai'=> ['required','string','regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
-            'guru_id'    => 'required|exists:data_guru,id',
-            'kelas_id'   => 'required|exists:data_kelas,id',
-        ], [
-            'jam_mulai.regex'   => 'Format jam mulai harus HH:MM (contoh: 07:00)',
-            'jam_selesai.regex' => 'Format jam selesai harus HH:MM (contoh: 08:30)',
+            'hari'        => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
+            'sesi'        => 'required|string|max:50',
+            'jam_mulai'   => ['required','string','regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+            'jam_selesai' => ['required','string','regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+            'guru_id'     => 'required|exists:data_guru,id',
+            'kelas_id'    => 'required|exists:data_kelas,id',
+            'mapel_id'    => 'required|exists:data_mapel,id',
         ]);
 
-        // Validasi duplikat kecuali id sendiri
         $exists = JadwalGuru::where('hari', $request->hari)
             ->where('sesi', $request->sesi)
             ->where('jam_mulai', $request->jam_mulai)
             ->where('jam_selesai', $request->jam_selesai)
             ->where('guru_id', $request->guru_id)
             ->where('kelas_id', $request->kelas_id)
+            ->where('mapel_id', $request->mapel_id)
             ->where('id', '!=', $jadwal->id)
             ->exists();
 
         if ($exists) {
+            if($request->ajax()){
+                return response()->json([
+                    'type' => 'error',
+                    'title' => 'Duplikat Ditemukan',
+                    'message' => 'Jadwal ini sudah ada.'
+                ]);
+            }
+
             return back()->with('alert', [
                 'type' => 'error',
                 'title' => 'Duplikat Ditemukan',
-                'message' => 'Jadwal untuk guru, kelas, hari, dan sesi ini sudah ada.'
+                'message' => 'Jadwal ini sudah ada.'
             ]);
         }
 
-        $jadwal->update($request->all());
+        $jadwal->update($request->only('hari','sesi','jam_mulai','jam_selesai','guru_id','kelas_id','mapel_id'));
+
+        if($request->ajax()){
+            return response()->json([
+                'type' => 'success',
+                'title' => 'Berhasil',
+                'message' => 'Jadwal guru berhasil diperbarui!'
+            ]);
+        }
 
         return back()->with('alert', [
             'type' => 'success',
@@ -186,48 +267,59 @@ class JadwalGuruController extends Controller
             'file' => 'required|mimes:xlsx,xls'
         ]);
 
-        $import = new \App\Imports\JadwalGuruImport;
-        $import->import($request->file('file'));
+        $import = new \App\Imports\JadwalGuruImport();
+        \Maatwebsite\Excel\Facades\Excel::import($import, $request->file('file'));
 
         $failedRows = $import->failedRows;
 
-        if (count($failedRows) > 0) {
+        if (!empty($failedRows)) {
+            // 🧱 Bangun tabel hasil error
             $table = '<div style="max-height:300px; overflow-y:auto;">';
             $table .= '<table class="w-full border border-collapse border-gray-300 table-auto">';
-            $table .= '<thead>
-                        <tr>
-                            <th class="px-2 py-1 border">Hari</th>
-                            <th class="px-2 py-1 border">Sesi</th>
-                            <th class="px-2 py-1 border">Guru</th>
-                            <th class="px-2 py-1 border">Kelas</th>
-                            <th class="px-2 py-1 border">Alasan</th>
-                        </tr>
-                    </thead><tbody>';
+            $table .= '
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="px-2 py-1 border">Hari</th>
+                        <th class="px-2 py-1 border">Sesi</th>
+                        <th class="px-2 py-1 border">Guru</th>
+                        <th class="px-2 py-1 border">Kelas</th>
+                        <th class="px-2 py-1 border">Mapel</th>
+                        <th class="px-2 py-1 border">Alasan</th>
+                    </tr>
+                </thead>
+                <tbody>
+            ';
 
             foreach ($failedRows as $row) {
-                $table .= "<tr>
-                            <td class='px-2 py-1 border'>" . ($row['hari'] ?? '') . "</td>
-                            <td class='px-2 py-1 border'>" . ($row['sesi'] ?? '') . "</td>
-                            <td class='px-2 py-1 border'>" . ($row['guru'] ?? '') . "</td>
-                            <td class='px-2 py-1 border'>" . ($row['kelas'] ?? '') . "</td>
-                            <td class='px-2 py-1 border'>" . ($row['reason'] ?? '') . "</td>
-                        </tr>";
+                // Ambil nama guru dari row jika tersedia (auto-generate di JadwalGuruImport)
+                $guruNama = $row['guru'] ?? ($row['mapel_guru'] ?? ''); // fallback jika perlu
+
+                $table .= '
+                    <tr>
+                        <td class="px-2 py-1 border">' . e($row['hari'] ?? '') . '</td>
+                        <td class="px-2 py-1 border">' . e($row['sesi'] ?? '') . '</td>
+                        <td class="px-2 py-1 border">' . e($guruNama) . '</td>
+                        <td class="px-2 py-1 border">' . e($row['kelas'] ?? '') . '</td>
+                        <td class="px-2 py-1 border">' . e($row['mapel'] ?? '') . '</td>
+                        <td class="px-2 py-1 text-red-600 border">' . e($row['reason'] ?? '') . '</td>
+                    </tr>';
             }
 
             $table .= '</tbody></table></div>';
 
             return back()->with('alert', [
-                'type' => 'error',
-                'title' => 'Beberapa data gagal diimport',
-                'html' => true,
-                'message' => $table
+                'type'    => 'error',
+                'title'   => 'Beberapa data gagal diimport',
+                'html'    => true,
+                'message' => $table,
             ]);
         }
 
+        // ✅ Jika semua sukses
         return back()->with('alert', [
-            'type' => 'success',
-            'title' => 'Berhasil',
-            'message' => 'Data jadwal guru berhasil diimport.'
+            'type'    => 'success',
+            'title'   => 'Berhasil',
+            'message' => 'Data jadwal guru berhasil diimport.',
         ]);
     }
 
@@ -245,5 +337,20 @@ class JadwalGuruController extends Controller
             'title' => 'Berhasil',
             'message' => 'Semua data jadwal guru berhasil dihapus.'
         ]);
+    }
+
+    public function getMapelByGuru($id)
+    {
+        $mapel = \App\Models\DataMapel::where('guru_id', $id)
+                    ->select('id', 'kode', 'mapel')
+                    ->get();
+
+        return response()->json($mapel);
+    }
+
+    public function tbody()
+    {
+        $jadwal = JadwalGuru::with(['guru.user','kelas','mapel'])->get();
+        return view('admin.jadwal_guru._tbody', compact('jadwal'));
     }
 }

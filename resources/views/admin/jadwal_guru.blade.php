@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-admin-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
@@ -16,7 +16,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
+        <main class="flex-1 p-0 !mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
             <!-- Form Tambah Jadwal Guru + Upload Excel -->
             <div class="p-4 bg-white rounded shadow">
                 <h1 class="mb-4 text-lg font-bold">Tambah Jadwal Guru</h1>
@@ -55,18 +55,27 @@
                         </div>
                     </div>
 
-                    <!-- Baris 3: Guru & Kelas -->
+                    <!-- Baris 3: Guru, Mapel & Kelas -->
                     <div class="md:flex md:space-x-4">
-                        <div class="mb-3 md:w-1/2 md:mb-0">
+                        <div class="mb-3 md:w-1/3 md:mb-0">
                             <label class="block font-medium">Guru</label>
-                            <select name="guru_id" class="w-full px-3 py-2 border rounded" required>
+                            <select id="guruSelect" name="guru_id" class="w-full px-3 py-2 border rounded" required>
                                 <option value="">-- Pilih Guru --</option>
                                 @foreach($guru->sortBy(fn($g) => $g->user->name ?? $g->nama) as $g)
                                     <option value="{{ $g->id }}">{{ $g->user->name ?? $g->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="md:w-1/2">
+
+                        <div class="mb-3 md:w-1/3 md:mb-0">
+                            <label class="block font-medium">Mapel</label>
+                            <select id="mapelSelect" name="mapel_id" class="w-full px-3 py-2 border rounded" required>
+                                <option value="">-- Pilih Mapel --</option>
+                                {{-- Akan diisi otomatis lewat AJAX --}}
+                            </select>
+                        </div>
+
+                        <div class="md:w-1/3">
                             <label class="block font-medium">Kelas</label>
                             <select name="kelas_id" class="w-full px-3 py-2 border rounded" required>
                                 <option value="">-- Pilih Kelas --</option>
@@ -78,11 +87,40 @@
                     </div>
 
                     <div class="flex justify-end md:justify-start">
-                        <button type="submit" class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700"><i class="bi bi-save"></i>
-                            Simpan
+                        <button type="submit" class="px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                            <i class="bi bi-save"></i> Simpan
                         </button>
                     </div>
                 </form>
+
+                <script>
+                    document.getElementById('guruSelect').addEventListener('change', function() {
+                        const guruId = this.value;
+                        const mapelSelect = document.getElementById('mapelSelect');
+
+                        mapelSelect.innerHTML = '<option value="">Memuat...</option>';
+
+                        if (!guruId) {
+                            mapelSelect.innerHTML = '<option value="">-- Pilih Mapel --</option>';
+                            return;
+                        }
+
+                        fetch(`/admin/get-mapel-by-guru/${guruId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                mapelSelect.innerHTML = '<option value="">-- Pilih Mapel --</option>';
+                                data.forEach(m => {
+                                    const option = document.createElement('option');
+                                    option.value = m.id;
+                                    option.textContent = `${m.kode} - ${m.mapel}`;
+                                    mapelSelect.appendChild(option);
+                                });
+                            })
+                            .catch(() => {
+                                mapelSelect.innerHTML = '<option value="">Gagal memuat mapel</option>';
+                            });
+                    });
+                </script>
 
                 <hr class="my-6">
 
@@ -110,7 +148,7 @@
 
             <div class="overflow-x-auto md:overflow-x-visible">
                 <!-- Tabel Data Jadwal Guru -->
-                <x-admin.jadwal-guru :jadwal="$jadwal" :guru="$guru" :kelas="$kelas" :sekolah="$sekolah" />
+                <x-admin.jadwal-guru :jadwal="$jadwal" :mapel="$mapel" :guru="$guru" :kelas="$kelas" :sekolah="$sekolah" />
             </div>
 
             <div class="mt-4">
@@ -120,4 +158,4 @@
         </main>
     </div>
 
-</x-app-layout>
+</x-app-admin-layout>

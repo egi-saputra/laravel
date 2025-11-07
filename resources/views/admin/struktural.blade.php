@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-admin-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __($pageTitle ?? '') }}
@@ -16,18 +16,18 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-0 mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
+        <main class="flex-1 p-0 !mb-16 space-y-2 overflow-x-auto md:space-y-6 md:mb-0 md:p-6">
             <!-- Form Tambah Data Struktural -->
-            <div class="md:p-6 md:mb-6 mb-12 md:bg-white md:rounded md:shadow">
+            <div class="mb-12 md:p-6 md:mb-6 md:bg-white md:rounded md:shadow">
                 <h2 class="hidden mb-4 text-xl font-bold md:inline-block">Tambah Data Struktur Internal Sekolah</h2>
                 <h2 class="inline-block mb-4 text-xl font-bold md:hidden">Tambahkan Data Struktural</h2>
 
                 <form action="{{ route('admin.struktural.store') }}" method="POST">
                     @csrf
 
-                    <div class="flex md:flex-row gap-2 flex-col w-full">
+                    <div class="flex flex-col w-full gap-2 md:flex-row">
                     <!-- Jabatan -->
-                    <div class=" w-full mb-4">
+                    <div class="w-full mb-4 ">
                         <label for="jabatan" class="block text-sm font-medium text-gray-700">Jabatan</label>
                         <input type="text" name="jabatan" id="jabatan"
                                class="w-full px-3 py-2 mt-1 border border-gray-300 rounded shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -96,4 +96,4 @@
         });
     </script>
 
-</x-app-layout>
+</x-app-admin-layout>

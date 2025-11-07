@@ -5,99 +5,119 @@ namespace App\Imports;
 use App\Models\JadwalGuru;
 use App\Models\DataGuru;
 use App\Models\DataKelas;
-use Maatwebsite\Excel\Concerns\ToModel;
+use App\Models\DataMapel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\Importable;
 
-class JadwalGuruImport implements ToModel, WithHeadingRow
+class JadwalGuruImport implements ToCollection, WithHeadingRow
 {
-    use Importable;
-
     public $failedRows = [];
 
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        if (empty($row['hari'])) {
-            return null;
-        }
+        foreach ($rows as $row) {
+            $hari        = trim($row['hari'] ?? '');
+            $sesi        = trim($row['sesi'] ?? '');
+            $kelasInput  = trim((string)($row['kelas'] ?? ''));
+            $mapelInput  = trim((string)($row['mapel'] ?? ''));
+            $jam_mulai   = trim($row['jam_mulai'] ?? '');
+            $jam_selesai = trim($row['jam_selesai'] ?? '');
 
-        $guruId  = null;
-        $kelasId = null;
+            // Hilangkan titik desimal dari Excel
+            $mapelInput = preg_replace('/\.0$/', '', $mapelInput);
+            $kelasInput = preg_replace('/\.0$/', '', $kelasInput);
 
-        // --- Pastikan jam jadi string ---
-        $jamMulai   = isset($row['jam_mulai']) ? trim((string) $row['jam_mulai']) : null;
-        $jamSelesai = isset($row['jam_selesai']) ? trim((string) $row['jam_selesai']) : null;
-
-        // --- Cari guru berdasarkan kode atau nama ---
-        if (!empty($row['nama_guru'])) {
-            $guru = DataGuru::where('kode', trim($row['nama_guru'])) // kalau isinya kode guru
-                ->orWhereHas('user', function ($q) use ($row) {
-                    $q->whereRaw('LOWER(name) = ?', [strtolower(trim($row['nama_guru']))]);
-                })
-                ->first();
-
-            if (!$guru) {
+            // 🔸 Validasi wajib isi
+            if (!$hari || !$sesi || !$kelasInput || !$mapelInput) {
                 $this->failedRows[] = [
-                    'hari'   => $row['hari'],
-                    'sesi'   => $row['sesi'] ?? null,
-                    'guru'   => $row['nama_guru'] ?? null,
-                    'kelas'  => $row['kelas'] ?? null,
-                    'reason' => 'Guru tidak ditemukan',
+                    'hari'   => $hari,
+                    'sesi'   => $sesi,
+                    'kelas'  => $kelasInput,
+                    'mapel'  => $mapelInput,
+                    'reason' => 'Kolom wajib tidak boleh kosong (hari/sesi/kelas/mapel)',
                 ];
-                return null;
+                continue;
             }
 
-            $guruId = $guru->id;
-        }
-
-        // --- Cari kelas berdasarkan kode atau nama ---
-        if (!empty($row['kelas'])) {
-            $kelas = DataKelas::whereRaw('LOWER(kode) = ?', [strtolower(trim($row['kelas']))])
-                ->orWhereRaw('LOWER(kelas) = ?', [strtolower(trim($row['kelas']))])
+            /** 🔹 CARI KELAS */
+            $kelasData = DataKelas::where('kode', $kelasInput)
+                ->orWhere('kelas', $kelasInput)
                 ->first();
 
-            if (!$kelas) {
+            if (!$kelasData) {
                 $this->failedRows[] = [
-                    'hari'   => $row['hari'],
-                    'sesi'   => $row['sesi'] ?? null,
-                    'guru'   => $row['nama_guru'] ?? null,
-                    'kelas'  => $row['kelas'] ?? null,
+                    'hari'   => $hari,
+                    'sesi'   => $sesi,
+                    'kelas'  => $kelasInput,
+                    'mapel'  => $mapelInput,
                     'reason' => 'Kelas tidak ditemukan',
                 ];
-                return null;
+                continue;
             }
 
-            $kelasId = $kelas->id;
+            /** 🔹 CARI MAPEL DAN GURU OTOMATIS */
+            $mapelData = DataMapel::where('id', $mapelInput)
+                ->orWhere('kode', $mapelInput)
+                ->orWhere('mapel', $mapelInput)
+                ->first();
+
+            if (!$mapelData) {
+                $this->failedRows[] = [
+                    'hari'   => $hari,
+                    'sesi'   => $sesi,
+                    'kelas'  => $kelasInput,
+                    'mapel'  => $mapelInput,
+                    'reason' => 'Mapel tidak ditemukan',
+                ];
+                continue;
+            }
+
+            // Ambil guru dari mapel (relasi guru_id di DataMapel)
+            $guruData = $mapelData->guru; // pastikan DataMapel punya relasi guru()
+            if (!$guruData) {
+                $this->failedRows[] = [
+                    'hari'   => $hari,
+                    'sesi'   => $sesi,
+                    'kelas'  => $kelasInput,
+                    'mapel'  => $mapelInput,
+                    'reason' => 'Guru untuk mapel tidak ditemukan',
+                ];
+                continue;
+            }
+
+            /** 🔹 CEK DUPLIKAT */
+            $exists = JadwalGuru::where('hari', $hari)
+                ->where('sesi', $sesi)
+                ->where('guru_id', $guruData->id)
+                ->where('kelas_id', $kelasData->id)
+                ->where('mapel_id', $mapelData->id)
+                ->where('jam_mulai', $jam_mulai)
+                ->where('jam_selesai', $jam_selesai)
+                ->exists();
+
+            if ($exists) {
+                $this->failedRows[] = [
+                    'hari'   => $hari,
+                    'sesi'   => $sesi,
+                    'kelas'  => $kelasInput,
+                    'mapel'  => $mapelInput,
+                    'reason' => 'Jadwal duplikat',
+                ];
+                continue;
+            }
+
+            /** 🔹 SIMPAN KE DATABASE */
+            JadwalGuru::create([
+                'hari'        => $hari,
+                'sesi'        => $sesi,
+                'jam_mulai'   => $jam_mulai ?: '07:00',
+                'jam_selesai' => $jam_selesai ?: '08:00',
+                'guru_id'     => $guruData->id,
+                'kelas_id'    => $kelasData->id,
+                'mapel_id'    => $mapelData->id,
+                'jumlah_jam'  => 1,
+            ]);
         }
-
-        // --- Cek duplikat ---
-        $exists = JadwalGuru::where('hari', $row['hari'])
-            ->where('sesi', $row['sesi'] ?? null)
-            ->where('jam_mulai', $jamMulai)
-            ->where('jam_selesai', $jamSelesai)
-            ->where('guru_id', $guruId)
-            ->where('kelas_id', $kelasId)
-            ->exists();
-
-        if ($exists) {
-            $this->failedRows[] = [
-                'hari'   => $row['hari'],
-                'sesi'   => $row['sesi'] ?? null,
-                'guru'   => $row['nama_guru'] ?? null,
-                'kelas'  => $row['kelas'] ?? null,
-                'reason' => 'Duplikat jadwal',
-            ];
-            return null;
-        }
-
-        // --- Simpan data ---
-        return new JadwalGuru([
-            'hari'        => $row['hari'],
-            'sesi'        => $row['sesi'] ?? null,
-            'jam_mulai'   => $jamMulai,
-            'jam_selesai' => $jamSelesai,
-            'guru_id'     => $guruId,
-            'kelas_id'    => $kelasId,
-        ]);
     }
 }

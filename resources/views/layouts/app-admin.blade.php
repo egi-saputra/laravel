@@ -32,9 +32,6 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- HotWire -->
-        <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.3/dist/turbo.es2017-umd.js"></script>
-
         <!-- TinyMCE -->
         <script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
 
@@ -86,38 +83,6 @@
 
                 footer {
                     padding-bottom: env(safe-area-inset-bottom);
-                }
-
-                /* ================================== */
-                /* Mobile Bottom Navigation */
-                /* ================================== */
-                @media (max-width: 768px) {
-                    .nav-icon {
-                        color: #9ca3af; /* text-gray-400 */
-                        transition: all 0.3s ease;
-                    }
-                    .nav-icon.active i,
-                    .nav-icon.active span {
-                        color: #f97316; /* text-orange-500 */
-                    }
-                    .nav-icon:hover {
-                        transform: scale(1.1);
-                    }
-                    #navhp {
-                        backdrop-filter: blur(12px);
-                        -webkit-backdrop-filter: blur(12px);
-                        width: 95%;
-                        padding: 0.5rem 0;
-                        margin: 0 0;
-                        padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
-                    }
-                }
-
-                /* Default desktop: sembunyikan #navhp */
-                @media (min-width: 769px) {
-                    #navhp {
-                        display: none;
-                    }
                 }
             </style>
 
@@ -216,7 +181,7 @@
                                 </a>
                                 <div
                                     class="px-4 text-[#063970] text-lg py-6 mx-auto font-bold sm:hidden max-w-7xl sm:px-6 lg:px-8">
-                                    {{ $profil?->nama_sekolah ?? 'Nama Sekolah Default' }}
+                                    {{ $profil?->nama_sekolah ?? 'Simstal' }}
                                 </div>
                             </div>
 
@@ -335,9 +300,7 @@
             </main>
 
             @if (!request()->is('login'))
-                <div data-turbo="false">
-                    <x-navbot :role="$role" />
-                </div>
+                    <x-nav-bot :role="$role" />
             @endif
 
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -347,6 +310,8 @@
         <!-- jsPDF + AutoTable -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1/locale/id.js"></script>
 
         @stack('scripts')
 
@@ -402,37 +367,6 @@
             document.addEventListener('turbo:load', initBackToTop);
         </script>
 
-
-        <!-- Menonaktifkan Loader Turbo Hotwire -->
-        {{-- <script>
-            // Matikan progress bar bawaan Turbo
-            window.Turbo.setProgressBarDelay(999999);
-        </script> --}}
-
-        <!-- Script Loader Turbo Hotwire Mobile Only -->
-        {{-- <script>
-            document.addEventListener("turbo:before-visit", () => {
-                const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
-                // Jika desktop, sembunyikan progress bar Turbo
-                if (!isMobile) {
-                Turbo.navigator.delegate.adapter.progressBar.hide();
-                window.Turbo.setProgressBarDelay(999999); // tunda tampilnya agar tidak muncul sama sekali
-                } else {
-                // Jika mobile, tampilkan dengan delay default (100ms)
-                window.Turbo.setProgressBarDelay(100);
-                }
-            });
-
-            // Optional: pastikan setelah load pertama, bar disembunyikan lagi di desktop
-            // document.addEventListener("turbo:load", () => {
-            //     const isMobile = window.matchMedia("(max-width: 768px)").matches;
-            //     if (!isMobile) {
-            //     Turbo.navigator.delegate.adapter.progressBar.hide();
-            //     }
-            // });
-        </script> --}}
-
         <!-- Script TinyMce Init -->
         <script>
             function initTinyMCE() {
@@ -452,15 +386,6 @@
 
             // Untuk pertama kali load
             document.addEventListener('DOMContentLoaded', initTinyMCE);
-
-            // Untuk navigasi Turbo (maju/mundur antar halaman)
-            document.addEventListener('turbo:load', initTinyMCE);
-            document.addEventListener('turbo:render', initTinyMCE);
-
-            // Sebelum halaman disimpan ke cache Turbo
-            document.addEventListener('turbo:before-cache', function() {
-                if (typeof tinymce !== 'undefined') tinymce.remove();
-            });
         </script>
 
     </body>

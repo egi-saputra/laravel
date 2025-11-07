@@ -80,14 +80,15 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
         </div>
     </form>
 
-    <div class="overflow-x-auto md:overflow-x-visible">
-        <table class="w-full border border-collapse" id="jadwalGuruTable">
+    {{-- <div class="overflow-x-auto md:overflow-x-visible"> --}}
+        <table class="w-full text-sm border border-collapse" id="jadwalGuruTable">
             <thead>
                 <tr class="bg-gray-100">
                     <th class="px-4 py-2 border whitespace-nowrap">Hari</th>
                     <th class="px-4 py-2 text-center border whitespace-nowrap">Sesi</th>
                     <th class="px-4 py-2 border whitespace-nowrap">Jam</th>
                     <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Nama Guru</th>
+                    <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Mata Pelajaran</th>
                     <th class="px-4 py-2 text-left border md:text-center whitespace-nowrap">Ruang Kelas</th>
                     <th class="px-4 py-2 text-center border"></th>
                 </tr>
@@ -101,7 +102,14 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
                         {{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }}
                     </td>
                     <td class="px-4 py-2 border whitespace-nowrap">{{ $j->guru->user->name ?? $j->guru->nama ?? '-' }}</td>
+
+                    <!-- ✅ Menampilkan mapel -->
+                    <td class="px-4 py-2 border whitespace-nowrap">
+                        {{ $j->mapel->mapel ?? '-' }}
+                    </td>
+
                     <td class="px-4 py-2 border whitespace-nowrap">{{ $j->kelas->kelas ?? '-' }}</td>
+
                     <td class="px-4 py-2 text-center border">
                         <div x-data="{ open: false, showModal: false }" class="relative inline-block">
                             <!-- Tombol titik 3 -->
@@ -127,7 +135,7 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
                             </div>
 
                             <!-- Modal Edit -->
-                            <div x-show="showModal" x-cloak
+                            {{-- <div x-show="showModal" x-cloak
                                 class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                                 <div class="w-full max-w-md p-6 mx-4 bg-white rounded shadow-lg md:mx-0">
                                     <h2 class="mb-4 text-lg font-bold">Edit Jadwal Guru</h2>
@@ -165,12 +173,25 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
 
                                         <div>
                                             <label class="block font-medium text-left">Guru</label>
-                                            <select name="guru_id" class="w-full px-3 py-2 border rounded" required>
+                                            <select id="guruSelect-{{ $j->id }}" name="guru_id" class="w-full px-3 py-2 border rounded" required>
+                                                <option value="">-- Pilih Guru --</option>
                                                 @foreach($guru->sortBy(fn($g) => $g->user->name ?? $g->nama) as $g)
-                                                    <option value="{{ $g->id }}">
-                                                        {{ $g->user->name ?? $g->nama }} ({{ $g->kode }})
+                                                    <option value="{{ $g->id }}" {{ $j->guru_id == $g->id ? 'selected' : '' }}>
+                                                        {{ $g->user->name ?? $g->nama }}
                                                     </option>
                                                 @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label class="block font-medium text-left">Mata Pelajaran</label>
+                                            <select id="mapelSelect-{{ $j->id }}" name="mapel_id" class="w-full px-3 py-2 border rounded">
+                                                <option value="">-- Pilih Mapel --</option>
+                                                @if($j->mapel_id)
+                                                    <option value="{{ $j->mapel_id }}" selected>
+                                                        {{ $j->mapel->kode ?? $j->mapel->kode_mapel }} - {{ $j->mapel->mapel ?? $j->mapel->nama_mapel }}
+                                                    </option>
+                                                @endif
                                             </select>
                                         </div>
 
@@ -193,22 +214,156 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
                                         </div>
                                     </form>
                                 </div>
+                            </div> --}}
+
+                            <!-- Modal Edit -->
+                            <div x-show="showModal" x-cloak
+                                class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto bg-black bg-opacity-50">
+                                <div class="w-full max-w-md bg-white rounded-xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+
+                                    <!-- Header (sticky) -->
+                                    <div class="sticky top-0 z-10 px-6 py-4 bg-gray-100 border-b border-gray-200">
+                                        <h2 class="text-xl font-semibold text-gray-800">Edit Jadwal Guru</h2>
+                                    </div>
+
+                                    <!-- Content (scrollable) -->
+                                    <div class="flex-1 px-6 py-4 mb-4 space-y-4 overflow-y-auto text-left">
+                                        <!-- Tambahkan id pada form -->
+                                        <form id="editJadwalForm" action="{{ route('admin.jadwal_guru.update', $j->id) }}" method="POST" class="space-y-4">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <div>
+                                                <label class="block mb-1 font-medium text-gray-700">Hari</label>
+                                                <select name="hari" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                                    @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'] as $h)
+                                                        <option value="{{ $h }}" {{ $j->hari == $h ? 'selected' : '' }}>{{ $h }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label class="block mb-1 font-medium text-gray-700">Sesi</label>
+                                                <input type="text" name="sesi" value="{{ $j->sesi }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                            </div>
+
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label class="block mb-1 font-medium text-center text-gray-700">Jam Mulai</label>
+                                                    <input type="time" name="jam_mulai" value="{{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" step="60" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block mb-1 font-medium text-center text-gray-700">Jam Selesai</label>
+                                                    <input type="time" name="jam_selesai" value="{{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" step="60" required>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label class="block mb-1 font-medium text-gray-700">Guru</label>
+                                                <select id="guruSelect-{{ $j->id }}" name="guru_id" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                                    <option value="">-- Pilih Guru --</option>
+                                                    @foreach($guru->sortBy(fn($g) => $g->user->name ?? $g->nama) as $g)
+                                                        <option value="{{ $g->id }}" {{ $j->guru_id == $g->id ? 'selected' : '' }}>
+                                                            {{ $g->user->name ?? $g->nama }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label class="block mb-1 font-medium text-gray-700">Mata Pelajaran</label>
+                                                <select id="mapelSelect-{{ $j->id }}" name="mapel_id" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                                    <option value="">-- Pilih Mapel --</option>
+                                                    @if($j->mapel_id)
+                                                        <option value="{{ $j->mapel_id }}" selected>
+                                                            {{ $j->mapel->kode ?? $j->mapel->kode_mapel }} - {{ $j->mapel->mapel ?? $j->mapel->nama_mapel }}
+                                                        </option>
+                                                    @endif
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label class="block mb-1 font-medium text-gray-700">Kelas</label>
+                                                <select name="kelas_id" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                                    @foreach($kelas as $k)
+                                                        <option value="{{ $k->id }}" {{ $j->kelas_id == $k->id ? 'selected' : '' }}>
+                                                            {{ $k->kelas }} ({{ $k->kode }})
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Footer (sticky) -->
+                                    <div class="sticky bottom-0 z-10 flex justify-end gap-3 px-6 py-4 bg-gray-100 border-t border-gray-200">
+                                        <button type="button" @click="showModal = false" class="px-5 py-2 text-gray-700 transition bg-gray-200 rounded-lg hover:bg-gray-300">Batal</button>
+                                        <!-- Hubungkan tombol ke form dengan id -->
+                                        <button type="submit" form="editJadwalForm" class="px-5 py-2 text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">Simpan</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </td>
-
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="py-2 text-center">Belum ada data jadwal guru</td>
+                    <td colspan="8" class="py-2 text-center">Belum ada data jadwal guru</td>
                 </tr>
                 @endforelse
             </tbody>
         </table>
-    </div>
+    {{-- </div> --}}
 </div>
 
-{{-- <script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('[id^="guruSelect-"]').forEach(select => {
+            const jadwalId = select.id.split('-')[1];
+            const mapelSelect = document.getElementById(`mapelSelect-${jadwalId}`);
+
+            // Fungsi load mapel berdasarkan guru
+            const loadMapel = (guruId, selectedId = null) => {
+                mapelSelect.innerHTML = '<option value="">Memuat...</option>';
+                if (!guruId) {
+                    mapelSelect.innerHTML = '<option value="">-- Pilih Mapel --</option>';
+                    return;
+                }
+
+                fetch(`/admin/get-mapel-by-guru/${guruId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        mapelSelect.innerHTML = '<option value="">-- Pilih Mapel --</option>';
+                        data.forEach(m => {
+                            const option = document.createElement('option');
+                            option.value = m.id;
+                            option.textContent = `${m.kode} - ${m.mapel}`;
+                            if (selectedId && selectedId == m.id) option.selected = true;
+                            mapelSelect.appendChild(option);
+                        });
+                    })
+                    .catch(() => {
+                        mapelSelect.innerHTML = '<option value="">Gagal memuat mapel</option>';
+                    });
+            };
+
+            // Ambil mapel yang sudah dipilih saat modal dibuka
+            let initialSelectedMapelId = mapelSelect.querySelector('option[selected]')?.value || null;
+
+            // Auto-load mapel guru saat modal dibuka
+            if (select.value) {
+                loadMapel(select.value, initialSelectedMapelId);
+            }
+
+            // Event change guru → reset selected mapel sebelumnya
+            select.addEventListener('change', () => {
+                loadMapel(select.value); // saat ganti guru, tidak ada mapel yg selected
+            });
+        });
+    });
+</script>
+
+ <script>
     document.addEventListener('DOMContentLoaded', function() {
         // ============================
         // DELETE INDIVIDUAL
@@ -217,7 +372,7 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 Swal.fire({
-                    title: 'Yakin hapus?',
+                    title: 'Hapus jadwal ini ?',
                     text: "Data jadwal guru ini akan dihapus permanen!",
                     icon: 'warning',
                     showCancelButton: true,
@@ -236,7 +391,7 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
         // ============================
         document.getElementById('hapusSemua').addEventListener('click', function() {
             Swal.fire({
-                title: 'Yakin?',
+                title: 'Hapus Semua Jadwal ?',
                 text: "Semua data jadwal guru akan dihapus!",
                 icon: 'question',
                 showCancelButton: true,
@@ -316,162 +471,22 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
 
             doc.save('jadwal-guru.pdf');
         });
-
-        // ============================
-        // ALERT SESSION
-        // ============================
-        @if(session('alert'))
-            Swal.fire({
-                icon: '{{ session('alert.type') }}',
-                title: '{{ session('alert.title') ?? ucfirst(session('alert.type')) }}',
-                @if(session('alert.html'))
-                    html: `{!! session('alert.message') !!}`,
-                @else
-                    text: '{{ session('alert.message') }}',
-                @endif
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#3085d6'
-            });
-        @endif
     });
-</script> --}}
-
-<script>
-    function initJadwalGuruPage() {
-        // ============================
-        // DELETE INDIVIDUAL
-        // ============================
-        document.querySelectorAll('.delete-form').forEach(form => {
-            // hindari event ganda
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Yakin hapus?',
-                    text: "Data jadwal guru ini akan dihapus permanen!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then(result => {
-                    if (result.isConfirmed) form.submit();
-                });
-            }, { once: true });
-        });
-
-        // ============================
-        // DELETE ALL
-        // ============================
-        const hapusSemuaBtn = document.getElementById('hapusSemua');
-        if (hapusSemuaBtn) {
-            hapusSemuaBtn.addEventListener('click', function() {
-                Swal.fire({
-                    title: 'Yakin?',
-                    text: "Semua data jadwal guru akan dihapus!",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, hapus semua!',
-                    cancelButtonText: 'Batal'
-                }).then(result => {
-                    if (result.isConfirmed) document.getElementById('formHapusSemua').submit();
-                });
-            }, { once: true });
-        }
-
-        // ============================
-        // EXPORT PDF
-        // ============================
-        const exportBtn = document.getElementById('exportPDF');
-        if (exportBtn) {
-            const sekolah = {!! json_encode($sekolah, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP) !!};
-            sekolah.logo_base64 = '{{ $logoBase64 }}';
-
-            exportBtn.addEventListener('click', () => {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                const margin = 14;
-                const pageWidth = doc.internal.pageSize.getWidth();
-
-                // Logo
-                if (sekolah.logo_base64) {
-                    doc.addImage("data:image/png;base64," + sekolah.logo_base64, 'PNG', margin, 13, 22, 22);
-                }
-
-                // Nama & Alamat
-                doc.setFontSize(14);
-                doc.setFont('times new roman', 'bold');
-                doc.text(sekolah.nama_sekolah, pageWidth / 2, 20, { align: 'center' });
-
-                doc.setFontSize(11);
-                doc.setFont('times new roman', 'normal');
-                doc.text(sekolah.alamat, pageWidth / 2, 26, { align: 'center' });
-                doc.text(`Telp: ${sekolah.telepon} | Email: ${sekolah.email}`, pageWidth / 2, 32, { align: 'center' });
-
-                // Garis
-                doc.setLineWidth(0.5);
-                doc.line(margin, 36, pageWidth - margin, 36);
-
-                // Judul tabel
-                doc.setFontSize(12);
-                doc.setFont('times', 'bold');
-                doc.text("DAFTAR JADWAL MENGAJAR GURU", pageWidth / 2, 45, { align: 'center' });
-
-                // Ambil data dari table HTML
-                const table = document.getElementById('jadwalGuruTable');
-                const headers = ["Hari", "Sesi", "Jam", "Guru", "Ruang Kelas"];
-                const rows = [];
-                table.querySelectorAll('tbody tr').forEach(tr => {
-                    const cells = tr.querySelectorAll('td');
-                    if (cells.length < 5) return;
-                    rows.push([
-                        cells[0].textContent.trim(),
-                        cells[1].textContent.trim(),
-                        cells[2].textContent.trim(),
-                        cells[3].textContent.trim(),
-                        cells[4].textContent.trim()
-                    ]);
-                });
-
-                doc.autoTable({
-                    head: [headers],
-                    body: rows,
-                    startY: 50,
-                    theme: 'grid',
-                    headStyles: { fillColor: [100, 149, 237], textColor: 255, halign: 'center', valign: 'middle' },
-                    styles: { fontSize: 10, halign: 'center', valign: 'middle' },
-                    columnStyles: {
-                        3: { halign: 'left' },
-                        4: { halign: 'left' }
-                    }
-                });
-
-                doc.save('jadwal-guru.pdf');
-            }, { once: true });
-        }
-
-        // ============================
-        // ALERT SESSION
-        // ============================
-        @if(session('alert'))
-            Swal.fire({
-                icon: '{{ session('alert.type') }}',
-                title: '{{ session('alert.title') ?? ucfirst(session('alert.type')) }}',
-                @if(session('alert.html'))
-                    html: `{!! session('alert.message') !!}`,
-                @else
-                    text: '{{ session('alert.message') }}',
-                @endif
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#3085d6'
-            });
-        @endif
-    }
-
-    // 🔥 Inisialisasi dengan Turbo dan DOM normal
-    document.addEventListener('turbo:load', initJadwalGuruPage);
-    document.addEventListener('DOMContentLoaded', initJadwalGuruPage);
 </script>
 
+<!-- ALERT SESSION -->
+@if(session('alert'))
+    <script>
+        Swal.fire({
+            icon: '{{ session('alert.type') }}',
+            title: '{{ session('alert.title') ?? ucfirst(session('alert.type')) }}',
+            @if(session('alert.html'))
+                html: `{!! session('alert.message') !!}`,
+            @else
+                text: '{{ session('alert.message') }}',
+            @endif
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#3085d6'
+        });
+    </script>
+@endif

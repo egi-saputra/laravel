@@ -18,6 +18,7 @@ class JadwalGuru extends Model
         'jam_selesai',
         'guru_id',
         'kelas_id',
+        'mapel_id',
         'jumlah_jam',
     ];
 
@@ -34,6 +35,10 @@ class JadwalGuru extends Model
         $this->attributes['jumlah_jam'] = 1;
     }
 
+    /** ==========================
+     *  RELASI MODEL
+     * ========================== */
+
     // Relasi ke DataGuru
     public function guru()
     {
@@ -49,6 +54,6 @@ class JadwalGuru extends Model
     // Relasi ke DataMapel
     public function mapel()
     {
-        return $this->belongsTo(DataMapel::class, 'guru_id', 'guru_id');
+        return $this->belongsTo(DataMapel::class, 'mapel_id', 'id');
     }
 }

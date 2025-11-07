@@ -10,18 +10,15 @@ class DataMapel extends Model
     use HasFactory;
 
     protected $table = 'data_mapel';
-    protected $fillable = ['mapel', 'guru_id'];
 
-    // Relasi ke guru
+    // Tambahkan 'kode' ke fillable agar bisa diisi mass-assignment
+    protected $fillable = ['kode', 'mapel', 'guru_id'];
+
+    /**
+     * Relasi ke DataGuru (guru pengampu)
+     */
     public function guru()
     {
         return $this->belongsTo(DataGuru::class, 'guru_id', 'id');
     }
-
-    // Relasi ke Mapel (anggap ada kolom mapel di data_mapel)
-    public function mapel()
-    {
-        return $this->belongsTo(Mapel::class, 'id', 'id');
-    }
-
 }
