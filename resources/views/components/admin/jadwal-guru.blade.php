@@ -217,7 +217,7 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
                             </div> --}}
 
                             <!-- Modal Edit -->
-                            <div x-show="showModal" x-cloak
+                            {{-- <div x-show="showModal" x-cloak
                                 class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto bg-black bg-opacity-50">
                                 <div class="w-full max-w-md bg-white rounded-xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
 
@@ -300,6 +300,96 @@ if (!empty($logoFiles) && file_exists($logoFiles[0])) {
                                         <button type="button" @click="showModal = false" class="px-5 py-2 text-gray-700 transition bg-gray-200 rounded-lg hover:bg-gray-300">Batal</button>
                                         <!-- Hubungkan tombol ke form dengan id -->
                                         <button type="submit" form="editJadwalForm" class="px-5 py-2 text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">Simpan</button>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <!-- Modal Edit -->
+                            <div x-show="showModal" x-cloak
+                                class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto bg-black bg-opacity-50">
+                                <div class="w-full max-w-md bg-white rounded-xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+
+                                    <!-- Header -->
+                                    <div class="sticky top-0 z-10 px-6 py-4 bg-gray-100 border-b border-gray-200">
+                                        <h2 class="text-xl font-semibold text-gray-800">Edit Jadwal Guru</h2>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="flex-1 px-6 py-4 mb-4 space-y-4 overflow-y-auto text-left">
+                                        <!-- Gunakan ID unik untuk setiap form -->
+                                        <form id="editJadwalForm-{{ $j->id }}"
+                                            action="{{ route('admin.jadwal_guru.update', $j->id) }}"
+                                            method="POST"
+                                            class="space-y-4">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <div>
+                                                <label class="block mb-1 font-medium text-gray-700">Hari</label>
+                                                <select name="hari" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                                    @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'] as $h)
+                                                        <option value="{{ $h }}" {{ $j->hari == $h ? 'selected' : '' }}>{{ $h }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label class="block mb-1 font-medium text-gray-700">Sesi</label>
+                                                <input type="text" name="sesi" value="{{ $j->sesi }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                            </div>
+
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label class="block mb-1 font-medium text-center text-gray-700">Jam Mulai</label>
+                                                    <input type="time" name="jam_mulai" value="{{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" step="60" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block mb-1 font-medium text-center text-gray-700">Jam Selesai</label>
+                                                    <input type="time" name="jam_selesai" value="{{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" step="60" required>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label class="block mb-1 font-medium text-gray-700">Guru</label>
+                                                <select id="guruSelect-{{ $j->id }}" name="guru_id" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                                    <option value="">-- Pilih Guru --</option>
+                                                    @foreach($guru->sortBy(fn($g) => $g->user->name ?? $g->nama) as $g)
+                                                        <option value="{{ $g->id }}" {{ $j->guru_id == $g->id ? 'selected' : '' }}>
+                                                            {{ $g->user->name ?? $g->nama }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label class="block mb-1 font-medium text-gray-700">Mata Pelajaran</label>
+                                                <select id="mapelSelect-{{ $j->id }}" name="mapel_id" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                                    <option value="">-- Pilih Mapel --</option>
+                                                    @if($j->mapel_id)
+                                                        <option value="{{ $j->mapel_id }}" selected>
+                                                            {{ $j->mapel->kode ?? $j->mapel->kode_mapel }} - {{ $j->mapel->mapel ?? $j->mapel->nama_mapel }}
+                                                        </option>
+                                                    @endif
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label class="block mb-1 font-medium text-gray-700">Kelas</label>
+                                                <select name="kelas_id" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                                    @foreach($kelas as $k)
+                                                        <option value="{{ $k->id }}" {{ $j->kelas_id == $k->id ? 'selected' : '' }}>
+                                                            {{ $k->kelas }} ({{ $k->kode }})
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div class="sticky bottom-0 z-10 flex justify-end gap-3 px-6 py-4 bg-gray-100 border-t border-gray-200">
+                                        <button type="button" @click="showModal = false" class="px-5 py-2 text-gray-700 transition bg-gray-200 rounded-lg hover:bg-gray-300">Batal</button>
+                                        <!-- Hubungkan tombol ke form unik -->
+                                        <button type="submit" form="editJadwalForm-{{ $j->id }}" class="px-5 py-2 text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">Simpan</button>
                                     </div>
                                 </div>
                             </div>

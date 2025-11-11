@@ -59,7 +59,7 @@ use Carbon\Carbon;
                             <div>
                                 <label class="block mb-2 font-semibold">Uang Transport (per jam hadir)</label>
                                 <input type="text" name="uang_transport" id="uang_transport"
-                                    placeholder="Rp per jam" class="w-full p-2 border rounded money-input"
+                                    placeholder="Cth. Rp. 10.000,-" class="w-full p-2 border rounded money-input"
                                     value="{{ request('uang_transport') ?? '' }}" required>
                                 <p class="mt-1 text-xs text-gray-500">Nilai yang dikalikan dengan <em>Jumlah Jam</em>.</p>
                             </div>
@@ -67,22 +67,36 @@ use Carbon\Carbon;
                             <div>
                                 <label class="block mb-2 font-semibold">Uang Jam Mati (per jam jadwal)</label>
                                 <input type="text" name="uang_jam_mati" id="uang_jam_mati"
-                                    placeholder="Rp per jam" class="w-full p-2 border rounded money-input"
+                                    placeholder="Cth. Rp. 5.000,-" class="w-full p-2 border rounded money-input"
                                     value="{{ request('uang_jam_mati') ?? '' }}" required>
                                 <p class="mt-1 text-xs text-gray-500">Nilai yang dikalikan dengan (<em>Jumlah Jam Guru × Jumlah Minggu</em>).</p>
+                            </div>
+                        </div>
+
+                        {{-- Uang Sakit & Izin --}}
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div>
+                                <label class="block mb-2 font-semibold">Uang Sakit <span class="text-sm font-semibold text-gray-600">(Opsional)</span></label>
+                                <input type="text" name="uang_sakit" placeholder="Rp. 0,- / Sakit"
+                                    class="w-full p-2 border rounded money-input" value="{{ request('uang_sakit') ?? '' }}">
+                            </div>
+                            <div>
+                                <label class="block mb-2 font-semibold">Uang Izin <span class="text-sm font-semibold text-gray-600">(Opsional)</span></label>
+                                <input type="text" name="uang_izin" placeholder="Rp. 0,- / Izin"
+                                    class="w-full p-2 border rounded money-input" value="{{ request('uang_izin') ?? '' }}">
                             </div>
                         </div>
 
                         {{-- Uang Apel & Upacara --}}
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div>
-                                <label class="block mb-2 font-semibold">Uang Apel (per kali)</label>
-                                <input type="text" name="uang_apel" placeholder="Rp per apel"
+                                <label class="block mb-2 font-semibold">Uang Apel <span class="text-sm font-semibold text-gray-600">(Opsional)</span></label>
+                                <input type="text" name="uang_apel" placeholder="Rp. 0,- / Apel"
                                     class="w-full p-2 border rounded money-input" value="{{ request('uang_apel') ?? '' }}" required>
                             </div>
                             <div>
-                                <label class="block mb-2 font-semibold">Uang Upacara (per kali)</label>
-                                <input type="text" name="uang_upacara" placeholder="Rp per upacara"
+                                <label class="block mb-2 font-semibold">Uang Upacara <span class="text-sm font-semibold text-gray-600">(Opsional)</span></label>
+                                <input type="text" name="uang_upacara" placeholder="Rp. 0,- / Upacara"
                                     class="w-full p-2 border rounded money-input" value="{{ request('uang_upacara') ?? '' }}" required>
                             </div>
                         </div>
@@ -90,13 +104,13 @@ use Carbon\Carbon;
                         {{-- Uang Pembina --}}
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div>
-                                <label class="block mb-2 font-semibold">Uang Pembina Apel (per kali)</label>
-                                <input type="text" name="uang_pembina_apel" placeholder="Rp per pembina apel"
+                                <label class="block mb-2 font-semibold">Uang Pembina Apel <span class="text-sm font-semibold text-gray-600">(Opsional)</span></label>
+                                <input type="text" name="uang_pembina_apel" placeholder="Rp. 0,- / Membina Apel"
                                     class="w-full p-2 border rounded money-input" value="{{ request('uang_pembina_apel') ?? '' }}" required>
                             </div>
                             <div>
-                                <label class="block mb-2 font-semibold">Uang Pembina Upacara (per kali)</label>
-                                <input type="text" name="uang_pembina_upacara" placeholder="Rp per pembina upacara"
+                                <label class="block mb-2 font-semibold">Uang Pembina Upacara <span class="text-sm font-semibold text-gray-600">(Opsional)</span></label>
+                                <input type="text" name="uang_pembina_upacara" placeholder="Rp. 0,- / Membina upacara"
                                     class="w-full p-2 border rounded money-input" value="{{ request('uang_pembina_upacara') ?? '' }}" required>
                             </div>
                         </div>

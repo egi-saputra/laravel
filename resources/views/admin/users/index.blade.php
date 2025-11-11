@@ -26,6 +26,12 @@
             <div class="p-4 bg-white rounded shadow">
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-lg font-bold">Daftar Pengguna Semua Role</h2>
+
+                    <!-- Fitur Untuk Download Data User Dari Database -->
+                    {{-- <a href="{{ route('admin.users.download') }}"
+                    class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">
+                        <i class="bi bi-file-earmark-excel"></i> Download Excel
+                    </a> --}}
                 </div>
 
                 <!-- Filter Search & Role -->

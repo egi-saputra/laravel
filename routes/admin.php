@@ -34,6 +34,7 @@ Route::middleware(['auth', 'verified', 'log.visitor'])->group(function () {
         // Import & Export Users
         Route::get('/users/export', [AdminUserController::class, 'export'])->name('users.export');
         Route::post('/users/import', [AdminUserController::class, 'import'])->name('users.import');
+        Route::get('/data-users/download', [AdminUserController::class, 'download'])->name('users.download');
 
         // Data Guru (CRUD)
         // Route DestroyAll (Harus berada sebelum route resource agar terbaca)

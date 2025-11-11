@@ -45,7 +45,7 @@
                         <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $k->kode }}</td>
                         <td class="px-4 py-2 border whitespace-nowrap">{{ $k->kelas }}</td>
                         <td class="px-4 py-2 border whitespace-nowrap">
-                            {{ optional($k->waliKelas->user)->name ?? 'Tidak Ada' }}
+                            {{ $k->waliKelas?->user?->name ?? 'Tidak Ada' }}
                         </td>
                         <td class="px-4 py-2 text-center border whitespace-nowrap">{{ $k->jumlah_siswa ?? 0 }}</td>
                         <td class="px-4 py-2 text-center border">

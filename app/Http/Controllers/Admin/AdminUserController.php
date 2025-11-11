@@ -9,6 +9,7 @@ use App\Models\DataSiswa;
 use App\Models\DataGuru;
 use Illuminate\Support\Facades\Hash;
 use App\Exports\UserExport;
+use App\Exports\DataUsersExport;
 use App\Imports\UserImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -197,5 +198,10 @@ class AdminUserController extends Controller
                 'title'=>'Gagal'
             ]);
         }
+    }
+
+    public function download()
+    {
+        return Excel::download(new DataUsersExport, 'users.xlsx');
     }
 }
