@@ -31,8 +31,8 @@ Route::middleware(['auth', 'verified', 'role:staff', 'log.visitor'])->prefix('st
             ->name('riwayat_presensi.generate');
 
         // Rekap Honor Guru
-        Route::resource('rekap_honor_guru', RekapHonorGuruController::class);
-        // Route::resource('rekap_honor_guru', RekapHonorGuruController::class)->except(['show']);
+        // Route::resource('rekap_honor_guru', RekapHonorGuruController::class);
+        Route::resource('rekap_honor_guru', RekapHonorGuruController::class)->except(['show']);
         // Menampilkan halaman form rekap honor
         // Route::get('/rekap-honor-guru', [RekapHonorGuruController::class, 'index'])->name('rekap_honor_guru.index');
 
@@ -40,8 +40,8 @@ Route::middleware(['auth', 'verified', 'role:staff', 'log.visitor'])->prefix('st
         // Route::post('/rekap-honor-guru', [RekapHonorGuruController::class, 'generate'])->name('rekap_honor_guru.generate');
 
         // Rekap Honor Staff / Karyawan
-        Route::resource('rekap_honor_staff', RekapHonorStaffController::class);
-        // Route::resource('rekap_honor_staff', RekapHonorStaffController::class)->except(['show']);
+        // Route::resource('rekap_honor_staff', RekapHonorStaffController::class);
+        Route::resource('rekap_honor_staff', RekapHonorStaffController::class)->except(['show']);
         // Route::post('/rekap-honor-staff', [RekapHonorStaffController::class, 'generate'])->name('rekap_honor_staff.generate');
 
         // Menampilkan halaman form rekap honor
