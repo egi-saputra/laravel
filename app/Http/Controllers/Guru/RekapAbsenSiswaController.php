@@ -173,6 +173,29 @@ class RekapAbsenSiswaController extends Controller
     }
 
     // RekapAbsenSiswaController.php
+    // public function exportExcel(Request $request)
+    // {
+    //     $request->validate([
+    //         'kelas_id' => 'required|exists:data_kelas,id',
+    //         'periode_mulai' => 'required|date',
+    //         'periode_akhir' => 'required|date|after_or_equal:periode_mulai',
+    //     ]);
+
+    //     $mulai = Carbon::parse($request->periode_mulai)->startOfDay();
+    //     $akhir = Carbon::parse($request->periode_akhir)->endOfDay();
+
+    //     $siswaIds = DataSiswa::where('kelas_id', $request->kelas_id)->pluck('id');
+
+    //     $data = PresensiSiswa::with('dataSiswa')
+    //         ->whereIn('siswa_id', $siswaIds)
+    //         ->whereBetween('created_at', [$mulai, $akhir])
+    //         ->get();
+
+    //     $filename = 'rekap_presensi_'.$request->periode_mulai.'_sd_'.$request->periode_akhir.'.xlsx';
+
+    //     return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\PresensiSiswaExport($data), $filename);
+    // }
+
     public function exportExcel(Request $request)
     {
         $request->validate([
@@ -184,16 +207,30 @@ class RekapAbsenSiswaController extends Controller
         $mulai = Carbon::parse($request->periode_mulai)->startOfDay();
         $akhir = Carbon::parse($request->periode_akhir)->endOfDay();
 
-        $siswaIds = DataSiswa::where('kelas_id', $request->kelas_id)->pluck('id');
-
-        $data = PresensiSiswa::with('siswa')
-            ->whereIn('siswa_id', $siswaIds)
-            ->whereBetween('created_at', [$mulai, $akhir])
+        $data = DataSiswa::where('kelas_id', $request->kelas_id)
+            ->withCount([
+                'presensi as hadir_count' => fn($q) =>
+                    $q->whereBetween('created_at', [$mulai, $akhir])
+                    ->where('keterangan', 'Hadir'),
+                'presensi as sakit_count' => fn($q) =>
+                    $q->whereBetween('created_at', [$mulai, $akhir])
+                    ->where('keterangan', 'Sakit'),
+                'presensi as izin_count' => fn($q) =>
+                    $q->whereBetween('created_at', [$mulai, $akhir])
+                    ->where('keterangan', 'Izin'),
+                'presensi as alpa_count' => fn($q) =>
+                    $q->whereBetween('created_at', [$mulai, $akhir])
+                    ->where('keterangan', 'Alpa'),
+            ])
+            ->orderBy('nama_lengkap')
             ->get();
 
         $filename = 'rekap_presensi_'.$request->periode_mulai.'_sd_'.$request->periode_akhir.'.xlsx';
 
-        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\PresensiSiswaExport($data), $filename);
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\PresensiSiswaExport($data),
+            $filename
+        );
     }
 
 }

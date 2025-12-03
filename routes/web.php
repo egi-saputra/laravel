@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
+use Inertia\Inertia;
 use App\Http\Controllers\{
     HomeController,
     ProfileController,

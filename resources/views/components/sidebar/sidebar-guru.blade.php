@@ -58,29 +58,27 @@
     }
 
     // --- Menu khusus Hak Akses hanya jika Activated ---
-    // if ($role === 'guru' && $isActivated) {
-    //     // $menus['hak_akses'][] =
-    //     //     [
-    //     //         'label' => 'Buat Pengumuman',
-    //     //         'route' => route('public.pengumuman.index'),
-    //     //         'icon'  => 'bi-chat-dots'
-    //     //         'icon'  => 'bi-bell'
-    //     //         'icon'  => 'bi-megaphone'
-    //     // ];
-    //     // $menus['hak_akses'][] =
-    //     //     [
-    //     //         'label' => 'Kelola Berkas / Surat',
-    //     //         'route' => route('public.surat.index'),
-    //     //         'icon'  => 'bi-file-earmark-text'
-    //     //         'icon'  => 'bi-journal-text'
-    //     // ];
-    //     // $menus['hak_akses'][] =
-    //     //     [
-    //     //         'label' => 'Upload Artikel Kegiatan',
-    //     //         'route' => route('public.artikel.index'),
-    //     //         'icon'  => 'bi-upload'
-    //     // ];
-    // }
+    if ($role === 'guru' && $isActivated) {
+        $menus['hak_akses'][] =
+        //     [
+        //         'label' => 'Buat Pengumuman',
+        //         'route' => route('public.pengumuman.index'),
+        //         'icon'  => 'bi-megaphone'
+        // ];
+        $menus['hak_akses'][] =
+        //     [
+        //         'label' => 'Kelola Berkas / Surat',
+        //         'route' => route('public.surat.index'),
+        //         'icon'  => 'bi-file-earmark-text'
+        // ];
+         // Tambahkan link ke halaman Vue / Inertia Guru/Soal
+        $menus['hak_akses'][] = [
+            'label' => 'Daftar Soal Ujian',
+            'route' => url('/guru/soal'),
+            // 'route' => '/guru/soal',
+            'icon'  => 'bi-pencil-square'
+        ];
+    }
 
     // --- Menu lain ---
     // $datas = [

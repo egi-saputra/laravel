@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Exports;
 
@@ -10,40 +10,37 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 
-class GuruExport implements FromCollection, WithHeadings, WithEvents
+class BankSoalExport implements FromCollection, WithHeadings, WithEvents
 {
     public function collection()
     {
-        // Contoh data template tanpa kolom password
+        // Baris kosong template
         return collect([
-            ['G001', 'Budi Santoso', 'budi@mail.com'],
-            ['G002', 'Siti Aminah', 'siti@mail.com'],
+            [
+                '',                // soal
+                'PG',              // tipe_soal
+                'Tanpa Lampiran',  // jenis_lampiran
+                '',                // link_lampiran
+                '',                // jawaban_benar
+                '', '', '', '', '' // opsi_a sampai opsi_e
+            ],
         ]);
-
-        // Contoh data lebih lengkap
-        // return collect([
-        //     ['G001', 'Budi Santoso', 'budi@mail.com'],
-        //     ['G002', 'Siti Aminah', 'siti@mail.com'],
-        //     ['G003', 'Andi Pratama', 'andi@mail.com'],
-        //     ['G004', 'Dewi Lestari', 'dewi@mail.com'],
-        //     ['G005', 'Rizky Hidayat', 'rizky@mail.com'],
-        //     ['G006', 'Fitri Handayani', 'fitri@mail.com'],
-        //     ['G007', 'Agus Setiawan', 'agus@mail.com'],
-        //     ['G008', 'Nurul Aini', 'nurul@mail.com'],
-        //     ['G009', 'Hendra Gunawan', 'hendra@mail.com'],
-        //     ['G010', 'Putri Maharani', 'putri@mail.com'],
-        //     ['G011', 'Rudi Hartono', 'rudi@mail.com'],
-        //     ['G012', 'Intan Permata', 'intan@mail.com'],
-        //     ['G013', 'Fajar Ramadhan', 'fajar@mail.com'],
-        //     ['G014', 'Lina Marlina', 'lina@mail.com'],
-        //     ['G015', 'Doni Saputra', 'doni@mail.com']
-        // ]);
     }
 
     public function headings(): array
     {
-        // Hanya kode, nama, email
-        return ['kode', 'nama', 'email'];
+        return [
+            'soal',
+            'tipe_soal',
+            'jenis_lampiran',
+            'link_lampiran',
+            'jawaban_benar',
+            'opsi_a',
+            'opsi_b',
+            'opsi_c',
+            'opsi_d',
+            'opsi_e',
+        ];
     }
 
     public function registerEvents(): array
@@ -53,7 +50,7 @@ class GuruExport implements FromCollection, WithHeadings, WithEvents
                 $sheet = $event->sheet->getDelegate();
                 $headings = $this->headings();
 
-                // Pasang Data Validation agar heading tidak bisa diubah
+                // Pasang Data Validation untuk heading
                 foreach ($headings as $index => $heading) {
                     $colLetter = Coordinate::stringFromColumnIndex($index + 1);
                     $validation = $sheet->getCell("{$colLetter}1")->getDataValidation();
@@ -63,13 +60,11 @@ class GuruExport implements FromCollection, WithHeadings, WithEvents
                     $validation->setShowInputMessage(true);
                     $validation->setShowErrorMessage(true);
                     $validation->setShowDropDown(true);
-
-                    // hanya boleh persis sama dengan heading
                     $validation->setFormula1(sprintf('"%s"', $heading));
                     $validation->setErrorTitle('Input tidak valid');
                     $validation->setError('Heading ini tidak boleh diubah');
                     $validation->setPromptTitle('Info');
-                    $validation->setPrompt('Heading ini hanya bisa bernilai persis: ' . $heading);
+                    $validation->setPrompt('Heading ini hanya bisa bernilai persis: '.$heading);
                 }
 
                 // Auto-size semua kolom
@@ -78,7 +73,7 @@ class GuruExport implements FromCollection, WithHeadings, WithEvents
                     $sheet->getColumnDimension($colLetter)->setAutoSize(true);
                 }
 
-                // Bold heading biar lebih jelas
+                // Bold heading
                 $lastCol = Coordinate::stringFromColumnIndex(count($headings));
                 $sheet->getStyle("A1:{$lastCol}1")->getFont()->setBold(true);
             },

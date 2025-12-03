@@ -16,21 +16,19 @@ class PresensiSiswaExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        // Mapping data supaya sesuai kolom Excel
         return $this->data->map(function ($item) {
             return [
-                'Nama Siswa' => $item->siswa->nama_lengkap ?? '-',
-                'Hadir'      => $item->keterangan == 'Hadir' ? 1 : 0,
-                'Sakit'      => $item->keterangan == 'Sakit' ? 1 : 0,
-                'Izin'       => $item->keterangan == 'Izin' ? 1 : 0,
-                'Alpa'       => $item->keterangan == 'Alpa' ? 1 : 0,
-                'Tanggal'    => $item->created_at->format('d-m-Y'),
+                'Nama Siswa' => $item->nama_lengkap,
+                'Hadir'      => $item->hadir_count,
+                'Sakit'      => $item->sakit_count,
+                'Izin'       => $item->izin_count,
+                'Alpa'       => $item->alpa_count,
             ];
         });
     }
 
     public function headings(): array
     {
-        return ['Nama Siswa', 'Hadir', 'Sakit', 'Izin', 'Alpa', 'Tanggal'];
+        return ['Nama Siswa', 'Hadir', 'Sakit', 'Izin', 'Alpa'];
     }
 }

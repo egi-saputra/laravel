@@ -410,10 +410,12 @@
                 {{ $slot }}
             </main>
 
-            @if (!request()->is('login'))
-                {{-- <div data-turbo="false"> --}}
+            {{-- @if (!request()->is('login'))
                     <x-nav-bot :role="$role" />
-                {{-- </div> --}}
+            @endif --}}
+
+            @if (!request()->is('login') && auth()->user()->role !== 'developer')
+                <x-nav-bot :role="$role" />
             @endif
 
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>

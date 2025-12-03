@@ -3,11 +3,18 @@
     class="fixed bottom-3 left-1/2 z-50 flex w-[92%] max-w-md -translate-x-1/2 justify-around rounded-2xl bg-white/80 backdrop-blur-md border border-orange-200 shadow-xl py-2 px-2 md:hidden transition-all duration-300 ease-in-out">
 
     <!-- Dashboard -->
-    <a href="{{ route($role . '.dashboard') }}"
+    {{-- <a href="{{ route($role . '.dashboard') }}"
         class="flex flex-col items-center justify-center px-2 py-1 nav-icon {{ request()->routeIs($role.'.dashboard') ? 'active' : '' }}">
         <i class="text-xl transition-colors duration-300 fas fa-layer-group"></i>
         <span class="mt-1 text-[10px] font-semibold">Beranda</span>
-    </a>
+    </a> --}}
+    @if($role !== 'developer')
+        <a href="{{ route($role . '.dashboard') }}"
+        class="flex flex-col items-center justify-center px-2 py-1 nav-icon {{ request()->routeIs($role.'.dashboard') ? 'active' : '' }}">
+            <i class="text-xl transition-colors duration-300 fas fa-layer-group"></i>
+            <span class="mt-1 text-[10px] font-semibold">Beranda</span>
+        </a>
+    @endif
 
     <!-- Siswa -->
     <a href="{{ route('public.daftar_siswa.index') }}"
