@@ -19,6 +19,7 @@ class SoalController extends Controller
         return Inertia::render('Soal/Index', [
             'soal' => $soal,
             'dashboardUrl' => route('guru.dashboard'),
+            'success' => session('success'),
         ]);
     }
 
@@ -44,7 +45,15 @@ class SoalController extends Controller
 
         Soal::create($request->all());
 
-        return Inertia::location(route('guru.soal.index'))->with('success', 'Soal berhasil dibuat!');
+        // Load ulang data untuk halaman index
+        $soal = Soal::with(['mapel', 'kelas'])->paginate(10);
+
+        return Inertia::render('Soal/Index', [
+            'soal' => $soal,
+            'dashboardUrl' => route('guru.dashboard'),
+            'success' => 'Soal berhasil dibuat!'
+        ]);
+
     }
 
     // Edit
@@ -70,7 +79,13 @@ class SoalController extends Controller
 
         $soal->update($request->all());
 
-        return Inertia::location(route('guru.soal.index'))->with('success', 'Soal berhasil diperbarui!');
+        $soalList = Soal::with(['mapel', 'kelas'])->paginate(10);
+
+        return Inertia::render('Soal/Index', [
+            'soal' => $soalList,
+            'dashboardUrl' => route('guru.dashboard'),
+            'success' => 'Soal berhasil diperbarui!'
+        ]);
     }
 
     // Hapus data

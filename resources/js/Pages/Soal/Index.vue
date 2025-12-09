@@ -1,6 +1,6 @@
 <script setup>
 import { Link, usePage, router } from '@inertiajs/vue3';
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { PencilIcon, EyeIcon, TrashIcon } from '@heroicons/vue/24/outline';
 import { ArrowLeftIcon } from '@heroicons/vue/20/solid';
 
@@ -9,7 +9,23 @@ const props = defineProps({
     dashboardUrl: String
 });
 
-const flash = usePage().props.flash?.success;
+const page = usePage();
+
+// Ambil success dari PROPS biasa, BUKAN flash
+const flash = computed(() => page.props.success);
+
+
+// kontrol tampilan alert
+const showFlash = ref(false);
+
+watch(flash, (val) => {
+    if (val) {
+        showFlash.value = true;
+        setTimeout(() => {
+            showFlash.value = false;
+        }, 3000);
+    }
+});
 
 // Track dropdown open state
 const openDropdown = ref(null);
@@ -26,6 +42,15 @@ function handleClickOutside() {
 }
 
 onMounted(() => {
+    // tampilkan flash saat halaman load
+    if (flash.value) {
+        showFlash.value = true;
+        setTimeout(() => {
+            showFlash.value = false;
+        }, 3000);
+    }
+
+    // listener dropdown
     window.addEventListener('click', handleClickOutside);
 });
 
@@ -51,6 +76,10 @@ function goDashboard() {
     <div class="p-6 max-w-6xl md:bg-transparent md:my-6 bg-slate-50 mx-auto min-h-screen">
         <h1 class="md:text-2xl text-xl font-bold md:font-extrabold text-gray-800 mb-6">Daftar Quiz / Soal Ujian</h1>
 
+        <div v-if="showFlash" class="bg-green-100 mb-4 text-green-800 px-4 py-2 rounded shadow">
+            {{ flash }}
+        </div>
+
         <div class="flex justify-between items-center mb-4" v-if="soal.data && soal.data.length">
             <div class="flex space-x-2">
                 <!-- Back to Dashboard Button -->
@@ -63,12 +92,8 @@ function goDashboard() {
                 <!-- Create New Quiz Button -->
                 <Link href="/guru/soal/create"
                     class="flex md:justify-start justify-end px-5 py-2 bg-blue-600 text-white font-medium rounded md:rounded-lg shadow hover:bg-blue-700 transition">
-                + Create New Quiz
+                    + Create New Quiz
                 </Link>
-            </div>
-
-            <div v-if="flash" class="bg-green-100 text-green-800 px-4 py-2 rounded shadow">
-                {{ flash }}
             </div>
         </div>
 
@@ -82,7 +107,7 @@ function goDashboard() {
             <p class="text-gray-500 mb-4">Belum ada data quiz atau soal.</p>
             <Link href="/guru/soal/create"
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
-            Buat Quiz Sekarang !
+                Buat Quiz Sekarang !
             </Link>
         </div>
 
@@ -128,17 +153,17 @@ function goDashboard() {
                                 class="absolute right-12 md:right-24 -mt-8 w-36 bg-white border rounded-lg shadow-lg z-10">
                                 <Link :href="`/guru/soal/${item.id}/edit`"
                                     class="flex items-centerhover:bg-gray-100 w-full px-4 py-2  font-medium rounded-t-lg">
-                                <PencilIcon class="w-4 h-4 mr-2" /> Setting
+                                    <PencilIcon class="w-4 h-4 mr-2" /> Setting
                                 </Link>
                                 <Link :href="`/guru/soal/${item.id}`"
                                     class="flex items-center px-4 py-2 w-full hover:bg-gray-100 font-medium">
-                                <EyeIcon class="w-4 h-4 mr-2" /> Preview
+                                    <EyeIcon class="w-4 h-4 mr-2" /> Preview
                                 </Link>
                                 <Link as="button" method="delete" :href="`/guru/soal/${item.id}`"
                                     @click="openDropdown.value = null"
                                     class="flex items-center px-4 py-2 hover:bg-red-100 w-full text-red-600 font-medium rounded-b-lg"
                                     onclick="return confirm('Yakin ingin hapus?')">
-                                <TrashIcon class="w-4 h-4 mr-2" /> Delete
+                                    <TrashIcon class="w-4 h-4 mr-2" /> Delete
                                 </Link>
                             </div>
                         </td>
@@ -150,12 +175,12 @@ function goDashboard() {
         <div class="mt-6 flex justify-between items-center text-gray-700" v-if="soal.data.length">
             <Link v-if="soal.prev_page_url" :href="soal.prev_page_url"
                 class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition">
-            Sebelumnya
+                Sebelumnya
             </Link>
             <span class="font-medium">Showing of {{ soal.current_page }} from {{ soal.last_page }}</span>
             <Link v-if="soal.next_page_url" :href="soal.next_page_url"
                 class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition">
-            Berikutnya
+                Berikutnya
             </Link>
         </div>
     </div>

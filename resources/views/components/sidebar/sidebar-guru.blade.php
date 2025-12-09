@@ -59,13 +59,13 @@
 
     // --- Menu khusus Hak Akses hanya jika Activated ---
     if ($role === 'guru' && $isActivated) {
-        $menus['hak_akses'][] =
+        // $menus['hak_akses'][] =
         //     [
         //         'label' => 'Buat Pengumuman',
         //         'route' => route('public.pengumuman.index'),
         //         'icon'  => 'bi-megaphone'
         // ];
-        $menus['hak_akses'][] =
+        // $menus['hak_akses'][] =
         //     [
         //         'label' => 'Kelola Berkas / Surat',
         //         'route' => route('public.surat.index'),

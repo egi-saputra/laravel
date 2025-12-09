@@ -49,8 +49,7 @@ use Carbon\Carbon;
 
                             <div>
                                 <label class="block mb-2 font-semibold">Jumlah Minggu (Bulan Ini)</label>
-                                <input type="number" name="jumlah_minggu" class="w-full p-2 bg-gray-100 border rounded"
-                                    value="{{ $jumlahMinggu ?? '' }}" readonly disabled>
+                                <input type="number" name="jumlah_minggu" class="w-full p-2 border rounded" value="{{ old('jumlah_minggu', $jumlahMinggu ?? '') }}" min="1" max="6" required>
                             </div>
                         </div>
 
@@ -92,12 +91,12 @@ use Carbon\Carbon;
                             <div>
                                 <label class="block mb-2 font-semibold">Uang Apel <span class="text-sm font-semibold text-gray-600">(Opsional)</span></label>
                                 <input type="text" name="uang_apel" placeholder="Rp. 0,- / Apel"
-                                    class="w-full p-2 border rounded money-input" value="{{ request('uang_apel') ?? '' }}" required>
+                                    class="w-full p-2 border rounded money-input" value="{{ request('uang_apel') ?? '' }}">
                             </div>
                             <div>
                                 <label class="block mb-2 font-semibold">Uang Upacara <span class="text-sm font-semibold text-gray-600">(Opsional)</span></label>
                                 <input type="text" name="uang_upacara" placeholder="Rp. 0,- / Upacara"
-                                    class="w-full p-2 border rounded money-input" value="{{ request('uang_upacara') ?? '' }}" required>
+                                    class="w-full p-2 border rounded money-input" value="{{ request('uang_upacara') ?? '' }}">
                             </div>
                         </div>
 
@@ -106,12 +105,12 @@ use Carbon\Carbon;
                             <div>
                                 <label class="block mb-2 font-semibold">Uang Pembina Apel <span class="text-sm font-semibold text-gray-600">(Opsional)</span></label>
                                 <input type="text" name="uang_pembina_apel" placeholder="Rp. 0,- / Membina Apel"
-                                    class="w-full p-2 border rounded money-input" value="{{ request('uang_pembina_apel') ?? '' }}" required>
+                                    class="w-full p-2 border rounded money-input" value="{{ request('uang_pembina_apel') ?? '' }}">
                             </div>
                             <div>
                                 <label class="block mb-2 font-semibold">Uang Pembina Upacara <span class="text-sm font-semibold text-gray-600">(Opsional)</span></label>
                                 <input type="text" name="uang_pembina_upacara" placeholder="Rp. 0,- / Membina upacara"
-                                    class="w-full p-2 border rounded money-input" value="{{ request('uang_pembina_upacara') ?? '' }}" required>
+                                    class="w-full p-2 border rounded money-input" value="{{ request('uang_pembina_upacara') ?? '' }}">
                             </div>
                         </div>
 
