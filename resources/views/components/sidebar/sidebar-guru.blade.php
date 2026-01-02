@@ -74,7 +74,7 @@
          // Tambahkan link ke halaman Vue / Inertia Guru/Soal
         $menus['hak_akses'][] = [
             'label' => 'Daftar Soal Ujian',
-            'route' => url('/guru/soal'),
+            'route' => url('http://127.0.0.1:8000/guru/soal'),
             // 'route' => '/guru/soal',
             'icon'  => 'bi-pencil-square'
         ];
