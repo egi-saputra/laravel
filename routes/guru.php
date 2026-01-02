@@ -1,6 +1,5 @@
 <?php
 
-use Inertia\Inertia;
 use App\Http\Controllers\Guru\{
     GuruController,
     PresensiController,
@@ -10,33 +9,13 @@ use App\Http\Controllers\Guru\{
     DaftarMateriController,
     TugasSiswaController,
     RekapAbsenSiswaController,
-    AbsensiController,
-    SoalController,
-    BankSoalController
+    AbsensiController
 };
 
 // Semua route guru, pakai auth, verified dan role guru
 Route::middleware(['auth', 'verified', 'role:guru', 'log.visitor'])->prefix('guru')->name('guru.')->group(function () {
         // Dashboard
         Route::get('/dashboard', [GuruController::class, 'dashboard'])->name('dashboard');
-
-        Route::get('/home', function () {
-            return Inertia::render('Home', [
-                'message' => 'Hello from Laravel with Inertia & Vue!'
-            ]);
-        })->name('home');
-
-        Route::resource('soal', SoalController::class);
-        // Download template Excel (GET)
-        Route::get('/bank-soal/template', [BankSoalController::class, 'downloadTemplate'])
-            ->name('bank-soal.template');
-
-        // Import Excel (POST)
-        Route::post('/bank-soal/import', [BankSoalController::class, 'import'])
-            ->name('bank-soal.import');
-
-        // CRUD bank-soal
-        Route::resource('bank-soal', BankSoalController::class);
 
         // Walas (CRUD)
         Route::delete('/walas/destroyAll', [WalasController::class, 'destroyAll'])->name('walas.destroyAll');

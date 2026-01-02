@@ -29,8 +29,7 @@ use App\Http\Controllers\{
     JumlahJamController,
     NavBotController,
     CardJadwalGuruController,
-    AnalitycsController,
-    UjianController
+    AnalitycsController
 };
 
 // ======================
@@ -49,22 +48,6 @@ Route::get('/', fn() => view('auth.login'))
 // Route::get('/email/verify', function () {
 //     return view('auth.verify-email');
 // })->middleware(['auth'])->name('verification.notice');
-
-Route::get('/ujian/token', [UjianController::class, 'tokenPage'])->name('ujian.token');
-Route::post('/ujian/validate-token', [UjianController::class, 'validateToken'])->name('ujian.validateToken');
-
-Route::post('/ujian/refresh-token/{soal}', [UjianController::class, 'refreshToken'])->name('ujian.refreshToken');
-
-Route::get('/ujian/preview/{id}', [UjianController::class, 'preview'])->name('ujian.preview');
-Route::get('/ujian/kerjakan/{id}', [UjianController::class, 'kerjakan'])->name('ujian.kerjakan');
-
-// Halaman kerjakan soal
-Route::get('/ujian/kerjakan/{soal}', [UjianController::class, 'kerjakan'])->name('ujian.kerjakan');
-
-Route::post('/ujian/autosave', [UjianController::class, 'autosave'])->name('ujian.autosave');
-
-Route::post('/ujian/submit/{soal}', [UjianController::class, 'submitUjian'])
-    ->name('ujian.submit');
 
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
@@ -97,40 +80,6 @@ Route::get('/logo-sekolah', function () {
 
     return $response;
 });
-
-// Route::get('/foto-profil', function () {
-//     $user = auth()->user();
-
-//     if (!$user) {
-//         abort(403, 'Unauthorized');
-//     }
-
-//     // Ambil path file foto profil, fallback ke default jika tidak ada
-//     $filePath = $user->foto_profil && $user->foto_profil->file_path
-//         ? storage_path('app/public/' . ltrim($user->foto_profil->file_path, '/'))
-//         : public_path('storage/default/avatar.jpeg');
-
-//     if (!File::exists($filePath)) {
-//         abort(404, 'Foto profil tidak ditemukan');
-//     }
-
-//     // Header cache
-//     $lastModified = File::lastModified($filePath);
-//     $etag = md5_file($filePath);
-
-//     $response = Response::file($filePath, [
-//         'Cache-Control' => 'public, max-age=2592000, immutable',
-//     ]);
-
-//     $response->setLastModified(Carbon::createFromTimestamp($lastModified));
-//     $response->setEtag($etag);
-
-//     if ($response->isNotModified(request())) {
-//         return $response;
-//     }
-
-//     return $response;
-// })->name('foto-profil');
 
 Route::middleware(['auth', 'no.cache', 'log.visitor'])->group(function () {
     Route::get('/dev/dashboard', [DevController::class, 'index'])->name('dev.dashboard');
